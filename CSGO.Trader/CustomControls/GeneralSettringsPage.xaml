@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="EasyDb.CustomControls.GeneralSettringsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+      xmlns:behaviours="http://metro.mahapps.com/winfx/xaml/shared"
+      mc:Ignorable="d" 
+      d:DesignHeight="600" d:DesignWidth="300" Background="{DynamicResource ControlBackgroundBrush}" d:DataContext="{Binding Source={StaticResource Locator}, Path=GeneralSettingViewModel}">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="TextAlignment" Value="Left"/>
+            <Setter Property="FontSize" Value="15"></Setter>
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"></Setter>
+        </Style>
+
+    </UserControl.Resources>
+    <Border Margin="0" BorderThickness="0" BorderBrush="{DynamicResource AccentColorBrush}">
+        <Grid Margin="5">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel CanVerticallyScroll="True">
+                    <!--General Settings -->
+                    <TextBox FontSize="16" Text="{DynamicResource gs_General}"  
+                         Style="{StaticResource TextSeparatorStyle}"/>
+                    <TextBlock Text="{DynamicResource gs_PluginsLocation}"/>
+                    <DockPanel LastChildFill="True">
+                        <Button Command="{Binding SetPathCommand}" Width="30" Content="..."></Button>
+                        <TextBox Text="{Binding PluginsPath}" Margin="5 0 0 0" HorizontalAlignment="Stretch" IsReadOnly="True"/>
+                    </DockPanel>
+                    <TextBlock Text="{DynamicResource gs_SettingsWidth}"/>
+                    <DockPanel LastChildFill ="True">
+                        <TextBlock Margin="0,0,5,0" HorizontalAlignment="Right" Text="{Binding ElementName=SettingsWidth, Path=Value, StringFormat={}{0:F0}%}"/>
+                        <Slider 
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Bottom"
+                            Name="SettingsWidth"
+                                Minimum="15"
+                                Maximum="100"
+                                Value="{Binding SttingsWidthValue}" />
+                    </DockPanel>
+                    <!--End General settings-->
+                    <!--Theme and lang settings-->
+                    <TextBox FontSize="16" Text="{DynamicResource gs_themetile}"  
+                         Style="{StaticResource TextSeparatorStyle}"/>
+                    <TextBlock Text="{DynamicResource gs_Lang}"/>
+                    <ComboBox
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding AvailableLanguages}"
+                        SelectedItem="{Binding SelectedLang}"/>
+                    <TextBlock Text="{DynamicResource gs_Accent}"/>
+                    <ComboBox
+                        DisplayMemberPath="Name"
+                        ItemsSource="{Binding AppThemes}"
+                        SelectedItem="{Binding SelectedAppTheme}"/>
+                    <TextBlock Text="{DynamicResource gs_Accent}"/>
+                    <ComboBox 
+                        ItemsSource="{Binding AccentColors}"
+                        SelectedItem="{Binding SelectedAccent}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Grid ToolTip="{Binding}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" SharedSizeGroup="color" />
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Ellipse VerticalAlignment="Center"
+                                         Grid.Column="0"
+                                         Width="15"
+                                         Height="15"
+                                         Stroke="#bdbdbd"
+                                         Fill="{Binding ColorBrush}">
+                                    </Ellipse>
+                                    <TextBlock Grid.Column="1"
+                                           Margin="4 -1 0 0"
+                                           FontSize="{DynamicResource NormalFontSize}"
+                                           Text="{Binding Name}"
+                                           TextAlignment="Center" />
+                                </Grid>
+
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <!--End theme block-->
+                    <Button Margin="5" Content="{DynamicResource gs_SettingsResetText}"></Button>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Border>
+</UserControl>

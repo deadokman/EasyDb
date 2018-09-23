@@ -1,0 +1,40 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    <system:String x:Key="app_name">Trader Analytics</system:String>
+    <system:String x:Key="app_ver">0.0.0</system:String>
+    <!--Unhandled error window-->
+    <system:String x:Key="errorw_title">Error</system:String>
+    <system:String x:Key="errorw_expander_title">Details</system:String>
+    <system:String x:Key="errorw_main_title">Unhandled error during execution program occured</system:String>
+    <!--Log messages-->
+    <system:String x:Key="log_NotImplementedAttr">Detected plugin inside assembly: {0}, it can't be loaded. Contact with developer.</system:String>
+    <!-- Main window -->
+    <system:String x:Key="mw_Status">Status</system:String>
+    <system:String x:Key="mw_StatusWork">Work in progress</system:String>
+    <system:String x:Key="mw_File">File</system:String>
+    <system:String x:Key="mw_Filters">Filters</system:String>
+    <system:String x:Key="mw_Analyze">Analytics</system:String>
+    <system:String x:Key="mw_View">View</system:String>
+    <system:String x:Key="mw_Settings">Settings</system:String>
+    <system:String x:Key="mw_PluginInit">Plugin initialization...</system:String>
+    <!--Settings flyout-->
+    <system:String x:Key="fs_saveSettings">Apply</system:String>
+    <system:String x:Key="fs_cancel">Cancel</system:String>
+    <system:String x:Key="fs_reset">Reset to default</system:String>
+    <!-- General settings -->
+    <system:String x:Key="gs_BaseTheme">Base theme:</system:String>
+    <system:String x:Key="gs_Accent">Accent:</system:String>
+    <system:String x:Key="gs_Lang">Language:</system:String>
+    <system:String x:Key="gs_PluginsLocation">Plugin folder:</system:String>
+    <system:String x:Key="gs_SettingsWidth">Settings flyout width:</system:String>
+    <system:String x:Key="gs_themetile">Language and themes</system:String>
+    <system:String x:Key="gs_General">General</system:String>
+    <system:String x:Key="gs_Warning">Warning!</system:String>
+    <system:String x:Key="gs_SettingsWarning">Some of the settings will be applied after restart</system:String>
+    <system:String x:Key="gs_SettingsResetText">Reset defaults</system:String>
+    <!--Steam analytics tab-->
+    <system:String x:Key="sa_SellTabname">Sell</system:String>
+    <system:String x:Key="sa_BuyTabname">Buy</system:String>
+    <system:String x:Key="sa_Details">Details</system:String>
+</ResourceDictionary>

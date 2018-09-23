@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="EasyDb.View.TabView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Background="{DynamicResource ControlBackgroundBrush}">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Btvc"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid x:Name="SplashOverlay" Panel.ZIndex="9999" Visibility="{Binding IsInitializing, Converter={StaticResource Btvc}}">
+            <Border VerticalAlignment="Center" Height="60" 
+                    HorizontalAlignment="Stretch" 
+                    BorderThickness="1" 
+                    BorderBrush="{StaticResource AccentColorBrush}" Background="{StaticResource AccentColorBrush3}">
+                <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Загружаются дополнительные данные..."/>
+                    <ProgressBar Margin="0,10" IsIndeterminate="True"></ProgressBar>
+                </StackPanel>
+            </Border>
+        </Grid>
+        <Grid Panel.ZIndex="1000" Visibility="{Binding IsInitializing, Converter={StaticResource Btvc}}">
+            <Border VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch" 
+                    BorderThickness="1" 
+                    BorderBrush="{DynamicResource AccentColorBrush}" Background="{DynamicResource ControlsDisabledBrush}" Opacity="60">
+            </Border>
+        </Grid>
+        <Border BorderThickness="1" BorderBrush="{StaticResource AccentColorBrush}">
+            <Grid Margin="0">
+                <ContentPresenter
+                    Name="Presenter"              
+                    Content="{Binding PluginViewInstance}">
+                </ContentPresenter>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

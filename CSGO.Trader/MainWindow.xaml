@@ -1,0 +1,233 @@
+﻿<controls:MetroWindow x:Class="EasyDb.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
+        xmlns:panes="clr-namespace:CSGO.Trader.ViewModel.Panes"
+                      xmlns:viewModel="clr-namespace:CSGO.Trader.ViewModel"
+        xmlns:converters1="clr-namespace:EasyDb.Converters"
+        xmlns:customControls="clr-namespace:EasyDb.CustomControls"
+        xmlns:dockTheme="clr-namespace:EasyDb.DockTheme"
+        xmlns:flyouts1="clr-namespace:EasyDb.Flyouts"
+        xmlns:view1="clr-namespace:EasyDb.View"
+        xmlns:panes1="clr-namespace:EasyDb.ViewModel.Panes"
+        mc:Ignorable="d"
+        Name="MainWinow"
+        Title="EasyDb" Height="800" Width="1200" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+    <Window.Resources>
+        <Style x:Key="FormOverlayStyle" TargetType="ContentControl">
+            <Setter Property="Opacity" Value="1"/>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value=".5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <BooleanToVisibilityConverter x:Key="Btvc"/>
+        <converters1:ActiveDocumentConverter x:Key="ActiveDocConverter"/>
+        <converters1:SettingsSizeLimitConverter Delimiter="3" x:Key="SettringsConverter"/>
+        <converters1:StringToResourceConverter x:Key="StringToResourceConverter" />
+        <converters1:BoolToBlurRadiusConverter x:Key="BoolToBlur"/>
+        <flyouts1:SettingsFlyout x:Key="SettingsFlyout"/>
+    </Window.Resources>
+    <controls:MetroWindow.Flyouts>
+        <controls:FlyoutsControl>
+            <controls:Flyout Content="{StaticResource SettingsFlyout}"
+                             Name="FlyoutSettings"
+                             Height="{Binding ElementName=MainWinow, Path=Height}"
+                             Width="{Binding ElementName=MainWinow, Path=Width,  Converter={StaticResource SettringsConverter}}"
+                             Header="{DynamicResource mw_Settings}"
+                             IsModal="True" 
+                             Theme="Adapt"
+                             Position="Right"
+                             IsOpen="False"/>
+        </controls:FlyoutsControl>
+    </controls:MetroWindow.Flyouts>
+    <controls:MetroWindow.RightWindowCommands>
+        <controls:WindowCommands ShowLastSeparator="False">
+            <ToggleButton Content="{DynamicResource mw_Settings}"
+                          IsEnabled="{Binding IsInterfaceEnabled}"
+                          ToolTip="Shows the toggle button magic"
+                          x:Name="MagicToggleButton"
+                          IsChecked="{Binding ElementName=FlyoutSettings, Path=IsOpen, Mode=TwoWay}" />
+        </controls:WindowCommands>
+    </controls:MetroWindow.RightWindowCommands>
+    <Grid>
+        <Grid Panel.ZIndex="9999" Visibility="{Binding ShowLogInForm, Converter={StaticResource Btvc}}">
+            <customControls:SteamLoginControl ></customControls:SteamLoginControl>
+        </Grid>
+        <Grid x:Name="SplashOverlay" Panel.ZIndex="9998" Visibility="{Binding IsInterfaceDisabled, Mode=OneWay, Converter={StaticResource Btvc}}">
+            <customControls:SplashScreen CurrentText="{DynamicResource mw_PluginInit}" />
+        </Grid>
+        <ContentControl IsEnabled="{Binding IsInterfaceEnabled}" Style="{StaticResource FormOverlayStyle}">
+            <Grid x:Name="MainGridContainer">
+                <Grid.Effect>
+                    <BlurEffect Radius="{Binding IsInterfaceDisabled, Converter={StaticResource BoolToBlur}}"></BlurEffect>
+                </Grid.Effect>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0">
+                    <Menu>
+                        <MenuItem Header="{DynamicResource mw_File}">
+                            <MenuItem Header="MenuItem1"/>
+                        </MenuItem>
+                        <MenuItem Header="{DynamicResource mw_View}"></MenuItem>
+                    </Menu>
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer 
+                        Margin="0"
+                        HorizontalScrollBarVisibility="Hidden" 
+                        VerticalScrollBarVisibility="Hidden">
+                        <Menu Background="{DynamicResource FlyoutBackgroundBrush}"
+                                  ItemsSource="{Binding MarketplacePlugins}">
+                            <Menu.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel Orientation="Vertical"/>
+                                </ItemsPanelTemplate>
+                            </Menu.ItemsPanel>
+                            <Menu.ItemTemplate>
+                                <DataTemplate>
+                                    <MenuItem 
+                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Menu}}, Path=DataContext.ActivatePluginCommand}" 
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
+                                        Width="30" Height="30">
+                                        <MenuItem.Style>
+                                            <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource MetroMenuItem}">
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter Property="BorderThickness" Value="0"></Setter>
+                                                    </Trigger>
+                                                    <Trigger Property="IsFocused" Value="True">
+                                                        <Setter Property="BorderThickness" Value="0"></Setter>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                                <Setter Property="Background" Value="Transparent"/>
+                                                <Setter Property="Icon">
+                                                    <Setter.Value>
+                                                        <Rectangle Margin="-1" Width="30" Height="30">
+                                                            <Rectangle.Style>
+                                                                <Style TargetType="{x:Type Rectangle}">
+                                                                    <Setter Property="Fill" Value="{DynamicResource TextBrush}"/>
+                                                                    <Setter Property="OpacityMask">
+                                                                        <Setter.Value>
+                                                                            <VisualBrush Stretch="Uniform" Visual="{Binding Path=IconVisual}" />
+                                                                        </Setter.Value>
+                                                                    </Setter>
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Fill" Value="{DynamicResource AccentBaseColorBrush}"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Rectangle.Style>
+                                                        </Rectangle>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </MenuItem.Style>
+                                    </MenuItem>
+                                </DataTemplate>
+                            </Menu.ItemTemplate>
+
+                        </Menu>
+                    </ScrollViewer>
+                    <xcad:DockingManager 
+                        Name="DockingManager"
+                        Loaded="DockingManager_OnLoaded"
+                        DocumentsSource="{Binding PaneViewModels}"
+                        ActiveContent="{Binding ActivePlugin, Mode=TwoWay, Converter={StaticResource ActiveDocConverter}}"
+                        Background="{DynamicResource FlyoutBackgroundBrush}"
+                        Margin="0" Grid.Column="1">
+                        <xcad:DockingManager.Theme>
+                            <!--<xcad:AeroTheme/>-->
+                            <!--<xcad:VS2010Theme/>-->
+                            <!--<xcad:GenericTheme/>-->
+                            <dockTheme:AvalonTheme/>
+                        </xcad:DockingManager.Theme>
+                        <xcad:DockingManager.LayoutItemTemplateSelector>
+                            <panes1:PanesTemplateSelector>
+                                <panes1:PanesTemplateSelector.PluginMarketplaceTemplate>
+                                    <DataTemplate>
+                                        <view1:TabView VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    </DataTemplate>
+                                </panes1:PanesTemplateSelector.PluginMarketplaceTemplate>
+                            </panes1:PanesTemplateSelector>
+                        </xcad:DockingManager.LayoutItemTemplateSelector>
+                        <xcad:DockingManager.LayoutItemContainerStyleSelector>
+                            <panes1:PaneStyleTemplateSelector>
+                                <panes1:PaneStyleTemplateSelector.MarketplacePluginStyle>
+                                    <Style TargetType="{x:Type xcad:LayoutItem}">
+                                        <Setter Property="Title" Value="{Binding Model.Title}"/>
+                                        <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
+                                        <Setter Property="IconSource" Value="{Binding Model.IconSource}"/>
+                                        <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
+                                        <Setter Property="IsActive" Value="{Binding Model.IsActive}"/>
+                                    </Style>
+                                </panes1:PaneStyleTemplateSelector.MarketplacePluginStyle>
+                            </panes1:PaneStyleTemplateSelector>
+                        </xcad:DockingManager.LayoutItemContainerStyleSelector>
+                        <xcad:DockingManager.LayoutUpdateStrategy>
+                            <viewModel:LayoutInitializer/>
+                        </xcad:DockingManager.LayoutUpdateStrategy>
+                        <xcad:LayoutRoot>
+                            <xcad:LayoutPanel Orientation="Horizontal">
+                                <xcad:LayoutDocumentPane />
+                            </xcad:LayoutPanel>
+                            <xcad:LayoutRoot.RightSide>
+                                <xcad:LayoutAnchorSide>
+                                    <xcad:LayoutAnchorGroup>
+                                        <xcad:LayoutAnchorable 
+                                            ContentId="PropsContent"  
+                                            CanClose="False" CanAutoHide="True"
+                                            Title="{DynamicResource mw_Filters}">
+                                        </xcad:LayoutAnchorable>
+                                    </xcad:LayoutAnchorGroup>
+                                </xcad:LayoutAnchorSide>
+                            </xcad:LayoutRoot.RightSide>
+                            <xcad:LayoutRoot.BottomSide>
+                                <xcad:LayoutAnchorSide>
+                                    <xcad:LayoutAnchorGroup>
+                                        <xcad:LayoutAnchorable ContentId="AnalyticsControl" 
+                                                       CanClose="False" CanAutoHide="True"
+                                                       Title="{DynamicResource mw_Analyze}">
+                                  
+                                        </xcad:LayoutAnchorable>
+                                    </xcad:LayoutAnchorGroup>
+                                </xcad:LayoutAnchorSide>
+                            </xcad:LayoutRoot.BottomSide>
+                        </xcad:LayoutRoot>
+                    </xcad:DockingManager>
+                </Grid>
+                <!--Статусбар-->
+                <StatusBar Grid.Row="2" Background="{DynamicResource AccentColorBrush4}">
+                    <StatusBarItem Content="{DynamicResource mw_Status}" />
+                    <Separator Style="{DynamicResource MetroStatusBarSeparator}" />
+                    <StatusBarItem Content="{DynamicResource mw_Status}" />
+                </StatusBar>
+            </Grid>
+            <!--<ToolBarTray Background="{StaticResource AccentBaseColorBrush}" DockPanel.Dock="Left" Grid.Column="0" VerticalAlignment="Stretch" Orientation="Vertical">
+            <ToolBar Band="0" RenderTransformOrigin="0.5,0.5">
+                <Button Content="One" />
+                <Button Content="Two" />
+            </ToolBar>
+            <ToolBar Band="1" BandIndex="1" >
+                <Button Content="One" />
+                <Button Content="Two" />
+            </ToolBar>
+        </ToolBarTray>-->
+        </ContentControl>
+    </Grid>
+</controls:MetroWindow>
+
+
+
