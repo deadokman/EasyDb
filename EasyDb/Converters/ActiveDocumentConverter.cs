@@ -9,7 +9,7 @@ namespace EasyDb.Converters
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is PluginBaseViewModel)
+            if (value is PaneBaseViewModel)
             {
                 return value;
             }
@@ -19,7 +19,7 @@ namespace EasyDb.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is PluginBaseViewModel)
+            if (value is PaneBaseViewModel)
             {
                 return value;
             }

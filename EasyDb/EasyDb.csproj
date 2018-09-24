@@ -73,6 +73,9 @@
       <HintPath>..\packages\MvvmLightLibs.5.3.0.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=5.0.3.0, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.5.0.4\lib\Net40\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
     <Reference Include="MahApps.Metro, Version=1.5.0.23, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
       <HintPath>..\packages\MahApps.Metro.1.5.0\lib\net45\MahApps.Metro.dll</HintPath>
       <Private>True</Private>
@@ -203,13 +206,17 @@
     <Compile Include="ViewModel\Panes\PaneViewModelBase.cs" />
     <Compile Include="ViewModel\Panes\PaneStyleTemplateSelector.cs" />
     <Compile Include="PluginFunctional\PluginMarketplaceViewModel.cs" />
-    <Compile Include="ViewModel\PluginBaseViewModel.cs" />
+    <Compile Include="ViewModel\PaneBaseViewModel.cs" />
     <Compile Include="ViewModel\SettingsWindowViewModel.cs" />
     <Compile Include="ViewModel\Settings\AccentColorMenuData.cs" />
     <Compile Include="ViewModel\Settings\AppThemeMenuData.cs" />
     <Compile Include="ViewModel\Settings\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\IProgramSettings.cs" />
+    <Compile Include="ViewModel\SqlEditors\SqlExecuterWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\SqlQueryToolView.xaml.cs">
+      <DependentUpon>SqlQueryToolView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
     </Compile>
@@ -281,6 +288,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\SqlQueryToolView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\TabView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -318,28 +329,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CSGO.DataReader\Trader.Plugin.csproj">
-      <Project>{7bdb68b9-861d-4bad-9c9f-702d3a6c6fad}</Project>
-      <Name>Trader.Plugin</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CSGO.Objects\Trader.Objects.csproj">
-      <Project>{3ec57913-73be-47d8-856f-1c12a9984ca0}</Project>
-      <Name>Trader.Objects</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Objects.Portable\Objects.Portable.csproj">
-      <Project>{302d5b4a-452b-4bfa-8420-9c7599fcd1b4}</Project>
-      <Name>Objects.Portable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Trader.LocalEnvironment.Excel\Trader.LocalEnvironment.Excel.csproj">
-      <Project>{37bfdf26-b4fe-40a9-b2e3-e810fab85c24}</Project>
-      <Name>Trader.LocalEnvironment.Excel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Trader.LocalEnvironment\Trader.LocalEnvironment.csproj">
-      <Project>{c644157a-10c4-4f33-becc-b0f8c136b913}</Project>
-      <Name>Trader.LocalEnvironment</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DockTheme\Images\DockAnchorableBottom.png" />

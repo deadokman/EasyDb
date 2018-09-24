@@ -5,30 +5,22 @@ using CSGO.Trader.ViewModel.Panes;
 
 namespace EasyDb.ViewModel
 {
-    public delegate void PluginClosingDelegate(PluginBaseViewModel vm);
+    public delegate void PaneClosingDelegate(PaneBaseViewModel vm);
 
-    public abstract class PluginBaseViewModel : PaneViewModel
+    public abstract class PaneBaseViewModel : PaneViewModel
     {
-        public PluginBaseViewModel(string title, UserControl mainInterface)
+        public PaneBaseViewModel(string title)
         {
             Title = title;
-            _pluginViewInstance = mainInterface;
         }
 
         public Guid PluginId { get; private set; }
 
 
-        public UserControl PluginViewInstance
-        {
-            get { return _pluginViewInstance; }
-            set
-            {
-                _pluginViewInstance = value;
-                RaisePropertyChanged(() => PluginViewInstance);
-            }
-        }
+        public abstract UserControl ViewInstance { get; }
+   
 
-        private UserControl _pluginViewInstance;
+        private UserControl _viewInstance;
         private bool _isInitializing;
         private bool _isNotInitializing;
 
@@ -61,13 +53,13 @@ namespace EasyDb.ViewModel
 
         protected void InvokeClosing()
         {
-            if (PluginClosing != null)
+            if (PaneClosing != null)
             {
-                PluginClosing.Invoke(this);
+                PaneClosing.Invoke(this);
             }
         }
 
-        public event PluginClosingDelegate PluginClosing;
+        public event PaneClosingDelegate PaneClosing;
 
         public ICommand CloseCommand { get; set; }
     }

@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 using EasyDb.ViewModel;
+using EasyDb.ViewModel.SqlEditors;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
@@ -14,8 +15,8 @@ namespace EasyDb.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<PluginBaseViewModel> _pluginsCollection;
-        private PluginBaseViewModel _activePlugin;
+        private ObservableCollection<PaneBaseViewModel> _panesCollection;
+        private PaneBaseViewModel _activePane;
         private bool _isInterfaceEnabled;
 
         public ICommand ActivatePluginCommand { get; set; }
@@ -56,11 +57,12 @@ namespace EasyDb.ViewModel
 
             IsInterfaceEnabled = false;
             _bgWorkerInit.RunWorkerAsync();
+            PaneViewModels.Add(new SqlExecuterWindowViewModel("TEST SQL WINDOW"));
         }
 
-        private void PluginVmOnPluginClosing(PluginBaseViewModel vm)
+        private void PaneClosing(PaneBaseViewModel vm)
         {
-            vm.PluginClosing -= PluginVmOnPluginClosing;
+            vm.PaneClosing -= PaneClosing;
             //vm.Plugin.StopPlugin();
             PaneViewModels.Remove(vm);
         }
@@ -108,30 +110,30 @@ namespace EasyDb.ViewModel
         /// <summary>
         /// Plugin view models base class
         /// </summary>
-        public ObservableCollection<PluginBaseViewModel> PaneViewModels
+        public ObservableCollection<PaneBaseViewModel> PaneViewModels
         {
             get
             {
-                if (_pluginsCollection == null)
+                if (_panesCollection == null)
                 {
-                    _pluginsCollection =
-                        new ObservableCollection<PluginBaseViewModel>();
+                    _panesCollection =
+                        new ObservableCollection<PaneBaseViewModel>();
                 }
 
-                return _pluginsCollection;
+                return _panesCollection;
             }
         }
 
         /// <summary>
         /// Current selected plugin
         /// </summary>
-        public PluginBaseViewModel ActivePlugin
+        public PaneBaseViewModel ActivePane
         {
-            get { return _activePlugin; }
+            get { return _activePane; }
             set
             {
-                _activePlugin = value; 
-                RaisePropertyChanged(() => ActivePlugin);
+                _activePane = value; 
+                RaisePropertyChanged(() => ActivePane);
             }
         }
     }

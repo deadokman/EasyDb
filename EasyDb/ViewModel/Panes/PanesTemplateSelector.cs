@@ -1,18 +1,22 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using CSGO.Trader.ViewModel;
+using EasyDb.ViewModel.SqlEditors;
 
 namespace EasyDb.ViewModel.Panes
 {
     public class PanesTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate PluginMarketplaceTemplate { get; set; }
+        /// <summary>
+        /// Шаблон отображения для таба
+        /// </summary>
+        public DataTemplate SqlQueryToolTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item is PluginBaseViewModel)
+            if (item is SqlExecuterWindowViewModel)
             {
-                return PluginMarketplaceTemplate;
+                return SqlQueryToolTemplate;
             }
 
             return base.SelectTemplate(item, container);

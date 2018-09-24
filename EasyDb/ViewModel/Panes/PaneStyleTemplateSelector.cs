@@ -9,7 +9,7 @@ namespace EasyDb.ViewModel.Panes
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
-            if (item is PluginBaseViewModel)
+            if (item is PaneBaseViewModel)
             {
                 return MarketplacePluginStyle;
             }
