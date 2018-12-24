@@ -7,6 +7,8 @@
     <system:String x:Key="errorw_title">Error</system:String>
     <system:String x:Key="errorw_expander_title">Details</system:String>
     <system:String x:Key="errorw_main_title">Unhandled error during execution program occured</system:String>
+    <!--Database diagramm designer-->
+    <system:String x:Key="mw_DbEntities">DbEntities</system:String>
     <!--Log messages-->
     <system:String x:Key="log_NotImplementedAttr">Detected plugin inside assembly: {0}, it can't be loaded. Contact with developer.</system:String>
     <!-- Main window -->

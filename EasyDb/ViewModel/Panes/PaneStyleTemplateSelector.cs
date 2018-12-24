@@ -5,13 +5,13 @@ namespace EasyDb.ViewModel.Panes
 {
     public class PaneStyleTemplateSelector : StyleSelector
     {
-        public Style MarketplacePluginStyle { get; set; } 
+        public Style PaneWindowStyle { get; set; } 
 
         public override Style SelectStyle(object item, DependencyObject container)
         {
             if (item is PaneBaseViewModel)
             {
-                return MarketplacePluginStyle;
+                return PaneWindowStyle;
             }
 
             return base.SelectStyle(item, container);

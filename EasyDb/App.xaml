@@ -7,6 +7,19 @@
         <ResourceDictionary>
             <viewModel:ViewModelLocator x:Key="Locator" d:IsDataSource="True"/>
             <ResourceDictionary.MergedDictionaries>
+                <!--Designer settings-->
+                <ResourceDictionary Source="Diagramming/Resources/Styles/Shared.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Styles/ToolBar.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Styles/GroupBox.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Styles/Expander.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Styles/ScrollBar.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/ApplicationToolbar.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/DesignerItem.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/ToolboxItem.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Toolbox.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Connection.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Stencils/FlowChartStencils.xaml"/>
+                <ResourceDictionary Source="Diagramming/Resources/Stencils/ShapeStencils.xaml"/>
                 <!-- MahApps.Metro resource dictionaries. Make sure that all file names are Case Sensitive! -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />

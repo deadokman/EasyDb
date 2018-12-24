@@ -189,13 +189,13 @@
                     <Setter Property="BorderBrush" Value="Transparent"/>
                     <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                     <Setter Property="ToolTip" Value="{Binding ToolTip}"/>
-                    <Setter Property="Padding" Value="4"/>
+                    <Setter Property="Padding" Value="0"/>
                     <Setter Property="Margin" Value="2,0,2,0"/>
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type TabItem}">
                                 <Grid SnapsToDevicePixels="true"
-                                       Margin="0,4,4,4">
+                                       Margin="0,4,4,0">
                                     <Border x:Name="Bd" 
                                           BorderBrush="{TemplateBinding BorderBrush}"
    				                          BorderThickness="0,3,0,0" 
@@ -223,6 +223,7 @@
                                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                                         <Setter Property="BorderBrush"
 									        Value="{DynamicResource AccentBaseColorBrush}" />
+                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}"></Setter>
                                         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                                         <Setter Property="Panel.ZIndex" 
                                             Value="1" />

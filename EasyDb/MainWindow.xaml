@@ -113,11 +113,16 @@
                                         <view:SqlQueryToolView VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                                     </DataTemplate>
                                 </panes:PanesTemplateSelector.SqlQueryToolTemplate>
+                                <panes:PanesTemplateSelector.SqlUiDiagrammTemplate>
+                                    <DataTemplate>
+                                        <view:DiagramDesignerTool VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
+                                    </DataTemplate>
+                                </panes:PanesTemplateSelector.SqlUiDiagrammTemplate>
                             </panes:PanesTemplateSelector>
                         </xcad:DockingManager.LayoutItemTemplateSelector>
                         <xcad:DockingManager.LayoutItemContainerStyleSelector>
                             <panes:PaneStyleTemplateSelector>
-                                <panes:PaneStyleTemplateSelector.MarketplacePluginStyle>
+                                <panes:PaneStyleTemplateSelector.PaneWindowStyle>
                                     <Style TargetType="{x:Type xcad:LayoutItem}">
                                         <Setter Property="Title" Value="{Binding Model.Title}"/>
                                         <Setter Property="CloseCommand" Value="{Binding Model.CloseCommand}"/>
@@ -125,7 +130,7 @@
                                         <Setter Property="ContentId" Value="{Binding Model.ContentId}"/>
                                         <Setter Property="IsActive" Value="{Binding Model.IsActive}"/>
                                     </Style>
-                                </panes:PaneStyleTemplateSelector.MarketplacePluginStyle>
+                                </panes:PaneStyleTemplateSelector.PaneWindowStyle>
                             </panes:PaneStyleTemplateSelector>
                         </xcad:DockingManager.LayoutItemContainerStyleSelector>
                         <xcad:DockingManager.LayoutUpdateStrategy>
@@ -138,7 +143,7 @@
                             <xcad:LayoutRoot.RightSide>
                                 <xcad:LayoutAnchorSide>
                                     <xcad:LayoutAnchorGroup>
-                                        <xcad:LayoutAnchorable 
+                                        <xcad:LayoutAnchorable
                                             ContentId="PropsContent"  
                                             CanClose="False" CanAutoHide="True"
                                             Title="{DynamicResource mw_Filters}">
@@ -146,17 +151,20 @@
                                     </xcad:LayoutAnchorGroup>
                                 </xcad:LayoutAnchorSide>
                             </xcad:LayoutRoot.RightSide>
-                            <xcad:LayoutRoot.BottomSide>
+                            <xcad:LayoutRoot.LeftSide>
                                 <xcad:LayoutAnchorSide>
-                                    <xcad:LayoutAnchorGroup>
-                                        <xcad:LayoutAnchorable ContentId="AnalyticsControl" 
-                                                       CanClose="False" CanAutoHide="True"
-                                                       Title="{DynamicResource mw_Analyze}">
-                                  
+                                    <xcad:LayoutAnchorGroup >
+                                        <xcad:LayoutAnchorable
+                                            ContentId="DiagrammPrimitives"  
+                                            CanClose="False" 
+                                            CanAutoHide="True"
+                                            Content="{StaticResource FlowChartStencils}"
+                                            Title="{DynamicResource mw_DbEntities}">
+                                            
                                         </xcad:LayoutAnchorable>
                                     </xcad:LayoutAnchorGroup>
                                 </xcad:LayoutAnchorSide>
-                            </xcad:LayoutRoot.BottomSide>
+                            </xcad:LayoutRoot.LeftSide>
                         </xcad:LayoutRoot>
                     </xcad:DockingManager>
                 </Grid>
@@ -180,6 +188,14 @@
         </ContentControl>
     </Grid>
 </controls:MetroWindow>
+
+
+
+
+
+
+
+
 
 
 

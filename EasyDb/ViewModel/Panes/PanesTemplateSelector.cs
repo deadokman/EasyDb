@@ -12,12 +12,23 @@ namespace EasyDb.ViewModel.Panes
         /// </summary>
         public DataTemplate SqlQueryToolTemplate { get; set; }
 
+        /// <summary>
+        /// Шаблон отображения для инструмента диаграмм
+        /// </summary>
+        public DataTemplate SqlUiDiagrammTemplate { get; set; }
+
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             if (item is SqlExecuterWindowViewModel)
             {
                 return SqlQueryToolTemplate;
             }
+
+            if (item is DiagramDesignerViewModel)
+            {
+                return SqlUiDiagrammTemplate;
+            }
+
 
             return base.SelectTemplate(item, container);
         }

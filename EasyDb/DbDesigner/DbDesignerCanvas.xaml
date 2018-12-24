@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="EasyDb.DbDesigner.DbDesignerCanvas"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyDb.DbDesigner"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:command="http://www.galasoft.ch/mvvmlight"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <ScrollViewer 
+                    HorizontalScrollBarVisibility="Auto" 
+                    VerticalScrollBarVisibility="Visible"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch">
+        <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="{DynamicResource AccentBaseColorBrush}">
+            <Border BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
+                <Border.Effect>
+                    <DropShadowEffect Direction="30" Opacity=".2" Color="{DynamicResource BlackColor}" ShadowDepth="7"></DropShadowEffect>
+                </Border.Effect>
+                <Viewbox RenderOptions.EdgeMode="Aliased" Stretch="None">
+                    <ItemsControl x:Name="CanvasItemsControl">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas RenderOptions.EdgeMode="Aliased"
+                                                    Background="Transparent"
+                                                    x:Name="MainCanvasDisplay"
+                                                    SnapsToDevicePixels="True"
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center"
+                                                    Width="{Binding ViewportManager.WorkAreaWidth}" 
+                                                    Height="{Binding ViewportManager.WorkAreaHeight}">
+                                    <Canvas.LayoutTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform  ScaleX="{Binding ViewportManager.LayoutScaleTransformValue, Mode=TwoWay}" 
+                                                                         ScaleY="{Binding ViewportManager.LayoutScaleTransformValue, Mode=TwoWay}" 
+                                                                         CenterX="{Binding ViewportManager.ImageCenterX}" 
+                                                                         CenterY="{Binding ViewportManager.ImageCenterY}"/>
+                                            <TranslateTransform ></TranslateTransform>
+                                        </TransformGroup>
+                                    </Canvas.LayoutTransform>
+                                </Canvas>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </Viewbox>
+            </Border>
+        </Border>
+    </ScrollViewer>
+</UserControl>

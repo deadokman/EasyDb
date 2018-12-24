@@ -18,9 +18,11 @@
             </Grid.RowDefinitions>
             <Border BorderThickness=".5" BorderBrush="{DynamicResource AccentColorBrush2}"></Border>
             <avalonEdit:TextEditor
+                ShowLineNumbers="True"
+                LineNumbersForeground="{DynamicResource TextBrush}"
                 Grid.Row="1"
                 Background="{DynamicResource ControlBackgroundBrush}"
-                SyntaxHighlighting="SQL"></avalonEdit:TextEditor>
+                SyntaxHighlighting="Sql"></avalonEdit:TextEditor>
             <GridSplitter Grid.Row="2" Background="{DynamicResource AccentBaseColorBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
             <DataGrid Grid.Row="3"></DataGrid>
             <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource TextBrush}" Text="Msg"></TextBlock>

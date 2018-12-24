@@ -8,6 +8,8 @@
     <system:String x:Key="errorw_expander_title">Подробнее</system:String>
     <system:String x:Key="errorw_main_title">Во время работы приложения произошла ошибка</system:String>
 
+    <!--Database diagramm designer-->
+    <system:String x:Key="mw_DbEntities">Объекты базы</system:String>
     <!--Log messages-->
     <system:String x:Key="log_NotImplementedAttr"> Найден плагин в сборке {0}, который не может быть загружен. Обратитесь к разработчикам. </system:String>
     <!-- Main window -->

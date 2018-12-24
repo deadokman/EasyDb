@@ -182,6 +182,28 @@
     <Compile Include="CustomControls\SteamLoginControl.xaml.cs">
       <DependentUpon>SteamLoginControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DbDesigner\DbDesignerCanvas.xaml.cs">
+      <DependentUpon>DbDesignerCanvas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DbDesigner\DragEntity.cs" />
+    <Compile Include="DbDesigner\ResizeEntity.cs" />
+    <Compile Include="Diagramming\Connection.cs" />
+    <Compile Include="Diagramming\ConnectionAdorner.cs" />
+    <Compile Include="Diagramming\Connector.cs" />
+    <Compile Include="Diagramming\ConnectorAdorner.cs" />
+    <Compile Include="Diagramming\Controls\DragThumb.cs" />
+    <Compile Include="Diagramming\Controls\RelativePositionPanel.cs" />
+    <Compile Include="Diagramming\Controls\ResizeThumb.cs" />
+    <Compile Include="Diagramming\DesignerCanvas.Commands.cs" />
+    <Compile Include="Diagramming\DesignerCanvas.cs" />
+    <Compile Include="Diagramming\DesignerItem.cs" />
+    <Compile Include="Diagramming\IGroupable.cs" />
+    <Compile Include="Diagramming\ISelectable.cs" />
+    <Compile Include="Diagramming\PathFinder.cs" />
+    <Compile Include="Diagramming\RubberbandAdorner.cs" />
+    <Compile Include="Diagramming\SelectionService.cs" />
+    <Compile Include="Diagramming\Toolbox.cs" />
+    <Compile Include="Diagramming\ToolboxItem.cs" />
     <Compile Include="DockTheme\AvalonTheme.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Flyouts\SettingsFlyout.xaml.cs">
@@ -199,6 +221,7 @@
     <Compile Include="UnhandledErrorWindow.xaml.cs">
       <DependentUpon>UnhandledErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\DiagramDesignerViewModel.cs" />
     <Compile Include="ViewModel\LayoutInitializer.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
@@ -214,8 +237,14 @@
     <Compile Include="ViewModel\Settings\IProgramSettings.cs" />
     <Compile Include="ViewModel\SqlEditors\SqlExecuterWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="View\DiagramDesignerTool.xaml.cs">
+      <DependentUpon>DiagramDesignerTool.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\SqlQueryToolView.xaml.cs">
       <DependentUpon>SqlQueryToolView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StartUpPageView.xaml.cs">
+      <DependentUpon>StartUpPageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
@@ -235,6 +264,66 @@
     <Page Include="CustomControls\SteamLoginControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DbDesigner\DbDesignerCanvas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Diagramming\Resources\ApplicationToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Connection.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\DesignerItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Stencils\FlowChartStencils.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Stencils\ShapeStencils.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Styles\Expander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Styles\GroupBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Styles\ScrollBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Styles\Shared.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Styles\ToolBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\Toolbox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Resources\ToolboxItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Stencils\FlowChartStencils.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Diagramming\Stencils\ShapeStencils.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="DockTheme\AvalonStylesDictionary.xaml">
       <SubType>Designer</SubType>
@@ -288,7 +377,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\DiagramDesignerTool.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\SqlQueryToolView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StartUpPageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -372,6 +469,34 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Diagramming\Resources\Images\AlignObjectsBottom.png" />
+    <Resource Include="Diagramming\Resources\Images\AlignObjectsCenteredHorizontal.png" />
+    <Resource Include="Diagramming\Resources\Images\AlignObjectsCenteredVertical.png" />
+    <Resource Include="Diagramming\Resources\Images\AlignObjectsLeft.png" />
+    <Resource Include="Diagramming\Resources\Images\AlignObjectsRight.png" />
+    <Resource Include="Diagramming\Resources\Images\AlignObjectsTop.png" />
+    <Resource Include="Diagramming\Resources\Images\BringForward.png" />
+    <Resource Include="Diagramming\Resources\Images\BringToFront.png" />
+    <Resource Include="Diagramming\Resources\Images\Copy.png" />
+    <Resource Include="Diagramming\Resources\Images\Cut.png" />
+    <Resource Include="Diagramming\Resources\Images\Delete.png" />
+    <Resource Include="Diagramming\Resources\Images\DistributeObjectsHorizontal.png" />
+    <Resource Include="Diagramming\Resources\Images\DistributeObjectsVertical.png" />
+    <Resource Include="Diagramming\Resources\Images\GenericDocument.png" />
+    <Resource Include="Diagramming\Resources\Images\Group.png" />
+    <Resource Include="Diagramming\Resources\Images\OpenFolder.png" />
+    <Resource Include="Diagramming\Resources\Images\Paste.png" />
+    <Resource Include="Diagramming\Resources\Images\PasteBig.png" />
+    <Resource Include="Diagramming\Resources\Images\Print.png" />
+    <Resource Include="Diagramming\Resources\Images\Save.png" />
+    <Resource Include="Diagramming\Resources\Images\SendBackward.png" />
+    <Resource Include="Diagramming\Resources\Images\SendToBack.png" />
+    <Resource Include="Diagramming\Resources\Images\Ungroup.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DbDesigner\DbEntities\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
