@@ -6,12 +6,12 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock"
         xmlns:panes="clr-namespace:EasyDb.ViewModel.Panes"
-                      xmlns:viewModel="clr-namespace:CSGO.Trader.ViewModel"
         xmlns:converters1="clr-namespace:EasyDb.Converters"
         xmlns:customControls="clr-namespace:EasyDb.CustomControls"
         xmlns:dockTheme="clr-namespace:EasyDb.DockTheme"
         xmlns:flyouts1="clr-namespace:EasyDb.Flyouts"
         xmlns:view="clr-namespace:EasyDb.View"
+        xmlns:viewModel1="clr-namespace:EasyDb.ViewModel"
         mc:Ignorable="d"
         Name="MainWinow"
         Title="EasyDb" Height="800" Width="1200" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
@@ -54,9 +54,6 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <Grid Panel.ZIndex="9999" Visibility="{Binding ShowLogInForm, Converter={StaticResource Btvc}}">
-            <customControls:SteamLoginControl ></customControls:SteamLoginControl>
-        </Grid>
         <Grid x:Name="SplashOverlay" Panel.ZIndex="9998" Visibility="{Binding IsInterfaceDisabled, Mode=OneWay, Converter={StaticResource Btvc}}">
             <customControls:SplashScreen CurrentText="{DynamicResource mw_PluginInit}" />
         </Grid>
@@ -80,14 +77,7 @@
                     </Menu>
                 </StackPanel>
                 <ToolBarTray VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
-                    <ToolBar VerticalAlignment="Stretch">
-                        <Button Style="{StaticResource MetroButtonAccentBorderless}" Height="20" Content="1"></Button>
-                        <Button Style="{StaticResource MetroButtonAccentBorderless}" Height="20" Content="2"></Button>
-                    </ToolBar>
-                    <ToolBar>
-                        <Button Style="{StaticResource MetroButtonAccentBorderless}" Height="20" Content="3"></Button>
-                        <Button Style="{StaticResource MetroButtonAccentBorderless}" Height="20" Content="4"></Button>
-                    </ToolBar>
+ 
                 </ToolBarTray>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
@@ -134,7 +124,7 @@
                             </panes:PaneStyleTemplateSelector>
                         </xcad:DockingManager.LayoutItemContainerStyleSelector>
                         <xcad:DockingManager.LayoutUpdateStrategy>
-                            <viewModel:LayoutInitializer/>
+                            <viewModel1:LayoutInitializer/>
                         </xcad:DockingManager.LayoutUpdateStrategy>
                         <xcad:LayoutRoot>
                             <xcad:LayoutPanel Orientation="Horizontal">
@@ -154,13 +144,20 @@
                             <xcad:LayoutRoot.LeftSide>
                                 <xcad:LayoutAnchorSide>
                                     <xcad:LayoutAnchorGroup >
-                                        <xcad:LayoutAnchorable
+                                        <!--<xcad:LayoutAnchorable  Предполагается для использования со средством проектирования СУБД
                                             ContentId="DiagrammPrimitives"  
                                             CanClose="False" 
                                             CanAutoHide="True"
                                             Content="{StaticResource FlowChartStencils}"
                                             Title="{DynamicResource mw_DbEntities}">
                                             
+                                        </xcad:LayoutAnchorable>-->
+                                        <xcad:LayoutAnchorable
+                                            ContentId="DataSources"
+                                            CanClose="False"
+                                            CanAutoHide="True"
+                                            Title="$DataSourceTitle">
+
                                         </xcad:LayoutAnchorable>
                                     </xcad:LayoutAnchorGroup>
                                 </xcad:LayoutAnchorSide>

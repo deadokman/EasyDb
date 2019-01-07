@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyDb.Postgres
+namespace EasyDb.ViewModel.DataSource
 {
-    public class Class1
+    public class UserDatasource
     {
     }
 }

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{40B63804-C266-439E-B2AE-C46B4ED481EF}</ProjectGuid>
+    <ProjectGuid>{2C59B8B0-F8C1-487B-996D-03FA423CF9A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>EasyDb.Postgres</RootNamespace>
-    <AssemblyName>EasyDb.Postgres</AssemblyName>
+    <RootNamespace>EDb.Interfaces</RootNamespace>
+    <AssemblyName>EDb.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -42,14 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PostgresDataSource.cs" />
+    <Compile Include="EdbDatasourceAttribute.cs" />
+    <Compile Include="IEasyDbDataSource.cs" />
+    <Compile Include="Objects\SupportedObjectTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\EDb.Interfaces\EDb.Interfaces.csproj">
-      <Project>{2c59b8b0-f8c1-487b-996d-03fa423cf9a2}</Project>
-      <Name>EDb.Interfaces</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

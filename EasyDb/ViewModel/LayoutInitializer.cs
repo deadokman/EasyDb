@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Xceed.Wpf.AvalonDock.Layout;
 
-namespace CSGO.Trader.ViewModel
+namespace EasyDb.ViewModel
 {
     public class LayoutInitializer : ILayoutUpdateStrategy
     {

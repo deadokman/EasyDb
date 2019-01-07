@@ -57,8 +57,6 @@ namespace EasyDb.ViewModel
 
             IsInterfaceEnabled = false;
             _bgWorkerInit.RunWorkerAsync();
-            PaneViewModels.Add(new SqlExecuterWindowViewModel("TEST SQL WINDOW"));
-            PaneViewModels.Add(new DiagramDesignerViewModel("Diagram view"));
         }
 
         private void PaneClosing(PaneBaseViewModel vm)

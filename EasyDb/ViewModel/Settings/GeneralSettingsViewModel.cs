@@ -165,7 +165,7 @@ namespace EasyDb.ViewModel.Settings
             if (Properties.Settings.Default.PluginsPath != _pluginsPath)
             {
                 Properties.Settings.Default.PluginsPath = _pluginsPath;
-                //PluginManager.Instance.ReloadPlugins();
+                //DataSourceManager.Instance.ReloadPlugins();
             }
 
             Properties.Settings.Default.Save();
@@ -217,7 +217,7 @@ namespace EasyDb.ViewModel.Settings
                         PluginsPath = Path.GetFullPath(dlg.SelectedPath);
                     }
 
-                   // PluginManager.Instance.ReloadPlugins();
+                   // DataSourceManager.Instance.ReloadPlugins();
                 }
             });
         }

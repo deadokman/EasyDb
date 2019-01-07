@@ -13,6 +13,7 @@
 */
 
 using EasyDb.ViewModel;
+using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.Settings;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -37,6 +38,7 @@ namespace EasyDb.ViewModel
             SimpleIoc.Default.Register<GeneralSettingsViewModel>();
             SimpleIoc.Default.Register<SettingsWindowViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
+            SimpleIoc.Default.Register<IDatasourceControlViewModel, DatasourceViewModel>();
         }
 
         public SettingsWindowViewModel SettingsWindowViewModel
@@ -55,6 +57,11 @@ namespace EasyDb.ViewModel
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
             }
+        }
+
+        public IDatasourceControlViewModel DatasourceControlViewModel
+        {
+            get { return ServiceLocator.Current.GetInstance<IDatasourceControlViewModel>(); }
         }
 
         public GeneralSettingsViewModel GeneralSettingViewModel
