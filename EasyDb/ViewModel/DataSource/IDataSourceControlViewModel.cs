@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
+using EasyDb.ViewModel.DataSource.Items;
 using EDb.Interfaces;
 
 namespace EasyDb.ViewModel.DataSource
@@ -11,8 +14,17 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Get collection of supported datasources
         /// </summary>
-        IEnumerable<IEasyDbDataSource> SupportedDatasources { get; }
+        IEdbDatasourceModule[] SupportedDatasources { get; }
 
-        
+        /// <summary>
+        /// Invoke datasource properties window
+        /// </summary>
+        ICommand ConfigureUserdataSourceCmd { get; set; }
+
+        /// <summary>
+        /// Datasources that has been declared by user
+        /// </summary>
+        ObservableCollection<UserDataSource> UserDatasources { get; }
+
     }
 }

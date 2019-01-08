@@ -12,6 +12,8 @@
         xmlns:flyouts1="clr-namespace:EasyDb.Flyouts"
         xmlns:view="clr-namespace:EasyDb.View"
         xmlns:viewModel1="clr-namespace:EasyDb.ViewModel"
+        xmlns:views="clr-namespace:EasyDb.DataSource.Controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Name="MainWinow"
         Title="EasyDb" Height="800" Width="1200" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
@@ -156,8 +158,9 @@
                                             ContentId="DataSources"
                                             CanClose="False"
                                             CanAutoHide="True"
-                                            Title="$DataSourceTitle">
-
+                                           AutoHideMinWidth="200"
+                                            Title="{StaticResource dsm_datasourceTabTitle}">
+                                            <views:DatasourceControl />
                                         </xcad:LayoutAnchorable>
                                     </xcad:LayoutAnchorGroup>
                                 </xcad:LayoutAnchorSide>

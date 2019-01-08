@@ -1,10 +1,12 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Drawing;
+using System.Windows.Media;
 using EDb.Interfaces.Objects;
 
 namespace EDb.Interfaces
 {
-    public interface IEasyDbDataSource
+    public interface IEdbDatasourceModule
     {
         /// <summary>
         /// Имя модуля СУБД
@@ -19,7 +21,7 @@ namespace EDb.Interfaces
         /// <summary>
         /// Значек базы данных
         /// </summary>
-        Icon DatabaseIcon { get; }
+        ImageSource DatabaseIcon { get; }
 
         /// <summary>
         /// Получить подключение к СУБД
@@ -31,5 +33,31 @@ namespace EDb.Interfaces
         /// </summary>
         /// <param name="connectionString">Строка подключения к базе данных</param>
         void SetConnection(string connectionString);
+
+        /// <summary>
+        /// Вернуть объекты настроек
+        /// </summary>
+        /// <returns></returns>
+        EdbSourceOption[] GetDefaultOptionsObjects();
+
+        /// <summary>
+        /// Module Guid
+        /// </summary>
+        Guid ModuleGuid { get; }
+
+        /// <summary>
+        /// Set module guid
+        /// </summary>
+        /// <param name="guid">Guid</param>
+        void SetGuid(Guid guid);
+
+        Version Version { get; }
+
+        /// <summary>
+        /// Module version
+        /// </summary>
+        /// <param name="version">Version</param>
+        void SetVersion(Version version);
+
     }
 }

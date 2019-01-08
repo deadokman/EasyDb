@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CSGO.Trader"
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
         Title="{DynamicResource errorw_title}" SizeToContent="WidthAndHeight" Background="{DynamicResource ControlBackgroundBrush}" WindowStyle="ToolWindow">
     <Grid>
@@ -17,11 +18,11 @@
                 <ColumnDefinition Width="90" />
                 <ColumnDefinition Width="*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Rectangle Fill="{DynamicResource ValidationSummaryColor2}" Margin="10" Grid.Column="0">
-                <Rectangle.OpacityMask>
-                    <VisualBrush Stretch="Fill" Visual="{StaticResource appbar_warning}" />
-                </Rectangle.OpacityMask>
-            </Rectangle>
+            <iconPacks:PackIconMaterial 
+                                        Grid.Column="0"
+                                        Width="80"
+                                        Height="80"
+                                        Foreground="{DynamicResource ValidationSummaryColor2}" Kind="Alert" />
             <StackPanel Margin="2" Grid.Column="1" Grid.Row="0">
                 <TextBlock Margin="2" FontSize="15" HorizontalAlignment="Center" FontFamily="Seoge UI" FontWeight="Bold" Foreground="{DynamicResource AccentBaseColorBrush}" Text="{DynamicResource errorw_main_title}"/>
                 <Rectangle Height="1" HorizontalAlignment="Stretch" Fill="{DynamicResource AccentColorBrush}"></Rectangle>

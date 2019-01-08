@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:system="clr-namespace:System;assembly=mscorlib">
-    <system:String x:Key="app_name">Trader Analytics</system:String>
+    <system:String x:Key="app_name">EasyDb</system:String>
     <system:String x:Key="app_ver">0.0.0</system:String>
     <!--Unhandled error window-->
     <system:String x:Key="errorw_title">Ошибка</system:String>
@@ -12,6 +12,7 @@
     <system:String x:Key="mw_DbEntities">Объекты базы</system:String>
     <!--Log messages-->
     <system:String x:Key="log_NotImplementedAttr"> Найден тип источника данных {0} в сборке {1}, который не может быть загружен. Обратитесь к разработчикам. </system:String>
+    <system:String x:Key="log_CannotFileDatasourceGuid">Не удалось найти драйвер источника данных для пользовательского подключения: {0}</system:String>
     <!-- Main window -->
     <system:String x:Key="mw_Status">Статус</system:String>
     <system:String x:Key="mw_StatusWork">Работает</system:String>
@@ -20,7 +21,7 @@
     <system:String x:Key="mw_Analyze">Анализ</system:String>
     <system:String x:Key="mw_View">Вид</system:String>
     <system:String x:Key="mw_Settings">Настройки</system:String>
-    <system:String x:Key="mw_PluginInit">Инициализация плагинов...</system:String>
+    <system:String x:Key="mw_PluginInit">Инициализация источников данных...</system:String>
     <!--Settings flyout-->
     <system:String x:Key="fs_saveSettings">Применить</system:String>
     <system:String x:Key="fs_cancel">Отменить</system:String>
@@ -36,8 +37,9 @@
     <system:String x:Key="gs_Warning">Внимание!</system:String>
     <system:String x:Key="gs_SettingsWarning">Некоторые из настроек будут применены после перезапуска программы </system:String>
     <system:String x:Key="gs_SettingsResetText">Сброс настроек</system:String>
-    <!--Steam analytics tab-->
-    <system:String x:Key="sa_SellTabname"> Продажа </system:String>
-    <system:String x:Key="sa_BuyTabname"> Покупка </system:String>
-    <system:String x:Key="sa_Details"> Сводка </system:String>
+    <!--Datasource manager tab-->
+    <system:String x:Key="dsm_datasourceTabTitle"> Источник данных </system:String>
+    <system:String x:Key="dsm_addNewDatasource"> Добавить новую БД </system:String>
+    <system:String x:Key="dsms_settingsWindowTitle">Настройки источника данных</system:String>
+
 </ResourceDictionary>

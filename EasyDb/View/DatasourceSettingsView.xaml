@@ -1,0 +1,45 @@
+﻿<mah:MetroWindow x:Class="EasyDb.View.DatasourceSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyDb.View"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:items="clr-namespace:EasyDb.ViewModel.DataSource.Items"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        mc:Ignorable="d"
+        Title="{StaticResource dsms_settingsWindowTitle}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DataContext="{d:DesignInstance items:UserDataSource}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width=".25*"/>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+
+            </DockPanel>
+            <ListBox Grid.Row="1"></ListBox>
+        </Grid>
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ControlBorderBrush}"></GridSplitter>
+        <TabControl Style="{StaticResource MetroTabControl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="2" ItemsSource="{Binding SettingsObjects}">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock FontSize="13" Text="{Binding OptionsDefinitionName}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <xctk:PropertyGrid SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabItem}}, Path=DataContext}">
+                    </xctk:PropertyGrid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+
+    </Grid>
+</mah:MetroWindow>

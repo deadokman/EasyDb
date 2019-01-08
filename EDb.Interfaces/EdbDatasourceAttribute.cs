@@ -8,11 +8,14 @@ namespace EDb.Interfaces
 {
     public class EdbDatasourceAttribute : Attribute
     {
-        public EdbDatasourceAttribute(string guid)
+        public EdbDatasourceAttribute(string guid, string version)
         {
             SourceGuid = new Guid(guid);
+            Version = new Version(version);
         }
 
         public Guid SourceGuid { get; private set; }
+
+        public Version Version { get; set; }
     }
 }

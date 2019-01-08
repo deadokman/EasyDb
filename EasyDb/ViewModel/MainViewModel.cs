@@ -1,8 +1,12 @@
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
+using System.Threading;
 using System.Windows.Input;
+using EasyDb.DataSource;
 using EasyDb.ViewModel;
+using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.SqlEditors;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -38,6 +42,7 @@ namespace EasyDb.ViewModel
         {
             _bgWorkerInit.DoWork += (sender, args) =>
             {
+                DatasourceManager.Instance.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
             };
 
             _bgWorkerInit.RunWorkerCompleted += (sender, args) =>
