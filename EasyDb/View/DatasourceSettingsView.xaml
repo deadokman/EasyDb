@@ -22,12 +22,11 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <DockPanel Grid.Row="0">
-
             </DockPanel>
             <ListBox Grid.Row="1"></ListBox>
         </Grid>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ControlBorderBrush}"></GridSplitter>
-        <TabControl Style="{StaticResource MetroTabControl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="2" ItemsSource="{Binding SettingsObjects}">
+        <mah:MetroAnimatedTabControl Style="{StaticResource MetroTabControl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="2" ItemsSource="{Binding SettingsObjects}">
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <TextBlock FontSize="13" Text="{Binding OptionsDefinitionName}"/>
@@ -35,11 +34,13 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <xctk:PropertyGrid SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type TabItem}}, Path=DataContext}">
+                    <xctk:PropertyGrid SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroTabItem}}, Path=DataContext}" 
+                                       DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroTabItem}}, Path=DataContext}" >
+
                     </xctk:PropertyGrid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
-        </TabControl>
+        </mah:MetroAnimatedTabControl>
 
     </Grid>
 </mah:MetroWindow>
