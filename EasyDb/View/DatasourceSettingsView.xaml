@@ -12,6 +12,14 @@
         mc:Ignorable="d"
         Title="{StaticResource dsms_settingsWindowTitle}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DataContext="{d:DesignInstance items:UserDataSource}">
+        <Grid.Resources>
+            <ResourceDictionary>
+                <Style TargetType="MenuItem"
+                       BasedOn="{StaticResource StandardMenuItem}" />
+                <Style TargetType="Menu"
+                       BasedOn="{StaticResource StandardMenu}" />
+            </ResourceDictionary>
+        </Grid.Resources>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width=".25*"/>
             <ColumnDefinition Width="2"/>
@@ -44,10 +52,11 @@
                 </DockPanel>
             </StackPanel>
             <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
-                <mah:MetroAnimatedTabControl Style="{StaticResource MetroTabControl}" 
-                                             VerticalAlignment="Stretch" 
-                                             HorizontalAlignment="Stretch" 
-                                             ItemsSource="{Binding SettingsObjects}">
+                <mah:MetroAnimatedTabControl 
+                         mah:TabControlHelper.Underlined="TabPanel"
+                         VerticalAlignment="Stretch" 
+                         HorizontalAlignment="Stretch" 
+                         ItemsSource="{Binding SettingsObjects}">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
                             <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>

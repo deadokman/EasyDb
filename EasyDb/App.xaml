@@ -24,13 +24,14 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Fonts.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Colors.xaml" />
-
                 <!-- Accent and AppTheme setting -->
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/orange.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseDark.xaml" />
+
+                <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/textbox.xaml" />-->
                 <ResourceDictionary Source="Localization/lang.xaml" />
                 <ResourceDictionary Source="/CustomControls/ControlTemplateDictionary.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Controls.AnimatedSingleRowTabControl.xaml" />
                 <ResourceDictionary Source="/DockTheme/IconsCustom.xaml" />
                 <ResourceDictionary Source="/WpfButtonBorderlessStyle.xaml"/>
                 <ResourceDictionary>
@@ -49,6 +50,10 @@
                         11.0742,49.5968 13.6194,48.5555L 18.6861,54.9617C 20.6046,54.0327 22.4293,52.9403 24.142,51.7025L 20.9158,44.1977C 23.3299,42.2141 
                         25.4123,39.8414 27.0669,37.1755 Z
                     </system:String>
+                </ResourceDictionary>
+                <ResourceDictionary>
+                    <!--<Style TargetType="TextBox"
+                           BasedOn="{StaticResource StandardTextBox}" />-->
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

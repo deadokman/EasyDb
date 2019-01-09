@@ -90,7 +90,7 @@
                         Loaded="DockingManager_OnLoaded"
                         DocumentsSource="{Binding PaneViewModels}"
                         ActiveContent="{Binding ActivePane, Mode=TwoWay, Converter={StaticResource ActiveDocConverter}}"
-                        Background="{DynamicResource FlyoutBackgroundBrush}"
+                
                         Margin="0" Grid.Column="1">
                         <xcad:DockingManager.Theme>
                             <!--<xcad:AeroTheme/>-->
