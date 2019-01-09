@@ -47,7 +47,6 @@
     <Compile Include="IEdbDatasourceModule.cs" />
     <Compile Include="IEdbSourceOptions.cs" />
     <Compile Include="Objects\SupportedObjectTypes.cs" />
-    <Compile Include="PostgresOptions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

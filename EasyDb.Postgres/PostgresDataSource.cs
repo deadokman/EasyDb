@@ -44,7 +44,7 @@ namespace EasyDb.Postgres
 
         public EdbSourceOption[] GetDefaultOptionsObjects()
         {
-            return new [] { new GeneralOption() };
+            return new EdbSourceOption[] { new GeneralOption(), new SshSsl() };
         }
     }
 }

@@ -43,7 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Options\GeneralOptions.cs" />
+    <Compile Include="Options\Generals.cs" />
+    <Compile Include="Options\SshSsl.cs" />
     <Compile Include="PostgresDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,6 +8,7 @@
         xmlns:items="clr-namespace:EasyDb.ViewModel.DataSource.Items"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:customControls="clr-namespace:EasyDb.CustomControls"
         mc:Ignorable="d"
         Title="{StaticResource dsms_settingsWindowTitle}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DataContext="{d:DesignInstance items:UserDataSource}">
@@ -26,21 +27,39 @@
             <ListBox Grid.Row="1"></ListBox>
         </Grid>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ControlBorderBrush}"></GridSplitter>
-        <mah:MetroAnimatedTabControl Style="{StaticResource MetroTabControl}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="2" ItemsSource="{Binding SettingsObjects}">
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock FontSize="13" Text="{Binding OptionsDefinitionName}"/>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <xctk:PropertyGrid SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroTabItem}}, Path=DataContext}" 
-                                       DataContext="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroTabItem}}, Path=DataContext}" >
-
-                    </xctk:PropertyGrid>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </mah:MetroAnimatedTabControl>
-
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="65"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"></RowDefinition>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Margin="5">
+                <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}"></TextBlock>
+                    <TextBox></TextBox>
+                </DockPanel>
+                <DockPanel>
+                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}"></TextBlock>
+                    <TextBox></TextBox>
+                </DockPanel>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
+                <mah:MetroAnimatedTabControl Style="{StaticResource MetroTabControl}" 
+                                             VerticalAlignment="Stretch" 
+                                             HorizontalAlignment="Stretch" 
+                                             ItemsSource="{Binding SettingsObjects}">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <customControls:UserDatasouceSettingsControl></customControls:UserDatasouceSettingsControl>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </mah:MetroAnimatedTabControl>
+            </StackPanel>
+        </Grid>
     </Grid>
 </mah:MetroWindow>

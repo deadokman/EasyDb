@@ -148,6 +148,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToBlurRadiusConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
+    <Compile Include="CustomControls\DatasourceSettings\DatasourceSettingsGridTemplateSelector.cs" />
     <Compile Include="CustomControls\ImageButton.cs" />
     <Compile Include="CustomControls\SplashScreen.xaml.cs">
       <DependentUpon>SplashScreen.xaml</DependentUpon>
@@ -227,6 +228,9 @@
     </Compile>
     <Compile Include="View\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CustomControls\UserDatasouceSettingsControl.xaml.cs">
+      <DependentUpon>UserDatasouceSettingsControl.xaml</DependentUpon>
     </Compile>
     <Page Include="CustomControls\SplashScreen.xaml">
       <SubType>Designer</SubType>
@@ -369,6 +373,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\TabView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CustomControls\UserDatasouceSettingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
