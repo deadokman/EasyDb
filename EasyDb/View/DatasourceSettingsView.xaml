@@ -40,41 +40,43 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="65"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition MinHeight="45" Height="*"/>
                 <RowDefinition Height="45"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="5">
                 <DockPanel Margin="0,0,0,4" LastChildFill="True">
                     <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}"></TextBlock>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Background="{StaticResource GrayBrush10}"></TextBox>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}"></TextBlock>
-                    <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" Background="{StaticResource GrayBrush10}"></TextBox>
+                    <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                 </DockPanel>
             </StackPanel>
-            <mah:MetroAnimatedTabControl 
-                        BorderThickness="1"
-                        BorderBrush="{DynamicResource AccentColorBrush3}"
-                         Grid.Row="1"
-                         mah:TabControlHelper.Underlined="TabPanel"
-                         VerticalAlignment="Stretch" 
-                         HorizontalAlignment="Stretch"
-                         SelectedValue="{Binding SelectedDataSourceOption}"
-                         ItemsSource="{Binding SettingsObjects}">
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-                <TabControl.ContentTemplate>
-                    <DataTemplate>
-                        <customControls:UserDatasouceSettingsControl 
-                            SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.SelectedDataSourceOption, Converter={StaticResource EmptyConverter}}">
-                        </customControls:UserDatasouceSettingsControl>
-                    </DataTemplate>
-                </TabControl.ContentTemplate>
-            </mah:MetroAnimatedTabControl>
+            <ScrollViewer Grid.Row="1" Background="{StaticResource GrayBrush10}">
+                <mah:MetroAnimatedTabControl 
+                    BorderThickness="1"
+                    BorderBrush="{DynamicResource AccentColorBrush3}"
+                    Background="{StaticResource GrayBrush10}"
+                    mah:TabControlHelper.Underlined="TabPanel"
+                    VerticalAlignment="Stretch" 
+                    HorizontalAlignment="Stretch"
+                    SelectedValue="{Binding SelectedDataSourceOption}"
+                    ItemsSource="{Binding SettingsObjects}">
+                    <TabControl.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
+                        </DataTemplate>
+                    </TabControl.ItemTemplate>
+                    <TabControl.ContentTemplate>
+                        <DataTemplate>
+                            <customControls:UserDatasouceSettingsControl 
+                                SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.SelectedDataSourceOption, Converter={StaticResource EmptyConverter}}">
+                            </customControls:UserDatasouceSettingsControl>
+                        </DataTemplate>
+                    </TabControl.ContentTemplate>
+                </mah:MetroAnimatedTabControl>
+            </ScrollViewer>
             <StackPanel Margin="10" HorizontalAlignment="Left" Grid.Row="2">
                 <DockPanel>
                     <Button MinWidth="100" Content="$testConn"></Button>

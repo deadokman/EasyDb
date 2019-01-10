@@ -26,6 +26,8 @@
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         <DataGrid
+            Background="{DynamicResource GrayBrush10}"
+            RowBackground="{DynamicResource GrayBrush10}"
             Margin="0,5,0,0"
             Style="{StaticResource MetroDataGrid}"
             ItemsSource="{Binding SourceOptions}"
