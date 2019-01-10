@@ -3,11 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:EasyDb.View"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:items="clr-namespace:EasyDb.ViewModel.DataSource.Items"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
-        xmlns:forms="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
         xmlns:customControls="clr-namespace:EasyDb.CustomControls"
         mc:Ignorable="d"
         Title="{StaticResource dsms_settingsWindowTitle}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
@@ -51,24 +48,27 @@
                     <TextBox></TextBox>
                 </DockPanel>
             </StackPanel>
-            <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
-                <mah:MetroAnimatedTabControl 
+            <mah:MetroAnimatedTabControl 
+                         Grid.Row="1"
                          mah:TabControlHelper.Underlined="TabPanel"
                          VerticalAlignment="Stretch" 
                          HorizontalAlignment="Stretch" 
                          ItemsSource="{Binding SettingsObjects}">
-                    <TabControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
-                        </DataTemplate>
-                    </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
-                        <DataTemplate>
-                            <customControls:UserDatasouceSettingsControl></customControls:UserDatasouceSettingsControl>
-                        </DataTemplate>
-                    </TabControl.ContentTemplate>
-                </mah:MetroAnimatedTabControl>
-            </StackPanel>
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <customControls:UserDatasouceSettingsControl></customControls:UserDatasouceSettingsControl>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </mah:MetroAnimatedTabControl>
+            <DockPanel HorizontalAlignment="Right" Grid.Row="2">
+                <Button Content="$apply_name" Style="{StaticResource MetroButtonAccentBorderless}" Margin="0,2,10,2"  Width="120"/>
+                <Button Content="$cancel_name" Style="{StaticResource MetroButton}"  Margin="0,2,10,2" Width="120" />
+            </DockPanel>
         </Grid>
     </Grid>
 </mah:MetroWindow>

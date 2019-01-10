@@ -38,7 +38,7 @@
     <system:String x:Key="gs_SettingsWarning">Некоторые из настроек будут применены после перезапуска программы </system:String>
     <system:String x:Key="gs_SettingsResetText">Сброс настроек</system:String>
     <!--Datasource manager tab-->
-    <system:String x:Key="dsm_datasourceTabTitle"> Источник данных </system:String>
+    <system:String x:Key="dsm_datasourceTabTitle"> База данных </system:String>
     <system:String x:Key="dsm_addNewDatasource"> Добавить новую БД </system:String>
     <system:String x:Key="dsms_settingsWindowTitle">Настройки источника данных</system:String>
     <system:String x:Key="dsms_datasourceName">Наименование: </system:String>
