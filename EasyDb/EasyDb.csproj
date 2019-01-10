@@ -147,7 +147,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToBlurRadiusConverter.cs" />
+    <Compile Include="Converters\EmptyConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
+    <Compile Include="CustomControls\DatasourceSettings\DatasourceOption.cs" />
     <Compile Include="CustomControls\DatasourceSettings\DatasourceSettingsGridTemplateSelector.cs" />
     <Compile Include="CustomControls\ImageButton.cs" />
     <Compile Include="CustomControls\SplashScreen.xaml.cs">

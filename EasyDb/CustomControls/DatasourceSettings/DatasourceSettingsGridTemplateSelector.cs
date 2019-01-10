@@ -13,20 +13,28 @@ namespace EasyDb.CustomControls.DatasourceSettings
     /// </summary>
     public class DatasourceSettingsGridTemplateSelector : DataTemplateSelector
     {
+        private static readonly string StringType = typeof(string).FullName;
+
         public DataTemplate TextFieldTemplate { get; set; }
 
         public DataTemplate CheckboxTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item != null)
+            var optionObject = item as DatasourceOption;
+            if (optionObject != null)
             {
-                return base.SelectTemplate(item, container);
+
+                switch (optionObject.OptionEditType)
+                {
+                    case "System.String": return TextFieldTemplate;
+                    case "System.Boolean": return CheckboxTemplate;
+
+                    default: return base.SelectTemplate(item, container);
+                }
             }
-            else
-            {
-                return base.SelectTemplate(item, container);
-            }       
+
+            return base.SelectTemplate(item, container);
         }
     }
 }

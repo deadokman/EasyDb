@@ -5,14 +5,19 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasyDb.View"
              xmlns:datasourceSettings="clr-namespace:EasyDb.CustomControls.DatasourceSettings"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding RelativeSource={RelativeSource Self} }">
     <UserControl.Resources>
         <DataTemplate x:Key="TextEditDataTemplate">
-            <TextBox Margin="2" Text="Passed" Foreground="Green"/>
+            <TextBox
+                BorderThickness="0"
+                mah:TextBoxHelper.Watermark="{StaticResource dsms_optionWatermark}" 
+                IsReadOnly="{Binding IsReadOnly}"  
+                Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Margin="2" Foreground="{DynamicResource TextBrush}"/>
         </DataTemplate>
         <DataTemplate x:Key="CheckboxTemplate">
-            <CheckBox />
+            <CheckBox Checked="{Binding Value}" />
         </DataTemplate>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -20,10 +25,30 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
-        <DataGrid Name="PropsDisplayGrid" HeadersVisibility="None" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <DataGrid
+            Margin="0,5,0,0"
+            Style="{StaticResource MetroDataGrid}"
+            ItemsSource="{Binding SourceOptions}"
+            AutoGenerateColumns="False"
+            CanUserAddRows="False"
+            CanUserSortColumns="False"
+            CanUserReorderColumns="False"
+            CanUserDeleteRows="False"
+            GridLinesVisibility="None"
+            SelectionMode="Single"
+            SelectionUnit="FullRow"
+            CanUserResizeRows="False"
+            HeadersVisibility="None"
+            Name="PropsDisplayGrid"
+            VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <DataGrid.Columns>
-                <DataGridTextColumn Width=".3*" IsReadOnly="True"/>
+                <DataGridTextColumn Width="Auto" IsReadOnly="True" Binding="{Binding OptionName}" />
                 <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.CellTemplateSelector>
+                        <datasourceSettings:DatasourceSettingsGridTemplateSelector
+                            TextFieldTemplate="{StaticResource TextEditDataTemplate}"
+                            CheckboxTemplate="{StaticResource CheckboxTemplate}"/>
+                    </DataGridTemplateColumn.CellTemplateSelector>
                     <DataGridTemplateColumn.CellEditingTemplateSelector>
                         <datasourceSettings:DatasourceSettingsGridTemplateSelector
                             TextFieldTemplate="{StaticResource TextEditDataTemplate}"

@@ -19,6 +19,8 @@ namespace EasyDb.ViewModel.DataSource.Items
         [XmlIgnore]
         private EdbSourceOption[] _settingsObjects;
 
+        private EdbSourceOption _selectedDataSourceOption;
+
         public Guid DatasourceGuid { get; set; }
 
         [XmlIgnore]
@@ -42,7 +44,19 @@ namespace EasyDb.ViewModel.DataSource.Items
             }
         }
 
-        public string DatasourceName { get; set; }
+        public EdbSourceOption SelectedDataSourceOption
+        {
+            get => _selectedDataSourceOption;
+            set
+            {
+                _selectedDataSourceOption = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string Name { get; set; }
+
+        public string Comment { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -18,13 +18,13 @@ namespace EasyDb.Postgres.Options
             this.OptionsDefinitionName = "General";
         }
 
-        [Description]
+        [OptionDisplayName("opt_def_hostname", "Hostname:")]
         public string Host { get; set; }
 
-        [Description]
+        [OptionDisplayName("opt_def_database", "Database:")]
         public string Database { get; set; }
 
-        [Description]
+        [OptionDisplayName("opt_def_user", "User:")]
         public string User { get; set; }
     }
 }

@@ -6,9 +6,13 @@
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:items="clr-namespace:EasyDb.ViewModel.DataSource.Items"
         xmlns:customControls="clr-namespace:EasyDb.CustomControls"
+        xmlns:converters="clr-namespace:EasyDb.Converters"
         mc:Ignorable="d"
-        Title="{StaticResource dsms_settingsWindowTitle}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
-    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DataContext="{d:DesignInstance items:UserDataSource}">
+        Title="{StaticResource dsms_settingsWindowTitle}" d:DataContext="{d:DesignInstance items:UserDataSource}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
+    <mah:MetroWindow.Resources>
+        <converters:EmptyConverter x:Key="EmptyConverter"/>
+    </mah:MetroWindow.Resources>
+    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="MenuItem"
@@ -35,24 +39,28 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="65"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition Height="45"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="5">
                 <DockPanel Margin="0,0,0,4" LastChildFill="True">
                     <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}"></TextBlock>
-                    <TextBox></TextBox>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Background="{StaticResource GrayBrush10}"></TextBox>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}"></TextBlock>
-                    <TextBox></TextBox>
+                    <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" Background="{StaticResource GrayBrush10}"></TextBox>
                 </DockPanel>
             </StackPanel>
             <mah:MetroAnimatedTabControl 
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource AccentColorBrush3}"
                          Grid.Row="1"
                          mah:TabControlHelper.Underlined="TabPanel"
                          VerticalAlignment="Stretch" 
-                         HorizontalAlignment="Stretch" 
+                         HorizontalAlignment="Stretch"
+                         SelectedValue="{Binding SelectedDataSourceOption}"
                          ItemsSource="{Binding SettingsObjects}">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
@@ -61,13 +69,23 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <customControls:UserDatasouceSettingsControl></customControls:UserDatasouceSettingsControl>
+                        <customControls:UserDatasouceSettingsControl 
+                            SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.SelectedDataSourceOption, Converter={StaticResource EmptyConverter}}">
+                        </customControls:UserDatasouceSettingsControl>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </mah:MetroAnimatedTabControl>
-            <DockPanel HorizontalAlignment="Right" Grid.Row="2">
+            <StackPanel Margin="10" HorizontalAlignment="Left" Grid.Row="2">
+                <DockPanel>
+                    <Button MinWidth="100" Content="$testConn"></Button>
+                    <TextBlock Margin="10,0" Text="Not tested yet" VerticalAlignment="Center" FontStyle="Italic"></TextBlock>
+                </DockPanel>
+
+                <CheckBox Margin="0,5" Content="$savepassword"/>
+            </StackPanel>
+            <DockPanel Margin="5" HorizontalAlignment="Right" Grid.Row="3">
                 <Button Content="$apply_name" Style="{StaticResource MetroButtonAccentBorderless}" Margin="0,2,10,2"  Width="120"/>
-                <Button Content="$cancel_name" Style="{StaticResource MetroButton}"  Margin="0,2,10,2" Width="120" />
+                <Button Content="$cancel_name" Style="{StaticResource MetroButton}" Width="120" />
             </DockPanel>
         </Grid>
     </Grid>

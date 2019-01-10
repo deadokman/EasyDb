@@ -1,19 +1,27 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
+using EasyDb.Annotations;
+using EasyDb.CustomControls.DatasourceSettings;
+using EDb.Interfaces;
 
 namespace EasyDb.CustomControls
 {
     /// <summary>
     /// Interaction logic for UserDatasouceSettingsControl.xaml
     /// </summary>
-    public partial class UserDatasouceSettingsControl : UserControl
+    public partial class UserDatasouceSettingsControl : UserControl, INotifyPropertyChanged
     {
-        public UserDatasouceSettingsControl()
+        public UserDatasouceSettingsControl( )
         {
             InitializeComponent();
         }
-
-
 
         public object SelectedObject
         {
@@ -25,9 +33,52 @@ namespace EasyDb.CustomControls
         public static readonly DependencyProperty SelectedObjectProperty =
             DependencyProperty.Register("SelectedObject", typeof(object), typeof(UserDatasouceSettingsControl), new PropertyMetadata(null, SetObjectPropsDisplay));
 
+        private IList<DatasourceOption> _sourceOptions;
+
+
         private static void SetObjectPropsDisplay(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            throw new System.NotImplementedException();
+            var valueObjectType = e.NewValue.GetType();
+            var depObject = (UserDatasouceSettingsControl)d;
+            depObject.SourceOptions = FormatDatasourceOptions(e.NewValue, valueObjectType, App.Current.Resources);
+        }
+
+        public IList<DatasourceOption> SourceOptions
+        {
+            get => _sourceOptions;
+            set
+            {
+                _sourceOptions = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public static IList<DatasourceOption> FormatDatasourceOptions(object valueObject, Type objectType, IDictionary resourceDictionary)
+        {
+            var res = new List<DatasourceOption>();
+            var props = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Select(p => new {propInfo = p, attributes = p.GetCustomAttributes<OptionDisplayNameAttribute>().FirstOrDefault()})
+                .Where(pair => pair.attributes != null);
+            foreach (var prop in props)
+            {
+                var optionName = (resourceDictionary[prop.attributes.ResourceNameKey] as string) ?? prop.attributes.AlternativeName;
+                res.Add(new DatasourceOption(valueObject, prop.propInfo)
+                {
+                    IsReadOnly = !prop.propInfo.CanWrite || !prop.propInfo.GetSetMethod(/*nonPublic*/ true).IsPublic,
+                    OptionEditType = prop.propInfo.PropertyType.FullName,
+                    OptionName = optionName
+                });
+            }
+
+            return res;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

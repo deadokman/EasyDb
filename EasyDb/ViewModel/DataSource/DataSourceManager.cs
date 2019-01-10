@@ -154,7 +154,7 @@ namespace EasyDb.ViewModel.DataSource
                 }
                 else
                 {
-                    _logger.Warn(Application.Current.Resources["log_NotImplementedAttr"].ToString(), uds.DatasourceName);
+                    _logger.Warn(Application.Current.Resources["log_NotImplementedAttr"].ToString(), uds.Name);
                 }
             }
 
