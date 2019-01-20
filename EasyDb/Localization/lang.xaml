@@ -44,8 +44,11 @@
     <system:String x:Key="dsms_datasourceName">Наименование: </system:String>
     <system:String x:Key="dsms_datasourceComment">Комментарий:</system:String>
     <system:String x:Key="dsms_optionWatermark"> ... </system:String>
+
+    <system:String x:Key="dsms_ex_datasourceName">Требуется наименование</system:String>
     <system:String x:Key="opt_def_hostname">Имя хоста:</system:String>
     <system:String x:Key="opt_def_user">Пользователь:</system:String>
     <system:String x:Key="opt_def_database">База данных:</system:String>
+
 
 </ResourceDictionary>

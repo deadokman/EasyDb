@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Xml.Serialization;
 using EasyDb.Annotations;
 using EDb.Interfaces;
@@ -14,12 +12,15 @@ namespace EasyDb.ViewModel.DataSource.Items
     /// <summary>
     /// Presents datasource created by user
     /// </summary>
-    public class UserDataSource : INotifyPropertyChanged
+    public class UserDataSource :  ValidationViewModelBase
     {
         [XmlIgnore]
         private EdbSourceOption[] _settingsObjects;
 
+        [XmlIgnore]
         private EdbSourceOption _selectedDataSourceOption;
+
+        private string _name;
 
         public Guid DatasourceGuid { get; set; }
 
@@ -34,6 +35,7 @@ namespace EasyDb.ViewModel.DataSource.Items
         /// <summary>
         /// User datasource tab settings
         /// </summary>
+        [XmlIgnore]
         public EdbSourceOption[] SettingsObjects
         {
             get => _settingsObjects;
@@ -44,6 +46,7 @@ namespace EasyDb.ViewModel.DataSource.Items
             }
         }
 
+        [XmlIgnore]
         public EdbSourceOption SelectedDataSourceOption
         {
             get => _selectedDataSourceOption;
@@ -54,16 +57,36 @@ namespace EasyDb.ViewModel.DataSource.Items
             }
         }
 
-        public string Name { get; set; }
+        /// <summary>
+        /// User datasource name
+        /// </summary>
+        [Required(ErrorMessageResourceName = "dsms_ex_datasourceName")]
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                OnPropertyChanged();
+            }
+        }
 
+        /// <summary>
+        /// User datasource comment
+        /// </summary>
         public string Comment { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Applies settings to the datasource
+        /// </summary>
+        [XmlIgnore]
+        public ICommand ApplySettingsCommand { get; set; }
 
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        /// <summary>
+        /// Command to test Connection
+        /// </summary>
+        [XmlIgnore]
+        public ICommand TestConnection { get; set; }
+
     }
 }

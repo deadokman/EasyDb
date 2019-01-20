@@ -8,6 +8,7 @@ using System.Windows.Input;
 using EasyDb.Annotations;
 using EasyDb.View;
 using EasyDb.ViewModel.DataSource.Items;
+using EasyDb.ViewModel.Interfaces;
 using EDb.Interfaces;
 using GalaSoft.MvvmLight.CommandWpf;
 

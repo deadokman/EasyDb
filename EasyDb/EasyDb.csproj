@@ -103,6 +103,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Security" />
@@ -159,8 +160,10 @@
     <Compile Include="Converters\SettingsSizeLimitConverter.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\DataSource\DatasourceViewModel.cs" />
-    <Compile Include="ViewModel\DataSource\IDatasourceControlViewModel.cs" />
+    <Compile Include="ViewModel\Interfaces\IDatasourceControlViewModel.cs" />
     <Compile Include="ViewModel\DataSource\Items\UserDataSource.cs" />
+    <Compile Include="ViewModel\Interfaces\IUserDataSource.cs" />
+    <Compile Include="ViewModel\ValidationExceptionBehavior.cs" />
     <Compile Include="View\DatasourceControlView.xaml.cs">
       <DependentUpon>DatasourceControlView.xaml</DependentUpon>
     </Compile>
@@ -482,6 +485,10 @@
     <Folder Include="DbDesigner\DbEntities\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Edb.Common\Edb.Common.csproj">
+      <Project>{5380897F-9077-4D58-A7A5-911963B33366}</Project>
+      <Name>Edb.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EDb.Interfaces\EDb.Interfaces.csproj">
       <Project>{2c59b8b0-f8c1-487b-996d-03fa423cf9a2}</Project>
       <Name>EDb.Interfaces</Name>
