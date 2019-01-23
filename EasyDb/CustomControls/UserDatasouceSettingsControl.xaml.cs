@@ -55,6 +55,12 @@ namespace EasyDb.CustomControls
 
         public static IList<DatasourceOption> FormatDatasourceOptions(EdbSourceOption valueObject, Type objectType, IDictionary resourceDictionary)
         {
+            if (valueObject == null)
+            {
+                throw new Exception("Options object sholud be implemented from EdbSourceOption");
+            }
+
+            valueObject.SetThrowExceptionOnInvalidate(true);
             var res = new List<DatasourceOption>();
             var props = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(p => new {propInfo = p, attributes = p.GetCustomAttributes<OptionDisplayNameAttribute>().FirstOrDefault()})

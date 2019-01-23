@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
+using EDb.Interfaces.Validation;
 
-namespace EDb.Interfaces.Validation
+namespace EasyDb.ViewModel
 {
     /// <summary>
     /// A simple behavior that can transfer the number of validation error with exceptions
@@ -46,6 +43,11 @@ namespace EDb.Interfaces.Validation
                 var viewModel = (IValidationExceptionHandler)this.AssociatedObject.DataContext;
                 viewModel.ValidationExceptionsChanged(this.validationExceptionCount);
             }
+        }
+
+        protected override Freezable CreateInstanceCore()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -39,7 +39,7 @@ namespace EasyDb.ViewModel.DataSource
         private DatasourceManager()
         {
             _supportedDataSources = new Dictionary<Guid, IEdbDatasourceModule>();
-            _xseri = new XmlSerializer(typeof(List<UserDataSource>));
+            _xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
             UserdefinedDatasources = new List<UserDataSource>();
         }
 
@@ -72,7 +72,8 @@ namespace EasyDb.ViewModel.DataSource
         public UserDataSource CreateNewUserdatasource(IEdbDatasourceModule module)
         {
              
-            var uds = new UserDataSource { LinkedEdbSourceModule = module, DatasourceGuid = module.ModuleGuid, SettingsObjects = module.GetDefaultOptionsObjects() };
+            var uds = new UserDataSource { LinkedEdbSourceModule = module, SettingsObjects = module.GetDefaultOptionsObjects() };
+            uds.SetGuid(module.ModuleGuid);
             UserdefinedDatasources.Add(uds);
             return uds;
         }

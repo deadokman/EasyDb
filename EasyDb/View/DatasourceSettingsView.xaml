@@ -8,7 +8,7 @@
         xmlns:customControls="clr-namespace:EasyDb.CustomControls"
         xmlns:converters="clr-namespace:EasyDb.Converters"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-        xmlns:validation="clr-namespace:EDb.Interfaces.Validation"
+        xmlns:viewModel="clr-namespace:EasyDb.ViewModel"
         mc:Ignorable="d"
         Title="{StaticResource dsms_settingsWindowTitle}" d:DataContext="{d:DesignInstance items:UserDataSource}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
     <mah:MetroWindow.Resources>
@@ -16,7 +16,7 @@
     </mah:MetroWindow.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <i:Interaction.Behaviors>
-            <validation:ValidationExceptionBehavior />
+            <viewModel:ValidationExceptionBehavior />
         </i:Interaction.Behaviors>
         <Grid.Resources>
             <ResourceDictionary>

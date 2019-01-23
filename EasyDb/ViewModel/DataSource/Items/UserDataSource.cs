@@ -14,28 +14,38 @@ namespace EasyDb.ViewModel.DataSource.Items
     /// </summary>
     public class UserDataSource :  ValidationViewModelBase
     {
-        [XmlIgnore]
         private EdbSourceOption[] _settingsObjects;
-
-        [XmlIgnore]
         private EdbSourceOption _selectedDataSourceOption;
 
-        private string _name;
-
-        public Guid DatasourceGuid { get; set; }
-
-        [XmlIgnore]
+        /// <summary>
+        /// Драйвер СУБД
+        /// </summary>
         public IEdbDatasourceModule LinkedEdbSourceModule { get; set; }
+
+        private UserDatasourceConfiguration _dsConfig;
 
         public UserDataSource()
         {
-            
+            _dsConfig = new UserDatasourceConfiguration();
+        }
+
+        /// <summary>
+        /// Установить Guid модуля
+        /// </summary>
+        /// <param name="moduleGuid"></param>
+        public void SetGuid(Guid moduleGuid)
+        {
+            _dsConfig.ModuleGuid = moduleGuid;
+        }
+
+        public Guid DatasourceGuid
+        {
+            get => _dsConfig.ModuleGuid;
         }
 
         /// <summary>
         /// User datasource tab settings
         /// </summary>
-        [XmlIgnore]
         public EdbSourceOption[] SettingsObjects
         {
             get => _settingsObjects;
@@ -45,8 +55,6 @@ namespace EasyDb.ViewModel.DataSource.Items
                 OnPropertyChanged();
             }
         }
-
-        [XmlIgnore]
         public EdbSourceOption SelectedDataSourceOption
         {
             get => _selectedDataSourceOption;
@@ -63,10 +71,10 @@ namespace EasyDb.ViewModel.DataSource.Items
         [Required(ErrorMessageResourceName = "dsms_ex_datasourceName")]
         public string Name
         {
-            get => _name;
+            get => _dsConfig.Name;
             set
             {
-                _name = value;
+                _dsConfig.Name = value;
                 OnPropertyChanged();
             }
         }
@@ -74,7 +82,11 @@ namespace EasyDb.ViewModel.DataSource.Items
         /// <summary>
         /// User datasource comment
         /// </summary>
-        public string Comment { get; set; }
+        public string Comment
+        {
+            get => _dsConfig.Comment;
+            set { _dsConfig.Comment = value; }
+        }
 
         /// <summary>
         /// Applies settings to the datasource

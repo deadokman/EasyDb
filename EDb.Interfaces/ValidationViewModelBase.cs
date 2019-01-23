@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -18,6 +19,12 @@ namespace EDb.Interfaces
 
         private int _validationExceptionCount;
         private bool _isValid;
+        private bool _throwOninvalidate;
+
+        public void SetThrowExceptionOnInvalidate(bool throwErrors)
+        {
+            _throwOninvalidate = throwErrors;
+        }
 
         public string this[string columnName]
         {
@@ -43,7 +50,7 @@ namespace EDb.Interfaces
             {
                 var errors = _validators.SelectMany(tuple => tuple.Value.Item2
                     .Select(v => new { isValid = v.IsValid(tuple.Value.Item1.GetValue(this)), errm = v.ErrorMessage, errmrk =  v.ErrorMessageResourceName })
-                    .Where(p => !p.isValid).Select(p => p.errm ?? Application.Current.FindResource(p.errmrk) as string ?? "<Invalidate>"));
+                    .Where(p => !p.isValid).Select(p => p.errm ?? (p.errmrk == null ? "<Invalidate>" : Application.Current.FindResource(p.errmrk) as string)));
                 return string.Join(Environment.NewLine, errors);
             }
         }
@@ -70,6 +77,7 @@ namespace EDb.Interfaces
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
+        [DebuggerHidden]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         { 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -104,6 +112,7 @@ namespace EDb.Interfaces
         /// </summary>
         public int TotalPropertiesWithValidationCount => _validators.Count();
 
+        [DebuggerHidden]
         protected void PropertyChangedCompleted(string propertyName)
         {
             // test prevent infinite loop while settings IsValid 
@@ -118,6 +127,11 @@ namespace EDb.Interfaces
                 else
                 {
                     this.IsValid = false;
+                    var error = this[propertyName];
+                    if (_throwOninvalidate && !String.IsNullOrEmpty(error))
+                    {
+                        throw new Exception(error);
+                    }
                 }
             }
         }

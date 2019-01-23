@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace EasyDb.Tests.Controltest
 {
-    public class TestOptions
+    public class TestOptions : EdbSourceOption
     {
         [OptionDisplayName("test1", "PropNameOneSetterVal")]
         public string PropOneSetter { get; set; } = "TestVal1";

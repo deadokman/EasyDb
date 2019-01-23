@@ -12,13 +12,13 @@
   See http://www.galasoft.ch/mvvm
 */
 
+using CommonServiceLocator;
 using EasyDb.ViewModel;
 using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.Interfaces;
 using EasyDb.ViewModel.Settings;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
 using NLog;
 
 namespace EasyDb.ViewModel
@@ -42,7 +42,6 @@ namespace EasyDb.ViewModel
             SimpleIoc.Default.Register<SettingsWindowViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<IDatasourceControlViewModel, DatasourceViewModel>();
-            SimpleIoc.Default.Register<LoggerFa>();
         }
 
         public SettingsWindowViewModel SettingsWindowViewModel

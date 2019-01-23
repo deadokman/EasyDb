@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -42,6 +43,7 @@ namespace EasyDb.CustomControls.DatasourceSettings
         /// <summary>
         /// Valye of dependency object
         /// </summary>
+        [DebuggerHidden]
         public object Value
         {
             get => _pi.GetValue(_depObjectTarget);
