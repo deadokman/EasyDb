@@ -68,7 +68,7 @@
         <Rectangle Margin="0,0,0,0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Fill="{DynamicResource AccentColorBrush4}"></Rectangle>
 
         <TreeView Grid.Row="2" ItemsSource="{Binding UserDatasources}">
-
+            
         </TreeView>
     </Grid>
 </UserControl>

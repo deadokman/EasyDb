@@ -13,17 +13,18 @@
              d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding RelativeSource={RelativeSource Self} }">
     <UserControl.Resources>
         <DataTemplate x:Key="TextEditDataTemplate">
-            <TextBox
-                BorderThickness="0"
-                mah:TextBoxHelper.Watermark="{StaticResource dsms_optionWatermark}"
-                Text = "{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
-                IsReadOnly="{Binding IsReadOnly}" >
+            <Grid>
                 <i:Interaction.Behaviors>
                     <validation:ValidationExceptionBehavior />
                 </i:Interaction.Behaviors>
-            </TextBox>
-
-            </DataTemplate>
+                <TextBox
+                    BorderThickness="0"
+                    mah:TextBoxHelper.Watermark="{StaticResource dsms_optionWatermark}"
+                    Text = "{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                    IsReadOnly="{Binding IsReadOnly}" >
+                </TextBox>
+            </Grid>
+        </DataTemplate>
         <DataTemplate x:Key="CheckboxTemplate">
             <CheckBox Checked="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
         </DataTemplate>
