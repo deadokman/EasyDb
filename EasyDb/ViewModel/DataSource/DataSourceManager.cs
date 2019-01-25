@@ -104,6 +104,11 @@ namespace EasyDb.ViewModel.DataSource
                 serializedSources = new List<UserDataSource>();
             }
 
+            if (!Directory.Exists(datasourceAssembliesPath))
+            {
+                throw new Exception($"Path NotFound {datasourceAssembliesPath}");
+            }
+
             //Get all assemblies from path
             foreach (var assmFile in Directory.GetFiles(datasourceAssembliesPath, "*.dll"))
             {

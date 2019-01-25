@@ -61,8 +61,8 @@
                 </TabControl.ContentTemplate>
             </TabControl>
             <DockPanel Margin="5" Grid.Row="2">
-                <Button Width="200" Command="{Binding StoreCommand}" Style="{StaticResource MetroButtonAccentBorderless}" Content="{DynamicResource fs_saveSettings}" />
-                <Button Command="{Binding ResetSettingsCommand}" Style="{StaticResource MetroButtonBorderless}" Margin="5,0,0,0" Content="{DynamicResource fs_cancel}" />
+                <Button Width="200" Command="{Binding StoreCommand}" Style="{StaticResource MetroAccentButton}" Content="{DynamicResource fs_saveSettings}" />
+                <Button Command="{Binding ResetSettingsCommand}" Style="{StaticResource MetroButton}" Margin="5,0,0,0" Content="{DynamicResource fs_cancel}" />
             </DockPanel>
         </Grid>
     </Border>

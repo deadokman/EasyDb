@@ -2,7 +2,88 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:CSGO.Trader"
                     xmlns:customControls="clr-namespace:EasyDb.CustomControls">
-    <Style x:Key="MenuButton" TargetType="Button" BasedOn="{StaticResource MetroButtonBorderless}">
+    <!-- Buttons customization -->
+    <Style x:Key="MetroButtonAccentNoBorder" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="10 5"/>
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="BorderThickness" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border
+                            x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0" />
+
+                        <ContentPresenter
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            Margin="{TemplateBinding Padding}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="OpacityMask" Value="#AA888888"/>
+                            <Setter Property="Margin" Value="2 1" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <!--<Setter Property="Background" Value="DimGray"/>-->
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="#ADADAD"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="MetroButtonNoBorder" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButtonAccentNoBorder}">
+        <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border
+                            x:Name="Border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0" />
+
+                        <ContentPresenter
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            Margin="{TemplateBinding Padding}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="OpacityMask" Value="#AA888888"/>
+                            <Setter Property="Margin" Value="2 1" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <!--<Setter Property="Background" Value="DimGray"/>-->
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="#ADADAD"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MenuButton" TargetType="Button" BasedOn="{StaticResource MetroButtonNoBorder}">
         <Setter Property="Padding" Value="0"></Setter>
         <Setter Property="Margin" Value="2"></Setter>
     </Style>
@@ -56,85 +137,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <!-- Buttons customization -->
-    <Style x:Key="MetroButtonAccentBorderless" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
-        <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="10 5"/>
-        <Setter Property="FontSize" Value="14" />
-        <Setter Property="BorderThickness" Value="2" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-                        <Border
-                            x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="0" />
-
-                        <ContentPresenter
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            Margin="{TemplateBinding Padding}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            RecognizesAccessKey="True" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="OpacityMask" Value="#AA888888"/>
-                            <Setter Property="Margin" Value="2 1" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <!--<Setter Property="Background" Value="DimGray"/>-->
-                            <Setter Property="Foreground" Value="White"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="#ADADAD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    <Style x:Key="MetroButtonBorderless" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButtonAccentBorderless}">
-        <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Grid>
-                        <Border
-                            x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="0" />
-
-                        <ContentPresenter
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            Margin="{TemplateBinding Padding}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            RecognizesAccessKey="True" />
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="OpacityMask" Value="#AA888888"/>
-                            <Setter Property="Margin" Value="2 1" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <!--<Setter Property="Background" Value="DimGray"/>-->
-                            <Setter Property="Foreground" Value="White"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="#ADADAD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
 </ResourceDictionary>

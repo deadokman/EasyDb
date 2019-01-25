@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows.Input;
-using EasyDb.DataSource;
 using EasyDb.ViewModel;
 using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.SqlEditors;
