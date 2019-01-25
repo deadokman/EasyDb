@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 using System.Xml.Serialization;
 using EasyDb.Annotations;
 using EDb.Interfaces;
@@ -14,21 +12,35 @@ namespace EasyDb.ViewModel.DataSource.Items
     /// <summary>
     /// Presents datasource created by user
     /// </summary>
-    public class UserDataSource : INotifyPropertyChanged
+    public class UserDataSource :  ValidationViewModelBase
     {
-        [XmlIgnore]
         private EdbSourceOption[] _settingsObjects;
-
         private EdbSourceOption _selectedDataSourceOption;
 
-        public Guid DatasourceGuid { get; set; }
-
-        [XmlIgnore]
+        /// <summary>
+        /// Драйвер СУБД
+        /// </summary>
         public IEdbDatasourceModule LinkedEdbSourceModule { get; set; }
+
+        private UserDatasourceConfiguration _dsConfig;
 
         public UserDataSource()
         {
-            
+            _dsConfig = new UserDatasourceConfiguration();
+        }
+
+        /// <summary>
+        /// Установить Guid модуля
+        /// </summary>
+        /// <param name="moduleGuid"></param>
+        public void SetGuid(Guid moduleGuid)
+        {
+            _dsConfig.ModuleGuid = moduleGuid;
+        }
+
+        public Guid DatasourceGuid
+        {
+            get => _dsConfig.ModuleGuid;
         }
 
         /// <summary>
@@ -43,7 +55,6 @@ namespace EasyDb.ViewModel.DataSource.Items
                 OnPropertyChanged();
             }
         }
-
         public EdbSourceOption SelectedDataSourceOption
         {
             get => _selectedDataSourceOption;
@@ -54,16 +65,40 @@ namespace EasyDb.ViewModel.DataSource.Items
             }
         }
 
-        public string Name { get; set; }
-
-        public string Comment { get; set; }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        /// <summary>
+        /// User datasource name
+        /// </summary>
+        [Required(ErrorMessageResourceName = "dsms_ex_datasourceName")]
+        public string Name
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get => _dsConfig.Name;
+            set
+            {
+                _dsConfig.Name = value;
+                OnPropertyChanged();
+            }
         }
+
+        /// <summary>
+        /// User datasource comment
+        /// </summary>
+        public string Comment
+        {
+            get => _dsConfig.Comment;
+            set { _dsConfig.Comment = value; }
+        }
+
+        /// <summary>
+        /// Applies settings to the datasource
+        /// </summary>
+        [XmlIgnore]
+        public ICommand ApplySettingsCommand { get; set; }
+
+        /// <summary>
+        /// Command to test Connection
+        /// </summary>
+        [XmlIgnore]
+        public ICommand TestConnection { get; set; }
+
     }
 }

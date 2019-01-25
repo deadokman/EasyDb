@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using System.Collections.ObjectModel;
 using EasyDb.ViewModel.DataSource.Items;
 using EDb.Interfaces;
 
-namespace EasyDb.ViewModel.DataSource
+namespace EasyDb.ViewModel.Interfaces
 {
     /// <summary>
     /// Interface for Data source control view
@@ -19,7 +17,6 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Invoke datasource properties window
         /// </summary>
-        ICommand ConfigureUserdataSourceCmd { get; set; }
 
         /// <summary>
         /// Datasources that has been declared by user

@@ -7,12 +7,17 @@
         xmlns:items="clr-namespace:EasyDb.ViewModel.DataSource.Items"
         xmlns:customControls="clr-namespace:EasyDb.CustomControls"
         xmlns:converters="clr-namespace:EasyDb.Converters"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:viewModel="clr-namespace:EasyDb.ViewModel"
         mc:Ignorable="d"
         Title="{StaticResource dsms_settingsWindowTitle}" d:DataContext="{d:DesignInstance items:UserDataSource}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
     <mah:MetroWindow.Resources>
         <converters:EmptyConverter x:Key="EmptyConverter"/>
     </mah:MetroWindow.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <i:Interaction.Behaviors>
+            <viewModel:ValidationExceptionBehavior />
+        </i:Interaction.Behaviors>
         <Grid.Resources>
             <ResourceDictionary>
                 <Style TargetType="MenuItem"
@@ -46,7 +51,7 @@
             <StackPanel Grid.Row="0" Margin="5">
                 <DockPanel Margin="0,0,0,4" LastChildFill="True">
                     <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}"></TextBlock>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"></TextBox>
                 </DockPanel>
                 <DockPanel>
                     <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}"></TextBlock>
@@ -86,7 +91,7 @@
                 <CheckBox Margin="0,5" Content="$savepassword"/>
             </StackPanel>
             <DockPanel Margin="5" HorizontalAlignment="Right" Grid.Row="3">
-                <Button Content="$apply_name" Style="{StaticResource MetroButtonAccentBorderless}" Margin="0,2,10,2"  Width="120"/>
+                <Button Command="" Content="$apply_name" Style="{StaticResource MetroButtonAccentBorderless}" Margin="0,2,10,2"  Width="120"/>
                 <Button Content="$cancel_name" Style="{StaticResource MetroButton}" Width="120" />
             </DockPanel>
         </Grid>

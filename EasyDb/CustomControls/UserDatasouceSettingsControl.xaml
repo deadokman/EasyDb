@@ -6,18 +6,36 @@
              xmlns:local="clr-namespace:EasyDb.View"
              xmlns:datasourceSettings="clr-namespace:EasyDb.CustomControls.DatasourceSettings"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:dataSource="clr-namespace:EasyDb.ViewModel.DataSource"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:viewModel="clr-namespace:EasyDb.ViewModel"
+             xmlns:converters="clr-namespace:EasyDb.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding RelativeSource={RelativeSource Self} }">
     <UserControl.Resources>
+        <converters:DoubleToIntegerConverter x:Key="DtoIConv"/>
         <DataTemplate x:Key="TextEditDataTemplate">
-            <TextBox
-                BorderThickness="0"
-                mah:TextBoxHelper.Watermark="{StaticResource dsms_optionWatermark}" 
-                IsReadOnly="{Binding IsReadOnly}"  
-                Text="{Binding Value, UpdateSourceTrigger=PropertyChanged}" Margin="2" Foreground="{DynamicResource TextBrush}"/>
+            <Grid>
+                <i:Interaction.Behaviors>
+                    <viewModel:ValidationExceptionBehavior />
+                </i:Interaction.Behaviors>
+                <TextBox
+                    BorderThickness="0"
+                    mah:TextBoxHelper.Watermark="{StaticResource dsms_optionWatermark}"
+                    Text = "{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                    IsReadOnly="{Binding IsReadOnly}" >
+                </TextBox>
+            </Grid>
         </DataTemplate>
         <DataTemplate x:Key="CheckboxTemplate">
-            <CheckBox Checked="{Binding Value}" />
+            <CheckBox Checked="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
+        </DataTemplate>
+        <DataTemplate x:Key="NumericTemplate">
+            <mah:NumericUpDown HorizontalContentAlignment="Left" Value="{Binding Value, 
+                UpdateSourceTrigger=PropertyChanged, 
+                ValidatesOnDataErrors=True, 
+                ValidatesOnExceptions=True, 
+                NotifyOnValidationError=True, Converter={StaticResource DtoIConv}}"/>
         </DataTemplate>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -49,12 +67,16 @@
                     <DataGridTemplateColumn.CellTemplateSelector>
                         <datasourceSettings:DatasourceSettingsGridTemplateSelector
                             TextFieldTemplate="{StaticResource TextEditDataTemplate}"
-                            CheckboxTemplate="{StaticResource CheckboxTemplate}"/>
+                            CheckboxTemplate="{StaticResource CheckboxTemplate}"
+                            NumericTempalte="{StaticResource NumericTemplate}"
+                            />
                     </DataGridTemplateColumn.CellTemplateSelector>
                     <DataGridTemplateColumn.CellEditingTemplateSelector>
                         <datasourceSettings:DatasourceSettingsGridTemplateSelector
                             TextFieldTemplate="{StaticResource TextEditDataTemplate}"
-                            CheckboxTemplate="{StaticResource CheckboxTemplate}"/>
+                            CheckboxTemplate="{StaticResource CheckboxTemplate}"
+                            NumericTempalte="{StaticResource NumericTemplate}"
+                            />
                     </DataGridTemplateColumn.CellEditingTemplateSelector>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>

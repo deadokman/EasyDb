@@ -23,15 +23,15 @@ namespace EasyDb.CustomControls
             InitializeComponent();
         }
 
-        public object SelectedObject
+        public EdbSourceOption SelectedObject
         {
-            get { return (object)GetValue(SelectedObjectProperty); }
+            get { return (EdbSourceOption)GetValue(SelectedObjectProperty); }
             set { SetValue(SelectedObjectProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for SelectedObject.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectedObjectProperty =
-            DependencyProperty.Register("SelectedObject", typeof(object), typeof(UserDatasouceSettingsControl), new PropertyMetadata(null, SetObjectPropsDisplay));
+            DependencyProperty.Register("SelectedObject", typeof(EdbSourceOption), typeof(UserDatasouceSettingsControl), new PropertyMetadata(null, SetObjectPropsDisplay));
 
         private IList<DatasourceOption> _sourceOptions;
 
@@ -40,7 +40,7 @@ namespace EasyDb.CustomControls
         {
             var valueObjectType = e.NewValue.GetType();
             var depObject = (UserDatasouceSettingsControl)d;
-            depObject.SourceOptions = FormatDatasourceOptions(e.NewValue, valueObjectType, App.Current.Resources);
+            depObject.SourceOptions = FormatDatasourceOptions(e.NewValue as EdbSourceOption, valueObjectType, App.Current.Resources);
         }
 
         public IList<DatasourceOption> SourceOptions
@@ -53,8 +53,14 @@ namespace EasyDb.CustomControls
             }
         }
 
-        public static IList<DatasourceOption> FormatDatasourceOptions(object valueObject, Type objectType, IDictionary resourceDictionary)
+        public static IList<DatasourceOption> FormatDatasourceOptions(EdbSourceOption valueObject, Type objectType, IDictionary resourceDictionary)
         {
+            if (valueObject == null)
+            {
+                throw new Exception("Options object sholud be implemented from EdbSourceOption");
+            }
+
+            valueObject.SetThrowExceptionOnInvalidate(true);
             var res = new List<DatasourceOption>();
             var props = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(p => new {propInfo = p, attributes = p.GetCustomAttributes<OptionDisplayNameAttribute>().FirstOrDefault()})

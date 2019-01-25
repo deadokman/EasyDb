@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyDb", "EasyDb\EasyDb.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EDb.Interfaces", "EDb.Interfaces\EDb.Interfaces.csproj", "{2C59B8B0-F8C1-487B-996D-03FA423CF9A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Edb.Common", "Edb.Common\Edb.Common.csproj", "{5380897F-9077-4D58-A7A5-911963B33366}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,14 @@ Global
 		{2C59B8B0-F8C1-487B-996D-03FA423CF9A2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2C59B8B0-F8C1-487B-996D-03FA423CF9A2}.Release|x86.ActiveCfg = Release|Any CPU
 		{2C59B8B0-F8C1-487B-996D-03FA423CF9A2}.Release|x86.Build.0 = Release|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Debug|x86.Build.0 = Debug|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Release|x86.ActiveCfg = Release|Any CPU
+		{5380897F-9077-4D58-A7A5-911963B33366}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -33,14 +33,10 @@
   <ItemGroup>
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Options\Generals.cs" />
@@ -49,6 +45,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Edb.Common\Edb.Common.csproj">
+      <Project>{5380897f-9077-4d58-a7a5-911963b33366}</Project>
+      <Name>Edb.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\EDb.Interfaces\EDb.Interfaces.csproj">
       <Project>{2c59b8b0-f8c1-487b-996d-03fa423cf9a2}</Project>
       <Name>EDb.Interfaces</Name>
