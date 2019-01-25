@@ -13,10 +13,6 @@
             <Setter Property="Padding" Value="0"/>
             <Setter Property="Margin" Value="0,2"/>
         </Style>
-        <Style x:Key="MenuButton" TargetType="Button" BasedOn="{StaticResource MetroButtonBorderless}">
-            <Setter Property="Padding" Value="0"></Setter>
-            <Setter Property="Margin" Value="2"></Setter>
-        </Style>
     </UserControl.Resources>
     <Grid Margin="0,5,0,0">
         <Grid.RowDefinitions>

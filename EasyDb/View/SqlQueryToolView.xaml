@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
-             xmlns:local="clr-namespace:EasyDb.View"
+             xmlns:local="clr-namespace:EasyDb.View" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush2}">
@@ -16,7 +17,14 @@
                 <RowDefinition Height=".5*"/>
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
-            <Border BorderThickness=".5" BorderBrush="{DynamicResource AccentColorBrush2}"></Border>
+            <Border BorderThickness=".5" BorderBrush="{DynamicResource AccentColorBrush2}">
+                <Menu>
+                    <Button Style="{StaticResource MenuButton}">
+                        <iconPacks:PackIconMaterial Height="10" Width="10" Padding="0" Margin="0" Background="Transparent" Foreground="{DynamicResource AccentColorBrush2}" Kind="Play" />
+                    </Button>
+                    <Separator/>
+                </Menu>
+            </Border>
             <avalonEdit:TextEditor
                 ShowLineNumbers="True"
                 LineNumbersForeground="{DynamicResource TextBrush}"
