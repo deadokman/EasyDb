@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using EasyDb.Annotations;
+using EasyDb.Interfaces.Data;
 using EasyDb.View;
 using EasyDb.ViewModel.DataSource.Items;
-using EasyDb.ViewModel.Interfaces;
 using EDb.Interfaces;
 using GalaSoft.MvvmLight.CommandWpf;
 
@@ -22,15 +22,16 @@ namespace EasyDb.ViewModel.DataSource
         private ObservableCollection<UserDataSource> _userDatasources;
 
         private IEdbDatasourceModule[] _supportedDatasources;
+        private ICommand configureUserdataSourceCmd;
 
-        public DatasourceViewModel()
+        public DatasourceViewModel(IDataSourceManager manager)
         {
-            DatasourceManager.Instance.DatasourceLoaded += InstanceOnDatasourceLoaded;
-            SupportedDatasources = DatasourceManager.Instance.SupportedDatasources.ToArray();
-            UserDatasources = new ObservableCollection<UserDataSource>(DatasourceManager.Instance.UserdefinedDatasources);
+            manager.DatasourceLoaded += InstanceOnDatasourceLoaded;
+            SupportedDatasources = manager.SupportedDatasources.ToArray();
+            UserDatasources = new ObservableCollection<UserDataSource>(manager.UserdefinedDatasources);
             ConfigureUserdataSourceCmd = new RelayCommand<IEdbDatasourceModule>((module) =>
             {
-                var uds = DatasourceManager.Instance.CreateNewUserdatasource(module);
+                var uds = manager.CreateNewUserdatasource(module);
                 UserDatasources.Add(uds);
                 DisplayUserDatasourceProperties(uds);
             });
@@ -67,7 +68,15 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Open modal window to configure Database source
         /// </summary>
-        public ICommand ConfigureUserdataSourceCmd { get; set; }
+        public ICommand ConfigureUserdataSourceCmd
+        {
+            get => configureUserdataSourceCmd;
+            set
+            {
+                configureUserdataSourceCmd = value;
+                OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Collection of user defined database sources

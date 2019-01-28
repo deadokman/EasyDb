@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Xml.Serialization;
+using EasyDb.Interfaces.Data;
 using EasyDb.ViewModel.DataSource.Items;
 using EDb.Interfaces;
 using NLog;
@@ -15,10 +16,8 @@ namespace EasyDb.ViewModel.DataSource
     /// <summary>
     /// Get supported datasource drivers
     /// </summary>
-    public sealed class DatasourceManager
+    public sealed class DatasourceManager : IDataSourceManager
     {
-        public delegate void DatasourceData(IEnumerable<IEdbDatasourceModule> datasources, IEnumerable<UserDataSource> userSources);
-
         /// <summary>
         /// 
         /// </summary>
@@ -36,7 +35,7 @@ namespace EasyDb.ViewModel.DataSource
 
         private XmlSerializer _xseri;
 
-        private DatasourceManager()
+        public DatasourceManager()
         {
             _supportedDataSources = new Dictionary<Guid, IEdbDatasourceModule>();
             _xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
@@ -47,15 +46,6 @@ namespace EasyDb.ViewModel.DataSource
         {
         }
 
-        private static DatasourceManager _instance;
-
-        /// <summary>
-        /// Instance
-        /// </summary>
-        public static DatasourceManager Instance
-        {
-            get { return _instance = _instance ?? (_instance = new DatasourceManager()); }
-        }
 
         /// <summary>
         /// Collection of user defined datasources

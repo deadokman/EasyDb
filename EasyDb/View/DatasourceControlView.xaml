@@ -36,9 +36,9 @@
                         <MenuItem.ItemTemplate>
                             <DataTemplate>
                                 <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
-                                    Style="{StaticResource MetroButtonNoBorder}"
-                                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}}, Path=DataContext}" 
-                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ConfigureUserdataSourceCmd}">
+                                        Style="{StaticResource MetroButtonNoBorder}"
+                                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}}, Path=DataContext}" 
+                                        Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid}}, Path=DataContext.ConfigureUserdataSourceCmd}">
                                     <DockPanel>
                                         <Image Source="{Binding DatabaseIcon}"></Image>
                                         <TextBlock Text="{Binding DatabaseName}"></TextBlock>

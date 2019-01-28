@@ -13,9 +13,9 @@
 */
 
 using CommonServiceLocator;
+using EasyDb.Interfaces.Data;
 using EasyDb.ViewModel;
 using EasyDb.ViewModel.DataSource;
-using EasyDb.ViewModel.Interfaces;
 using EasyDb.ViewModel.Settings;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
@@ -37,6 +37,7 @@ namespace EasyDb.ViewModel
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
             var loggerFactory = new LogFactory();
+            SimpleIoc.Default.Register<IDataSourceManager, DatasourceManager>();
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<GeneralSettingsViewModel>();
             SimpleIoc.Default.Register<SettingsWindowViewModel>();

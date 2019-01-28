@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using System.Windows.Input;
+using EasyDb.Interfaces.Data;
 using EasyDb.ViewModel;
 using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.SqlEditors;
@@ -37,11 +38,11 @@ namespace EasyDb.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel()
+        public MainViewModel(IDataSourceManager manager)
         {
             _bgWorkerInit.DoWork += (sender, args) =>
             {
-                DatasourceManager.Instance.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
+                manager.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
             };
 
             _bgWorkerInit.RunWorkerCompleted += (sender, args) =>
