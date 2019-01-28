@@ -2,6 +2,7 @@ namespace EasyDb.ViewModel
 {
     using CommonServiceLocator;
     using EasyDb.Interfaces.Data;
+    using EasyDb.SandboxEnvironment;
     using EasyDb.ViewModel.DataSource;
     using EasyDb.ViewModel.Settings;
     using GalaSoft.MvvmLight.Ioc;

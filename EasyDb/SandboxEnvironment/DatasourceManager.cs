@@ -1,15 +1,19 @@
-﻿namespace EasyDb.ViewModel.DataSource
+﻿namespace EasyDb.SandboxEnvironment
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using System.Security;
+    using System.Security.Permissions;
+    using System.Security.Policy;
     using System.Windows;
     using System.Xml.Serialization;
 
     using EasyDb.Interfaces.Data;
     using EasyDb.View;
+    using EasyDb.ViewModel.DataSource;
     using EasyDb.ViewModel.DataSource.Items;
 
     using EDb.Interfaces;
@@ -90,6 +94,8 @@
         /// <param name="datasourceAssembliesPath">The datasourceAssembliesPath<see cref="string"/></param>
         public void InitialLoad(string datasourceAssembliesPath)
         {
+            // Initialize secure app domain
+            this.InitAppdomainInstance();
             List<UserDataSource> serializedSources;
 
             // Load and serialize XML doc. Create new one if it does not exists;
@@ -217,6 +223,11 @@
         /// </summary>
         private void InitAppdomainInstance()
         {
+            var ev = new Evidence();
+            ev.AddHostEvidence(new Zone(SecurityZone.Internet));
+            var adSetup = new AppDomainSetup();
+            var internetPS = SecurityManager.GetStandardSandbox(ev);
+            var fullTrustAssembly = typeof(EasyDb.App).Assembly.Evidence.GetHostEvidence<StrongName>();
         }
 
         /// <summary>
