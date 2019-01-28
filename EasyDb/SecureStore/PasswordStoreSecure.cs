@@ -1,15 +1,19 @@
 ﻿using System;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Security;
 using System.Security.Cryptography;
 using System.Text;
+using EasyDb.Ext;
+using EasyDb.Interfaces;
 using Microsoft.Win32;
 using NLog;
 
 namespace EasyDb.SecureStore
 {
-    public class PasswordStoreSecure
+    /// <summary>
+    /// Store DB password secure
+    /// </summary>
+    public class PasswordStoreSecure : IPasswordStorage
     {
         private const string RegistryKey = "EasyDbStorage";
 
@@ -42,8 +46,8 @@ namespace EasyDb.SecureStore
         /// <summary>
         /// Try to get password from protected source
         /// </summary>
-        /// <param name="str"></param>
-        /// <param name="guid"></param>
+        /// <param name="str">Password secure string</param>
+        /// <param name="guid">Module GUID</param>
         /// <returns></returns>
         public bool TryGetPluginPassword(out SecureString str, Guid guid)
         {
@@ -83,11 +87,10 @@ namespace EasyDb.SecureStore
         /// Store password secure
         /// </summary>
         /// <param name="strPwd"></param>
-        /// <param name="pluginGuid"></param>
-        public SecureString StoreSteamPasswordSecure(string strPwd, Guid pluginGuid)
+        /// <param name="datasourceId"></param>
+        public void StorePasswordSecure(SecureString strPwd, Guid datasourceId)
         {
-            byte[] plaintext = Encoding.UTF8.GetBytes(strPwd);
-
+            byte[] plaintext = strPwd.ToByteArray();
             // Generate additional entropy (will be used as the Initialization vector)
             byte[] entropy = new byte[20];
             using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
@@ -98,13 +101,9 @@ namespace EasyDb.SecureStore
             byte[] ciphertext = ProtectedData.Protect(plaintext, entropy,
                 DataProtectionScope.CurrentUser);
             var mainKey = Registry.CurrentUser.CreateSubKey(RegistryKey);
-            var pluginKey = mainKey?.CreateSubKey(pluginGuid.ToString());
+            var pluginKey = mainKey?.CreateSubKey(datasourceId.ToString());
             pluginKey?.SetValue("entropy", entropy, RegistryValueKind.Binary);
             pluginKey?.SetValue("ciphertext", ciphertext, RegistryValueKind.Binary);
-
-            var scStr = new SecureString();
-            strPwd.ToList().ForEach(c => scStr.AppendChar(c));
-            return scStr;
         }
     }
 }

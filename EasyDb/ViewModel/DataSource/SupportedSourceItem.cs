@@ -9,6 +9,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 namespace EasyDb.ViewModel.DataSource
 {
     /// <summary>
+    /// Supported source view model item. Display items collection in deriver selection menu
     /// Поддерживаемый источник данных
     /// </summary>
     public class SupportedSourceItem
