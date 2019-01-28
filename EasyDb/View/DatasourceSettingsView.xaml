@@ -66,6 +66,7 @@
                     mah:TabControlHelper.Underlined="TabPanel"
                     VerticalAlignment="Stretch" 
                     HorizontalAlignment="Stretch"
+                    MaxHeight="320"
                     SelectedValue="{Binding SelectedDataSourceOption}"
                     ItemsSource="{Binding SettingsObjects}">
                     <TabControl.ItemTemplate>
@@ -91,7 +92,7 @@
                 <CheckBox Margin="0,5" Content="$savepassword"/>
             </StackPanel>
             <DockPanel Margin="5" HorizontalAlignment="Right" Grid.Row="3">
-                <Button Command="" Content="$apply_name" Style="{StaticResource MetroButtonAccentNoBorder}" Margin="0,2,10,2"  Width="120"/>
+                <Button Content="$apply_name" Style="{StaticResource MetroButtonAccentNoBorder}" Margin="0,2,10,2"  Width="120"/>
                 <Button Content="$cancel_name" Style="{StaticResource MetroButton}" Width="120" />
             </DockPanel>
         </Grid>

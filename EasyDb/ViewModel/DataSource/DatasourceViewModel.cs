@@ -21,41 +21,31 @@ namespace EasyDb.ViewModel.DataSource
     {
         private ObservableCollection<UserDataSource> _userDatasources;
 
-        private IEdbDatasourceModule[] _supportedDatasources;
-        private ICommand configureUserdataSourceCmd;
+        private SupportedSourceItem[] _supportedDatasources;
+        private ICommand _configureUserdataSourceCmd;
 
         public DatasourceViewModel(IDataSourceManager manager)
         {
             manager.DatasourceLoaded += InstanceOnDatasourceLoaded;
             SupportedDatasources = manager.SupportedDatasources.ToArray();
             UserDatasources = new ObservableCollection<UserDataSource>(manager.UserdefinedDatasources);
-            ConfigureUserdataSourceCmd = new RelayCommand<IEdbDatasourceModule>((module) =>
+            ConfigureDs = new RelayCommand<SupportedSourceItem>((si) =>
             {
-                var uds = manager.CreateNewUserdatasource(module);
-                UserDatasources.Add(uds);
-                DisplayUserDatasourceProperties(uds);
+                var item = si.InvokeConfigure();
+                UserDatasources.Add(item);
             });
         }
 
-        private void InstanceOnDatasourceLoaded(IEnumerable<IEdbDatasourceModule> datasources, IEnumerable<UserDataSource> userSources)
+        private void InstanceOnDatasourceLoaded(IEnumerable<SupportedSourceItem> datasources, IEnumerable<UserDataSource> userSources)
         {
             SupportedDatasources = datasources.ToArray();
             UserDatasources = new ObservableCollection<UserDataSource>(userSources);
         }
 
-        private void DisplayUserDatasourceProperties(UserDataSource uds)
-        {
-            var dlgWindow = new DatasourceSettingsView();
-            dlgWindow.DataContext = uds;
-            dlgWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dlgWindow.Owner = App.Current.MainWindow;
-            dlgWindow.ShowDialog();
-        }
-
         /// <summary>
         /// Collection of supported databases
         /// </summary>
-        public IEdbDatasourceModule[] SupportedDatasources
+        public SupportedSourceItem[] SupportedDatasources
         {
             get => _supportedDatasources;
             private set
@@ -68,12 +58,12 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Open modal window to configure Database source
         /// </summary>
-        public ICommand ConfigureUserdataSourceCmd
+        public ICommand ConfigureDs
         {
-            get => configureUserdataSourceCmd;
+            get => _configureUserdataSourceCmd;
             set
             {
-                configureUserdataSourceCmd = value;
+                _configureUserdataSourceCmd = value;
                 OnPropertyChanged();
             }
         }

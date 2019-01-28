@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.DataSource.Items;
 using EDb.Interfaces;
 
 namespace EasyDb.Interfaces.Data
 {
-    public delegate void DatasourceData(IEnumerable<IEdbDatasourceModule> datasources, IEnumerable<UserDataSource> userSources);
+    public delegate void DatasourceData(IEnumerable<SupportedSourceItem> datasources, IEnumerable<UserDataSource> userSources);
 
 
     /// <summary>
@@ -33,7 +34,7 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Поддерживаемые источники данных
         /// </summary>
-        IEnumerable<IEdbDatasourceModule> SupportedDatasources { get; }
+        IEnumerable<SupportedSourceItem> SupportedDatasources { get; }
 
         /// <summary>
         /// Источники данных объявленные пользователем

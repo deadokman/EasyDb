@@ -37,11 +37,16 @@
                 ValidatesOnExceptions=True, 
                 NotifyOnValidationError=True, Converter={StaticResource DtoIConv}}"/>
         </DataTemplate>
+        <DataTemplate x:Key="PasswordBoxField">
+            <PasswordBox 
+                mah:PasswordBoxHelper.CapsLockWarningToolTip="{StaticResource dsms_passwordToolTipCapton}"
+                mah:PasswordBoxHelper.CapsLockIcon="{StaticResource DefaultCapsLockIcon}">
+            </PasswordBox>
+        </DataTemplate>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="70"/>
         </Grid.RowDefinitions>
         <DataGrid
             Background="{DynamicResource GrayBrush10}"
@@ -68,21 +73,18 @@
                         <datasourceSettings:DatasourceSettingsGridTemplateSelector
                             TextFieldTemplate="{StaticResource TextEditDataTemplate}"
                             CheckboxTemplate="{StaticResource CheckboxTemplate}"
-                            NumericTempalte="{StaticResource NumericTemplate}"
-                            />
+                            NumericTemplate="{StaticResource NumericTemplate}"
+                            PasswordField="{StaticResource PasswordBoxField}"/>
                     </DataGridTemplateColumn.CellTemplateSelector>
                     <DataGridTemplateColumn.CellEditingTemplateSelector>
                         <datasourceSettings:DatasourceSettingsGridTemplateSelector
                             TextFieldTemplate="{StaticResource TextEditDataTemplate}"
                             CheckboxTemplate="{StaticResource CheckboxTemplate}"
-                            NumericTempalte="{StaticResource NumericTemplate}"
-                            />
+                            NumericTemplate="{StaticResource NumericTemplate}"
+                            PasswordField="{StaticResource PasswordBoxField}"/>
                     </DataGridTemplateColumn.CellEditingTemplateSelector>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1">
-
-        </TextBlock>
     </Grid>
 </UserControl>

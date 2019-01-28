@@ -11,7 +11,7 @@ namespace EasyDb.SecureStore
 {
     public class PasswordStoreSecure
     {
-        private const string RegistryKey = "SteamTrader";
+        private const string RegistryKey = "EasyDbStorage";
 
         private ILogger _logger;
 

@@ -19,7 +19,9 @@ namespace EasyDb.CustomControls.DatasourceSettings
 
         public DataTemplate CheckboxTemplate { get; set; }
 
-        public DataTemplate NumericTempalte { get; set; }
+        public DataTemplate NumericTemplate{ get; set; }
+
+        public DataTemplate PasswordField { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -31,9 +33,10 @@ namespace EasyDb.CustomControls.DatasourceSettings
                 {
                     case "System.String": return TextFieldTemplate;
                     case "System.Boolean": return CheckboxTemplate;
-                    case "System.Int32": return NumericTempalte;
-                    case "System.Int64": return NumericTempalte;
-                    case "System.Int16": return NumericTempalte;
+                    case "System.Int32": return NumericTemplate;
+                    case "System.Int64": return NumericTemplate;
+                    case "System.Int16": return NumericTemplate;
+                    case "PasswordTextBox": return PasswordField;
 
                     default: return base.SelectTemplate(item, container);
                 }

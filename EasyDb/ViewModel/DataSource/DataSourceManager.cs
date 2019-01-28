@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Windows;
 using System.Xml.Serialization;
 using EasyDb.Interfaces.Data;
+using EasyDb.View;
 using EasyDb.ViewModel.DataSource.Items;
 using EDb.Interfaces;
 using NLog;
@@ -26,7 +27,7 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Supported datasources collection
         /// </summary>
-        private Dictionary<Guid, IEdbDatasourceModule> _supportedDataSources;
+        private Dictionary<Guid, SupportedSourceItem> _supportedDataSources;
 
         /// <summary>
         /// Datasource storage filepath
@@ -37,7 +38,7 @@ namespace EasyDb.ViewModel.DataSource
 
         public DatasourceManager()
         {
-            _supportedDataSources = new Dictionary<Guid, IEdbDatasourceModule>();
+            _supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
             _xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
             UserdefinedDatasources = new List<UserDataSource>();
         }
@@ -52,7 +53,7 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public List<UserDataSource> UserdefinedDatasources { get; set; }
 
-        public IEnumerable<IEdbDatasourceModule> SupportedDatasources => _supportedDataSources.Values;
+        public IEnumerable<SupportedSourceItem> SupportedDatasources => _supportedDataSources.Values;
 
         /// <summary>
         /// Creates new user defined datasource
@@ -126,26 +127,31 @@ namespace EasyDb.ViewModel.DataSource
                         {
                             datasourceInstance.SetGuid(attribute.SourceGuid);
                             datasourceInstance.SetVersion(attribute.Version);
-                            _supportedDataSources.Add(attribute.SourceGuid, datasourceInstance);
+                            var supportedSourceItem = new SupportedSourceItem(datasourceInstance, (module) =>
+                            {
+                                var uds = CreateNewUserdatasource(module);
+                                DisplayUserDatasourceProperties(uds);
+                                return uds;
+                            });
+                            _supportedDataSources.Add(attribute.SourceGuid, supportedSourceItem);
                         }
                     }
                 }
                 catch (Exception ex)
                 {
                     _logger.Error($"err: {ex}");
-                    continue;
                 }
             }
 
             // Restore user defined datasource
             foreach (var uds in serializedSources)
             {
-                IEdbDatasourceModule dbSourceModule;
+                SupportedSourceItem dbSourceModule;
 
                 // Check that user defined data source exists in datasource module 
                 if (_supportedDataSources.TryGetValue(uds.DatasourceGuid, out dbSourceModule))
                 {
-                    uds.LinkedEdbSourceModule = dbSourceModule;
+                    uds.LinkedEdbSourceModule = dbSourceModule.Module;
                     UserdefinedDatasources.Add(uds);
                 }
                 else
@@ -158,6 +164,15 @@ namespace EasyDb.ViewModel.DataSource
             {
                 DatasourceLoaded.Invoke(_supportedDataSources.Values, UserdefinedDatasources);
             }
+        }
+
+        private void DisplayUserDatasourceProperties(UserDataSource uds)
+        {
+            var dlgWindow = new DatasourceSettingsView();
+            dlgWindow.DataContext = uds;
+            dlgWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dlgWindow.Owner = App.Current.MainWindow;
+            dlgWindow.ShowDialog();
         }
 
         /// <summary>

@@ -68,10 +68,13 @@ namespace EasyDb.CustomControls
             foreach (var prop in props)
             {
                 var optionName = (resourceDictionary[prop.attributes.ResourceNameKey] as string) ?? prop.attributes.AlternativeName;
+
+                // Check password attribute
+                var isPasswordOption = prop.propInfo.GetCustomAttributes<PasswordFieldAttribute>().Any();
                 res.Add(new DatasourceOption(valueObject, prop.propInfo)
                 {
                     IsReadOnly = !prop.propInfo.CanWrite || !prop.propInfo.GetSetMethod(/*nonPublic*/ true).IsPublic,
-                    OptionEditType = prop.propInfo.PropertyType.FullName,
+                    OptionEditType = isPasswordOption ? "PasswordTextBox" : prop.propInfo.PropertyType.FullName,
                     OptionName = optionName
                 });
             }

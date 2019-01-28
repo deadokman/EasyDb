@@ -63,6 +63,15 @@ namespace EasyDb.Postgres.Options
             }
         }
 
+        [Required(ErrorMessage = "Password required")]
+        [OptionDisplayName("opt_def_password", "Password:")]
+        [PasswordField]
+        public string Password
+        {
+            get;
+            set;
+        }
+
         [Required(ErrorMessage = "Port required")]
         [OptionDisplayName("opt_def_port", "Port:")]
         [RegularExpression("^[0-9]{1,7}$")]

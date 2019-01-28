@@ -99,6 +99,5 @@ namespace EasyDb.ViewModel.DataSource.Items
         /// </summary>
         [XmlIgnore]
         public ICommand TestConnection { get; set; }
-
     }
 }

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using EasyDb.Postgres.Options;
 using EDb.Interfaces;
 using EDb.Interfaces.Objects;
@@ -20,7 +21,7 @@ namespace EasyDb.Postgres
         public Icon DatabaseIcon { get; }
         public IDbConnection GetDatabaseConnection { get; }
 
-        ImageSource IEdbDatasourceModule.DatabaseIcon => throw new NotImplementedException();
+        ImageSource IEdbDatasourceModule.DatabaseIcon =>new BitmapImage();
 
         public Guid ModuleGuid { get; private set; }
 

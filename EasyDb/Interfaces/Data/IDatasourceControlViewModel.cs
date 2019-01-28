@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.DataSource.Items;
 using EDb.Interfaces;
 
@@ -13,7 +14,7 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Get collection of supported datasources
         /// </summary>
-        IEdbDatasourceModule[] SupportedDatasources { get; }
+        SupportedSourceItem[] SupportedDatasources { get; }
 
         /// <summary>
         /// Datasources that has been declared by user
@@ -23,6 +24,6 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Команда конфигурирования источника данных
         /// </summary>
-        ICommand ConfigureUserdataSourceCmd { get; set; }
+        ICommand ConfigureDs { get; set; }
     }
 }

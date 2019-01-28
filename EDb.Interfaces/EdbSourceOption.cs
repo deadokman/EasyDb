@@ -17,7 +17,6 @@ namespace EDb.Interfaces
     /// </summary>
     public abstract class EdbSourceOption : ValidationViewModelBase
     {
- 
         [Browsable(false)]
         public string OptionsDefinitionName { get; protected set; }    
     }
