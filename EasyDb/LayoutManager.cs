@@ -1,21 +1,47 @@
-﻿using System.IO;
-using Xceed.Wpf.AvalonDock;
-using Xceed.Wpf.AvalonDock.Layout.Serialization;
-
-namespace EasyDb
+﻿namespace EasyDb
 {
+    using System.IO;
+
+    using Xceed.Wpf.AvalonDock;
+    using Xceed.Wpf.AvalonDock.Layout.Serialization;
+
+    /// <summary>
+    /// Defines the <see cref="LayoutManager" />
+    /// </summary>
     public static class LayoutManager
     {
+        /// <summary>
+        /// Default layout file
+        /// </summary>
+        public const string DefaultLayoutFileName = "";
+
         /// <summary>
         /// User layout file
         /// </summary>
         public const string LayoutFileName = "AvalonDock.Layout.config";
 
         /// <summary>
-        /// Default layout file
+        /// The LoadLayout
         /// </summary>
-        public const string DefaultLayoutFileName = "";
+        /// <param name="dockingManager">The dockingManager<see cref="DockingManager"/></param>
+        public static void LoadLayout(DockingManager dockingManager)
+        {
+            // Загрузить лейаут если есть
+            var file = Path.Combine(@".", LayoutFileName);
+            if (File.Exists(file))
+            {
+                var layoutSerializer = new XmlLayoutSerializer(dockingManager);
+                using (var stream = new StreamReader(file))
+                {
+                    layoutSerializer.Deserialize(stream);
+                }
+            }
+        }
 
+        /// <summary>
+        /// The StoreLayout
+        /// </summary>
+        /// <param name="dockingManager">The dockingManager<see cref="DockingManager"/></param>
         public static void StoreLayout(DockingManager dockingManager)
         {
             var xmlLayout = new XmlLayoutSerializer(dockingManager);
@@ -26,20 +52,6 @@ namespace EasyDb
             }
 
             xmlLayout.Serialize(file);
-        }
-
-        public static void LoadLayout(DockingManager dockingManager)
-        {
-            //Загрузить лейаут если есть
-            var file = Path.Combine(@".", LayoutFileName);
-            if (File.Exists(file))
-            {
-                var layoutSerializer = new XmlLayoutSerializer(dockingManager);
-                using (var stream = new StreamReader(file))
-                {
-                    layoutSerializer.Deserialize(stream);
-                }
-            }
         }
     }
 }

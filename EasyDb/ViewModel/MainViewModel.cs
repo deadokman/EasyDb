@@ -1,144 +1,181 @@
-using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.IO;
-using System.Threading;
-using System.Windows.Input;
-using EasyDb.Interfaces.Data;
-using EasyDb.ViewModel;
-using EasyDb.ViewModel.DataSource;
-using EasyDb.ViewModel.SqlEditors;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.CommandWpf;
-using GalaSoft.MvvmLight.Messaging;
-
 namespace EasyDb.ViewModel
 {
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.IO;
+    using System.Windows.Input;
+
+    using EasyDb.Interfaces.Data;
+
+    using GalaSoft.MvvmLight;
+
     /// <summary>
     /// Main window view model
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private ObservableCollection<PaneBaseViewModel> _panesCollection;
+        /// <summary>
+        /// Defines the _activePane
+        /// </summary>
         private PaneBaseViewModel _activePane;
-        private bool _isInterfaceEnabled;
-
-        public ICommand ActivatePluginCommand { get; set; }
-
 
         /// <summary>
         /// Background worker for plugin manager initialization
         /// </summary>
         private BackgroundWorker _bgWorkerInit = new BackgroundWorker();
 
+        /// <summary>
+        /// Defines the _isInterfaceEnabled
+        /// </summary>
+        private bool _isInterfaceEnabled;
 
+        /// <summary>
+        /// Defines the _panesCollection
+        /// </summary>
+        private ObservableCollection<PaneBaseViewModel> _panesCollection;
+
+        /// <summary>
+        /// Defines the _showLogInForm
+        /// </summary>
         private bool _showLogInForm;
 
- 
         /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
+        /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
+        /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
         public MainViewModel(IDataSourceManager manager)
         {
-            _bgWorkerInit.DoWork += (sender, args) =>
-            {
-                manager.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
-            };
-
-            _bgWorkerInit.RunWorkerCompleted += (sender, args) =>
-            {
-                //If fist time launch, show log in form
-                if (Properties.Settings.Default.IsFirstTimeStartUp)
+            this._bgWorkerInit.DoWork += (sender, args) =>
                 {
-                    ShowLogInForm = false;
-                }
-                else
+                    manager.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
+                };
+
+            this._bgWorkerInit.RunWorkerCompleted += (sender, args) =>
                 {
-                    IsInterfaceEnabled = true;
-                }
+                    // If fist time launch, show log in form
+                    if (Properties.Settings.Default.IsFirstTimeStartUp)
+                    {
+                        this.ShowLogInForm = false;
+                    }
+                    else
+                    {
+                        this.IsInterfaceEnabled = true;
+                    }
 
-                IsInterfaceEnabled = true;
-            };
+                    this.IsInterfaceEnabled = true;
+                };
 
-            IsInterfaceEnabled = false;
-            _bgWorkerInit.RunWorkerAsync();
-        }
-
-        private void PaneClosing(PaneBaseViewModel vm)
-        {
-            vm.PaneClosing -= PaneClosing;
-            //vm.Plugin.StopPlugin();
-            PaneViewModels.Remove(vm);
-        }
-
-        public override void Cleanup()
-        {
-            base.Cleanup();
+            this.IsInterfaceEnabled = false;
+            this._bgWorkerInit.RunWorkerAsync();
         }
 
         /// <summary>
-        /// Show steam shop login form
+        /// Gets or sets the ActivatePluginCommand
         /// </summary>
-        public bool ShowLogInForm
+        public ICommand ActivatePluginCommand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ActivePane
+        /// Current selected plugin
+        /// </summary>
+        public PaneBaseViewModel ActivePane
         {
-            get { return _showLogInForm; }
+            get
+            {
+                return this._activePane;
+            }
+
             set
             {
-                _showLogInForm = value;
-                RaisePropertyChanged(() => ShowLogInForm);
+                this._activePane = value;
+                RaisePropertyChanged(() => this.ActivePane);
             }
         }
 
         /// <summary>
-        /// UI enabled
-        /// </summary>
-        public bool IsInterfaceEnabled
-        {
-            get { return _isInterfaceEnabled; }
-            set
-            {
-                _isInterfaceEnabled = value; 
-                RaisePropertyChanged(() => IsInterfaceEnabled);
-                RaisePropertyChanged(() => IsInterfaceDisabled);
-            }
-        }
-
-        /// <summary>
+        /// Gets a value indicating whether IsInterfaceDisabled
         /// UI disabled
         /// </summary>
         public bool IsInterfaceDisabled
         {
-            get { return !_isInterfaceEnabled; }
+            get
+            {
+                return !this._isInterfaceEnabled;
+            }
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether IsInterfaceEnabled
+        /// UI enabled
+        /// </summary>
+        public bool IsInterfaceEnabled
+        {
+            get
+            {
+                return this._isInterfaceEnabled;
+            }
+
+            set
+            {
+                this._isInterfaceEnabled = value;
+                RaisePropertyChanged(() => this.IsInterfaceEnabled);
+                RaisePropertyChanged(() => this.IsInterfaceDisabled);
+            }
+        }
+
+        /// <summary>
+        /// Gets the PaneViewModels
         /// Plugin view models base class
         /// </summary>
         public ObservableCollection<PaneBaseViewModel> PaneViewModels
         {
             get
             {
-                if (_panesCollection == null)
+                if (this._panesCollection == null)
                 {
-                    _panesCollection =
-                        new ObservableCollection<PaneBaseViewModel>();
+                    this._panesCollection = new ObservableCollection<PaneBaseViewModel>();
                 }
 
-                return _panesCollection;
+                return this._panesCollection;
             }
         }
 
         /// <summary>
-        /// Current selected plugin
+        /// Gets or sets a value indicating whether ShowLogInForm
+        /// Show steam shop login form
         /// </summary>
-        public PaneBaseViewModel ActivePane
+        public bool ShowLogInForm
         {
-            get { return _activePane; }
+            get
+            {
+                return this._showLogInForm;
+            }
+
             set
             {
-                _activePane = value; 
-                RaisePropertyChanged(() => ActivePane);
+                this._showLogInForm = value;
+                RaisePropertyChanged(() => this.ShowLogInForm);
             }
+        }
+
+        /// <summary>
+        /// The Cleanup
+        /// </summary>
+        public override void Cleanup()
+        {
+            base.Cleanup();
+        }
+
+        /// <summary>
+        /// The PaneClosing
+        /// </summary>
+        /// <param name="vm">The vm<see cref="PaneBaseViewModel"/></param>
+        private void PaneClosing(PaneBaseViewModel vm)
+        {
+            vm.PaneClosing -= this.PaneClosing;
+
+            // vm.Plugin.StopPlugin();
+            this.PaneViewModels.Remove(vm);
         }
     }
 }

@@ -1,19 +1,30 @@
-﻿using System;
-using System.Linq;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-
-namespace EasyDb.Diagramming.Controls
+﻿namespace EasyDb.Diagramming.Controls
 {
+    using System;
+    using System.Linq;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="DragThumb" />
+    /// </summary>
     public class DragThumb : Thumb
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DragThumb"/> class.
+        /// </summary>
         public DragThumb()
         {
             base.DragDelta += new DragDeltaEventHandler(DragThumb_DragDelta);
         }
 
-        void DragThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        /// <summary>
+        /// The DragThumb_DragDelta
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="DragDeltaEventArgs"/></param>
+        internal void DragThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             DesignerItem designerItem = this.DataContext as DesignerItem;
             EasyDb.Diagramming.DesignerCanvas designer = VisualTreeHelper.GetParent(designerItem) as EasyDb.Diagramming.DesignerCanvas;

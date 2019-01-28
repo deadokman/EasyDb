@@ -61,11 +61,11 @@
         <ContentControl BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" IsEnabled="{Binding IsInterfaceEnabled}" Style="{StaticResource FormOverlayStyle}">
             <Grid x:Name="MainGridContainer">
                 <Grid.Effect>
-                    <BlurEffect Radius="{Binding IsInterfaceDisabled, Converter={StaticResource BoolToBlur}}"></BlurEffect>
+                    <BlurEffect Radius="{Binding IsInterfaceDisabled, Converter={StaticResource BoolToBlur}}" />
                 </Grid.Effect>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
-                    <RowDefinition MinHeight="30" Height="Auto"></RowDefinition>
+                    <RowDefinition MinHeight="30" Height="Auto" />
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
@@ -74,12 +74,10 @@
                         <MenuItem Header="{DynamicResource mw_File}">
                             <MenuItem Header="MenuItem1"/>
                         </MenuItem>
-                        <MenuItem Header="{DynamicResource mw_View}"></MenuItem>
+                        <MenuItem Header="{DynamicResource mw_View}" />
                     </Menu>
                 </StackPanel>
-                <ToolBarTray VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
- 
-                </ToolBarTray>
+                <ToolBarTray VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" />
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -104,11 +102,11 @@
                                         <view:SqlQueryToolView VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                                     </DataTemplate>
                                 </panes:PanesTemplateSelector.SqlQueryToolTemplate>
-                                <panes:PanesTemplateSelector.SqlUiDiagrammTemplate>
+                                <!--<panes:PanesTemplateSelector.SqlUiDiagrammTemplate>
                                     <DataTemplate>
                                         <view:DiagramDesignerTool VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
                                     </DataTemplate>
-                                </panes:PanesTemplateSelector.SqlUiDiagrammTemplate>
+                                </panes:PanesTemplateSelector.SqlUiDiagrammTemplate>-->
                             </panes:PanesTemplateSelector>
                         </xcad:DockingManager.LayoutItemTemplateSelector>
                         <xcad:DockingManager.LayoutItemContainerStyleSelector>
@@ -137,8 +135,7 @@
                                         <xcad:LayoutAnchorable
                                             ContentId="PropsContent"  
                                             CanClose="False" CanAutoHide="True"
-                                            Title="{DynamicResource mw_Filters}">
-                                        </xcad:LayoutAnchorable>
+                                            Title="{DynamicResource mw_Filters}" />
                                     </xcad:LayoutAnchorGroup>
                                 </xcad:LayoutAnchorSide>
                             </xcad:LayoutRoot.RightSide>

@@ -1,28 +1,12 @@
-/*
-  In App.xaml:
-  <Application.Resources>
-      <vm:ViewModelLocator xmlns:vm="clr-namespace:CSGO.Trader"
-                           x:Key="Locator" />
-  </Application.Resources>
-  
-  In the View:
-  DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
-
-  You can also use Blend to do all this with the tool's support.
-  See http://www.galasoft.ch/mvvm
-*/
-
-using CommonServiceLocator;
-using EasyDb.Interfaces.Data;
-using EasyDb.ViewModel;
-using EasyDb.ViewModel.DataSource;
-using EasyDb.ViewModel.Settings;
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using NLog;
-
 namespace EasyDb.ViewModel
 {
+    using CommonServiceLocator;
+    using EasyDb.Interfaces.Data;
+    using EasyDb.ViewModel.DataSource;
+    using EasyDb.ViewModel.Settings;
+    using GalaSoft.MvvmLight.Ioc;
+    using NLog;
+
     /// <summary>
     /// This class contains static references to all the view models in the
     /// application and provides an entry point for the bindings.
@@ -30,7 +14,7 @@ namespace EasyDb.ViewModel
     public class ViewModelLocator
     {
         /// <summary>
-        /// Initializes a new instance of the ViewModelLocator class.
+        /// Initializes a new instance of the <see cref="ViewModelLocator"/> class.
         /// </summary>
         public ViewModelLocator()
         {
@@ -45,16 +29,25 @@ namespace EasyDb.ViewModel
             SimpleIoc.Default.Register<IDatasourceControlViewModel, DatasourceViewModel>();
         }
 
+        /// <summary>
+        /// Gets the SettingsWindowViewModel
+        /// </summary>
         public SettingsWindowViewModel SettingsWindowViewModel
         {
             get { return ServiceLocator.Current.GetInstance<SettingsWindowViewModel>(); }
         }
 
+        /// <summary>
+        /// Gets the LoginVm
+        /// </summary>
         public LoginViewModel LoginVm
         {
             get { return ServiceLocator.Current.GetInstance<LoginViewModel>(); }
         }
 
+        /// <summary>
+        /// Gets the Main
+        /// </summary>
         public MainViewModel Main
         {
             get
@@ -63,11 +56,17 @@ namespace EasyDb.ViewModel
             }
         }
 
+        /// <summary>
+        /// Gets the DatasourceControlViewModel
+        /// </summary>
         public IDatasourceControlViewModel DatasourceControlViewModel
         {
             get { return ServiceLocator.Current.GetInstance<IDatasourceControlViewModel>(); }
         }
 
+        /// <summary>
+        /// Gets the GeneralSettingViewModel
+        /// </summary>
         public GeneralSettingsViewModel GeneralSettingViewModel
         {
             get
@@ -75,10 +74,12 @@ namespace EasyDb.ViewModel
                 return ServiceLocator.Current.GetInstance<GeneralSettingsViewModel>();
             }
         }
-        
+
+        /// <summary>
+        /// The Cleanup
+        /// </summary>
         public static void Cleanup()
         {
-            // TODO Clear the ViewModels
         }
     }
 }

@@ -1,32 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-
-namespace EasyDb.ViewModel.Settings
+﻿namespace EasyDb.ViewModel.Settings
 {
+    using System.Windows.Controls;
+
+    /// <summary>
+    /// Defines the <see cref="IProgramSettings" />
+    /// </summary>
     public interface IProgramSettings
     {
         /// <summary>
-        /// Plugin name for settings window
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
+        /// Gets the DisplayControl
         /// Plugin display control
         /// </summary>
         UserControl DisplayControl { get; }
 
         /// <summary>
-        /// Save plugin settings
+        /// Gets the Name
+        /// Plugin name for settings window
         /// </summary>
-        void SaveSettings();
+        string Name { get; }
 
         /// <summary>
         /// Reset default setrings
         /// </summary>
         void ResetDefault();
+
+        /// <summary>
+        /// Save plugin settings
+        /// </summary>
+        void SaveSettings();
     }
 }

@@ -36,11 +36,10 @@
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <DockPanel Grid.Row="0">
-            </DockPanel>
-            <ListBox Grid.Row="1"></ListBox>
+            <DockPanel Grid.Row="0" />
+            <ListBox Grid.Row="1" />
         </Grid>
-        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ControlBorderBrush}"></GridSplitter>
+        <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{DynamicResource ControlBorderBrush}" />
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="65"/>
@@ -50,12 +49,12 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Margin="5">
                 <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}"></TextBlock>
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"></TextBox>
+                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}" />
+                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
                 </DockPanel>
                 <DockPanel>
-                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}"></TextBlock>
-                    <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}" />
+                    <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
             </StackPanel>
             <ScrollViewer Grid.Row="1" Background="{StaticResource GrayBrush10}">
@@ -77,16 +76,15 @@
                     <TabControl.ContentTemplate>
                         <DataTemplate>
                             <customControls:UserDatasouceSettingsControl 
-                                SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.SelectedDataSourceOption, Converter={StaticResource EmptyConverter}}">
-                            </customControls:UserDatasouceSettingsControl>
+                                SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.SelectedDataSourceOption, Converter={StaticResource EmptyConverter}}" />
                         </DataTemplate>
                     </TabControl.ContentTemplate>
                 </mah:MetroAnimatedTabControl>
             </ScrollViewer>
             <StackPanel Margin="10" HorizontalAlignment="Left" Grid.Row="2">
                 <DockPanel>
-                    <Button MinWidth="100" Content="$testConn"></Button>
-                    <TextBlock Margin="10,0" Text="Not tested yet" VerticalAlignment="Center" FontStyle="Italic"></TextBlock>
+                    <Button MinWidth="100" Content="$testConn" />
+                    <TextBlock Margin="10,0" Text="Not tested yet" VerticalAlignment="Center" FontStyle="Italic" />
                 </DockPanel>
 
                 <CheckBox Margin="0,5" Content="$savepassword"/>

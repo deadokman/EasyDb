@@ -1,18 +1,29 @@
-﻿using System.Windows;
-using System.Windows.Media;
-using MahApps.Metro;
-using Brush = System.Drawing.Brush;
-
-namespace CSGO.Trader.ViewModel.Settings
+﻿namespace CSGO.Trader.ViewModel.Settings
 {
+    using System.Windows;
+    using System.Windows.Media;
+
+    using MahApps.Metro;
+
     /// <summary>
     /// Accent color application theme
     /// </summary>
     public class AccentColorMenuData
     {
-        public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the BorderColorBrush
+        /// </summary>
         public SolidColorBrush BorderColorBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ColorBrush
+        /// </summary>
         public SolidColorBrush ColorBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Name
+        /// </summary>
+        public string Name { get; set; }
 
         /// <summary>
         /// Apply this theme to application
@@ -22,6 +33,10 @@ namespace CSGO.Trader.ViewModel.Settings
             this.DoChangeTheme(this);
         }
 
+        /// <summary>
+        /// The DoChangeTheme
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
         protected virtual void DoChangeTheme(object sender)
         {
             var theme = ThemeManager.DetectAppStyle(Application.Current);

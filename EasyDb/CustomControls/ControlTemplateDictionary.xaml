@@ -84,15 +84,15 @@
     </Style>
 
     <Style x:Key="MenuButton" TargetType="Button" BasedOn="{StaticResource MetroButtonNoBorder}">
-        <Setter Property="Padding" Value="0"></Setter>
-        <Setter Property="Margin" Value="2"></Setter>
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="2" />
     </Style>
 
     <Style x:Key="TextSeparatorStyle" TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>
         <Setter Property="Margin" Value="0,2,0,2"/>
         <Setter Property="Focusable" Value="false"/>
-        <Setter Property="TextAlignment" Value="Center"></Setter>
+        <Setter Property="TextAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -104,7 +104,7 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="{TemplateBinding FontSize}" FontWeight="Bold" Foreground="{DynamicResource AccentColorBrush}" Text="{TemplateBinding Text}" Grid.Row="0"></TextBlock>
+                        <TextBlock FontSize="{TemplateBinding FontSize}" FontWeight="Bold" Foreground="{DynamicResource AccentColorBrush}" Text="{TemplateBinding Text}" Grid.Row="0" />
                         <Separator Background="{DynamicResource AccentColorBrush}"  Grid.Row="1" />
                     </Grid>
                 </ControlTemplate>
@@ -113,7 +113,7 @@
     </Style>
     <!--Button with inage-->
     <Style x:Key="ButtonWithImage" TargetType="{x:Type customControls:ImageButton}">
-        <Setter Property="Margin" Value="5,0,5,0"></Setter>
+        <Setter Property="Margin" Value="5,0,5,0" />
         <Setter Property="BorderBrush" Value="AliceBlue"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Template">

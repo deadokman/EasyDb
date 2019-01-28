@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using EasyDb.View;
-
-namespace EasyDb.ViewModel
+﻿namespace EasyDb.ViewModel
 {
+    using EasyDb.View;
+    using System.Windows.Controls;
+
+    /// <summary>
+    /// Defines the <see cref="DiagramDesignerViewModel" />
+    /// </summary>
     public class DiagramDesignerViewModel : PaneBaseViewModel
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DiagramDesignerViewModel"/> class.
+        /// </summary>
+        /// <param name="title">The title<see cref="string"/></param>
         public DiagramDesignerViewModel(string title)
             : base(title)
         {
@@ -18,6 +20,9 @@ namespace EasyDb.ViewModel
             ViewInstance = view;
         }
 
+        /// <summary>
+        /// Gets the ViewInstance
+        /// </summary>
         public override UserControl ViewInstance { get; }
     }
 }

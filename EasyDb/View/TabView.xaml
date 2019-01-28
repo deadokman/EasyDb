@@ -17,7 +17,7 @@
                     BorderBrush="{StaticResource AccentColorBrush}" Background="{StaticResource AccentColorBrush3}">
                 <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="Загружаются дополнительные данные..."/>
-                    <ProgressBar Margin="0,10" IsIndeterminate="True"></ProgressBar>
+                    <ProgressBar Margin="0,10" IsIndeterminate="True" />
                 </StackPanel>
             </Border>
         </Grid>
@@ -25,15 +25,13 @@
             <Border VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch" 
                     BorderThickness="1" 
-                    BorderBrush="{DynamicResource AccentColorBrush}" Background="{DynamicResource ControlsDisabledBrush}" Opacity="60">
-            </Border>
+                    BorderBrush="{DynamicResource AccentColorBrush}" Background="{DynamicResource ControlsDisabledBrush}" Opacity="60" />
         </Grid>
         <Border BorderThickness="1" BorderBrush="{StaticResource AccentColorBrush}">
             <Grid Margin="0">
                 <ContentPresenter
                     Name="Presenter"              
-                    Content="{Binding PluginViewInstance}">
-                </ContentPresenter>
+                    Content="{Binding PluginViewInstance}" />
             </Grid>
         </Border>
     </Grid>

@@ -23,8 +23,7 @@
                     BorderThickness="0"
                     mah:TextBoxHelper.Watermark="{StaticResource dsms_optionWatermark}"
                     Text = "{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
-                    IsReadOnly="{Binding IsReadOnly}" >
-                </TextBox>
+                    IsReadOnly="{Binding IsReadOnly}" />
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="CheckboxTemplate">
@@ -40,8 +39,7 @@
         <DataTemplate x:Key="PasswordBoxField">
             <PasswordBox 
                 mah:PasswordBoxHelper.CapsLockWarningToolTip="{StaticResource dsms_passwordToolTipCapton}"
-                mah:PasswordBoxHelper.CapsLockIcon="{StaticResource DefaultCapsLockIcon}">
-            </PasswordBox>
+                mah:PasswordBoxHelper.CapsLockIcon="{StaticResource DefaultCapsLockIcon}" />
         </DataTemplate>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">

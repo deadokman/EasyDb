@@ -11,8 +11,8 @@
     <UserControl.Resources>
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="TextAlignment" Value="Left"/>
-            <Setter Property="FontSize" Value="15"></Setter>
-            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"></Setter>
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         </Style>
 
     </UserControl.Resources>
@@ -25,7 +25,7 @@
                          Style="{StaticResource TextSeparatorStyle}"/>
                     <TextBlock Text="{DynamicResource gs_PluginsLocation}"/>
                     <DockPanel LastChildFill="True">
-                        <Button Command="{Binding SetPathCommand}" Width="30" Content="..."></Button>
+                        <Button Command="{Binding SetPathCommand}" Width="30" Content="..." />
                         <TextBox Text="{Binding PluginsPath}" Margin="5 0 0 0" HorizontalAlignment="Stretch" IsReadOnly="True"/>
                     </DockPanel>
                     <TextBlock Text="{DynamicResource gs_SettingsWidth}"/>
@@ -69,8 +69,7 @@
                                          Width="15"
                                          Height="15"
                                          Stroke="#bdbdbd"
-                                         Fill="{Binding ColorBrush}">
-                                    </Ellipse>
+                                         Fill="{Binding ColorBrush}" />
                                     <TextBlock Grid.Column="1"
                                            Margin="4 -1 0 0"
                                            FontSize="{DynamicResource NormalFontSize}"
@@ -82,7 +81,7 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <!--End theme block-->
-                    <Button Margin="5" Content="{DynamicResource gs_SettingsResetText}"></Button>
+                    <Button Margin="5" Content="{DynamicResource gs_SettingsResetText}" />
                 </StackPanel>
             </ScrollViewer>
         </Grid>

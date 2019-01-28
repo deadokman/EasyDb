@@ -1,19 +1,32 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Markup;
-using System.Xml;
-
-namespace EasyDb.Diagramming
+﻿namespace EasyDb.Diagramming
 {
+    using System;
+    using System.IO;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Markup;
+    using System.Xml;
+
+    /// <summary>
+    /// Defines the <see cref="DesignerCanvas" />
+    /// </summary>
     public partial class DesignerCanvas : Canvas
     {
+        /// <summary>
+        /// Defines the rubberbandSelectionStartPoint
+        /// </summary>
         private Point? rubberbandSelectionStartPoint = null;
 
+        /// <summary>
+        /// Defines the selectionService
+        /// </summary>
         private SelectionService selectionService;
+
+        /// <summary>
+        /// Gets the SelectionService
+        /// </summary>
         internal SelectionService SelectionService
         {
             get
@@ -25,6 +38,10 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The OnMouseDown
+        /// </summary>
+        /// <param name="e">The e<see cref="MouseButtonEventArgs"/></param>
         protected override void OnMouseDown(MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -42,6 +59,10 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The OnMouseMove
+        /// </summary>
+        /// <param name="e">The e<see cref="MouseEventArgs"/></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
@@ -68,6 +89,10 @@ namespace EasyDb.Diagramming
             e.Handled = true;
         }
 
+        /// <summary>
+        /// The OnDrop
+        /// </summary>
+        /// <param name="e">The e<see cref="DragEventArgs"/></param>
         protected override void OnDrop(DragEventArgs e)
         {
             base.OnDrop(e);
@@ -100,7 +125,7 @@ namespace EasyDb.Diagramming
                     }
 
                     Canvas.SetZIndex(newItem, this.Children.Count);
-                    this.Children.Add(newItem);                    
+                    this.Children.Add(newItem);
                     SetConnectorDecoratorTemplate(newItem);
 
                     //update selection
@@ -112,6 +137,11 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The MeasureOverride
+        /// </summary>
+        /// <param name="constraint">The constraint<see cref="Size"/></param>
+        /// <returns>The <see cref="Size"/></returns>
         protected override Size MeasureOverride(Size constraint)
         {
             Size size = new Size();
@@ -139,6 +169,10 @@ namespace EasyDb.Diagramming
             return size;
         }
 
+        /// <summary>
+        /// The SetConnectorDecoratorTemplate
+        /// </summary>
+        /// <param name="item">The item<see cref="DesignerItem"/></param>
         private void SetConnectorDecoratorTemplate(DesignerItem item)
         {
             if (item.ApplyTemplate() && item.Content is UIElement)

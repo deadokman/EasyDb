@@ -1,13 +1,18 @@
-﻿using System.Windows;
-using MahApps.Metro;
-
-namespace CSGO.Trader.ViewModel.Settings
+﻿namespace CSGO.Trader.ViewModel.Settings
 {
+    using System.Windows;
+
+    using MahApps.Metro;
+
     /// <summary>
     /// Base app theme class
     /// </summary>
     public class AppThemeMenuData : AccentColorMenuData
     {
+        /// <summary>
+        /// The DoChangeTheme
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
         protected override void DoChangeTheme(object sender)
         {
             var theme = ThemeManager.DetectAppStyle(Application.Current);

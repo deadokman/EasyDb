@@ -33,9 +33,9 @@
                         IsDocumentEnabled="True">
                 <FlowDocument>
                     <Paragraph>
-                        <TextBlock Text="{DynamicResource gs_Warning}" Foreground="{StaticResource AccentBaseColorBrush}" FontSize="16"></TextBlock>
+                        <TextBlock Text="{DynamicResource gs_Warning}" Foreground="{StaticResource AccentBaseColorBrush}" FontSize="16" />
                         <LineBreak />
-                        <Run Text="{DynamicResource gs_SettingsWarning}" FontFamily="Segoe UI"></Run>
+                        <Run Text="{DynamicResource gs_SettingsWarning}" FontFamily="Segoe UI" />
                     </Paragraph>
                 </FlowDocument>
             </RichTextBox>
@@ -56,7 +56,7 @@
                 </TabControl.Resources>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <ContentPresenter Content="{Binding DisplayControl}"></ContentPresenter>
+                        <ContentPresenter Content="{Binding DisplayControl}" />
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>

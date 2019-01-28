@@ -1,26 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Windows;
-using System.Xml.Serialization;
-using EasyDb.Interfaces.Data;
-using EasyDb.View;
-using EasyDb.ViewModel.DataSource.Items;
-using EDb.Interfaces;
-using NLog;
-using File = System.IO.File;
-
-namespace EasyDb.ViewModel.DataSource
+﻿namespace EasyDb.ViewModel.DataSource
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+    using System.Windows;
+    using System.Xml.Serialization;
+
+    using EasyDb.Interfaces.Data;
+    using EasyDb.View;
+    using EasyDb.ViewModel.DataSource.Items;
+
+    using EDb.Interfaces;
+
+    using NLog;
+
     /// <summary>
     /// Get supported datasource drivers
     /// </summary>
     public sealed class DatasourceManager : IDataSourceManager
     {
         /// <summary>
-        /// 
+        /// Datasource storage filepath
+        /// </summary>
+        private const string DataSourceStorageFile = "Edb.Datasource";
+
+        /// <summary>
+        /// Defines the _logger
         /// </summary>
         private static Logger _logger = LogManager.GetCurrentClassLogger();
 
@@ -30,30 +37,35 @@ namespace EasyDb.ViewModel.DataSource
         private Dictionary<Guid, SupportedSourceItem> _supportedDataSources;
 
         /// <summary>
-        /// Datasource storage filepath
+        /// Defines the _xseri
         /// </summary>
-        private const string DataSourceStorageFile = "Edb.Datasource";
-
         private XmlSerializer _xseri;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DatasourceManager"/> class.
+        /// </summary>
         public DatasourceManager()
         {
-            _supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
-            _xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
-            UserdefinedDatasources = new List<UserDataSource>();
+            this._supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
+            this._xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
+            this.UserdefinedDatasources = new List<UserDataSource>();
         }
-
-        private void AppOnLanguageChanged(object sender, EventArgs eventArgs)
-        {
-        }
-
 
         /// <summary>
+        /// Defines the DatasourceLoaded
+        /// </summary>
+        public event DatasourceData DatasourceLoaded;
+
+        /// <summary>
+        /// Gets the SupportedDatasources
+        /// </summary>
+        public IEnumerable<SupportedSourceItem> SupportedDatasources => this._supportedDataSources.Values;
+
+        /// <summary>
+        /// Gets or sets the UserdefinedDatasources
         /// Collection of user defined datasources
         /// </summary>
         public List<UserDataSource> UserdefinedDatasources { get; set; }
-
-        public IEnumerable<SupportedSourceItem> SupportedDatasources => _supportedDataSources.Values;
 
         /// <summary>
         /// Creates new user defined datasource
@@ -62,16 +74,20 @@ namespace EasyDb.ViewModel.DataSource
         /// <returns>User defined datasource</returns>
         public UserDataSource CreateNewUserdatasource(IEdbDatasourceModule module)
         {
-             
-            var uds = new UserDataSource { LinkedEdbSourceModule = module, SettingsObjects = module.GetDefaultOptionsObjects() };
+            var uds = new UserDataSource
+                          {
+                              LinkedEdbSourceModule = module, SettingsObjects = module.GetDefaultOptionsObjects()
+                          };
             uds.SetGuid(module.ModuleGuid);
-            UserdefinedDatasources.Add(uds);
+            this.UserdefinedDatasources.Add(uds);
             return uds;
         }
 
         /// <summary>
         /// Load datasource modules
+        /// Modules load in separate AppDomain for security purpose
         /// </summary>
+        /// <param name="datasourceAssembliesPath">The datasourceAssembliesPath<see cref="string"/></param>
         public void InitialLoad(string datasourceAssembliesPath)
         {
             List<UserDataSource> serializedSources;
@@ -82,7 +98,7 @@ namespace EasyDb.ViewModel.DataSource
             {
                 try
                 {
-                    serializedSources = (List<UserDataSource>) _xseri.Deserialize(File.OpenRead(filePath));
+                    serializedSources = (List<UserDataSource>)this._xseri.Deserialize(File.OpenRead(filePath));
                 }
                 catch (Exception ex)
                 {
@@ -100,40 +116,48 @@ namespace EasyDb.ViewModel.DataSource
                 throw new Exception($"Path NotFound {datasourceAssembliesPath}");
             }
 
-            //Get all assemblies from path
+            // Get all assemblies from path
             foreach (var assmFile in Directory.GetFiles(datasourceAssembliesPath, "*.dll"))
             {
                 try
                 {
                     var assembly = Assembly.LoadFile(assmFile);
-                    var types = assembly.GetTypes().Where(t =>
-                        t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(IEdbDatasourceModule)));
+                    var types = assembly.GetTypes().Where(
+                        t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(IEdbDatasourceModule)));
                     foreach (var type in types)
                     {
                         var attributes = type.GetCustomAttributes(typeof(EdbDatasourceAttribute)).ToArray();
                         if (attributes.Length == 0)
                         {
-                            _logger.Warn(App.Current.Resources["log_NotImplementedAttr"].ToString(), type.Name, assembly.FullName);
+                            _logger.Warn(
+                                Application.Current.Resources["log_NotImplementedAttr"].ToString(),
+                                type.Name,
+                                assembly.FullName);
                         }
 
                         if (attributes.Length > 1)
                         {
-                            _logger.Warn(App.Current.Resources["log_NotImplementedAttr"].ToString(), type.Name, assembly.FullName);
+                            _logger.Warn(
+                                Application.Current.Resources["log_NotImplementedAttr"].ToString(),
+                                type.Name,
+                                assembly.FullName);
                         }
 
                         var attribute = (EdbDatasourceAttribute)attributes[0];
-                        var datasourceInstance = ProcessType(type);
+                        var datasourceInstance = this.ProcessType(type);
                         if (datasourceInstance != null)
                         {
                             datasourceInstance.SetGuid(attribute.SourceGuid);
                             datasourceInstance.SetVersion(attribute.Version);
-                            var supportedSourceItem = new SupportedSourceItem(datasourceInstance, (module) =>
-                            {
-                                var uds = CreateNewUserdatasource(module);
-                                DisplayUserDatasourceProperties(uds);
-                                return uds;
-                            });
-                            _supportedDataSources.Add(attribute.SourceGuid, supportedSourceItem);
+                            var supportedSourceItem = new SupportedSourceItem(
+                                datasourceInstance,
+                                (module) =>
+                                    {
+                                        var uds = this.CreateNewUserdatasource(module);
+                                        this.DisplayUserDatasourceProperties(uds);
+                                        return uds;
+                                    });
+                            this._supportedDataSources.Add(attribute.SourceGuid, supportedSourceItem);
                         }
                     }
                 }
@@ -148,11 +172,11 @@ namespace EasyDb.ViewModel.DataSource
             {
                 SupportedSourceItem dbSourceModule;
 
-                // Check that user defined data source exists in datasource module 
-                if (_supportedDataSources.TryGetValue(uds.DatasourceGuid, out dbSourceModule))
+                // Check that user defined data source exists in datasource module
+                if (this._supportedDataSources.TryGetValue(uds.DatasourceGuid, out dbSourceModule))
                 {
                     uds.LinkedEdbSourceModule = dbSourceModule.Module;
-                    UserdefinedDatasources.Add(uds);
+                    this.UserdefinedDatasources.Add(uds);
                 }
                 else
                 {
@@ -160,24 +184,46 @@ namespace EasyDb.ViewModel.DataSource
                 }
             }
 
-            if (DatasourceLoaded != null)
+            if (this.DatasourceLoaded != null)
             {
-                DatasourceLoaded.Invoke(_supportedDataSources.Values, UserdefinedDatasources);
+                this.DatasourceLoaded.Invoke(this._supportedDataSources.Values, this.UserdefinedDatasources);
             }
         }
 
+        /// <summary>
+        /// The AppOnLanguageChanged
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="eventArgs">The eventArgs<see cref="EventArgs"/></param>
+        private void AppOnLanguageChanged(object sender, EventArgs eventArgs)
+        {
+        }
+
+        /// <summary>
+        /// The DisplayUserDatasourceProperties
+        /// </summary>
+        /// <param name="uds">The uds<see cref="UserDataSource"/></param>
         private void DisplayUserDatasourceProperties(UserDataSource uds)
         {
             var dlgWindow = new DatasourceSettingsView();
             dlgWindow.DataContext = uds;
             dlgWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dlgWindow.Owner = App.Current.MainWindow;
+            dlgWindow.Owner = Application.Current.MainWindow;
             dlgWindow.ShowDialog();
+        }
+
+        /// <summary>
+        /// Initialize "SandBox" application domain
+        /// </summary>
+        private void InitAppdomainInstance()
+        {
         }
 
         /// <summary>
         /// Process plugin type
         /// </summary>
+        /// <param name="t">The t<see cref="Type"/></param>
+        /// <returns>The <see cref="IEdbDatasourceModule"/></returns>
         private IEdbDatasourceModule ProcessType(Type t)
         {
             try
@@ -190,8 +236,5 @@ namespace EasyDb.ViewModel.DataSource
                 return null;
             }
         }
-
-        public event DatasourceData DatasourceLoaded;
     }
-
 }

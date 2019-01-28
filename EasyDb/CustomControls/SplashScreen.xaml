@@ -16,22 +16,21 @@
                 <DockPanel>
                     <Path Stretch="Uniform" Fill="{DynamicResource AccentColorBrush}" RenderTransformOrigin="0.5, 0.5" 
                           Data="{Binding Source={StaticResource CogLogo}}" 
-                          Width="70" Height="60">
-                    </Path>
+                          Width="70" Height="60" />
                     <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Text="{StaticResource app_name}" Foreground="{DynamicResource TextBrush}" FontSize="30" FontWeight="Bold" FontFamily="Candara"/>
                 </DockPanel>
                 <DockPanel>
                     <Rectangle Margin="-35,0"  Fill="{DynamicResource AccentColorBrush}" HorizontalAlignment="Left" Width="30" Height="30">
                         <Rectangle.RenderTransform>
-                            <RotateTransform Angle="45" CenterX="10" CenterY="10"></RotateTransform>
+                            <RotateTransform Angle="45" CenterX="10" CenterY="10" />
                         </Rectangle.RenderTransform>
                     </Rectangle>
                     <TextBlock  Text="{StaticResource app_ver}"  VerticalAlignment="Center" Margin="5,0" FontSize="15" Foreground="{DynamicResource TextBrush}" FontFamily="Segoe UI Light"/>
                 </DockPanel>
             </StackPanel>
             <StackPanel VerticalAlignment="Center"  Margin="20,0,20,0" Grid.Row="1">
-                <TextBlock Name="LoadTextTb" Foreground="{DynamicResource TextBrush}" Margin="0,0,0,5" HorizontalAlignment="Center"></TextBlock>
-                <ProgressBar IsIndeterminate="True" VerticalAlignment="Center" Height="10" Foreground="{DynamicResource AccentColorBrush2}"></ProgressBar>
+                <TextBlock Name="LoadTextTb" Foreground="{DynamicResource TextBrush}" Margin="0,0,0,5" HorizontalAlignment="Center" />
+                <ProgressBar IsIndeterminate="True" VerticalAlignment="Center" Height="10" Foreground="{DynamicResource AccentColorBrush2}" />
             </StackPanel>
 
             <TextBlock Margin="20,0" VerticalAlignment="Center" HorizontalAlignment="Center" 

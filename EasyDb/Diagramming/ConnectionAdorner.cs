@@ -1,25 +1,62 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace EasyDb.Diagramming
+﻿namespace EasyDb.Diagramming
 {
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="ConnectionAdorner" />
+    /// </summary>
     public class ConnectionAdorner : Adorner
     {
+        /// <summary>
+        /// Defines the designerCanvas
+        /// </summary>
         private EasyDb.Diagramming.DesignerCanvas designerCanvas;
+
+        /// <summary>
+        /// Defines the adornerCanvas
+        /// </summary>
         private Canvas adornerCanvas;
+
+        /// <summary>
+        /// Defines the connection
+        /// </summary>
         private Connection connection;
+
+        /// <summary>
+        /// Defines the pathGeometry
+        /// </summary>
         private PathGeometry pathGeometry;
+
+        /// <summary>
+        /// Defines the fixConnector, dragConnector
+        /// </summary>
         private Connector fixConnector, dragConnector;
+
+        /// <summary>
+        /// Defines the sourceDragThumb, sinkDragThumb
+        /// </summary>
         private Thumb sourceDragThumb, sinkDragThumb;
+
+        /// <summary>
+        /// Defines the drawingPen
+        /// </summary>
         private Pen drawingPen;
 
+        /// <summary>
+        /// Defines the hitDesignerItem
+        /// </summary>
         private DesignerItem hitDesignerItem;
+
+        /// <summary>
+        /// Gets or sets the HitDesignerItem
+        /// </summary>
         private DesignerItem HitDesignerItem
         {
             get { return hitDesignerItem; }
@@ -38,7 +75,14 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// Defines the hitConnector
+        /// </summary>
         private Connector hitConnector;
+
+        /// <summary>
+        /// Gets or sets the HitConnector
+        /// </summary>
         private Connector HitConnector
         {
             get { return hitConnector; }
@@ -51,7 +95,14 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// Defines the visualChildren
+        /// </summary>
         private VisualCollection visualChildren;
+
+        /// <summary>
+        /// Gets the VisualChildrenCount
+        /// </summary>
         protected override int VisualChildrenCount
         {
             get
@@ -60,11 +111,21 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetVisualChild
+        /// </summary>
+        /// <param name="index">The index<see cref="int"/></param>
+        /// <returns>The <see cref="Visual"/></returns>
         protected override Visual GetVisualChild(int index)
         {
             return this.visualChildren[index];
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionAdorner"/> class.
+        /// </summary>
+        /// <param name="designer">The designer<see cref="EasyDb.Diagramming.DesignerCanvas"/></param>
+        /// <param name="connection">The connection<see cref="Connection"/></param>
         public ConnectionAdorner(EasyDb.Diagramming.DesignerCanvas designer, Connection connection)
             : base(designer)
         {
@@ -83,9 +144,13 @@ namespace EasyDb.Diagramming
 
             base.Unloaded += new RoutedEventHandler(ConnectionAdorner_Unloaded);
         }
-                
 
-        void AnchorPositionChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// The AnchorPositionChanged
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="PropertyChangedEventArgs"/></param>
+        internal void AnchorPositionChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName.Equals("AnchorPositionSource"))
             {
@@ -100,7 +165,12 @@ namespace EasyDb.Diagramming
             }
         }
 
-        void thumbDragThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        /// <summary>
+        /// The thumbDragThumb_DragCompleted
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="DragCompletedEventArgs"/></param>
+        internal void thumbDragThumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
             if (HitConnector != null)
             {
@@ -120,7 +190,12 @@ namespace EasyDb.Diagramming
             this.InvalidateVisual();
         }
 
-        void thumbDragThumb_DragStarted(object sender, DragStartedEventArgs e)
+        /// <summary>
+        /// The thumbDragThumb_DragStarted
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="DragStartedEventArgs"/></param>
+        internal void thumbDragThumb_DragStarted(object sender, DragStartedEventArgs e)
         {
             this.HitDesignerItem = null;
             this.HitConnector = null;
@@ -140,7 +215,12 @@ namespace EasyDb.Diagramming
             }
         }
 
-        void thumbDragThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        /// <summary>
+        /// The thumbDragThumb_DragDelta
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="DragDeltaEventArgs"/></param>
+        internal void thumbDragThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             Point currentPosition = Mouse.GetPosition(this);
             this.HitTesting(currentPosition);
@@ -148,18 +228,32 @@ namespace EasyDb.Diagramming
             this.InvalidateVisual();
         }
 
+        /// <summary>
+        /// The OnRender
+        /// </summary>
+        /// <param name="dc">The dc<see cref="DrawingContext"/></param>
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
             dc.DrawGeometry(null, drawingPen, this.pathGeometry);
         }
 
+        /// <summary>
+        /// The ArrangeOverride
+        /// </summary>
+        /// <param name="finalSize">The finalSize<see cref="Size"/></param>
+        /// <returns>The <see cref="Size"/></returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
             adornerCanvas.Arrange(new Rect(0, 0, this.designerCanvas.ActualWidth, this.designerCanvas.ActualHeight));
             return finalSize;
         }
 
+        /// <summary>
+        /// The ConnectionAdorner_Unloaded
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="RoutedEventArgs"/></param>
         private void ConnectionAdorner_Unloaded(object sender, RoutedEventArgs e)
         {
             sourceDragThumb.DragDelta -= new DragDeltaEventHandler(thumbDragThumb_DragDelta);
@@ -171,6 +265,9 @@ namespace EasyDb.Diagramming
             sinkDragThumb.DragCompleted -= new DragCompletedEventHandler(thumbDragThumb_DragCompleted);
         }
 
+        /// <summary>
+        /// The InitializeDragThumbs
+        /// </summary>
         private void InitializeDragThumbs()
         {
             Style dragThumbStyle = connection.FindResource("ConnectionAdornerThumbStyle") as Style;
@@ -200,6 +297,11 @@ namespace EasyDb.Diagramming
             sinkDragThumb.DragCompleted += new DragCompletedEventHandler(thumbDragThumb_DragCompleted);
         }
 
+        /// <summary>
+        /// The UpdatePathGeometry
+        /// </summary>
+        /// <param name="position">The position<see cref="Point"/></param>
+        /// <returns>The <see cref="PathGeometry"/></returns>
         private PathGeometry UpdatePathGeometry(Point position)
         {
             PathGeometry geometry = new PathGeometry();
@@ -224,6 +326,10 @@ namespace EasyDb.Diagramming
             return geometry;
         }
 
+        /// <summary>
+        /// The HitTesting
+        /// </summary>
+        /// <param name="hitPoint">The hitPoint<see cref="Point"/></param>
         private void HitTesting(Point hitPoint)
         {
             bool hitConnectorFlag = false;
@@ -252,6 +358,5 @@ namespace EasyDb.Diagramming
             HitConnector = null;
             HitDesignerItem = null;
         }
-
     }
 }

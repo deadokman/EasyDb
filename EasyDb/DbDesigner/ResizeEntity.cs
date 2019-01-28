@@ -1,22 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Media;
-using EasyDb.Diagramming;
-
-namespace EasyDb.DbDesigner
+﻿namespace EasyDb.DbDesigner
 {
+    using EasyDb.Diagramming;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Controls.Primitives;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="ResizeEntity" />
+    /// </summary>
     public class ResizeEntity : Thumb
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResizeEntity"/> class.
+        /// </summary>
         public ResizeEntity()
         {
             base.DragDelta += new DragDeltaEventHandler(ResizeThumb_DragDelta);
         }
 
-        void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
+        /// <summary>
+        /// The ResizeThumb_DragDelta
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="DragDeltaEventArgs"/></param>
+        internal void ResizeThumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
             DesignerItem designerItem = this.DataContext as DesignerItem;
             EasyDb.Diagramming.DesignerCanvas designer = VisualTreeHelper.GetParent(designerItem) as EasyDb.Diagramming.DesignerCanvas;
@@ -74,8 +85,12 @@ namespace EasyDb.DbDesigner
             }
         }
 
-        #region Helper methods
-
+        /// <summary>
+        /// The DragLeft
+        /// </summary>
+        /// <param name="scale">The scale<see cref="double"/></param>
+        /// <param name="item">The item<see cref="DesignerItem"/></param>
+        /// <param name="selectionService">The selectionService<see cref="SelectionService"/></param>
         private void DragLeft(double scale, DesignerItem item, SelectionService selectionService)
         {
             IEnumerable<DesignerItem> groupItems = selectionService.GetGroupMembers(item).Cast<DesignerItem>();
@@ -90,6 +105,12 @@ namespace EasyDb.DbDesigner
             }
         }
 
+        /// <summary>
+        /// The DragTop
+        /// </summary>
+        /// <param name="scale">The scale<see cref="double"/></param>
+        /// <param name="item">The item<see cref="DesignerItem"/></param>
+        /// <param name="selectionService">The selectionService<see cref="SelectionService"/></param>
         private void DragTop(double scale, DesignerItem item, SelectionService selectionService)
         {
             IEnumerable<DesignerItem> groupItems = selectionService.GetGroupMembers(item).Cast<DesignerItem>();
@@ -103,6 +124,12 @@ namespace EasyDb.DbDesigner
             }
         }
 
+        /// <summary>
+        /// The DragRight
+        /// </summary>
+        /// <param name="scale">The scale<see cref="double"/></param>
+        /// <param name="item">The item<see cref="DesignerItem"/></param>
+        /// <param name="selectionService">The selectionService<see cref="SelectionService"/></param>
         private void DragRight(double scale, DesignerItem item, SelectionService selectionService)
         {
             IEnumerable<DesignerItem> groupItems = selectionService.GetGroupMembers(item).Cast<DesignerItem>();
@@ -118,6 +145,12 @@ namespace EasyDb.DbDesigner
             }
         }
 
+        /// <summary>
+        /// The DragBottom
+        /// </summary>
+        /// <param name="scale">The scale<see cref="double"/></param>
+        /// <param name="item">The item<see cref="DesignerItem"/></param>
+        /// <param name="selectionService">The selectionService<see cref="SelectionService"/></param>
         private void DragBottom(double scale, DesignerItem item, SelectionService selectionService)
         {
             IEnumerable<DesignerItem> groupItems = selectionService.GetGroupMembers(item).Cast<DesignerItem>();
@@ -132,6 +165,14 @@ namespace EasyDb.DbDesigner
             }
         }
 
+        /// <summary>
+        /// The CalculateDragLimits
+        /// </summary>
+        /// <param name="selectedItems">The selectedItems<see cref="IEnumerable{DesignerItem}"/></param>
+        /// <param name="minLeft">The minLeft<see cref="double"/></param>
+        /// <param name="minTop">The minTop<see cref="double"/></param>
+        /// <param name="minDeltaHorizontal">The minDeltaHorizontal<see cref="double"/></param>
+        /// <param name="minDeltaVertical">The minDeltaVertical<see cref="double"/></param>
         private void CalculateDragLimits(IEnumerable<DesignerItem> selectedItems, out double minLeft, out double minTop, out double minDeltaHorizontal, out double minDeltaVertical)
         {
             minLeft = double.MaxValue;
@@ -153,7 +194,5 @@ namespace EasyDb.DbDesigner
                 minDeltaHorizontal = Math.Min(minDeltaHorizontal, item.ActualWidth - item.MinWidth);
             }
         }
-
-        #endregion
     }
 }

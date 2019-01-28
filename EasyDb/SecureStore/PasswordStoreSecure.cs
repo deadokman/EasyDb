@@ -1,46 +1,62 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.Security;
-using System.Security.Cryptography;
-using System.Text;
-using EasyDb.Ext;
-using EasyDb.Interfaces;
-using Microsoft.Win32;
-using NLog;
-
-namespace EasyDb.SecureStore
+﻿namespace EasyDb.SecureStore
 {
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Security;
+    using System.Security.Cryptography;
+    using System.Text;
+
+    using EasyDb.Ext;
+    using EasyDb.Interfaces;
+
+    using Microsoft.Win32;
+
+    using NLog;
+
     /// <summary>
     /// Store DB password secure
     /// </summary>
     public class PasswordStoreSecure : IPasswordStorage
     {
+        /// <summary>
+        /// Defines the RegistryKey
+        /// </summary>
         private const string RegistryKey = "EasyDbStorage";
 
+        /// <summary>
+        /// Defines the _logger
+        /// </summary>
         private ILogger _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PasswordStoreSecure"/> class.
+        /// </summary>
         public PasswordStoreSecure()
         {
-            _logger = LogManager.GetCurrentClassLogger();
+            this._logger = LogManager.GetCurrentClassLogger();
         }
 
         /// <summary>
-        /// Unsecu
+        /// Store password secure
         /// </summary>
-        /// <param name="str"></param>
-        /// <returns></returns>
-        public string UnsecureString(SecureString str)
+        /// <param name="strPwd">password secure string</param>
+        /// <param name="datasourceId">datasource guid for password</param>
+        public void StorePasswordSecure(SecureString strPwd, Guid datasourceId)
         {
-            IntPtr unmanagedString = IntPtr.Zero;
-            try
+            byte[] plaintext = strPwd.ToByteArray();
+
+            // Generate additional entropy (will be used as the Initialization vector)
+            byte[] entropy = new byte[20];
+            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
             {
-                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(str);
-                return Marshal.PtrToStringUni(unmanagedString);
+                rng.GetBytes(entropy);
             }
-            finally
-            {
-                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
-            }
+
+            byte[] ciphertext = ProtectedData.Protect(plaintext, entropy, DataProtectionScope.CurrentUser);
+            var mainKey = Registry.CurrentUser.CreateSubKey(RegistryKey);
+            var pluginKey = mainKey?.CreateSubKey(datasourceId.ToString());
+            pluginKey?.SetValue("entropy", entropy, RegistryValueKind.Binary);
+            pluginKey?.SetValue("ciphertext", ciphertext, RegistryValueKind.Binary);
         }
 
         /// <summary>
@@ -48,7 +64,7 @@ namespace EasyDb.SecureStore
         /// </summary>
         /// <param name="str">Password secure string</param>
         /// <param name="guid">Module GUID</param>
-        /// <returns></returns>
+        /// <returns>True if password extracted</returns>
         public bool TryGetPluginPassword(out SecureString str, Guid guid)
         {
             str = new SecureString();
@@ -66,8 +82,8 @@ namespace EasyDb.SecureStore
 
             try
             {
-                var entropy = (byte[]) pluginKey.GetValue("entropy");
-                var ciphertext = (byte[]) pluginKey.GetValue("ciphertext");
+                var entropy = (byte[])pluginKey.GetValue("entropy");
+                var ciphertext = (byte[])pluginKey.GetValue("ciphertext");
                 foreach (var c in Encoding.UTF8.GetChars(
                     ProtectedData.Unprotect(ciphertext, entropy, DataProtectionScope.CurrentUser)))
                 {
@@ -76,7 +92,7 @@ namespace EasyDb.SecureStore
             }
             catch (Exception ex)
             {
-                _logger.Error(new Exception($"Error during exract password for plugin: {guid}", ex));
+                this._logger.Error(new Exception($"Error during exract password for plugin: {guid}", ex));
                 return false;
             }
 
@@ -84,26 +100,22 @@ namespace EasyDb.SecureStore
         }
 
         /// <summary>
-        /// Store password secure
+        /// Convert Secure string to string
         /// </summary>
-        /// <param name="strPwd"></param>
-        /// <param name="datasourceId"></param>
-        public void StorePasswordSecure(SecureString strPwd, Guid datasourceId)
+        /// <param name="str">Secure string</param>
+        /// <returns>Regular string</returns>
+        public string UnsecureString(SecureString str)
         {
-            byte[] plaintext = strPwd.ToByteArray();
-            // Generate additional entropy (will be used as the Initialization vector)
-            byte[] entropy = new byte[20];
-            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
+            IntPtr unmanagedString = IntPtr.Zero;
+            try
             {
-                rng.GetBytes(entropy);
+                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(str);
+                return Marshal.PtrToStringUni(unmanagedString);
             }
-
-            byte[] ciphertext = ProtectedData.Protect(plaintext, entropy,
-                DataProtectionScope.CurrentUser);
-            var mainKey = Registry.CurrentUser.CreateSubKey(RegistryKey);
-            var pluginKey = mainKey?.CreateSubKey(datasourceId.ToString());
-            pluginKey?.SetValue("entropy", entropy, RegistryValueKind.Binary);
-            pluginKey?.SetValue("ciphertext", ciphertext, RegistryValueKind.Binary);
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+            }
         }
     }
 }

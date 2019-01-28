@@ -1,55 +1,77 @@
-﻿using System;
-using System.Windows.Input;
-using System.Windows.Media;
-using EasyDb.Annotations;
-using EasyDb.ViewModel.DataSource.Items;
-using EDb.Interfaces;
-using GalaSoft.MvvmLight.CommandWpf;
-
-namespace EasyDb.ViewModel.DataSource
+﻿namespace EasyDb.ViewModel.DataSource
 {
+    using System;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
+    using EasyDb.Annotations;
+    using EasyDb.ViewModel.DataSource.Items;
+
+    using EDb.Interfaces;
+
+    using GalaSoft.MvvmLight.CommandWpf;
+
     /// <summary>
     /// Supported source view model item. Display items collection in deriver selection menu
     /// Поддерживаемый источник данных
     /// </summary>
     public class SupportedSourceItem
     {
-        private readonly IEdbDatasourceModule _sourceModule;
+        /// <summary>
+        /// Defines the _invoke
+        /// </summary>
         private readonly Func<IEdbDatasourceModule, UserDataSource> _invoke;
 
-        public SupportedSourceItem([NotNull] IEdbDatasourceModule sourceModule, [NotNull] Func<IEdbDatasourceModule, UserDataSource> invokeCfgSourceModule)
+        /// <summary>
+        /// Defines the _sourceModule
+        /// </summary>
+        private readonly IEdbDatasourceModule _sourceModule;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SupportedSourceItem"/> class.
+        /// </summary>
+        /// <param name="sourceModule">The sourceModule<see cref="IEdbDatasourceModule"/></param>
+        /// <param name="invokeCfgSourceModule">The invokeCfgSourceModule<see cref="Func{IEdbDatasourceModule, UserDataSource}"/></param>
+        public SupportedSourceItem(
+            [NotNull] IEdbDatasourceModule sourceModule,
+            [NotNull] Func<IEdbDatasourceModule, UserDataSource> invokeCfgSourceModule)
         {
-            _sourceModule = sourceModule ?? throw new ArgumentNullException(nameof(sourceModule));
-            _invoke = invokeCfgSourceModule ?? throw new ArgumentNullException(nameof(invokeCfgSourceModule));
-            InvokeCreateSource = new RelayCommand(() => { InvokeConfigure(); });
+            this._sourceModule = sourceModule ?? throw new ArgumentNullException(nameof(sourceModule));
+            this._invoke = invokeCfgSourceModule ?? throw new ArgumentNullException(nameof(invokeCfgSourceModule));
+            this.InvokeCreateSource = new RelayCommand(() => { this.InvokeConfigure(); });
         }
 
         /// <summary>
-        /// Вызвать конфигурирование источника
-        /// </summary>
-        public UserDataSource InvokeConfigure()
-        {
-            return _invoke?.Invoke(_sourceModule);
-        }
-
-        /// <summary>
-        /// Имя источника данных
-        /// </summary>
-        public string DatabaseName => _sourceModule.DatabaseName;
-
-        /// <summary>
+        /// Gets the DatabaseIcon
         /// Иконка базы данных
         /// </summary>
-        public ImageSource DatabaseIcon => _sourceModule.DatabaseIcon;
+        public ImageSource DatabaseIcon => this._sourceModule.DatabaseIcon;
 
         /// <summary>
+        /// Gets the DatabaseName
+        /// Имя источника данных
+        /// </summary>
+        public string DatabaseName => this._sourceModule.DatabaseName;
+
+        /// <summary>
+        /// Gets or sets the InvokeCreateSource
+        /// Вызвать делегат создания нового источника данных
+        /// </summary>
+        public ICommand InvokeCreateSource { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Module
         /// Драйвер источника данных
         /// </summary>
         public IEdbDatasourceModule Module { get; set; }
 
         /// <summary>
-        /// Вызвать делегат создания нового источника данных
+        /// Вызвать конфигурирование источника
         /// </summary>
-        public ICommand InvokeCreateSource { get; set; }
+        /// <returns>The <see cref="UserDataSource"/></returns>
+        public UserDataSource InvokeConfigure()
+        {
+            return this._invoke?.Invoke(this._sourceModule);
+        }
     }
 }

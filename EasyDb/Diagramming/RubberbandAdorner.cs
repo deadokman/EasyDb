@@ -1,20 +1,42 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace EasyDb.Diagramming
+﻿namespace EasyDb.Diagramming
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="RubberbandAdorner" />
+    /// </summary>
     public class RubberbandAdorner : Adorner
     {
+        /// <summary>
+        /// Defines the startPoint
+        /// </summary>
         private Point? startPoint;
+
+        /// <summary>
+        /// Defines the endPoint
+        /// </summary>
         private Point? endPoint;
+
+        /// <summary>
+        /// Defines the rubberbandPen
+        /// </summary>
         private Pen rubberbandPen;
 
+        /// <summary>
+        /// Defines the designerCanvas
+        /// </summary>
         private DesignerCanvas designerCanvas;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RubberbandAdorner"/> class.
+        /// </summary>
+        /// <param name="designerCanvas">The designerCanvas<see cref="DesignerCanvas"/></param>
+        /// <param name="dragStartPoint">The dragStartPoint<see cref="Point?"/></param>
         public RubberbandAdorner(DesignerCanvas designerCanvas, Point? dragStartPoint)
             : base(designerCanvas)
         {
@@ -24,6 +46,10 @@ namespace EasyDb.Diagramming
             rubberbandPen.DashStyle = new DashStyle(new double[] { 2 }, 1);
         }
 
+        /// <summary>
+        /// The OnMouseMove
+        /// </summary>
+        /// <param name="e">The e<see cref="System.Windows.Input.MouseEventArgs"/></param>
         protected override void OnMouseMove(System.Windows.Input.MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -43,6 +69,10 @@ namespace EasyDb.Diagramming
             e.Handled = true;
         }
 
+        /// <summary>
+        /// The OnMouseUp
+        /// </summary>
+        /// <param name="e">The e<see cref="System.Windows.Input.MouseButtonEventArgs"/></param>
         protected override void OnMouseUp(System.Windows.Input.MouseButtonEventArgs e)
         {
             // release mouse capture
@@ -56,6 +86,10 @@ namespace EasyDb.Diagramming
             e.Handled = true;
         }
 
+        /// <summary>
+        /// The OnRender
+        /// </summary>
+        /// <param name="dc">The dc<see cref="DrawingContext"/></param>
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
@@ -69,6 +103,9 @@ namespace EasyDb.Diagramming
                 dc.DrawRectangle(Brushes.Transparent, rubberbandPen, new Rect(this.startPoint.Value, this.endPoint.Value));
         }
 
+        /// <summary>
+        /// The UpdateSelection
+        /// </summary>
         private void UpdateSelection()
         {
             designerCanvas.SelectionService.ClearSelection();

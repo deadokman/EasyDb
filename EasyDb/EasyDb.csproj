@@ -17,6 +17,7 @@
     <TargetFrameworkProfile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <StyleCopTreatErrorsAsWarnings>False</StyleCopTreatErrorsAsWarnings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -27,6 +28,10 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\EasyDb.xml</DocumentationFile>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <CodeAnalysisRuleSet>..\StyleCop\MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -156,6 +161,7 @@
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
     <Compile Include="Converters\SettingsSizeLimitConverter.cs" />
     <Compile Include="Ext\PasswordHelperExtensions.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Interfaces\Data\IDatasourceControlViewModel.cs" />
     <Compile Include="Interfaces\Data\IDataSourceManager.cs" />
     <Compile Include="Interfaces\Data\IUserDataSource.cs" />
@@ -172,9 +178,9 @@
     <Compile Include="DbDesigner\DbDesignerCanvas.xaml.cs">
       <DependentUpon>DbDesignerCanvas.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DbDesigner\DragEntity.cs" />
-    <Compile Include="DbDesigner\ResizeEntity.cs" />
-    <Compile Include="Diagramming\Connection.cs" />
+    <!--<Compile Include="DbDesigner\DragEntity.cs" />
+    <Compile Include="DbDesigner\ResizeEntity.cs" />-->
+    <!--<Compile Include="Diagramming\Connection.cs" />
     <Compile Include="Diagramming\ConnectionAdorner.cs" />
     <Compile Include="Diagramming\Connector.cs" />
     <Compile Include="Diagramming\ConnectorAdorner.cs" />
@@ -190,7 +196,7 @@
     <Compile Include="Diagramming\RubberbandAdorner.cs" />
     <Compile Include="Diagramming\SelectionService.cs" />
     <Compile Include="Diagramming\Toolbox.cs" />
-    <Compile Include="Diagramming\ToolboxItem.cs" />
+    <Compile Include="Diagramming\ToolboxItem.cs" />-->
     <Compile Include="DockTheme\AvalonTheme.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Flyouts\SettingsFlyout.xaml.cs">
@@ -206,12 +212,12 @@
     <Compile Include="UnhandledErrorWindow.xaml.cs">
       <DependentUpon>UnhandledErrorWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\DiagramDesignerViewModel.cs" />
+    <!--<Compile Include="ViewModel\DiagramDesignerViewModel.cs" />-->
     <Compile Include="ViewModel\LayoutInitializer.cs" />
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\Panes\PanesTemplateSelector.cs" />
-    <Compile Include="ViewModel\Panes\PaneViewModelBase.cs" />
+    <Compile Include="ViewModel\Panes\PaneViewModel.cs" />
     <Compile Include="ViewModel\Panes\PaneStyleTemplateSelector.cs" />
     <Compile Include="ViewModel\PaneBaseViewModel.cs" />
     <Compile Include="ViewModel\SettingsWindowViewModel.cs" />
@@ -224,9 +230,9 @@
     <Compile Include="View\DatasourceSettingsView.xaml.cs">
       <DependentUpon>DatasourceSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DiagramDesignerTool.xaml.cs">
+    <!--<Compile Include="View\DiagramDesignerTool.xaml.cs">
       <DependentUpon>DiagramDesignerTool.xaml</DependentUpon>
-    </Compile>
+    </Compile>-->
     <Compile Include="View\SqlQueryToolView.xaml.cs">
       <DependentUpon>SqlQueryToolView.xaml</DependentUpon>
     </Compile>
@@ -263,7 +269,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Diagramming\Resources\ApplicationToolbar.xaml">
+    <!--<Page Include="Diagramming\Resources\ApplicationToolbar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -318,7 +324,7 @@
     <Page Include="Diagramming\Stencils\ShapeStencils.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
+    </Page>-->
     <Page Include="DockTheme\AvalonStylesDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -367,10 +373,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DiagramDesignerTool.xaml">
+    <!--<Page Include="View\DiagramDesignerTool.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+    </Page>-->
     <Page Include="View\SqlQueryToolView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -410,6 +416,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\StyleCop\MinimumRecommendedRules.ruleset">
+      <Link>MinimumRecommendedRules.ruleset</Link>
+    </None>
+    <None Include="EasyDb.header" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -458,7 +468,7 @@
     <Resource Include="DockTheme\Images\PinRestore_Dark.png" />
     <Resource Include="DockTheme\Images\VTabGroup.png" />
   </ItemGroup>
-  <ItemGroup>
+  <!--<ItemGroup>
     <Resource Include="Diagramming\Resources\Images\AlignObjectsBottom.png" />
     <Resource Include="Diagramming\Resources\Images\AlignObjectsCenteredHorizontal.png" />
     <Resource Include="Diagramming\Resources\Images\AlignObjectsCenteredVertical.png" />
@@ -482,7 +492,7 @@
     <Resource Include="Diagramming\Resources\Images\SendBackward.png" />
     <Resource Include="Diagramming\Resources\Images\SendToBack.png" />
     <Resource Include="Diagramming\Resources\Images\Ungroup.png" />
-  </ItemGroup>
+  </ItemGroup>-->
   <ItemGroup>
     <Folder Include="DbDesigner\DbEntities\" />
   </ItemGroup>
@@ -501,6 +511,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\Entypo-license.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

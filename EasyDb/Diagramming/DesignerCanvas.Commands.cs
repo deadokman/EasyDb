@@ -1,37 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Markup;
-using System.Windows.Media;
-using System.Xml;
-using System.Xml.Linq;
-using Microsoft.Win32;
-
-namespace EasyDb.Diagramming
+﻿namespace EasyDb.Diagramming
 {
+    using Microsoft.Win32;
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Input;
+    using System.Windows.Markup;
+    using System.Windows.Media;
+    using System.Xml;
+    using System.Xml.Linq;
+
+    /// <summary>
+    /// Defines the <see cref="DesignerCanvas" />
+    /// </summary>
     public partial class DesignerCanvas
     {
+        /// <summary>
+        /// Defines the Group
+        /// </summary>
         public static RoutedCommand Group = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the Ungroup
+        /// </summary>
         public static RoutedCommand Ungroup = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the BringForward
+        /// </summary>
         public static RoutedCommand BringForward = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the BringToFront
+        /// </summary>
         public static RoutedCommand BringToFront = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the SendBackward
+        /// </summary>
         public static RoutedCommand SendBackward = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the SendToBack
+        /// </summary>
         public static RoutedCommand SendToBack = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the AlignTop
+        /// </summary>
         public static RoutedCommand AlignTop = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the AlignVerticalCenters
+        /// </summary>
         public static RoutedCommand AlignVerticalCenters = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the AlignBottom
+        /// </summary>
         public static RoutedCommand AlignBottom = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the AlignLeft
+        /// </summary>
         public static RoutedCommand AlignLeft = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the AlignHorizontalCenters
+        /// </summary>
         public static RoutedCommand AlignHorizontalCenters = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the AlignRight
+        /// </summary>
         public static RoutedCommand AlignRight = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the DistributeHorizontal
+        /// </summary>
         public static RoutedCommand DistributeHorizontal = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the DistributeVertical
+        /// </summary>
         public static RoutedCommand DistributeVertical = new RoutedCommand();
+
+        /// <summary>
+        /// Defines the SelectAll
+        /// </summary>
         public static RoutedCommand SelectAll = new RoutedCommand();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DesignerCanvas"/> class.
+        /// </summary>
         public DesignerCanvas()
         {
             this.CommandBindings.Add(new CommandBinding(ApplicationCommands.New, New_Executed));
@@ -63,18 +128,22 @@ namespace EasyDb.Diagramming
             Clipboard.Clear();
         }
 
-        #region New Command
-
+        /// <summary>
+        /// The New_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void New_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             this.Children.Clear();
             this.SelectionService.ClearSelection();
         }
 
-        #endregion
-
-        #region Open Command
-
+        /// <summary>
+        /// The Open_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             XElement root = LoadSerializedDataFromFile();
@@ -114,10 +183,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region Save Command
-
+        /// <summary>
+        /// The Save_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Save_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             IEnumerable<DesignerItem> designerItems = this.Children.OfType<DesignerItem>();
@@ -133,10 +203,11 @@ namespace EasyDb.Diagramming
             SaveFile(root);
         }
 
-        #endregion
-
-        #region Print Command
-
+        /// <summary>
+        /// The Print_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Print_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SelectionService.ClearSelection();
@@ -149,24 +220,31 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region Copy Command
-
+        /// <summary>
+        /// The Copy_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Copy_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             CopyCurrentSelection();
         }
 
+        /// <summary>
+        /// The Copy_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Copy_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = SelectionService.CurrentSelection.Count() > 0;
         }
 
-        #endregion
-
-        #region Paste Command
-
+        /// <summary>
+        /// The Paste_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Paste_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             XElement root = LoadSerializedDataFromClipBoard();
@@ -245,44 +323,62 @@ namespace EasyDb.Diagramming
             Clipboard.SetData(DataFormats.Xaml, root);
         }
 
+        /// <summary>
+        /// The Paste_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Paste_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = Clipboard.ContainsData(DataFormats.Xaml);
         }
 
-        #endregion
-
-        #region Delete Command
-
+        /// <summary>
+        /// The Delete_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Delete_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             DeleteCurrentSelection();
         }
 
+        /// <summary>
+        /// The Delete_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Delete_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.SelectionService.CurrentSelection.Count() > 0;
         }
 
-        #endregion
-
-        #region Cut Command
-
+        /// <summary>
+        /// The Cut_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Cut_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             CopyCurrentSelection();
             DeleteCurrentSelection();
         }
 
+        /// <summary>
+        /// The Cut_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Cut_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = this.SelectionService.CurrentSelection.Count() > 0;
         }
 
-        #endregion
-
-        #region Group Command
-
+        /// <summary>
+        /// The Group_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Group_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var items = from item in this.SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -308,6 +404,11 @@ namespace EasyDb.Diagramming
             this.SelectionService.SelectItem(groupItem);
         }
 
+        /// <summary>
+        /// The Group_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Group_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             int count = (from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -317,10 +418,11 @@ namespace EasyDb.Diagramming
             e.CanExecute = count > 1;
         }
 
-        #endregion
-
-        #region Ungroup Command
-
+        /// <summary>
+        /// The Ungroup_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void Ungroup_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var groups = (from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -342,6 +444,11 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The Ungroup_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Ungroup_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             var groupedItem = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -352,10 +459,11 @@ namespace EasyDb.Diagramming
             e.CanExecute = groupedItem.Count() > 0;
         }
 
-        #endregion
-
-        #region BringForward Command
-
+        /// <summary>
+        /// The BringForward_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void BringForward_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             List<UIElement> ordered = (from item in SelectionService.CurrentSelection
@@ -385,16 +493,22 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The Order_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Order_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             //e.CanExecute = SelectionService.CurrentSelection.Count() > 0;
             e.CanExecute = true;
         }
 
-        #endregion
-
-        #region BringToFront Command
-
+        /// <summary>
+        /// The BringToFront_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void BringToFront_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             List<UIElement> selectionSorted = (from item in SelectionService.CurrentSelection
@@ -421,10 +535,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region SendBackward Command
-
+        /// <summary>
+        /// The SendBackward_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void SendBackward_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             List<UIElement> ordered = (from item in SelectionService.CurrentSelection
@@ -454,10 +569,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region SendToBack Command
-
+        /// <summary>
+        /// The SendToBack_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void SendToBack_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             List<UIElement> selectionSorted = (from item in SelectionService.CurrentSelection
@@ -482,12 +598,13 @@ namespace EasyDb.Diagramming
                     Canvas.SetZIndex(item, selectionSorted.Count + i++);
                 }
             }
-        }        
+        }
 
-        #endregion
-
-        #region AlignTop Command
-
+        /// <summary>
+        /// The AlignTop_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void AlignTop_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -509,6 +626,11 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The Align_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Align_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             //var groupedItem = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -520,10 +642,11 @@ namespace EasyDb.Diagramming
             e.CanExecute = true;
         }
 
-        #endregion
-
-        #region AlignVerticalCenters Command
-
+        /// <summary>
+        /// The AlignVerticalCenters_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void AlignVerticalCenters_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -545,10 +668,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region AlignBottom Command
-
+        /// <summary>
+        /// The AlignBottom_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void AlignBottom_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -570,10 +694,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region AlignLeft Command
-
+        /// <summary>
+        /// The AlignLeft_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void AlignLeft_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -595,10 +720,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region AlignHorizontalCenters Command
-
+        /// <summary>
+        /// The AlignHorizontalCenters_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void AlignHorizontalCenters_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -620,10 +746,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region AlignRight Command
-
+        /// <summary>
+        /// The AlignRight_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void AlignRight_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -645,10 +772,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region DistributeHorizontal Command
-
+        /// <summary>
+        /// The DistributeHorizontal_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void DistributeHorizontal_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -684,6 +812,11 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The Distribute_Enabled
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="CanExecuteRoutedEventArgs"/></param>
         private void Distribute_Enabled(object sender, CanExecuteRoutedEventArgs e)
         {
             //var groupedItem = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -695,10 +828,11 @@ namespace EasyDb.Diagramming
             e.CanExecute = true;
         }
 
-        #endregion
-
-        #region DistributeVertical Command
-
+        /// <summary>
+        /// The DistributeVertical_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void DistributeVertical_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var selectedItems = from item in SelectionService.CurrentSelection.OfType<DesignerItem>()
@@ -734,19 +868,20 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
-        #region SelectAll Command
-
+        /// <summary>
+        /// The SelectAll_Executed
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ExecutedRoutedEventArgs"/></param>
         private void SelectAll_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             SelectionService.SelectAll();
         }
 
-        #endregion
-
-        #region Helper Methods
-
+        /// <summary>
+        /// The LoadSerializedDataFromFile
+        /// </summary>
+        /// <returns>The <see cref="XElement"/></returns>
         private XElement LoadSerializedDataFromFile()
         {
             OpenFileDialog openFile = new OpenFileDialog();
@@ -767,7 +902,11 @@ namespace EasyDb.Diagramming
             return null;
         }
 
-        void SaveFile(XElement xElement)
+        /// <summary>
+        /// The SaveFile
+        /// </summary>
+        /// <param name="xElement">The xElement<see cref="XElement"/></param>
+        internal void SaveFile(XElement xElement)
         {
             SaveFileDialog saveFile = new SaveFileDialog();
             saveFile.Filter = "Files (*.xml)|*.xml|All Files (*.*)|*.*";
@@ -784,6 +923,10 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The LoadSerializedDataFromClipBoard
+        /// </summary>
+        /// <returns>The <see cref="XElement"/></returns>
         private XElement LoadSerializedDataFromClipBoard()
         {
             if (Clipboard.ContainsData(DataFormats.Xaml))
@@ -805,6 +948,11 @@ namespace EasyDb.Diagramming
             return null;
         }
 
+        /// <summary>
+        /// The SerializeDesignerItems
+        /// </summary>
+        /// <param name="designerItems">The designerItems<see cref="IEnumerable{DesignerItem}"/></param>
+        /// <returns>The <see cref="XElement"/></returns>
         private XElement SerializeDesignerItems(IEnumerable<DesignerItem> designerItems)
         {
             XElement serializedItems = new XElement("DesignerItems",
@@ -826,6 +974,11 @@ namespace EasyDb.Diagramming
             return serializedItems;
         }
 
+        /// <summary>
+        /// The SerializeConnections
+        /// </summary>
+        /// <param name="connections">The connections<see cref="IEnumerable{Connection}"/></param>
+        /// <returns>The <see cref="XElement"/></returns>
         private XElement SerializeConnections(IEnumerable<Connection> connections)
         {
             var serializedConnections = new XElement("Connections",
@@ -844,6 +997,14 @@ namespace EasyDb.Diagramming
             return serializedConnections;
         }
 
+        /// <summary>
+        /// The DeserializeDesignerItem
+        /// </summary>
+        /// <param name="itemXML">The itemXML<see cref="XElement"/></param>
+        /// <param name="id">The id<see cref="Guid"/></param>
+        /// <param name="OffsetX">The OffsetX<see cref="double"/></param>
+        /// <param name="OffsetY">The OffsetY<see cref="double"/></param>
+        /// <returns>The <see cref="DesignerItem"/></returns>
         private static DesignerItem DeserializeDesignerItem(XElement itemXML, Guid id, double OffsetX, double OffsetY)
         {
             DesignerItem item = new DesignerItem(id);
@@ -859,6 +1020,9 @@ namespace EasyDb.Diagramming
             return item;
         }
 
+        /// <summary>
+        /// The CopyCurrentSelection
+        /// </summary>
         private void CopyCurrentSelection()
         {
             IEnumerable<DesignerItem> selectedDesignerItems =
@@ -902,6 +1066,9 @@ namespace EasyDb.Diagramming
             Clipboard.SetData(DataFormats.Xaml, root);
         }
 
+        /// <summary>
+        /// The DeleteCurrentSelection
+        /// </summary>
         private void DeleteCurrentSelection()
         {
             foreach (Connection connection in SelectionService.CurrentSelection.OfType<Connection>())
@@ -930,6 +1097,9 @@ namespace EasyDb.Diagramming
             UpdateZIndex();
         }
 
+        /// <summary>
+        /// The UpdateZIndex
+        /// </summary>
         private void UpdateZIndex()
         {
             List<UIElement> ordered = (from UIElement item in this.Children
@@ -942,6 +1112,11 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetBoundingRectangle
+        /// </summary>
+        /// <param name="items">The items<see cref="IEnumerable{DesignerItem}"/></param>
+        /// <returns>The <see cref="Rect"/></returns>
         private static Rect GetBoundingRectangle(IEnumerable<DesignerItem> items)
         {
             double x1 = Double.MaxValue;
@@ -961,6 +1136,11 @@ namespace EasyDb.Diagramming
             return new Rect(new Point(x1, y1), new Point(x2, y2));
         }
 
+        /// <summary>
+        /// The GetConnectors
+        /// </summary>
+        /// <param name="parent">The parent<see cref="DependencyObject"/></param>
+        /// <param name="connectors">The connectors<see cref="List{Connector}"/></param>
         private void GetConnectors(DependencyObject parent, List<Connector> connectors)
         {
             int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
@@ -976,6 +1156,12 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetConnector
+        /// </summary>
+        /// <param name="itemID">The itemID<see cref="Guid"/></param>
+        /// <param name="connectorName">The connectorName<see cref="String"/></param>
+        /// <returns>The <see cref="Connector"/></returns>
         private Connector GetConnector(Guid itemID, String connectorName)
         {
             DesignerItem designerItem = (from item in this.Children.OfType<DesignerItem>()
@@ -988,6 +1174,12 @@ namespace EasyDb.Diagramming
             return connectorDecorator.Template.FindName(connectorName, connectorDecorator) as Connector;
         }
 
+        /// <summary>
+        /// The BelongToSameGroup
+        /// </summary>
+        /// <param name="item1">The item1<see cref="IGroupable"/></param>
+        /// <param name="item2">The item2<see cref="IGroupable"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private bool BelongToSameGroup(IGroupable item1, IGroupable item2)
         {
             IGroupable root1 = SelectionService.GetGroupRoot(item1);
@@ -995,7 +1187,5 @@ namespace EasyDb.Diagramming
 
             return (root1.ID == root2.ID);
         }
-
-        #endregion
     }
 }

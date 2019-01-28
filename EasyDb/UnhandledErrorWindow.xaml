@@ -11,12 +11,12 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Margin="2" Height="80">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="90" />
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <iconPacks:PackIconMaterial 
                                         Grid.Column="0"
@@ -25,7 +25,7 @@
                                         Foreground="{DynamicResource ValidationSummaryColor2}" Kind="Alert" />
             <StackPanel Margin="2" Grid.Column="1" Grid.Row="0">
                 <TextBlock Margin="2" FontSize="15" HorizontalAlignment="Center" FontFamily="Seoge UI" FontWeight="Bold" Foreground="{DynamicResource AccentBaseColorBrush}" Text="{DynamicResource errorw_main_title}"/>
-                <Rectangle Height="1" HorizontalAlignment="Stretch" Fill="{DynamicResource AccentColorBrush}"></Rectangle>
+                <Rectangle Height="1" HorizontalAlignment="Stretch" Fill="{DynamicResource AccentColorBrush}" />
                 <TextBox VerticalAlignment="Stretch" TextAlignment="Center" 
                          IsReadOnly="True" Margin="2" 
                          x:Name="MainErrMessage" 
@@ -35,7 +35,7 @@
         </Grid>
         <Expander Width="600" Grid.Row="1" Header="{DynamicResource errorw_expander_title}" ExpandDirection="Down" IsExpanded="False" >
             <ScrollViewer Height="400" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <RichTextBox IsReadOnly="True" x:Name="MainExText"></RichTextBox>
+                <RichTextBox IsReadOnly="True" x:Name="MainExText" />
             </ScrollViewer>
         </Expander>
     </Grid>

@@ -1,20 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-
-namespace EasyDb.Diagramming
+﻿namespace EasyDb.Diagramming
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
+
     // Note: I couldn't find a useful open source library that does
     // orthogonal routing so started to write something on my own.
     // Categorize this as a quick and dirty short term solution.
     // I will keep on searching.
 
     // Helper class to provide an orthogonal connection path
+    /// <summary>
+    /// Defines the <see cref="PathFinder" />
+    /// </summary>
     internal class PathFinder
     {
+        /// <summary>
+        /// Defines the margin
+        /// </summary>
         private const int margin = 20;
 
+        /// <summary>
+        /// The GetConnectionLine
+        /// </summary>
+        /// <param name="source">The source<see cref="ConnectorInfo"/></param>
+        /// <param name="sink">The sink<see cref="ConnectorInfo"/></param>
+        /// <param name="showLastLine">The showLastLine<see cref="bool"/></param>
+        /// <returns>The <see cref="List{Point}"/></returns>
         internal static List<Point> GetConnectionLine(ConnectorInfo source, ConnectorInfo sink, bool showLastLine)
         {
             List<Point> linePoints = new List<Point>();
@@ -32,7 +45,6 @@ namespace EasyDb.Diagramming
             {
                 while (true)
                 {
-                    #region source node
 
                     if (IsPointVisible(currentPoint, endPoint, new Rect[] { rectSource, rectSink }))
                     {
@@ -86,9 +98,7 @@ namespace EasyDb.Diagramming
                             }
                         }
                     }
-                    #endregion
 
-                    #region sink node
 
                     else // from here on we jump to the sink node
                     {
@@ -192,7 +202,6 @@ namespace EasyDb.Diagramming
                             break;
                         }
                     }
-                    #endregion
                 }
             }
             else
@@ -204,8 +213,15 @@ namespace EasyDb.Diagramming
 
             CheckPathEnd(source, sink, showLastLine, linePoints);
             return linePoints;
-        }        
+        }
 
+        /// <summary>
+        /// The GetConnectionLine
+        /// </summary>
+        /// <param name="source">The source<see cref="ConnectorInfo"/></param>
+        /// <param name="sinkPoint">The sinkPoint<see cref="Point"/></param>
+        /// <param name="preferredOrientation">The preferredOrientation<see cref="ConnectorOrientation"/></param>
+        /// <returns>The <see cref="List{Point}"/></returns>
         internal static List<Point> GetConnectionLine(ConnectorInfo source, Point sinkPoint, ConnectorOrientation preferredOrientation)
         {
             List<Point> linePoints = new List<Point>();
@@ -256,13 +272,24 @@ namespace EasyDb.Diagramming
             }
 
             if (preferredOrientation != ConnectorOrientation.None)
-                linePoints = OptimizeLinePoints(linePoints, new Rect[] { rectSource }, source.Orientation, preferredOrientation);
+            {
+                linePoints = OptimizeLinePoints(linePoints, new Rect[] {rectSource}, source.Orientation,
+                    preferredOrientation);
+            }
             else
                 linePoints = OptimizeLinePoints(linePoints, new Rect[] { rectSource }, source.Orientation, GetOpositeOrientation(source.Orientation));
 
             return linePoints;
         }
 
+        /// <summary>
+        /// The OptimizeLinePoints
+        /// </summary>
+        /// <param name="linePoints">The linePoints<see cref="List{Point}"/></param>
+        /// <param name="rectangles">The rectangles<see cref="Rect[]"/></param>
+        /// <param name="sourceOrientation">The sourceOrientation<see cref="ConnectorOrientation"/></param>
+        /// <param name="sinkOrientation">The sinkOrientation<see cref="ConnectorOrientation"/></param>
+        /// <returns>The <see cref="List{Point}"/></returns>
         private static List<Point> OptimizeLinePoints(List<Point> linePoints, Rect[] rectangles, ConnectorOrientation sourceOrientation, ConnectorOrientation sinkOrientation)
         {
             List<Point> points = new List<Point>();
@@ -284,7 +311,6 @@ namespace EasyDb.Diagramming
                 }
             }
 
-            #region Line
             for (int j = 0; j < points.Count - 1; j++)
             {
                 if (points[j].X != points[j + 1].X && points[j].Y != points[j + 1].Y)
@@ -342,11 +368,16 @@ namespace EasyDb.Diagramming
                     }
                 }
             }
-            #endregion
 
             return points;
         }
 
+        /// <summary>
+        /// The GetOrientation
+        /// </summary>
+        /// <param name="p1">The p1<see cref="Point"/></param>
+        /// <param name="p2">The p2<see cref="Point"/></param>
+        /// <returns>The <see cref="ConnectorOrientation"/></returns>
         private static ConnectorOrientation GetOrientation(Point p1, Point p2)
         {
             if (p1.X == p2.X)
@@ -366,6 +397,11 @@ namespace EasyDb.Diagramming
             throw new Exception("Failed to retrieve orientation");
         }
 
+        /// <summary>
+        /// The GetOrientation
+        /// </summary>
+        /// <param name="sourceOrientation">The sourceOrientation<see cref="ConnectorOrientation"/></param>
+        /// <returns>The <see cref="Orientation"/></returns>
         private static Orientation GetOrientation(ConnectorOrientation sourceOrientation)
         {
             switch (sourceOrientation)
@@ -383,6 +419,15 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetNearestNeighborSource
+        /// </summary>
+        /// <param name="source">The source<see cref="ConnectorInfo"/></param>
+        /// <param name="endPoint">The endPoint<see cref="Point"/></param>
+        /// <param name="rectSource">The rectSource<see cref="Rect"/></param>
+        /// <param name="rectSink">The rectSink<see cref="Rect"/></param>
+        /// <param name="flag">The flag<see cref="bool"/></param>
+        /// <returns>The <see cref="Point"/></returns>
         private static Point GetNearestNeighborSource(ConnectorInfo source, Point endPoint, Rect rectSource, Rect rectSink, out bool flag)
         {
             Point n1, n2; // neighbors
@@ -412,6 +457,14 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetNearestNeighborSource
+        /// </summary>
+        /// <param name="source">The source<see cref="ConnectorInfo"/></param>
+        /// <param name="endPoint">The endPoint<see cref="Point"/></param>
+        /// <param name="rectSource">The rectSource<see cref="Rect"/></param>
+        /// <param name="flag">The flag<see cref="bool"/></param>
+        /// <returns>The <see cref="Point"/></returns>
         private static Point GetNearestNeighborSource(ConnectorInfo source, Point endPoint, Rect rectSource, out bool flag)
         {
             Point n1, n2; // neighbors
@@ -429,6 +482,15 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetNearestVisibleNeighborSink
+        /// </summary>
+        /// <param name="currentPoint">The currentPoint<see cref="Point"/></param>
+        /// <param name="endPoint">The endPoint<see cref="Point"/></param>
+        /// <param name="sink">The sink<see cref="ConnectorInfo"/></param>
+        /// <param name="rectSource">The rectSource<see cref="Rect"/></param>
+        /// <param name="rectSink">The rectSink<see cref="Rect"/></param>
+        /// <returns>The <see cref="Point"/></returns>
         private static Point GetNearestVisibleNeighborSink(Point currentPoint, Point endPoint, ConnectorInfo sink, Rect rectSource, Rect rectSink)
         {
             Point s1, s2; // neighbors on sink side
@@ -471,6 +533,13 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The IsPointVisible
+        /// </summary>
+        /// <param name="fromPoint">The fromPoint<see cref="Point"/></param>
+        /// <param name="targetPoint">The targetPoint<see cref="Point"/></param>
+        /// <param name="rectangles">The rectangles<see cref="Rect[]"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private static bool IsPointVisible(Point fromPoint, Point targetPoint, Rect[] rectangles)
         {
             foreach (Rect rect in rectangles)
@@ -481,6 +550,13 @@ namespace EasyDb.Diagramming
             return true;
         }
 
+        /// <summary>
+        /// The IsRectVisible
+        /// </summary>
+        /// <param name="fromPoint">The fromPoint<see cref="Point"/></param>
+        /// <param name="targetRect">The targetRect<see cref="Rect"/></param>
+        /// <param name="rectangles">The rectangles<see cref="Rect[]"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private static bool IsRectVisible(Point fromPoint, Rect targetRect, Rect[] rectangles)
         {
             if (IsPointVisible(fromPoint, targetRect.TopLeft, rectangles))
@@ -498,12 +574,26 @@ namespace EasyDb.Diagramming
             return false;
         }
 
+        /// <summary>
+        /// The RectangleIntersectsLine
+        /// </summary>
+        /// <param name="rect">The rect<see cref="Rect"/></param>
+        /// <param name="startPoint">The startPoint<see cref="Point"/></param>
+        /// <param name="endPoint">The endPoint<see cref="Point"/></param>
+        /// <returns>The <see cref="bool"/></returns>
         private static bool RectangleIntersectsLine(Rect rect, Point startPoint, Point endPoint)
         {
             rect.Inflate(-1, -1);
             return rect.IntersectsWith(new Rect(startPoint, endPoint));
         }
 
+        /// <summary>
+        /// The GetOppositeCorners
+        /// </summary>
+        /// <param name="orientation">The orientation<see cref="ConnectorOrientation"/></param>
+        /// <param name="rect">The rect<see cref="Rect"/></param>
+        /// <param name="n1">The n1<see cref="Point"/></param>
+        /// <param name="n2">The n2<see cref="Point"/></param>
         private static void GetOppositeCorners(ConnectorOrientation orientation, Rect rect, out Point n1, out Point n2)
         {
             switch (orientation)
@@ -525,6 +615,13 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetNeighborCorners
+        /// </summary>
+        /// <param name="orientation">The orientation<see cref="ConnectorOrientation"/></param>
+        /// <param name="rect">The rect<see cref="Rect"/></param>
+        /// <param name="n1">The n1<see cref="Point"/></param>
+        /// <param name="n2">The n2<see cref="Point"/></param>
         private static void GetNeighborCorners(ConnectorOrientation orientation, Rect rect, out Point n1, out Point n2)
         {
             switch (orientation)
@@ -546,11 +643,23 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The Distance
+        /// </summary>
+        /// <param name="p1">The p1<see cref="Point"/></param>
+        /// <param name="p2">The p2<see cref="Point"/></param>
+        /// <returns>The <see cref="double"/></returns>
         private static double Distance(Point p1, Point p2)
         {
             return Point.Subtract(p1, p2).Length;
         }
 
+        /// <summary>
+        /// The GetRectWithMargin
+        /// </summary>
+        /// <param name="connectorThumb">The connectorThumb<see cref="ConnectorInfo"/></param>
+        /// <param name="margin">The margin<see cref="double"/></param>
+        /// <returns>The <see cref="Rect"/></returns>
         private static Rect GetRectWithMargin(ConnectorInfo connectorThumb, double margin)
         {
             Rect rect = new Rect(connectorThumb.DesignerItemLeft,
@@ -563,6 +672,12 @@ namespace EasyDb.Diagramming
             return rect;
         }
 
+        /// <summary>
+        /// The GetOffsetPoint
+        /// </summary>
+        /// <param name="connector">The connector<see cref="ConnectorInfo"/></param>
+        /// <param name="rect">The rect<see cref="Rect"/></param>
+        /// <returns>The <see cref="Point"/></returns>
         private static Point GetOffsetPoint(ConnectorInfo connector, Rect rect)
         {
             Point offsetPoint = new Point();
@@ -588,6 +703,13 @@ namespace EasyDb.Diagramming
             return offsetPoint;
         }
 
+        /// <summary>
+        /// The CheckPathEnd
+        /// </summary>
+        /// <param name="source">The source<see cref="ConnectorInfo"/></param>
+        /// <param name="sink">The sink<see cref="ConnectorInfo"/></param>
+        /// <param name="showLastLine">The showLastLine<see cref="bool"/></param>
+        /// <param name="linePoints">The linePoints<see cref="List{Point}"/></param>
         private static void CheckPathEnd(ConnectorInfo source, ConnectorInfo sink, bool showLastLine, List<Point> linePoints)
         {
             if (showLastLine)
@@ -640,6 +762,11 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The GetOpositeOrientation
+        /// </summary>
+        /// <param name="connectorOrientation">The connectorOrientation<see cref="ConnectorOrientation"/></param>
+        /// <returns>The <see cref="ConnectorOrientation"/></returns>
         private static ConnectorOrientation GetOpositeOrientation(ConnectorOrientation connectorOrientation)
         {
             switch (connectorOrientation)

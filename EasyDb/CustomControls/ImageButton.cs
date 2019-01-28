@@ -1,32 +1,72 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-
-namespace EasyDb.CustomControls
+﻿namespace EasyDb.CustomControls
 {
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="ImageButton" />
+    /// </summary>
     public class ImageButton : Button
     {
+        /// <summary>
+        /// Defines the ImageProperty
+        /// </summary>
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(
+            "Image",
+            typeof(ImageSource),
+            typeof(ImageButton),
+            new PropertyMetadata(default(ImageSource)));
+
+        /// <summary>
+        /// Defines the TextProperty
+        /// </summary>
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(
+            "Text",
+            typeof(string),
+            typeof(ImageButton),
+            new PropertyMetadata(string.Empty));
+
+        /// <summary>
+        /// Initializes static members of the <see cref="ImageButton"/> class.
+        /// </summary>
         static ImageButton()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ImageButton),
+            DefaultStyleKeyProperty.OverrideMetadata(
+                typeof(ImageButton),
                 new FrameworkPropertyMetadata(typeof(ImageButton)));
         }
 
-        public string Text
-        {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-
+        /// <summary>
+        /// Gets or sets the Image
+        /// </summary>
         public ImageSource Image
         {
-            get { return (ImageSource)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            get
+            {
+                return (ImageSource)this.GetValue(ImageProperty);
+            }
+
+            set
+            {
+                this.SetValue(ImageProperty, value);
+            }
         }
 
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(ImageButton), new PropertyMetadata(""));
+        /// <summary>
+        /// Gets or sets the Text
+        /// </summary>
+        public string Text
+        {
+            get
+            {
+                return (string)this.GetValue(TextProperty);
+            }
 
-        public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(ImageSource), typeof(ImageButton), new PropertyMetadata(default(ImageSource)));
+            set
+            {
+                this.SetValue(TextProperty, value);
+            }
+        }
     }
 }

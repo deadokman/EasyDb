@@ -199,8 +199,7 @@
                                           BorderBrush="{TemplateBinding BorderBrush}"
    				                          BorderThickness="0,3,0,0" 
 							              Background="{TemplateBinding Background}" 
-							              Padding="{TemplateBinding Padding}">
-                                    </Border>
+							              Padding="{TemplateBinding Padding}" />
                                     <ContentPresenter 
 								            x:Name="Content" 
                                             Margin="2"
@@ -222,7 +221,7 @@
                                     <DataTrigger Binding="{Binding IsActive}" Value="True">
                                         <Setter Property="BorderBrush"
 									        Value="{DynamicResource AccentBaseColorBrush}" />
-                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}"></Setter>
+                                        <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}" />
                                         <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
                                         <Setter Property="Panel.ZIndex" 
                                             Value="1" />

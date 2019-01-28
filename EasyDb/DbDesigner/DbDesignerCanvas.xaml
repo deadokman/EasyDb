@@ -16,7 +16,7 @@
         <Border VerticalAlignment="Center" HorizontalAlignment="Center" BorderBrush="{DynamicResource AccentBaseColorBrush}">
             <Border BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
                 <Border.Effect>
-                    <DropShadowEffect Direction="30" Opacity=".2" Color="{DynamicResource BlackColor}" ShadowDepth="7"></DropShadowEffect>
+                    <DropShadowEffect Direction="30" Opacity=".2" Color="{DynamicResource BlackColor}" ShadowDepth="7" />
                 </Border.Effect>
                 <Viewbox RenderOptions.EdgeMode="Aliased" Stretch="None">
                     <ItemsControl x:Name="CanvasItemsControl">
@@ -36,7 +36,7 @@
                                                                          ScaleY="{Binding ViewportManager.LayoutScaleTransformValue, Mode=TwoWay}" 
                                                                          CenterX="{Binding ViewportManager.ImageCenterX}" 
                                                                          CenterY="{Binding ViewportManager.ImageCenterY}"/>
-                                            <TranslateTransform ></TranslateTransform>
+                                            <TranslateTransform />
                                         </TransformGroup>
                                     </Canvas.LayoutTransform>
                                 </Canvas>

@@ -30,10 +30,10 @@
                 LineNumbersForeground="{DynamicResource TextBrush}"
                 Grid.Row="1"
                 Background="{DynamicResource ControlBackgroundBrush}"
-                SyntaxHighlighting="Sql"></avalonEdit:TextEditor>
+                SyntaxHighlighting="Sql" />
             <GridSplitter Grid.Row="2" Background="{DynamicResource AccentBaseColorBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch"/>
-            <DataGrid Grid.Row="3"></DataGrid>
-            <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource TextBrush}" Text="Msg"></TextBlock>
+            <DataGrid Grid.Row="3" />
+            <TextBlock Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Left" Foreground="{DynamicResource TextBrush}" Text="Msg" />
         </Grid>
     </Border>
 </UserControl>

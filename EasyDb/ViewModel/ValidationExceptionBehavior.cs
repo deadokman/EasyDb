@@ -1,24 +1,47 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interactivity;
-using EDb.Interfaces.Validation;
-
-namespace EasyDb.ViewModel
+﻿namespace EasyDb.ViewModel
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Interactivity;
+
+    using EDb.Interfaces.Validation;
+
     /// <summary>
     /// A simple behavior that can transfer the number of validation error with exceptions
     /// to a ViewModel which supports the INotifyValidationException interface
     /// </summary>
     public class ValidationExceptionBehavior : Behavior<FrameworkElement>
     {
+        /// <summary>
+        /// Defines the validationExceptionCount
+        /// </summary>
         private int validationExceptionCount;
 
-        protected override void OnAttached()
+        /// <summary>
+        /// The CreateInstanceCore
+        /// </summary>
+        /// <returns>The <see cref="Freezable"/></returns>
+        protected override Freezable CreateInstanceCore()
         {
-            this.AssociatedObject.AddHandler(System.Windows.Controls.Validation.ErrorEvent, new EventHandler<ValidationErrorEventArgs>(this.OnValidationError));
+            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// The OnAttached
+        /// </summary>
+        protected override void OnAttached()
+        {
+            this.AssociatedObject.AddHandler(
+                Validation.ErrorEvent,
+                new EventHandler<ValidationErrorEventArgs>(this.OnValidationError));
+        }
+
+        /// <summary>
+        /// The OnValidationError
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="ValidationErrorEventArgs"/></param>
         private void OnValidationError(object sender, ValidationErrorEventArgs e)
         {
             // we want to count only the validation error with an exception
@@ -43,11 +66,6 @@ namespace EasyDb.ViewModel
                 var viewModel = (IValidationExceptionHandler)this.AssociatedObject.DataContext;
                 viewModel.ValidationExceptionsChanged(this.validationExceptionCount);
             }
-        }
-
-        protected override Freezable CreateInstanceCore()
-        {
-            throw new NotImplementedException();
         }
     }
 }

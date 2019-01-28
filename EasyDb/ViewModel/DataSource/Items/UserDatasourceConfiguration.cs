@@ -1,34 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EDb.Interfaces;
-
-namespace EasyDb.ViewModel.DataSource.Items
+﻿namespace EasyDb.ViewModel.DataSource.Items
 {
+    using System;
+
+    using EDb.Interfaces;
+
     /// <summary>
     /// Настройки источника данных пользователя
     /// </summary>
     public class UserDatasourceConfiguration
     {
-
         /// <summary>
-        /// Идентификатор записи источника данных
-        /// </summary>
-        public Guid ModuleGuid { get; set; }
-
-        /// <summary>
-        /// Имя источника данных
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
+        /// Gets or sets the Comment
         /// Комментарий к источнику данных
         /// </summary>
         public string Comment { get; set; }
 
         /// <summary>
+        /// Gets or sets the ModuleGuid
+        /// Идентификатор записи источника данных
+        /// </summary>
+        public Guid ModuleGuid { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Name
+        /// Имя источника данных
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SettingsObjects
         /// Общие настройки источника данных
         /// </summary>
         public EdbSourceOption[] SettingsObjects { get; set; }

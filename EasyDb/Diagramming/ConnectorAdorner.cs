@@ -1,20 +1,45 @@
-﻿using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace EasyDb.Diagramming
+﻿namespace EasyDb.Diagramming
 {
+    using System.Collections.Generic;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="ConnectorAdorner" />
+    /// </summary>
     public class ConnectorAdorner : Adorner
     {
+        /// <summary>
+        /// Defines the pathGeometry
+        /// </summary>
         private PathGeometry pathGeometry;
+
+        /// <summary>
+        /// Defines the designerCanvas
+        /// </summary>
         private EasyDb.Diagramming.DesignerCanvas designerCanvas;
+
+        /// <summary>
+        /// Defines the sourceConnector
+        /// </summary>
         private Connector sourceConnector;
+
+        /// <summary>
+        /// Defines the drawingPen
+        /// </summary>
         private Pen drawingPen;
 
+        /// <summary>
+        /// Defines the hitDesignerItem
+        /// </summary>
         private DesignerItem hitDesignerItem;
+
+        /// <summary>
+        /// Gets or sets the HitDesignerItem
+        /// </summary>
         private DesignerItem HitDesignerItem
         {
             get { return hitDesignerItem; }
@@ -33,7 +58,14 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// Defines the hitConnector
+        /// </summary>
         private Connector hitConnector;
+
+        /// <summary>
+        /// Gets or sets the HitConnector
+        /// </summary>
         private Connector HitConnector
         {
             get { return hitConnector; }
@@ -46,6 +78,11 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectorAdorner"/> class.
+        /// </summary>
+        /// <param name="designer">The designer<see cref="EasyDb.Diagramming.DesignerCanvas"/></param>
+        /// <param name="sourceConnector">The sourceConnector<see cref="Connector"/></param>
         public ConnectorAdorner(EasyDb.Diagramming.DesignerCanvas designer, Connector sourceConnector)
             : base(designer)
         {
@@ -56,6 +93,10 @@ namespace EasyDb.Diagramming
             this.Cursor = Cursors.Cross;
         }
 
+        /// <summary>
+        /// The OnMouseUp
+        /// </summary>
+        /// <param name="e">The e<see cref="MouseButtonEventArgs"/></param>
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             if (HitConnector != null)
@@ -66,7 +107,7 @@ namespace EasyDb.Diagramming
 
                 Canvas.SetZIndex(newConnection, designerCanvas.Children.Count);
                 this.designerCanvas.Children.Add(newConnection);
-                
+
             }
             if (HitDesignerItem != null)
             {
@@ -82,6 +123,10 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The OnMouseMove
+        /// </summary>
+        /// <param name="e">The e<see cref="MouseEventArgs"/></param>
         protected override void OnMouseMove(MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
@@ -97,6 +142,10 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The OnRender
+        /// </summary>
+        /// <param name="dc">The dc<see cref="DrawingContext"/></param>
         protected override void OnRender(DrawingContext dc)
         {
             base.OnRender(dc);
@@ -108,6 +157,11 @@ namespace EasyDb.Diagramming
             dc.DrawRectangle(Brushes.Transparent, null, new Rect(RenderSize));
         }
 
+        /// <summary>
+        /// The GetPathGeometry
+        /// </summary>
+        /// <param name="position">The position<see cref="Point"/></param>
+        /// <returns>The <see cref="PathGeometry"/></returns>
         private PathGeometry GetPathGeometry(Point position)
         {
             PathGeometry geometry = new PathGeometry();
@@ -132,6 +186,10 @@ namespace EasyDb.Diagramming
             return geometry;
         }
 
+        /// <summary>
+        /// The HitTesting
+        /// </summary>
+        /// <param name="hitPoint">The hitPoint<see cref="Point"/></param>
         private void HitTesting(Point hitPoint)
         {
             bool hitConnectorFlag = false;

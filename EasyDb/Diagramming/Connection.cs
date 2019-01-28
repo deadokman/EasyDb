@@ -1,24 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-
-namespace EasyDb.Diagramming
+﻿namespace EasyDb.Diagramming
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Documents;
+    using System.Windows.Input;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="Connection" />
+    /// </summary>
     public class Connection : Control, ISelectable, INotifyPropertyChanged
     {
+        /// <summary>
+        /// Defines the connectionAdorner
+        /// </summary>
         private Adorner connectionAdorner;
 
-        #region Properties
-
+        /// <summary>
+        /// Gets or sets the ID
+        /// </summary>
         public Guid ID { get; set; }
 
         // source connector
+        /// <summary>
+        /// Defines the source
+        /// </summary>
         private Connector source;
+
+        /// <summary>
+        /// Gets or sets the Source
+        /// </summary>
         public Connector Source
         {
             get
@@ -49,7 +63,14 @@ namespace EasyDb.Diagramming
         }
 
         // sink connector
+        /// <summary>
+        /// Defines the sink
+        /// </summary>
         private Connector sink;
+
+        /// <summary>
+        /// Gets or sets the Sink
+        /// </summary>
         public Connector Sink
         {
             get { return sink; }
@@ -76,7 +97,14 @@ namespace EasyDb.Diagramming
         }
 
         // connection path geometry
+        /// <summary>
+        /// Defines the pathGeometry
+        /// </summary>
         private PathGeometry pathGeometry;
+
+        /// <summary>
+        /// Gets or sets the PathGeometry
+        /// </summary>
         public PathGeometry PathGeometry
         {
             get { return pathGeometry; }
@@ -95,7 +123,14 @@ namespace EasyDb.Diagramming
         // of the path geometry we leave some space for visual reasons; 
         // so the anchor position source really marks the beginning 
         // of the path geometry on the source side
+        /// <summary>
+        /// Defines the anchorPositionSource
+        /// </summary>
         private Point anchorPositionSource;
+
+        /// <summary>
+        /// Gets or sets the AnchorPositionSource
+        /// </summary>
         public Point AnchorPositionSource
         {
             get { return anchorPositionSource; }
@@ -111,7 +146,14 @@ namespace EasyDb.Diagramming
 
         // slope of the path at the anchor position
         // needed for the rotation angle of the arrow
+        /// <summary>
+        /// Defines the anchorAngleSource
+        /// </summary>
         private double anchorAngleSource = 0;
+
+        /// <summary>
+        /// Gets or sets the AnchorAngleSource
+        /// </summary>
         public double AnchorAngleSource
         {
             get { return anchorAngleSource; }
@@ -126,7 +168,14 @@ namespace EasyDb.Diagramming
         }
 
         // analogue to source side
+        /// <summary>
+        /// Defines the anchorPositionSink
+        /// </summary>
         private Point anchorPositionSink;
+
+        /// <summary>
+        /// Gets or sets the AnchorPositionSink
+        /// </summary>
         public Point AnchorPositionSink
         {
             get { return anchorPositionSink; }
@@ -139,8 +188,16 @@ namespace EasyDb.Diagramming
                 }
             }
         }
+
         // analogue to source side
+        /// <summary>
+        /// Defines the anchorAngleSink
+        /// </summary>
         private double anchorAngleSink = 0;
+
+        /// <summary>
+        /// Gets or sets the AnchorAngleSink
+        /// </summary>
         public double AnchorAngleSink
         {
             get { return anchorAngleSink; }
@@ -154,7 +211,14 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// Defines the sourceArrowSymbol
+        /// </summary>
         private ArrowSymbol sourceArrowSymbol = ArrowSymbol.None;
+
+        /// <summary>
+        /// Gets or sets the SourceArrowSymbol
+        /// </summary>
         public ArrowSymbol SourceArrowSymbol
         {
             get { return sourceArrowSymbol; }
@@ -168,7 +232,14 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// Defines the sinkArrowSymbol
+        /// </summary>
         public ArrowSymbol sinkArrowSymbol = ArrowSymbol.Arrow;
+
+        /// <summary>
+        /// Gets or sets the SinkArrowSymbol
+        /// </summary>
         public ArrowSymbol SinkArrowSymbol
         {
             get { return sinkArrowSymbol; }
@@ -183,7 +254,14 @@ namespace EasyDb.Diagramming
         }
 
         // specifies a point at half path length
+        /// <summary>
+        /// Defines the labelPosition
+        /// </summary>
         private Point labelPosition;
+
+        /// <summary>
+        /// Gets or sets the LabelPosition
+        /// </summary>
         public Point LabelPosition
         {
             get { return labelPosition; }
@@ -198,7 +276,14 @@ namespace EasyDb.Diagramming
         }
 
         // pattern of dashes and gaps that is used to outline the connection path
+        /// <summary>
+        /// Defines the strokeDashArray
+        /// </summary>
         private DoubleCollection strokeDashArray;
+
+        /// <summary>
+        /// Gets or sets the StrokeDashArray
+        /// </summary>
         public DoubleCollection StrokeDashArray
         {
             get
@@ -214,8 +299,16 @@ namespace EasyDb.Diagramming
                 }
             }
         }
+
         // if connected, the ConnectionAdorner becomes visible
+        /// <summary>
+        /// Defines the isSelected
+        /// </summary>
         private bool isSelected;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether IsSelected
+        /// </summary>
         public bool IsSelected
         {
             get { return isSelected; }
@@ -233,8 +326,11 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #endregion
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Connection"/> class.
+        /// </summary>
+        /// <param name="source">The source<see cref="Connector"/></param>
+        /// <param name="sink">The sink<see cref="Connector"/></param>
         public Connection(Connector source, Connector sink)
         {
             this.ID = Guid.NewGuid();
@@ -243,7 +339,10 @@ namespace EasyDb.Diagramming
             base.Unloaded += new RoutedEventHandler(Connection_Unloaded);
         }
 
-
+        /// <summary>
+        /// The OnMouseDown
+        /// </summary>
+        /// <param name="e">The e<see cref="System.Windows.Input.MouseButtonEventArgs"/></param>
         protected override void OnMouseDown(System.Windows.Input.MouseButtonEventArgs e)
         {
             base.OnMouseDown(e);
@@ -271,7 +370,12 @@ namespace EasyDb.Diagramming
             e.Handled = false;
         }
 
-        void OnConnectorPositionChanged(object sender, PropertyChangedEventArgs e)
+        /// <summary>
+        /// The OnConnectorPositionChanged
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="PropertyChangedEventArgs"/></param>
+        internal void OnConnectorPositionChanged(object sender, PropertyChangedEventArgs e)
         {
             // whenever the 'Position' property of the source or sink Connector 
             // changes we must update the connection path geometry
@@ -281,6 +385,9 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The UpdatePathGeometry
+        /// </summary>
         private void UpdatePathGeometry()
         {
             if (Source != null && Sink != null)
@@ -300,6 +407,9 @@ namespace EasyDb.Diagramming
             }
         }
 
+        /// <summary>
+        /// The UpdateAnchorPosition
+        /// </summary>
         private void UpdateAnchorPosition()
         {
             Point pathStartPoint, pathTangentAtStartPoint;
@@ -325,6 +435,9 @@ namespace EasyDb.Diagramming
             this.LabelPosition = pathMidPoint;
         }
 
+        /// <summary>
+        /// The ShowAdorner
+        /// </summary>
         private void ShowAdorner()
         {
             // the ConnectionAdorner is created once for each Connection
@@ -342,13 +455,21 @@ namespace EasyDb.Diagramming
             this.connectionAdorner.Visibility = Visibility.Visible;
         }
 
+        /// <summary>
+        /// The HideAdorner
+        /// </summary>
         internal void HideAdorner()
         {
             if (this.connectionAdorner != null)
                 this.connectionAdorner.Visibility = Visibility.Collapsed;
         }
 
-        void Connection_Unloaded(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// The Connection_Unloaded
+        /// </summary>
+        /// <param name="sender">The sender<see cref="object"/></param>
+        /// <param name="e">The e<see cref="RoutedEventArgs"/></param>
+        internal void Connection_Unloaded(object sender, RoutedEventArgs e)
         {
             // do some housekeeping when Connection is unloaded
 
@@ -370,11 +491,16 @@ namespace EasyDb.Diagramming
             }
         }
 
-        #region INotifyPropertyChanged Members
-
         // we could use DependencyProperties as well to inform others of property changes
+        /// <summary>
+        /// Defines the PropertyChanged
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        /// The OnPropertyChanged
+        /// </summary>
+        /// <param name="name">The name<see cref="string"/></param>
         protected void OnPropertyChanged(string name)
         {
             PropertyChangedEventHandler handler = PropertyChanged;
@@ -383,14 +509,26 @@ namespace EasyDb.Diagramming
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
-
-        #endregion
     }
 
+    /// <summary>
+    /// Defines the ArrowSymbol
+    /// </summary>
     public enum ArrowSymbol
     {
+        /// <summary>
+        /// Defines the None
+        /// </summary>
         None,
+
+        /// <summary>
+        /// Defines the Arrow
+        /// </summary>
         Arrow,
+
+        /// <summary>
+        /// Defines the Diamond
+        /// </summary>
         Diamond
     }
 }

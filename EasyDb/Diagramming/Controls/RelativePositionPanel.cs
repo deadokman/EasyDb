@@ -1,17 +1,28 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-
-namespace EasyDb.Diagramming.Controls
+﻿namespace EasyDb.Diagramming.Controls
 {
+    using System;
+    using System.Windows;
+    using System.Windows.Controls;
+    using System.Windows.Media;
+
+    /// <summary>
+    /// Defines the <see cref="RelativePositionPanel" />
+    /// </summary>
     public class RelativePositionPanel : Panel
     {
+        /// <summary>
+        /// Defines the RelativePositionProperty
+        /// </summary>
         public static readonly DependencyProperty RelativePositionProperty =
             DependencyProperty.RegisterAttached("RelativePosition", typeof(Point), typeof(RelativePositionPanel),
             new FrameworkPropertyMetadata(new Point(0, 0),
                                           new PropertyChangedCallback(RelativePositionPanel.OnRelativePositionChanged)));
 
+        /// <summary>
+        /// The GetRelativePosition
+        /// </summary>
+        /// <param name="element">The element<see cref="UIElement"/></param>
+        /// <returns>The <see cref="Point"/></returns>
         public static Point GetRelativePosition(UIElement element)
         {
             if (element == null)
@@ -21,6 +32,11 @@ namespace EasyDb.Diagramming.Controls
             return (Point)element.GetValue(RelativePositionProperty);
         }
 
+        /// <summary>
+        /// The SetRelativePosition
+        /// </summary>
+        /// <param name="element">The element<see cref="UIElement"/></param>
+        /// <param name="value">The value<see cref="Point"/></param>
         public static void SetRelativePosition(UIElement element, Point value)
         {
             if (element == null)
@@ -30,6 +46,11 @@ namespace EasyDb.Diagramming.Controls
             element.SetValue(RelativePositionProperty, value);
         }
 
+        /// <summary>
+        /// The OnRelativePositionChanged
+        /// </summary>
+        /// <param name="d">The d<see cref="DependencyObject"/></param>
+        /// <param name="e">The e<see cref="DependencyPropertyChangedEventArgs"/></param>
         private static void OnRelativePositionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             UIElement reference = d as UIElement;
@@ -43,6 +64,11 @@ namespace EasyDb.Diagramming.Controls
             }
         }
 
+        /// <summary>
+        /// The ArrangeOverride
+        /// </summary>
+        /// <param name="arrangeSize">The arrangeSize<see cref="Size"/></param>
+        /// <returns>The <see cref="Size"/></returns>
         protected override Size ArrangeOverride(Size arrangeSize)
         {
             foreach (UIElement element in base.InternalChildren)
@@ -62,6 +88,11 @@ namespace EasyDb.Diagramming.Controls
             return arrangeSize;
         }
 
+        /// <summary>
+        /// The MeasureOverride
+        /// </summary>
+        /// <param name="availableSize">The availableSize<see cref="Size"/></param>
+        /// <returns>The <see cref="Size"/></returns>
         protected override Size MeasureOverride(Size availableSize)
         {
             Size size = new Size(double.PositiveInfinity, double.PositiveInfinity);

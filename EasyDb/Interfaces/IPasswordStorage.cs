@@ -1,8 +1,8 @@
-﻿using System;
-using System.Security;
-
-namespace EasyDb.Interfaces
+﻿namespace EasyDb.Interfaces
 {
+    using System;
+    using System.Security;
+
     /// <summary>
     /// Interface for password storage
     /// </summary>
@@ -13,7 +13,6 @@ namespace EasyDb.Interfaces
         /// </summary>
         /// <param name="strPwd">Password string</param>
         /// <param name="datasourceId">ID for password datasource</param>
-        /// <returns>Password secure string</returns>
         void StorePasswordSecure(SecureString strPwd, Guid datasourceId);
 
         /// <summary>

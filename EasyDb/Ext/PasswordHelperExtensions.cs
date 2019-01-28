@@ -1,18 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EasyDb.Ext
+﻿namespace EasyDb.Ext
 {
+    using System;
+    using System.Runtime.InteropServices;
+    using System.Security;
+    using System.Text;
+
     /// <summary>
     /// Converts secure string to Byte array in encoding
     /// </summary>
     public static class PasswordHelperExtensions
     {
+        /// <summary>
+        /// The ToByteArray
+        /// </summary>
+        /// <param name="secureString">The secureString<see cref="SecureString"/></param>
+        /// <param name="encoding">The encoding<see cref="Encoding"/></param>
+        /// <returns>The />Converts secure string to byte array in specific encoding</returns>
         public static byte[] ToByteArray(this SecureString secureString, Encoding encoding = null)
         {
             if (secureString == null)
