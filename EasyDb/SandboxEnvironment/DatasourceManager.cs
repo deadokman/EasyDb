@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
     using System.Linq;
     using System.Reflection;
     using System.Security;
+    using System.Security.AccessControl;
     using System.Security.Permissions;
     using System.Security.Policy;
     using System.Windows;
@@ -79,9 +81,10 @@
         public UserDataSource CreateNewUserdatasource(IEdbDatasourceModule module)
         {
             var uds = new UserDataSource
-                          {
-                              LinkedEdbSourceModule = module, SettingsObjects = module.GetDefaultOptionsObjects()
-                          };
+            {
+                LinkedEdbSourceModule = module,
+                SettingsObjects = module.GetDefaultOptionsObjects()
+            };
             uds.SetGuid(module.ModuleGuid);
             this.UserdefinedDatasources.Add(uds);
             return uds;
@@ -91,11 +94,9 @@
         /// Load datasource modules
         /// Modules load in separate AppDomain for security purpose
         /// </summary>
-        /// <param name="datasourceAssembliesPath">The datasourceAssembliesPath<see cref="string"/></param>
-        public void InitialLoad(string datasourceAssembliesPath)
+        /// <param name="dbModulesAssembliesPath">The dbModulesAssembliesPath<see cref="string"/></param>
+        public void InitialLoad(string dbModulesAssembliesPath)
         {
-            // Initialize secure app domain
-            this.InitAppdomainInstance();
             List<UserDataSource> serializedSources;
 
             // Load and serialize XML doc. Create new one if it does not exists;
@@ -117,55 +118,43 @@
                 serializedSources = new List<UserDataSource>();
             }
 
-            if (!Directory.Exists(datasourceAssembliesPath))
+            if (!Directory.Exists(dbModulesAssembliesPath))
             {
-                throw new Exception($"Path NotFound {datasourceAssembliesPath}");
+                throw new Exception($"Path NotFound {dbModulesAssembliesPath}");
             }
 
+            var moduleAssemblies = Directory.GetFiles(dbModulesAssembliesPath, "*.dll");
+
+            // Initialize secure app domain
+            var untrustedDomain = this.InitAppdomainInstance(dbModulesAssembliesPath, moduleAssemblies);
+
             // Get all assemblies from path
-            foreach (var assmFile in Directory.GetFiles(datasourceAssembliesPath, "*.dll"))
+            foreach (var assmFile in moduleAssemblies)
             {
                 try
                 {
-                    var assembly = Assembly.LoadFile(assmFile);
-                    var types = assembly.GetTypes().Where(
-                        t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(IEdbDatasourceModule)));
-                    foreach (var type in types)
+                    var proxyInstanceHandle =
+                        Activator.CreateInstanceFrom(
+                        untrustedDomain,
+                        typeof(EdbModuleProxy).Assembly.ManifestModule.FullyQualifiedName,
+                        typeof(EdbModuleProxy).FullName);
+                    var edbModuleProxy = (EdbModuleProxy)proxyInstanceHandle.Unwrap();
+                    if (edbModuleProxy.InitializeProxyIntance(assmFile))
                     {
-                        var attributes = type.GetCustomAttributes(typeof(EdbDatasourceAttribute)).ToArray();
-                        if (attributes.Length == 0)
-                        {
-                            _logger.Warn(
-                                Application.Current.Resources["log_NotImplementedAttr"].ToString(),
-                                type.Name,
-                                assembly.FullName);
-                        }
-
-                        if (attributes.Length > 1)
-                        {
-                            _logger.Warn(
-                                Application.Current.Resources["log_NotImplementedAttr"].ToString(),
-                                type.Name,
-                                assembly.FullName);
-                        }
-
-                        var attribute = (EdbDatasourceAttribute)attributes[0];
-                        var datasourceInstance = this.ProcessType(type);
-                        if (datasourceInstance != null)
-                        {
-                            datasourceInstance.SetGuid(attribute.SourceGuid);
-                            datasourceInstance.SetVersion(attribute.Version);
-                            var supportedSourceItem = new SupportedSourceItem(
-                                datasourceInstance,
-                                (module) =>
-                                    {
-                                        var uds = this.CreateNewUserdatasource(module);
-                                        this.DisplayUserDatasourceProperties(uds);
-                                        return uds;
-                                    });
-                            this._supportedDataSources.Add(attribute.SourceGuid, supportedSourceItem);
-                        }
+                        _logger.Log(LogLevel.Warn, new Exception($"Assembly: {assmFile} skipped, because it does not implement EasyDb module interface"));
+                        continue;
                     }
+
+                    var supportedSourceItem = new SupportedSourceItem(
+                        edbModuleProxy,
+                        (module) =>
+                            {
+                                var uds = this.CreateNewUserdatasource(module);
+                                this.DisplayUserDatasourceProperties(uds);
+                                return uds;
+                            });
+
+                    this._supportedDataSources.Add(edbModuleProxy.ModuleGuid, supportedSourceItem);
                 }
                 catch (Exception ex)
                 {
@@ -221,31 +210,22 @@
         /// <summary>
         /// Initialize "SandBox" application domain
         /// </summary>
-        private void InitAppdomainInstance()
+        /// <param name="untrustedPath"> Path to untrusted libs </param>
+        /// <param name="assemblies">module assemblies</param>
+        /// <returns>Add domain instance</returns>
+        private AppDomain InitAppdomainInstance(string untrustedPath, string[] assemblies)
         {
-            var ev = new Evidence();
-            ev.AddHostEvidence(new Zone(SecurityZone.Internet));
             var adSetup = new AppDomainSetup();
-            var internetPS = SecurityManager.GetStandardSandbox(ev);
-            var fullTrustAssembly = typeof(EasyDb.App).Assembly.Evidence.GetHostEvidence<StrongName>();
-        }
-
-        /// <summary>
-        /// Process plugin type
-        /// </summary>
-        /// <param name="t">The t<see cref="Type"/></param>
-        /// <returns>The <see cref="IEdbDatasourceModule"/></returns>
-        private IEdbDatasourceModule ProcessType(Type t)
-        {
-            try
-            {
-                return (IEdbDatasourceModule)Activator.CreateInstance(t);
-            }
-            catch (Exception ex)
-            {
-                _logger.Error($"Err: \n {ex}");
-                return null;
-            }
+            adSetup.ApplicationBase = Path.GetFullPath(untrustedPath);
+            var permSet = new PermissionSet(PermissionState.None);
+            permSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
+            permSet.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, assemblies));
+            AssemblyName name = typeof(EdbModuleProxy).Assembly.GetName();
+            var strongName = new StrongName(
+                new StrongNamePublicKeyBlob(name.GetPublicKey()),
+                name.Name,
+                name.Version);
+            return AppDomain.CreateDomain("Sandbox", null, adSetup, permSet, strongName);
         }
     }
 }

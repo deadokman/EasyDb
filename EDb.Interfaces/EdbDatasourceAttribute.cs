@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace EDb.Interfaces
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class EdbDatasourceAttribute : Attribute
     {
         public EdbDatasourceAttribute(string guid, string version)

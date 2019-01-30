@@ -48,7 +48,7 @@
         /// <summary>
         /// Инициализировать менеджер данных
         /// </summary>
-        /// <param name="datasourceAssembliesPath">Путь к сборкам драйверов</param>
-        void InitialLoad(string datasourceAssembliesPath);
+        /// <param name="dbModulesAssembliesPath">Путь к сборкам драйверов</param>
+        void InitialLoad(string dbModulesAssembliesPath);
     }
 }

@@ -41,4 +41,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1633:File must have header", Justification = "<Pending>", Scope = "namespace", Target = "~N:EasyDb.View")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "<Pending>", Scope = "member", Target = "~P:EasyDb.ViewModel.MainViewModel.ActivePane")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "<Pending>", Scope = "member", Target = "~P:CSGO.Trader.ViewModel.Panes.PaneViewModel.IsActive")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation must match accessors", Justification = "<Pending>", Scope = "member", Target = "~P:EasyDb.SandboxEnvironment.EdbModuleProxy.SupportDbModuleInstance")]
 
