@@ -1,4 +1,6 @@
-﻿namespace EasyDb.SandboxEnvironment
+﻿using System.Security.Permissions;
+
+namespace EasyDb.SandboxEnvironment
 {
     using System;
     using System.Data;
@@ -78,7 +80,7 @@
         /// <returns>True if assembly supports DbModuleSource</returns>
         public bool InitializeProxyIntance(string assemblyPath)
         {
-            var assembly = Assembly.Load(assemblyPath);
+            var assembly = Assembly.LoadFrom(assemblyPath);
             var types = assembly.GetTypes().Where(
                 t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(IEdbDatasourceModule))).ToArray();
             if (types.Length > 1)

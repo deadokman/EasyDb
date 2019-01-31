@@ -139,7 +139,7 @@
                         typeof(EdbModuleProxy).Assembly.ManifestModule.FullyQualifiedName,
                         typeof(EdbModuleProxy).FullName);
                     var edbModuleProxy = (EdbModuleProxy)proxyInstanceHandle.Unwrap();
-                    if (edbModuleProxy.InitializeProxyIntance(assmFile))
+                    if (!edbModuleProxy.InitializeProxyIntance(assmFile))
                     {
                         _logger.Log(LogLevel.Warn, new Exception($"Assembly: {assmFile} skipped, because it does not implement EasyDb module interface"));
                         continue;
@@ -224,16 +224,16 @@
             adSetup.ApplicationBase = Path.GetFullPath(untrustedPath);
             var permSet = new PermissionSet(PermissionState.None);
             permSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
-            permSet.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read, assemblies));
+            var fileIOpermissions = new FileIOPermission(FileIOPermissionAccess.Read, assemblies);
+            fileIOpermissions.AddPathList(FileIOPermissionAccess.PathDiscovery, assemblies);
+            permSet.AddPermission(fileIOpermissions);
             AssemblyName name = typeof(EdbModuleProxy).Assembly.GetName();
             var strongName = new StrongName(
                 new StrongNamePublicKeyBlob(name.GetPublicKey()),
                 name.Name,
                 name.Version);
 
-            // Load default assemblies inside app domain
             var domain = AppDomain.CreateDomain("Sandbox", null, adSetup, permSet, strongName);
-            domain.Load(typeof(IEdbDatasourceModule).Assembly.GetName());
             return domain;
         }
     }
