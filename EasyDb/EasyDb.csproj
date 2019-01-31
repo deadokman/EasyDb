@@ -167,6 +167,7 @@
     <Compile Include="Interfaces\Data\IUserDataSource.cs" />
     <Compile Include="Interfaces\IPasswordStorage.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="SandboxEnvironment\AssemblyLoader.cs" />
     <Compile Include="SandboxEnvironment\EdbModuleProxy.cs" />
     <Compile Include="ViewModel\DataSource\DatasourceViewModel.cs" />
     <Compile Include="ViewModel\DataSource\Items\UserDatasourceConfiguration.cs" />

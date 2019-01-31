@@ -185,6 +185,11 @@
             }
         }
 
+        private Assembly UntrustedDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// The AppOnLanguageChanged
         /// </summary>
@@ -225,7 +230,11 @@
                 new StrongNamePublicKeyBlob(name.GetPublicKey()),
                 name.Name,
                 name.Version);
-            return AppDomain.CreateDomain("Sandbox", null, adSetup, permSet, strongName);
+
+            // Load default assemblies inside app domain
+            var domain = AppDomain.CreateDomain("Sandbox", null, adSetup, permSet, strongName);
+            domain.Load(typeof(IEdbDatasourceModule).Assembly.GetName());
+            return domain;
         }
     }
 }
