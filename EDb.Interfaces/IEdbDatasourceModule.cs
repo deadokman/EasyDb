@@ -21,7 +21,7 @@ namespace EDb.Interfaces
         /// <summary>
         /// Значек базы данных
         /// </summary>
-        ImageSource DatabaseIcon { get; }
+        byte[] DatabaseIcon { get; }
 
         /// <summary>
         /// Получить подключение к СУБД

@@ -32,7 +32,7 @@ namespace EasyDb.SandboxEnvironment
         /// <summary>
         /// Gets database image icon
         /// </summary>
-        public ImageSource DatabaseIcon => this._proxySubject.DatabaseIcon;
+        public byte[] DatabaseIcon => this._proxySubject.DatabaseIcon;
 
         /// <summary>
         /// Gets database name

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using EasyDb.Postgres.Options;
@@ -18,10 +15,30 @@ namespace EasyDb.Postgres
     {
         public string DatabaseName => "PostgreSql";
         public SupportedObjectTypes[] SupportedTypes { get; }
-        public Icon DatabaseIcon { get; }
+
+        public byte[] DatabaseIcon
+        {
+            get
+            {
+                using (var stream = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("EasyDb.Postgres.PostgresImage.png"))
+                {
+                    if (stream != null)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            stream.CopyTo(memoryStream);
+                            return memoryStream.ToArray();
+                        }
+                    }
+
+                    return new byte[0];
+                }
+            }
+        }
+
         public IDbConnection GetDatabaseConnection { get; }
 
-        ImageSource IEdbDatasourceModule.DatabaseIcon =>new BitmapImage();
 
         public Guid ModuleGuid { get; private set; }
 

@@ -15,9 +15,10 @@ namespace EDb.Interfaces
     /// Interface for datasource options
     /// Класс настроек для источника данных
     /// </summary>
+    [Serializable]
     public abstract class EdbSourceOption : ValidationViewModelBase
     {
         [Browsable(false)]
-        public string OptionsDefinitionName { get; protected set; }    
+        public virtual string OptionsDefinitionName { get; protected set; }    
     }
 }

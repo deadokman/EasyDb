@@ -30,7 +30,7 @@ namespace EasyDb.Tests.Controltest
         public void ValidateOptionsBuildTest()
         {
             var tClass = new TestOptions();
-            var result = UserDatasouceSettingsControl.FormatDatasourceOptions(tClass, tClass.GetType(), new Dictionary<string, string>() { {  "test3", "TestResourceSet" } });
+            var result = UserDatasouceSettingsControl.FormatDatasourceOptions(tClass, new Dictionary<string, string>() { {  "test3", "TestResourceSet" } });
             Assert.AreEqual(3, result.Count);
             Assert.AreEqual("PropNameOneSetterVal", result[0].OptionName);
             Assert.AreEqual(false, result[0].IsReadOnly);

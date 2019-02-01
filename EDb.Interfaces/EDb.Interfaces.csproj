@@ -57,11 +57,14 @@
     <Compile Include="EdbSourceOption.cs" />
     <Compile Include="Objects\SupportedObjectTypes.cs" />
     <Compile Include="OptionDisplayNameAttribute.cs" />
+    <Compile Include="Options\ModuleOptionDefinition.cs" />
+    <Compile Include="Options\OptionProperty.cs" />
     <Compile Include="PasswordSecureField.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidationViewModelBase.cs" />
     <Compile Include="Validation\IValidationExceptionHandler.cs" />
+    <Compile Include="Validation\ValidationRuleBase.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

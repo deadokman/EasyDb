@@ -13,7 +13,7 @@ using EDb.Interfaces.Validation;
 
 namespace EDb.Interfaces
 {
-    public class ValidationViewModelBase : IDataErrorInfo, IValidationExceptionHandler, INotifyPropertyChanged
+    public class ValidationViewModelBase : MarshalByRefObject, IDataErrorInfo, IValidationExceptionHandler, INotifyPropertyChanged
     {
         private readonly Dictionary<string, Tuple<PropertyInfo, ValidationAttribute[]>> _validators;
 

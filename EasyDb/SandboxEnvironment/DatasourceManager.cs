@@ -1,13 +1,12 @@
-﻿namespace EasyDb.SandboxEnvironment
+﻿using System.Linq;
+
+namespace EasyDb.SandboxEnvironment
 {
     using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
-    using System.Linq;
     using System.Reflection;
     using System.Security;
-    using System.Security.AccessControl;
     using System.Security.Permissions;
     using System.Security.Policy;
     using System.Windows;
@@ -84,7 +83,9 @@
             {
                 LinkedEdbSourceModule = module,
                 SettingsObjects = module.GetDefaultOptionsObjects()
+                    .Select(opt => new EdbSourceOptionProxy(opt)).ToArray()
             };
+
             uds.SetGuid(module.ModuleGuid);
             this.UserdefinedDatasources.Add(uds);
             return uds;
@@ -185,11 +186,6 @@
             }
         }
 
-        private Assembly UntrustedDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            throw new NotImplementedException();
-        }
-
         /// <summary>
         /// The AppOnLanguageChanged
         /// </summary>
@@ -223,7 +219,10 @@
             var adSetup = new AppDomainSetup();
             adSetup.ApplicationBase = Path.GetFullPath(untrustedPath);
             var permSet = new PermissionSet(PermissionState.None);
-            permSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.Execution));
+            permSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.AllFlags));
+            permSet.AddPermission(new MediaPermission(MediaPermissionImage.SafeImage));
+
+            // permSet.AddPermission()
             var fileIOpermissions = new FileIOPermission(FileIOPermissionAccess.Read, assemblies);
             fileIOpermissions.AddPathList(FileIOPermissionAccess.PathDiscovery, assemblies);
             permSet.AddPermission(fileIOpermissions);

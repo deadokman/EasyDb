@@ -20,12 +20,12 @@
         /// <summary>
         /// Defines the _selectedDataSourceOption
         /// </summary>
-        private EdbSourceOption _selectedDataSourceOption;
+        private EdbSourceOptionProxy _selectedDataSourceOption;
 
         /// <summary>
         /// Defines the _settingsObjects
         /// </summary>
-        private EdbSourceOption[] _settingsObjects;
+        private EdbSourceOptionProxy[] _settingsObjects;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserDataSource"/> class.
@@ -87,7 +87,7 @@
         /// <summary>
         /// Gets or sets the SelectedDataSourceOption
         /// </summary>
-        public EdbSourceOption SelectedDataSourceOption
+        public EdbSourceOptionProxy SelectedDataSourceOption
         {
             get => this._selectedDataSourceOption;
             set
@@ -101,7 +101,7 @@
         /// Gets or sets the SettingsObjects
         /// User datasource tab settings
         /// </summary>
-        public EdbSourceOption[] SettingsObjects
+        public EdbSourceOptionProxy[] SettingsObjects
         {
             get => this._settingsObjects;
             set

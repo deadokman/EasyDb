@@ -1,4 +1,6 @@
-﻿namespace EasyDb.CustomControls
+﻿using EasyDb.ViewModel.DataSource.Items;
+
+namespace EasyDb.CustomControls
 {
     using System;
     using System.Collections;
@@ -50,9 +52,9 @@
         /// <summary>
         /// Gets or sets the SelectedObject
         /// </summary>
-        public EdbSourceOption SelectedObject
+        public EdbSourceOptionProxy SelectedObject
         {
-            get => (EdbSourceOption)this.GetValue(SelectedObjectProperty);
+            get => (EdbSourceOptionProxy)this.GetValue(SelectedObjectProperty);
 
             set => this.SetValue(SelectedObjectProperty, value);
         }
@@ -74,20 +76,20 @@
         /// The FormatDatasourceOptions
         /// </summary>
         /// <param name="valueObject">The valueObject<see cref="EdbSourceOption"/></param>
-        /// <param name="objectType">The objectType<see cref="Type"/></param>
         /// <param name="resourceDictionary">The resourceDictionary<see cref="IDictionary"/></param>
         /// <returns>The <see cref="IList{DatasourceOption}"/></returns>
         public static IList<DatasourceOption> FormatDatasourceOptions(
             EdbSourceOption valueObject,
-            Type objectType,
             IDictionary resourceDictionary)
         {
-            if (valueObject == null)
+            var proxy = (valueObject as EdbSourceOptionProxy)?.OptionSubject;
+            if (proxy == null)
             {
                 throw new Exception("Options object sholud be implemented from EdbSourceOption");
             }
 
-            valueObject.SetThrowExceptionOnInvalidate(true);
+            var objectType = proxy.GetType();
+            proxy.SetThrowExceptionOnInvalidate(true);
             var res = new List<DatasourceOption>();
             var props = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Select(
@@ -104,7 +106,7 @@
                 // Check password attribute
                 var isPasswordOption = prop.propInfo.GetCustomAttributes<PasswordFieldAttribute>().Any();
                 res.Add(
-                    new DatasourceOption(valueObject, prop.propInfo)
+                    new DatasourceOption(proxy, prop.propInfo)
                         {
                             IsReadOnly =
                                 !prop.propInfo.CanWrite || !prop.propInfo.GetSetMethod(true).IsPublic,
@@ -133,11 +135,9 @@
         /// <param name="e">The e<see cref="DependencyPropertyChangedEventArgs"/></param>
         private static void SetObjectPropsDisplay(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var valueObjectType = e.NewValue.GetType();
             var depObject = (UserDatasouceSettingsControl)d;
             depObject.SourceOptions = FormatDatasourceOptions(
                 e.NewValue as EdbSourceOption,
-                valueObjectType,
                 Application.Current.Resources);
         }
     }

@@ -7,7 +7,7 @@
         xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         mc:Ignorable="d"
-        Title="{DynamicResource errorw_title}" SizeToContent="WidthAndHeight" Background="{DynamicResource ControlBackgroundBrush}" WindowStyle="ToolWindow">
+        Title="{DynamicResource errorw_title}" MaxWidth="700" SizeToContent="WidthAndHeight" Background="{DynamicResource ControlBackgroundBrush}" WindowStyle="ToolWindow">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -33,7 +33,7 @@
                          FontSize="14" HorizontalAlignment="Stretch" TextWrapping="Wrap" FontFamily="Seoge UI"/>
             </StackPanel>
         </Grid>
-        <Expander Width="600" Grid.Row="1" Header="{DynamicResource errorw_expander_title}" ExpandDirection="Down" IsExpanded="False" >
+        <Expander Width="700" Grid.Row="1" Header="{DynamicResource errorw_expander_title}" ExpandDirection="Down" IsExpanded="False" >
             <ScrollViewer Height="400" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <RichTextBox IsReadOnly="True" x:Name="MainExText" />
             </ScrollViewer>

@@ -1,4 +1,7 @@
-﻿namespace EasyDb.ViewModel.DataSource
+﻿using System.IO;
+using System.Windows.Media.Imaging;
+
+namespace EasyDb.ViewModel.DataSource
 {
     using System;
     using System.Windows.Input;
@@ -45,7 +48,21 @@
         /// Gets the DatabaseIcon
         /// Иконка базы данных
         /// </summary>
-        public ImageSource DatabaseIcon => this._sourceModule.DatabaseIcon;
+        public ImageSource DatabaseIcon
+        {
+            get
+            {
+                using (var memStream = new MemoryStream(_sourceModule.DatabaseIcon))
+                {
+                    var bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.StreamSource = memStream;
+                    bi.EndInit();
+
+                    return bi;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the DatabaseName
