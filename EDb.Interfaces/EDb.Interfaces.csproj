@@ -53,10 +53,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EdbDatasourceAttribute.cs" />
-    <Compile Include="IEdbDatasourceModule.cs" />
+    <Compile Include="EdbDatasourceModule.cs" />
     <Compile Include="EdbSourceOption.cs" />
     <Compile Include="Objects\SupportedObjectTypes.cs" />
     <Compile Include="OptionDisplayNameAttribute.cs" />
+    <Compile Include="OptionsToXml.cs" />
     <Compile Include="Options\ModuleOptionDefinition.cs" />
     <Compile Include="Options\OptionProperty.cs" />
     <Compile Include="PasswordSecureField.cs" />

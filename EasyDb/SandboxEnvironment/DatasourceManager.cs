@@ -77,7 +77,7 @@ namespace EasyDb.SandboxEnvironment
         /// </summary>
         /// <param name="module">datasource module</param>
         /// <returns>User defined datasource</returns>
-        public UserDataSource CreateNewUserdatasource(IEdbDatasourceModule module)
+        public UserDataSource CreateNewUserdatasource(EdbDatasourceModule module)
         {
             var uds = new UserDataSource
             {
@@ -221,6 +221,7 @@ namespace EasyDb.SandboxEnvironment
             var permSet = new PermissionSet(PermissionState.None);
             permSet.AddPermission(new SecurityPermission(SecurityPermissionFlag.AllFlags));
             permSet.AddPermission(new MediaPermission(MediaPermissionImage.SafeImage));
+            permSet.AddPermission(new ReflectionPermission(ReflectionPermissionFlag.MemberAccess));
 
             // permSet.AddPermission()
             var fileIOpermissions = new FileIOPermission(FileIOPermissionAccess.Read, assemblies);

@@ -9,7 +9,8 @@ namespace EDb.Interfaces.Options
     /// <summary>
     /// Class describes defenition of single module option
     /// </summary>
-    public class ModuleOptionDefinition
+    [Serializable]
+    public class ModuleOptionDefinition : MarshalByRefObject
     {
         /// <summary>
         /// Name of option defenition
@@ -25,5 +26,16 @@ namespace EDb.Interfaces.Options
         /// Properties collection
         /// </summary>
         public OptionProperty[] Properties { get; set; }
+
+        /// <summary>
+        /// Converts option definition to object
+        /// </summary>
+        /// <typeparam name="T"> Option class type </typeparam>
+        /// <returns>Option class type</returns>
+        public T ToOptionObject<T>()
+            where T : EdbSourceOption
+        {
+            return default(T);
+        }
     }
 }

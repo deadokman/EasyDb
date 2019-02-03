@@ -23,21 +23,21 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Defines the _invoke
         /// </summary>
-        private readonly Func<IEdbDatasourceModule, UserDataSource> _invoke;
+        private readonly Func<EdbDatasourceModule, UserDataSource> _invoke;
 
         /// <summary>
         /// Defines the _sourceModule
         /// </summary>
-        private readonly IEdbDatasourceModule _sourceModule;
+        private readonly EdbDatasourceModule _sourceModule;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedSourceItem"/> class.
         /// </summary>
-        /// <param name="sourceModule">The sourceModule<see cref="IEdbDatasourceModule"/></param>
-        /// <param name="invokeCfgSourceModule">The invokeCfgSourceModule<see cref="Func{IEdbDatasourceModule, UserDataSource}"/></param>
+        /// <param name="sourceModule">The sourceModule<see cref="EdbDatasourceModule"/></param>
+        /// <param name="invokeCfgSourceModule">The invokeCfgSourceModule<see cref="Func{EdbDatasourceModule, UserDataSource}"/></param>
         public SupportedSourceItem(
-            [NotNull] IEdbDatasourceModule sourceModule,
-            [NotNull] Func<IEdbDatasourceModule, UserDataSource> invokeCfgSourceModule)
+            [NotNull] EdbDatasourceModule sourceModule,
+            [NotNull] Func<EdbDatasourceModule, UserDataSource> invokeCfgSourceModule)
         {
             this._sourceModule = sourceModule ?? throw new ArgumentNullException(nameof(sourceModule));
             this._invoke = invokeCfgSourceModule ?? throw new ArgumentNullException(nameof(invokeCfgSourceModule));
@@ -80,7 +80,7 @@ namespace EasyDb.ViewModel.DataSource
         /// Gets or sets the Module
         /// Драйвер источника данных
         /// </summary>
-        public IEdbDatasourceModule Module { get; set; }
+        public EdbDatasourceModule Module { get; set; }
 
         /// <summary>
         /// Вызвать конфигурирование источника

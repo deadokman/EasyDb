@@ -40,7 +40,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Options\Generals.cs" />
+    <Compile Include="Options\GeneralOption.cs" />
     <Compile Include="Options\SshSsl.cs" />
     <Compile Include="PostgresDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -82,10 +82,12 @@ namespace EasyDb.CustomControls
             EdbSourceOption valueObject,
             IDictionary resourceDictionary)
         {
-            var proxy = (valueObject as EdbSourceOptionProxy)?.OptionSubject;
+            var resultList = new List<DatasourceOption>();
+            var optionDefinitions = valueObject.ToOptionDefinition();
+                /*
             if (proxy == null)
             {
-                throw new Exception("Options object sholud be implemented from EdbSourceOption");
+                throw new Exception("Options object should be implemented from EdbSourceOption");
             }
 
             var objectType = proxy.GetType();
@@ -114,8 +116,9 @@ namespace EasyDb.CustomControls
                             OptionName = optionName
                         });
             }
+            */
 
-            return res;
+            return resultList;
         }
 
         /// <summary>

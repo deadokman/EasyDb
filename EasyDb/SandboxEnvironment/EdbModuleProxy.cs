@@ -14,12 +14,12 @@ namespace EasyDb.SandboxEnvironment
     /// <summary>
     /// Proxy EdbModule calls in safe context
     /// </summary>
-    public class EdbModuleProxy : MarshalByRefObject, IEdbDatasourceModule
+    public class EdbModuleProxy : EdbDatasourceModule
     {
         /// <summary>
         /// Poxy entity subject
         /// </summary>
-        private IEdbDatasourceModule _proxySubject;
+        private EdbDatasourceModule _proxySubject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EdbModuleProxy"/> class.
@@ -32,22 +32,12 @@ namespace EasyDb.SandboxEnvironment
         /// <summary>
         /// Gets database image icon
         /// </summary>
-        public byte[] DatabaseIcon => this._proxySubject.DatabaseIcon;
+        public override byte[] DatabaseIcon => this._proxySubject.DatabaseIcon;
 
         /// <summary>
         /// Gets database name
         /// </summary>
-        public string DatabaseName => this._proxySubject.DatabaseName;
-
-        /// <summary>
-        /// Gets database connection
-        /// </summary>
-        public IDbConnection GetDatabaseConnection => this._proxySubject.GetDatabaseConnection;
-
-        /// <summary>
-        /// Gets module guid
-        /// </summary>
-        public Guid ModuleGuid => this._proxySubject.ModuleGuid;
+        public override string DatabaseName => this._proxySubject.DatabaseName;
 
         /// <summary>
         /// Gets support of db module interface
@@ -57,18 +47,18 @@ namespace EasyDb.SandboxEnvironment
         /// <summary>
         /// Gets supported object types
         /// </summary>
-        public SupportedObjectTypes[] SupportedTypes => this._proxySubject.SupportedTypes;
+        public override SupportedObjectTypes[] SupportedTypes => this._proxySubject.SupportedTypes;
 
         /// <summary>
         /// Gets module version
         /// </summary>
-        public Version Version => this._proxySubject.Version;
+        public override Version Version => this._proxySubject.Version;
 
         /// <summary>
         /// Gets module source options collection
         /// </summary>
         /// <returns>Source options collection</returns>
-        public EdbSourceOption[] GetDefaultOptionsObjects()
+        public override EdbSourceOption[] GetDefaultOptionsObjects()
         {
             return this._proxySubject.GetDefaultOptionsObjects();
         }
@@ -82,10 +72,11 @@ namespace EasyDb.SandboxEnvironment
         {
             var assembly = Assembly.LoadFrom(assemblyPath);
             var types = assembly.GetTypes().Where(
-                t => t.IsClass && !t.IsAbstract && t.GetInterfaces().Contains(typeof(IEdbDatasourceModule))).ToArray();
+                t => t.IsClass && !t.IsAbstract && t.BaseType == typeof(EdbDatasourceModule)).ToArray();
+
             if (types.Length > 1)
             {
-                throw new Exception($"Module assembly: {assembly.FullName} contains more than one interface IEdbDatasourceModule");
+                throw new Exception($"Module assembly: {assembly.FullName} contains more than one interface EdbDatasourceModule");
             }
 
             if (types.Length == 0)
@@ -108,19 +99,10 @@ namespace EasyDb.SandboxEnvironment
         }
 
         /// <summary>
-        /// Set connection string
-        /// </summary>
-        /// <param name="connectionString">cs</param>
-        public void SetConnection(string connectionString)
-        {
-            this._proxySubject.SetConnection(connectionString);
-        }
-
-        /// <summary>
         /// Set guid
         /// </summary>
         /// <param name="guid">guid</param>
-        public void SetGuid(Guid guid)
+        public override void SetGuid(Guid guid)
         {
             this._proxySubject.SetGuid(guid);
         }
@@ -129,7 +111,7 @@ namespace EasyDb.SandboxEnvironment
         /// Set version
         /// </summary>
         /// <param name="version">version</param>
-        public void SetVersion(Version version)
+        public override void SetVersion(Version version)
         {
             this._proxySubject.SetVersion(version);
         }
@@ -138,12 +120,12 @@ namespace EasyDb.SandboxEnvironment
         /// Process plugin type
         /// </summary>
         /// <param name="t">The t<see cref="Type"/></param>
-        /// <returns>The <see cref="IEdbDatasourceModule"/></returns>
-        private IEdbDatasourceModule ProcessType(Type t)
+        /// <returns>The <see cref="EdbDatasourceModule"/></returns>
+        private EdbDatasourceModule ProcessType(Type t)
         {
             try
             {
-                return (IEdbDatasourceModule)Activator.CreateInstance(t);
+                return (EdbDatasourceModule)Activator.CreateInstance(t);
             }
             catch (Exception ex)
             {

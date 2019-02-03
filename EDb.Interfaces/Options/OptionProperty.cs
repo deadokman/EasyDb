@@ -1,8 +1,11 @@
-﻿namespace EDb.Interfaces.Options
+﻿using System;
+
+namespace EDb.Interfaces.Options
 {
     /// <summary>
     /// Describes single option property inside defenition
     /// </summary>
+    [Serializable]
     public class OptionProperty
     {
         /// <summary>
@@ -18,7 +21,7 @@
         /// <summary>
         /// Property name in resource file
         /// </summary>
-        public string ResourcePropertyName { get; set; }
+        public string ResourcePropertyKey { get; set; }
 
         /// <summary>
         /// Property value type
@@ -34,6 +37,6 @@
         /// Actual property name
         /// </summary>
         public string ActualPropertyName =>
-            string.IsNullOrEmpty(ResourcePropertyName) ? DefaultPropertyName : ResourcePropertyName;
+            string.IsNullOrEmpty(this.ResourcePropertyKey) ? DefaultPropertyName : this.ResourcePropertyKey;
     }
 }

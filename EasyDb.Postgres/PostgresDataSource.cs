@@ -1,22 +1,31 @@
-﻿using System;
-using System.Data;
-using System.IO;
-using System.Reflection;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using EasyDb.Postgres.Options;
-using EDb.Interfaces;
-using EDb.Interfaces.Objects;
-
-namespace EasyDb.Postgres
+﻿namespace EasyDb.Postgres
 {
-    [EdbDatasource("E7B64810-1527-4954-B93B-6C7E46F31E2E", "0.0.1")]
-    public class PostgresDataSource : IEdbDatasourceModule
-    {
-        public string DatabaseName => "PostgreSql";
-        public SupportedObjectTypes[] SupportedTypes { get; }
+    using EasyDb.Postgres.Options;
+    using EDb.Interfaces;
+    using EDb.Interfaces.Objects;
+    using System.IO;
+    using System.Reflection;
 
-        public byte[] DatabaseIcon
+    /// <summary>
+    /// Defines the <see cref="PostgresDataSource" />
+    /// </summary>
+    [EdbDatasource("E7B64810-1527-4954-B93B-6C7E46F31E2E", "0.0.1")]
+    public class PostgresDataSource : EdbDatasourceModule
+    {
+        /// <summary>
+        /// Gets the DatabaseName
+        /// </summary>
+        public override string DatabaseName => "PostgreSql";
+
+        /// <summary>
+        /// Gets the SupportedTypes
+        /// </summary>
+        public override SupportedObjectTypes[] SupportedTypes { get; }
+
+        /// <summary>
+        /// Gets the DatabaseIcon
+        /// </summary>
+        public override byte[] DatabaseIcon
         {
             get
             {
@@ -37,29 +46,11 @@ namespace EasyDb.Postgres
             }
         }
 
-        public IDbConnection GetDatabaseConnection { get; }
-
-
-        public Guid ModuleGuid { get; private set; }
-
-        public Version Version { get; private set; }
-
-        public void SetVersion(Version version)
-        {
-            Version = version;
-        }
-
-        public void SetGuid(Guid guid)
-        {
-            ModuleGuid = guid;
-        }
-
-        public void SetConnection(string connectionString)
-        {
-            throw new NotImplementedException();
-        }
-
-        public EdbSourceOption[] GetDefaultOptionsObjects()
+        /// <summary>
+        /// The GetDefaultOptionsObjects
+        /// </summary>
+        /// <returns>The <see cref="EdbSourceOption[]"/></returns>
+        public override EdbSourceOption[] GetDefaultOptionsObjects()
         {
             return new EdbSourceOption[] { new GeneralOption(), new SshSsl() };
         }
