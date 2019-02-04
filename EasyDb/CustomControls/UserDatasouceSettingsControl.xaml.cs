@@ -82,43 +82,16 @@ namespace EasyDb.CustomControls
             EdbSourceOption valueObject,
             IDictionary resourceDictionary)
         {
-            var resultList = new List<DatasourceOption>();
             var optionDefinitions = valueObject.ToOptionDefinition();
-                /*
-            if (proxy == null)
-            {
-                throw new Exception("Options object should be implemented from EdbSourceOption");
-            }
-
-            var objectType = proxy.GetType();
-            proxy.SetThrowExceptionOnInvalidate(true);
             var res = new List<DatasourceOption>();
-            var props = objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                .Select(
-                    p => new
-                             {
-                                 propInfo = p,
-                                 attributes = p.GetCustomAttributes<OptionDisplayNameAttribute>().FirstOrDefault()
-                             }).Where(pair => pair.attributes != null);
-            foreach (var prop in props)
+            foreach (var prop in optionDefinitions.Properties)
             {
-                var optionName = resourceDictionary[prop.attributes.ResourceNameKey] as string
-                                 ?? prop.attributes.AlternativeName;
-
-                // Check password attribute
-                var isPasswordOption = prop.propInfo.GetCustomAttributes<PasswordFieldAttribute>().Any();
-                res.Add(
-                    new DatasourceOption(proxy, prop.propInfo)
-                        {
-                            IsReadOnly =
-                                !prop.propInfo.CanWrite || !prop.propInfo.GetSetMethod(true).IsPublic,
-                            OptionEditType = isPasswordOption ? "PasswordTextBox" : prop.propInfo.PropertyType.FullName,
-                            OptionName = optionName
-                        });
+                var optionName = resourceDictionary[prop.ResourcePropertyKey] as string
+                                 ?? prop.DefaultPropertyName;
+                res.Add(new DatasourceOption(prop) { OptionName = optionName });
             }
-            */
 
-            return resultList;
+            return res;
         }
 
         /// <summary>

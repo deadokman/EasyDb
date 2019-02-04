@@ -44,7 +44,7 @@
             var optionObject = item as DatasourceOption;
             if (optionObject != null)
             {
-                switch (optionObject.OptionEditType)
+                switch (optionObject.PropertyType)
                 {
                     case "System.String": return this.TextFieldTemplate;
                     case "System.Boolean": return this.CheckboxTemplate;

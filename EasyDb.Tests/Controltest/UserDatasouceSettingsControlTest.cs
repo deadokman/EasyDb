@@ -35,18 +35,18 @@ namespace EasyDb.Tests.Controltest
             Assert.AreEqual("PropNameOneSetterVal", result[0].OptionName);
             Assert.AreEqual(false, result[0].IsReadOnly);
             Assert.AreEqual("TestVal1", result[0].Value);
-            Assert.AreEqual("System.String", result[0].OptionEditType);
+            Assert.AreEqual("System.String", result[0].PropertyType);
             //
             Assert.AreEqual("PropNameOneGetterVal", result[1].OptionName);
             // Private setter sould be read only
             Assert.AreEqual(true, result[1].IsReadOnly);
             Assert.AreEqual("TestVal2", result[1].Value);
-            Assert.AreEqual("System.String", result[1].OptionEditType);
+            Assert.AreEqual("System.String", result[1].PropertyType);
             //
             Assert.AreEqual("TestResourceSet", result[2].OptionName);
             Assert.AreEqual(true, result[2].IsReadOnly);
             Assert.AreEqual(true, result[2].Value);
-            Assert.AreEqual("System.Boolean", result[2].OptionEditType);
+            Assert.AreEqual("System.Boolean", result[2].PropertyType);
         }
     }
 }

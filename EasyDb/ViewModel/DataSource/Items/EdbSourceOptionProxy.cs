@@ -2,6 +2,8 @@
 
 namespace EasyDb.ViewModel.DataSource.Items
 {
+    using EDb.Interfaces.Options;
+
     /// <summary>
     /// ProxyClass for edb option
     /// </summary>
@@ -25,6 +27,15 @@ namespace EasyDb.ViewModel.DataSource.Items
         /// <summary>
         /// Gets option defenition name
         /// </summary>
-        public override string OptionsDefinitionName => OptionSubject?.OptionsDefinitionName;
+        public override string OptionsDefinitionName => this.OptionSubject?.OptionsDefinitionName;
+
+        /// <summary>
+        /// Return module option definition
+        /// </summary>
+        /// <returns>Module options definition</returns>
+        public override ModuleOptionDefinition ToOptionDefinition()
+        {
+            return OptionSubject.ToOptionDefinition();
+        }
     }
 }

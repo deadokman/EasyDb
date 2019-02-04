@@ -26,10 +26,10 @@ namespace EDb.Interfaces
         /// Converts option to definition class
         /// </summary>
         /// <returns></returns>
-        public ModuleOptionDefinition ToOptionDefinition()
+        public virtual ModuleOptionDefinition ToOptionDefinition()
         {
             var currentType = this.GetType();
-            var definitionProps = currentType.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.SetProperty)
+            var definitionProps = currentType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Select(p => new { prop = p, optDisplay = p.GetCustomAttributes<OptionDisplayNameAttribute>().FirstOrDefault()})
                 .Where(p => p.optDisplay != null).ToArray();
 
@@ -41,6 +41,8 @@ namespace EDb.Interfaces
                 op.ResourcePropertyKey = pdata.optDisplay.ResourceNameKey;
                 op.DefaultPropertyName = pdata.optDisplay.AlternativeName;
                 op.DefaultValue = pdata.prop.GetValue(this);
+                op.ReadOnly = !pdata.prop.CanWrite;
+                op.PropertyValueTypeName = pdata.prop.PropertyType.FullName;
                 resultArr[i] = op;
             }
 
@@ -48,6 +50,7 @@ namespace EDb.Interfaces
             moduleOptionDefenition.DefinitionName = this.OptionsDefinitionName;
             moduleOptionDefenition.Properties = resultArr;
             moduleOptionDefenition.PropertyDefinitionType = currentType.FullName;
+
             return moduleOptionDefenition;
         }
     }

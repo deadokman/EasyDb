@@ -14,11 +14,6 @@ namespace EDb.Interfaces.Options
         public string DefaultPropertyName { get; set; }
 
         /// <summary>
-        /// Resource name for property
-        /// </summary>
-        public string ResourceName { get; set; }
-
-        /// <summary>
         /// Property name in resource file
         /// </summary>
         public string ResourcePropertyKey { get; set; }
@@ -32,6 +27,16 @@ namespace EDb.Interfaces.Options
         /// Property default value
         /// </summary>
         public object DefaultValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        public object Value { get; set; }
+
+        /// <summary>
+        /// Property is read only
+        /// </summary>
+        public bool ReadOnly { get; set; }
 
         /// <summary>
         /// Actual property name
