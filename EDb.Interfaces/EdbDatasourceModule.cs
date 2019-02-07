@@ -32,7 +32,7 @@ namespace EDb.Interfaces
         /// Вернуть объекты настроек
         /// </summary>
         /// <returns></returns>
-        public abstract EdbSourceOption[] GetDefaultOptionsObjects();
+        public abstract EdbSourceOption[] GetOptions();
 
         /// <summary>
         /// Get option defenition objects
@@ -40,7 +40,7 @@ namespace EDb.Interfaces
         /// <returns></returns>
         public virtual ModuleOptionDefinition[] GetOptionsDefenitions()
         {
-            return this.GetDefaultOptionsObjects().Select(so => so.ToOptionDefinition()).ToArray();
+            return this.GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
         }
 
         public virtual Guid ModuleGuid { get; private set; }

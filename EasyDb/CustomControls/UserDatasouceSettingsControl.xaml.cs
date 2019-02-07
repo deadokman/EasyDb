@@ -2,12 +2,9 @@
 
 namespace EasyDb.CustomControls
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
-    using System.Linq;
-    using System.Reflection;
     using System.Runtime.CompilerServices;
     using System.Windows;
     using System.Windows.Controls;

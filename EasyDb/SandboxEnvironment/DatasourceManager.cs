@@ -82,7 +82,7 @@ namespace EasyDb.SandboxEnvironment
             var uds = new UserDataSource
             {
                 LinkedEdbSourceModule = module,
-                SettingsObjects = module.GetDefaultOptionsObjects()
+                SettingsObjects = module.GetOptions()
                     .Select(opt => new EdbSourceOptionProxy(opt)).ToArray()
             };
 

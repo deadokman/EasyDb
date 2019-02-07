@@ -45,6 +45,11 @@
         public string PropertyType => this._optProp.PropertyValueTypeName;
 
         /// <summary>
+        /// Gets a value indicating whether property should contain password
+        /// </summary>
+        public bool IsPasswordProp => this._optProp.IsPasswordProperty;
+
+        /// <summary>
         /// Gets or sets the Value
         /// Value of dependency object
         /// </summary>

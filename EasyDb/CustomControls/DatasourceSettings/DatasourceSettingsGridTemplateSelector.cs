@@ -44,6 +44,11 @@
             var optionObject = item as DatasourceOption;
             if (optionObject != null)
             {
+                if (optionObject.IsPasswordProp)
+                {
+                    return this.PasswordField;
+                }
+
                 switch (optionObject.PropertyType)
                 {
                     case "System.String": return this.TextFieldTemplate;
@@ -51,7 +56,6 @@
                     case "System.Int32": return this.NumericTemplate;
                     case "System.Int64": return this.NumericTemplate;
                     case "System.Int16": return this.NumericTemplate;
-                    case "PasswordTextBox": return this.PasswordField;
 
                     default: return base.SelectTemplate(item, container);
                 }

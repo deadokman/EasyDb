@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using EDb.Interfaces.Annotations;
+
 using EDb.Interfaces.Options;
-using EDb.Interfaces.Validation;
 
 namespace EDb.Interfaces
 {
@@ -23,11 +18,30 @@ namespace EDb.Interfaces
         public virtual string OptionsDefinitionName { get; protected set; }
 
         /// <summary>
+        /// Initialized instance of module options definitions
+        /// </summary>
+        protected ModuleOptionDefinition OptionDefinitions;
+
+        /// <summary>
+        /// Sets option definition
+        /// </summary>
+        /// <param name="definition">Option definition instance</param>
+        public void SetOptionDefinition(ModuleOptionDefinition definition)
+        {
+            this.OptionDefinitions = definition;
+        }
+
+        /// <summary>
         /// Converts option to definition class
         /// </summary>
         /// <returns></returns>
         public virtual ModuleOptionDefinition ToOptionDefinition()
         {
+            if (this.OptionDefinitions != null)
+            {
+                return this.OptionDefinitions;
+            }
+
             var currentType = this.GetType();
             var definitionProps = currentType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Select(p => new { prop = p, optDisplay = p.GetCustomAttributes<OptionDisplayNameAttribute>().FirstOrDefault()})
@@ -38,11 +52,14 @@ namespace EDb.Interfaces
             {
                 var pdata = definitionProps[i];
                 var op = new OptionProperty();
+
+                // check is password property
                 op.ResourcePropertyKey = pdata.optDisplay.ResourceNameKey;
                 op.DefaultPropertyName = pdata.optDisplay.AlternativeName;
                 op.DefaultValue = pdata.prop.GetValue(this);
                 op.ReadOnly = !pdata.prop.CanWrite;
                 op.PropertyValueTypeName = pdata.prop.PropertyType.FullName;
+                op.IsPasswordProperty = CheckIsPassword(pdata.prop);
                 resultArr[i] = op;
             }
 
@@ -51,7 +68,17 @@ namespace EDb.Interfaces
             moduleOptionDefenition.Properties = resultArr;
             moduleOptionDefenition.PropertyDefinitionType = currentType.FullName;
 
+            this.OptionDefinitions = moduleOptionDefenition;
             return moduleOptionDefenition;
+        }
+
+        /// <summary>
+        /// Check password attribute on property
+        /// </summary>
+        /// <returns>true if password</returns>
+        public bool CheckIsPassword(PropertyInfo p)
+        {
+            return p.GetCustomAttributes<PasswordFieldAttribute>().Any();
         }
     }
 }

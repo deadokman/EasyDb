@@ -47,8 +47,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <DataGrid
-            Background="{DynamicResource GrayBrush10}"
-            RowBackground="{DynamicResource GrayBrush10}"
+            Background="{DynamicResource ControlBackgroundBrush}"
+            RowBackground="{DynamicResource ControlBackgroundBrush}"
             Margin="0,5,0,0"
             Style="{StaticResource MetroDataGrid}"
             ItemsSource="{Binding SourceOptions}"
@@ -65,7 +65,7 @@
             Name="PropsDisplayGrid"
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <DataGrid.Columns>
-                <DataGridTextColumn Width="Auto" IsReadOnly="True" Binding="{Binding OptionName}" />
+                <DataGridTextColumn KeyboardNavigation.IsTabStop="False" Width="Auto" IsReadOnly="True" Binding="{Binding OptionName}" />
                 <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplateSelector>
                         <datasourceSettings:DatasourceSettingsGridTemplateSelector

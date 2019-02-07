@@ -39,6 +39,11 @@ namespace EDb.Interfaces.Options
         public bool ReadOnly { get; set; }
 
         /// <summary>
+        /// Property should contain password
+        /// </summary>
+        public bool IsPasswordProperty { get; set; }
+
+        /// <summary>
         /// Actual property name
         /// </summary>
         public string ActualPropertyName =>

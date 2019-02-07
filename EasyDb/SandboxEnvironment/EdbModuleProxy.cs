@@ -58,9 +58,9 @@ namespace EasyDb.SandboxEnvironment
         /// Gets module source options collection
         /// </summary>
         /// <returns>Source options collection</returns>
-        public override EdbSourceOption[] GetDefaultOptionsObjects()
+        public override EdbSourceOption[] GetOptions()
         {
-            return this._proxySubject.GetDefaultOptionsObjects();
+            return this._proxySubject.GetOptions();
         }
 
         /// <summary>

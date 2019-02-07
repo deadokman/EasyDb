@@ -47,10 +47,10 @@
         }
 
         /// <summary>
-        /// The GetDefaultOptionsObjects
+        /// The GetOptions
         /// </summary>
         /// <returns>The <see cref="EdbSourceOption[]"/></returns>
-        public override EdbSourceOption[] GetDefaultOptionsObjects()
+        public override EdbSourceOption[] GetOptions()
         {
             return new EdbSourceOption[] { new GeneralOption(), new SshSsl() };
         }
