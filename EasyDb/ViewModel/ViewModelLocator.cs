@@ -1,8 +1,11 @@
 namespace EasyDb.ViewModel
 {
+    using Autofac;
     using CommonServiceLocator;
     using EasyDb.Interfaces.Data;
+    using EasyDb.IoC;
     using EasyDb.SandboxEnvironment;
+    using EasyDb.ViewModel.Choco;
     using EasyDb.ViewModel.DataSource;
     using EasyDb.ViewModel.Settings;
     using GalaSoft.MvvmLight.Ioc;
@@ -19,15 +22,7 @@ namespace EasyDb.ViewModel
         /// </summary>
         public ViewModelLocator()
         {
-            ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-
-            var loggerFactory = new LogFactory();
-            SimpleIoc.Default.Register<IDataSourceManager, DatasourceManager>();
-            SimpleIoc.Default.Register<MainViewModel>();
-            SimpleIoc.Default.Register<GeneralSettingsViewModel>();
-            SimpleIoc.Default.Register<SettingsWindowViewModel>();
-            SimpleIoc.Default.Register<LoginViewModel>();
-            SimpleIoc.Default.Register<IDatasourceControlViewModel, DatasourceViewModel>();
+            ServiceLocator.SetLocatorProvider(() => AutofacServiceLocator.Instance);
         }
 
         /// <summary>
@@ -35,7 +30,7 @@ namespace EasyDb.ViewModel
         /// </summary>
         public SettingsWindowViewModel SettingsWindowViewModel
         {
-            get { return ServiceLocator.Current.GetInstance<SettingsWindowViewModel>(); }
+            get { return AutofacServiceLocator.Instance.GetInstance<SettingsWindowViewModel>(); }
         }
 
         /// <summary>
@@ -43,7 +38,18 @@ namespace EasyDb.ViewModel
         /// </summary>
         public LoginViewModel LoginVm
         {
-            get { return ServiceLocator.Current.GetInstance<LoginViewModel>(); }
+            get { return AutofacServiceLocator.Instance.GetInstance<LoginViewModel>(); }
+        }
+
+        /// <summary>
+        /// Gets View model for chocolatey installation process
+        /// </summary>
+        public IChocolateyInstallViewModel ChocolateyInstallVm
+        {
+            get
+            {
+                return AutofacServiceLocator.Instance.GetInstance<IChocolateyInstallViewModel>();
+            }
         }
 
         /// <summary>
@@ -53,7 +59,7 @@ namespace EasyDb.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<MainViewModel>();
+                return AutofacServiceLocator.Instance.GetInstance<MainViewModel>();
             }
         }
 
@@ -62,7 +68,7 @@ namespace EasyDb.ViewModel
         /// </summary>
         public IDatasourceControlViewModel DatasourceControlViewModel
         {
-            get { return ServiceLocator.Current.GetInstance<IDatasourceControlViewModel>(); }
+            get { return AutofacServiceLocator.Instance.GetInstance<IDatasourceControlViewModel>(); }
         }
 
         /// <summary>
@@ -72,7 +78,7 @@ namespace EasyDb.ViewModel
         {
             get
             {
-                return ServiceLocator.Current.GetInstance<GeneralSettingsViewModel>();
+                return AutofacServiceLocator.Instance.GetInstance<GeneralSettingsViewModel>();
             }
         }
 

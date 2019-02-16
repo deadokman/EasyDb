@@ -63,6 +63,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.9.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.9.0\lib\net45\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Extras.NLog, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Extras.NLog.1.3.0\lib\net451\Autofac.Extras.NLog.dll</HintPath>
+    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
@@ -97,7 +103,7 @@
       <HintPath>..\packages\SamOatesGames.ModernUI.Xceed.Toolkit.1.0.0\lib\net452\ModernUI.Xceed.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.2.3\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.5.11\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
@@ -105,9 +111,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.4.1.1\lib\net45\System.Windows.Interactivity.dll</HintPath>
@@ -166,15 +177,21 @@
     <Compile Include="Interfaces\Data\IDataSourceManager.cs" />
     <Compile Include="Interfaces\Data\IUserDataSource.cs" />
     <Compile Include="Interfaces\IPasswordStorage.cs" />
+    <Compile Include="IoC\AutofacServiceLocator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SandboxEnvironment\AssemblyLoader.cs" />
     <Compile Include="SandboxEnvironment\EdbModuleProxy.cs" />
+    <Compile Include="ViewModel\Choco\ChocolateyInstallViewModel.cs" />
+    <Compile Include="ViewModel\Choco\IChocolateyInstallViewModel.cs" />
     <Compile Include="ViewModel\DataSource\DatasourceViewModel.cs" />
     <Compile Include="ViewModel\DataSource\Items\EdbSourceOptionProxy.cs" />
     <Compile Include="ViewModel\DataSource\Items\UserDatasourceConfiguration.cs" />
     <Compile Include="ViewModel\DataSource\Items\UserDataSource.cs" />
     <Compile Include="ViewModel\DataSource\SupportedSourceItem.cs" />
     <Compile Include="ViewModel\ValidationExceptionBehavior.cs" />
+    <Compile Include="View\Choco\ChocolateyInstallControll.xaml.cs">
+      <DependentUpon>ChocolateyInstallControll.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\DatasourceControlView.xaml.cs">
       <DependentUpon>DatasourceControlView.xaml</DependentUpon>
     </Compile>
@@ -263,6 +280,10 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\Choco\ChocolateyInstallControll.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DatasourceControlView.xaml">
       <SubType>Designer</SubType>
@@ -423,6 +444,12 @@
       <Link>MinimumRecommendedRules.ruleset</Link>
     </None>
     <None Include="EasyDb.header" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -501,6 +528,10 @@
     <Folder Include="DbDesigner\DbEntities\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Edb.Choco\Edb.Choco.csproj">
+      <Project>{af4c5c71-aab2-4349-ad70-b1216a88c798}</Project>
+      <Name>Edb.Choco</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Edb.Common\Edb.Common.csproj">
       <Project>{5380897F-9077-4D58-A7A5-911963B33366}</Project>
       <Name>Edb.Common</Name>
@@ -508,6 +539,10 @@
     <ProjectReference Include="..\EDb.Interfaces\EDb.Interfaces.csproj">
       <Project>{2c59b8b0-f8c1-487b-996d-03fa423cf9a2}</Project>
       <Name>EDb.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Edb.Odbc\Edb.Odbc.csproj">
+      <Project>{dc844049-25bc-462d-82c6-2855e7bececa}</Project>
+      <Name>Edb.Odbc</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

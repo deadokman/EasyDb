@@ -1,19 +1,33 @@
 namespace EasyDb.ViewModel
 {
+    using System;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.IO;
     using System.Windows.Input;
 
+    using EasyDb.Annotations;
     using EasyDb.Interfaces.Data;
+    using EasyDb.View.Choco;
+    using EasyDb.ViewModel.Choco;
+    using Edb.Choco.Interface;
 
     using GalaSoft.MvvmLight;
+    using GalaSoft.MvvmLight.CommandWpf;
+
+    using MahApps.Metro.Controls.Dialogs;
 
     /// <summary>
     /// Main window view model
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
+        private readonly IDataSourceManager _manager;
+
+        private readonly IDialogCoordinator _dialogCoordinator;
+
+        private readonly IChocolateyController _chocoController;
+
         /// <summary>
         /// Defines the _activePane
         /// </summary>
@@ -43,8 +57,23 @@ namespace EasyDb.ViewModel
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
-        public MainViewModel(IDataSourceManager manager)
+        /// <param name="dialogCoordinator">Dialog coordinator</param>
+        /// <param name="chocoController">Chocolatey controller</param>
+        /// <param name="chocoInstallVm">Chocolatey install view model</param>
+        public MainViewModel(
+                             [NotNull] IDataSourceManager manager,
+                             [NotNull] IDialogCoordinator dialogCoordinator,
+                             [NotNull] IChocolateyController chocoController,
+                                    IChocolateyInstallViewModel chocoInstallVm)
         {
+            if (chocoController == null)
+            {
+                throw new ArgumentNullException(nameof(chocoController));
+            }
+
+            this._manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this._dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
+            this._chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
             this._bgWorkerInit.DoWork += (sender, args) =>
                 {
                     manager.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
@@ -55,19 +84,32 @@ namespace EasyDb.ViewModel
                     // If fist time launch, show log in form
                     if (Properties.Settings.Default.IsFirstTimeStartUp)
                     {
-                        this.ShowLogInForm = false;
-                    }
-                    else
-                    {
-                        this.IsInterfaceEnabled = true;
                     }
 
                     this.IsInterfaceEnabled = true;
                 };
 
+            this.ContentRendered = new RelayCommand(async () =>
+                    {
+                        if (!this._chocoController.ValidateChocoInstall() && !chocoInstallVm.HideDialog)
+                        {
+                            var cd = new CustomDialog();
+                            cd.Height = 250;
+                            cd.Content = new ChocolateyInstallControll(
+                                () => { this._dialogCoordinator.HideMetroDialogAsync(this, cd); });
+                            await this._dialogCoordinator.ShowMetroDialogAsync(this, cd);
+                        }
+                    });
+
+            // Validate choco install if necessary
             this.IsInterfaceEnabled = false;
             this._bgWorkerInit.RunWorkerAsync();
         }
+
+        /// <summary>
+        /// Gets or sets View content rendered
+        /// </summary>
+        public ICommand ContentRendered { get; set; }
 
         /// <summary>
         /// Gets or sets the ActivatePluginCommand

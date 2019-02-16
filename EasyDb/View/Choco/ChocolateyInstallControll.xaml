@@ -1,0 +1,130 @@
+﻿<UserControl x:Class="EasyDb.View.Choco.ChocolateyInstallControll"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EasyDb.View.Choco"
+             xmlns:converters="clr-namespace:EasyDb.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="250" d:DesignWidth="600" DataContext="{Binding Source={StaticResource Locator}, Path=ChocolateyInstallVm}">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="Btvc"/>
+        <converters:EmptyConverter x:Key="Econv"></converters:EmptyConverter>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Background="{DynamicResource ControlBackgroundBrush}" 
+              VerticalAlignment="Stretch"
+              Visibility="{Binding InstallationCompletedSuccessfully, Converter={StaticResource Btvc}}"
+              HorizontalAlignment="Stretch" Panel.ZIndex="999">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="0,10,0,0" FontSize="22" Text="{Binding Source={StaticResource choco_dlg_text_title_success}}" Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}" />
+            <TextBlock Text="{StaticResource choco_dlg_install_success}" 
+                       Grid.Row="1" TextWrapping="Wrap" 
+                       FontSize="14"
+                       Foreground="{DynamicResource TextBrush}"/>
+            <Button Grid.Row="2" Click="ButtonBase_OnClick" 
+                    HorizontalAlignment="Right"
+                    Width="210"
+                    Content="{Binding Source={StaticResource choco_dlg_understand_dlg}}" 
+                    Margin="2,2,2,20" Style="{StaticResource MetroButtonNoBorder}"/>
+        </Grid>
+        <Grid Background="{DynamicResource ControlBackgroundBrush}" 
+              VerticalAlignment="Stretch"
+              Visibility="{Binding InstallationHasErrors, Converter={StaticResource Btvc}}"
+              HorizontalAlignment="Stretch" Panel.ZIndex="1000">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="60"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock FontSize="22" Text="{Binding Source={StaticResource choco_dlg_text_title_errors}}" Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}" />
+            <RichTextBox Grid.Row="1" IsDocumentEnabled="True" VerticalScrollBarVisibility="Auto"
+                         IsReadOnly="True">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{Binding InstallErrors, Mode=OneWay}"/>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+
+            <Button Grid.Row="2" Click="ButtonBase_OnClick" 
+                    HorizontalAlignment="Right"
+                    Width="210"
+                    Content="{Binding Source={StaticResource choco_dlg_understand_dlg}}" 
+                    Margin="2,2,2,20" Style="{StaticResource MetroButtonNoBorder}"/>
+        </Grid>
+        <Grid Margin="0,0,0,10" Panel.ZIndex="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="35"></RowDefinition>
+            </Grid.RowDefinitions>
+            <TextBlock Margin="0,10,0,0" FontSize="22" Text="{Binding Source={StaticResource choco_dlg_text_title}}" Grid.Row="0" Foreground="{DynamicResource AccentColorBrush}" />
+            <!--Displays if application does NOT run in daministrative mode-->
+            <RichTextBox  Margin="0,0,0,10" FontSize="14" Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      IsDocumentEnabled="True"
+                      IsReadOnly="True"
+                      Visibility="{Binding IsNotInAdministrativeMode, Converter={StaticResource Btvc}}"
+                      BorderThickness="0"
+                     SpellCheck.IsEnabled="False">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{Binding Source={StaticResource choco_dlg_text_admin_p1}, Mode=OneWay}" ></Run>
+                        <Hyperlink Command="{Binding NavigateLink}" NavigateUri="https://chocolatey.org/docs/installation">
+                            <Run Text="https://chocolatey.org/docs/installation" />
+                        </Hyperlink>
+                        <LineBreak/>
+                        <Run Text="{Binding Source={StaticResource choco_dlg_text_admin_p2}, Mode=OneWay}" ></Run>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <!--Displays if application does run in daministrative mode-->
+            <RichTextBox  Margin="0,0,0,10" FontSize="14" Grid.Row="1"
+                      IsDocumentEnabled="True"
+                      VerticalScrollBarVisibility="Auto"
+                      IsReadOnly="True"
+                      Visibility="{Binding IsInAdministrativeMode, Converter={StaticResource Btvc}}"
+                      BorderThickness="0"
+                      SpellCheck.IsEnabled="False">
+                <FlowDocument>
+                    <Paragraph>
+                        <Run Text="{Binding Source={StaticResource choco_dlg_in_admin_app_p1}, Mode=OneWay}" ></Run>
+                        <Hyperlink Command="{Binding NavigateLink}" NavigateUri="https://chocolatey.org/docs/installation">
+                            <Run Text="https://chocolatey.org/docs/installation" />
+                        </Hyperlink>
+                        <LineBreak/>
+                    </Paragraph>
+                    <Paragraph>
+                        <Run Text="{Binding Source={StaticResource choco_dlg_in_admin_app_p2}, Mode=OneWay}" ></Run>
+                        <Hyperlink Command="{Binding InstallChocolateyCommand}">
+                            <Run Text="{Binding Source={StaticResource choco_dlg_SetUp_dlg}, Mode=OneWay}" />
+                        </Hyperlink>
+                    </Paragraph>
+                </FlowDocument>
+            </RichTextBox>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <CheckBox Margin="0,0,10,0" Grid.Column="0" Content="{Binding Source={StaticResource choco_dlg_text_hide}}" IsChecked="{Binding HideDialog}"/>
+                <Button Visibility="{Binding IsNotInAdministrativeMode, Converter={StaticResource Btvc}}" Command="{Binding CloseApplication}" Content="{Binding Source={StaticResource choco_dlg_close_app}}" Margin="2" Style="{StaticResource MetroButtonAccentNoBorder}" Grid.Column="2" />
+                <!--Кнопка установки Chocolatey-->
+                <Button 
+                Visibility="{Binding IsInAdministrativeMode, Converter={StaticResource Btvc}}" 
+                Command="{Binding InstallChocolateyCommand, Converter={StaticResource Econv}}"
+                Content="{Binding Source={StaticResource choco_dlg_SetUp_dlg}}" 
+                Margin="2" 
+                Style="{StaticResource MetroButtonAccentNoBorder}" 
+                Grid.Column="2" />
+                <Button Click="ButtonBase_OnClick" Content="{Binding Source={StaticResource choco_dlg_cancel_dlg}}" Margin="2" Style="{StaticResource MetroButtonNoBorder}" Grid.Column="1"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

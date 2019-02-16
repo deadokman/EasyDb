@@ -52,4 +52,40 @@
     <system:String x:Key="opt_def_database">База данных:</system:String>
     <system:String x:Key="opt_def_password">Пароль:</system:String>
     <system:String x:Key="opt_def_port">Порт:</system:String>
+
+    <!--Chocolatey install dialog-->
+    <system:String x:Key="choco_dlg_text_title">Установка дополнительного ПО</system:String>
+    <system:String x:Key="choco_dlg_text_title_success">Установка выполнена успешно</system:String>
+    <system:String x:Key="choco_dlg_text_title_errors">Установка не выполнена из-за ошибок: </system:String>
+    <system:String x:Key="choco_dlg_text_admin_p1">Для корректной установки драйверов OleDb на вашем компьютере 
+        требуется наличие ПО "Chocolatey". 
+        Для автоматической установки необходимо закрыть приложение и запустить его от имени администратора. 
+        Или же вы можете выполнить установку данного ПО в ручную перейдя по ссылке:
+    </system:String>
+    <system:String x:Key="choco_dlg_text_admin_p2">
+        Если вы считаете, что поддержка данной функциональности вам не нужна, можете пропустить этот диалог и/или скрыть его.
+    </system:String>
+    <system:String x:Key="choco_dlg_in_admin_app_p1">
+                Для корректной установки драйверов OleDb на вашем компьютере 
+                требуется наличие ПО "Chocolatey". Вы можете закрыть данный диалог, если считаете, что данный функционал вам не нужен
+                или установить его в ручную, перейдя по ссылке:
+    </system:String>
+    <system:String x:Key="choco_dlg_in_admin_app_p2">
+        Вы можете выполнить автоматическую установку нажав на кнопку
+    </system:String>
+    <system:String x:Key="choco_dlg_install_success">
+        Установка Chocolatey выполнена успешно, в дальнейшей с его помощью будут устанавливаться драйверы OleDb и другое ПО, 
+        необходимое для работы приложения.
+    </system:String>
+    <system:String x:Key="choco_dlg_install_progress">
+        Программа установки выполняет необходимые операции, это может занять несколько минут. 
+        Для установки дополнительного ПО требуется подключение к сети интернет.
+    </system:String>
+    <system:String x:Key="choco_dlg_text_hide"> Больше не показывать этот диалог </system:String>
+    <system:String x:Key="choco_dlg_close_app">ЗАКРЫТЬ ПО</system:String>
+    <system:String x:Key="choco_dlg_cancel_dlg">ПРОПУСТИТЬ</system:String>
+    <system:String x:Key="choco_dlg_understand_dlg">ПОНЯТНО</system:String>
+    <system:String x:Key="choco_dlg_SetUp_dlg">УСТАНОВИТЬ</system:String>
+    <system:String x:Key="choco_dlg_SetUp_message">Установка Chocolatey</system:String>
+    <system:String x:Key="choco_dlg_SetUp_text">Выполняется скачивание и установка Chocolatey</system:String>
 </ResourceDictionary>

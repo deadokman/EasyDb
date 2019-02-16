@@ -42,4 +42,5 @@
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "<Pending>", Scope = "member", Target = "~P:EasyDb.ViewModel.MainViewModel.ActivePane")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.ReadabilityRules", "SA1101:Prefix local calls with this", Justification = "<Pending>", Scope = "member", Target = "~P:CSGO.Trader.ViewModel.Panes.PaneViewModel.IsActive")]
 [assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation must match accessors", Justification = "<Pending>", Scope = "member", Target = "~P:EasyDb.SandboxEnvironment.EdbModuleProxy.SupportDbModuleInstance")]
+[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation must match accessors", Justification = "<Pending>")]
 

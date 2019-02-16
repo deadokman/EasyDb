@@ -8,154 +8,114 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EasyDb.Properties
-{
-    /// <summary>
-    /// Defines the <see cref="Settings" />
-    /// </summary>
+namespace EasyDb.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-        /// <summary>
-        /// Defines the defaultInstance
-        /// </summary>
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        /// <summary>
-        /// Gets the Default
-        /// </summary>
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the DefaultLanguage
-        /// </summary>
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
-        public global::System.Globalization.CultureInfo DefaultLanguage
-        {
-            get
-            {
+        public global::System.Globalization.CultureInfo DefaultLanguage {
+            get {
                 return ((global::System.Globalization.CultureInfo)(this["DefaultLanguage"]));
             }
-            set
-            {
+            set {
                 this["DefaultLanguage"] = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the BaseTheme
-        /// </summary>
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("BaseDark")]
-        public string BaseTheme
-        {
-            get
-            {
+        public string BaseTheme {
+            get {
                 return ((string)(this["BaseTheme"]));
             }
-            set
-            {
+            set {
                 this["BaseTheme"] = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the AccentTheme
-        /// </summary>
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Orange")]
-        public string AccentTheme
-        {
-            get
-            {
+        public string AccentTheme {
+            get {
                 return ((string)(this["AccentTheme"]));
             }
-            set
-            {
+            set {
                 this["AccentTheme"] = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the SettingsFlyoutWidthLimiter
-        /// </summary>
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("25")]
-        public double SettingsFlyoutWidthLimiter
-        {
-            get
-            {
+        public double SettingsFlyoutWidthLimiter {
+            get {
                 return ((double)(this["SettingsFlyoutWidthLimiter"]));
             }
-            set
-            {
+            set {
                 this["SettingsFlyoutWidthLimiter"] = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets the PluginsPath
-        /// </summary>
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("./Plugins")]
-        public string PluginsPath
-        {
-            get
-            {
+        public string PluginsPath {
+            get {
                 return ((string)(this["PluginsPath"]));
             }
-            set
-            {
+            set {
                 this["PluginsPath"] = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether IsFirstTimeStartUp
-        /// </summary>
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsFirstTimeStartUp
-        {
-            get
-            {
+        public bool IsFirstTimeStartUp {
+            get {
                 return ((bool)(this["IsFirstTimeStartUp"]));
             }
-            set
-            {
+            set {
                 this["IsFirstTimeStartUp"] = value;
             }
         }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether IsStorePassword
-        /// </summary>
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsStorePassword
-        {
-            get
-            {
+        public bool IsStorePassword {
+            get {
                 return ((bool)(this["IsStorePassword"]));
             }
-            set
-            {
+            set {
                 this["IsStorePassword"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool HideChocoInstall {
+            get {
+                return ((bool)(this["HideChocoInstall"]));
+            }
+            set {
+                this["HideChocoInstall"] = value;
             }
         }
     }

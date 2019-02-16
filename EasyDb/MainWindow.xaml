@@ -13,9 +13,16 @@
         xmlns:view="clr-namespace:EasyDb.View"
         xmlns:viewModel1="clr-namespace:EasyDb.ViewModel"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Name="MainWinow"
+        controls:DialogParticipation.Register="{Binding}"
         Title="EasyDb" Height="800" Width="1200" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <i:InvokeCommandAction Command="{Binding ContentRendered}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
     <Window.Resources>
         <Style x:Key="FormOverlayStyle" TargetType="ContentControl">
             <Setter Property="Opacity" Value="1"/>

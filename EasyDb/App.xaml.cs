@@ -11,7 +11,27 @@ namespace EasyDb
     using System.Windows;
     using System.Windows.Threading;
 
+    using Autofac;
+    using Autofac.Extras.NLog;
+
+    using CommonServiceLocator;
+
+    using EasyDb.Interfaces.Data;
+    using EasyDb.IoC;
+    using EasyDb.SandboxEnvironment;
+    using EasyDb.View.Choco;
+    using EasyDb.ViewModel;
+    using EasyDb.ViewModel.Choco;
+    using EasyDb.ViewModel.DataSource;
+    using EasyDb.ViewModel.Settings;
+
+    using Edb.Choco;
+    using Edb.Choco.Interface;
+
     using MahApps.Metro;
+    using MahApps.Metro.Controls.Dialogs;
+
+    using NLog;
 
     /// <summary>
     /// Interaction logic for App.xaml
@@ -135,6 +155,28 @@ namespace EasyDb
         /// CurrentApplication theme
         /// </summary>
         public static AppTheme SelectedAppTheme { get; set; }
+
+        /// <summary>
+        /// Initialize IoC environment
+        /// </summary>
+        /// <param name="e">args</param>
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            base.OnStartup(e);
+            ServiceLocator.SetLocatorProvider(() => AutofacServiceLocator.Instance);
+            var builder = AutofacServiceLocator.Instance.GetBuilder();
+            builder.RegisterModule<NLogModule>();
+            builder.RegisterType<DatasourceManager>().As<IDataSourceManager>().SingleInstance();
+            builder.RegisterType<DatasourceViewModel>().As<IDatasourceControlViewModel>().SingleInstance();
+            builder.RegisterType<DialogCoordinator>().As<IDialogCoordinator>().SingleInstance();
+            builder.RegisterType<ChocoController>().As<IChocolateyController>().SingleInstance();
+            builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
+            builder.RegisterType<GeneralSettingsViewModel>().As<GeneralSettingsViewModel>().SingleInstance();
+            builder.RegisterType<SettingsWindowViewModel>().As<SettingsWindowViewModel>().SingleInstance();
+            builder.RegisterType<LoginViewModel>().As<LoginViewModel>().SingleInstance();
+            builder.RegisterType<ChocolateyInstallViewModel>().As<IChocolateyInstallViewModel>().SingleInstance();
+            AutofacServiceLocator.Instance.ActivateIoc();
+        }
 
         /// <summary>
         /// The App_LanguageChanged

@@ -35,7 +35,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="BorderThickness" Value="0"/>
-                            <!--<Setter Property="Background" Value="DimGray"/>-->
+                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush2}"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
@@ -56,7 +56,7 @@
                             x:Name="Border"
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="0" />
+                            BorderThickness="1" />
 
                         <ContentPresenter
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -71,7 +71,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="BorderThickness" Value="0"/>
-                            <!--<Setter Property="Background" Value="DimGray"/>-->
+                            <Setter Property="Background" Value="DimGray"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
