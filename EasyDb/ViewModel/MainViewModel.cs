@@ -10,7 +10,8 @@ namespace EasyDb.ViewModel
     using EasyDb.Interfaces.Data;
     using EasyDb.View.Choco;
     using EasyDb.ViewModel.Choco;
-    using Edb.Choco.Interface;
+
+    using Edb.Environment.Interface;
 
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.CommandWpf;

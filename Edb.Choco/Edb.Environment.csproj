@@ -7,8 +7,8 @@
     <ProjectGuid>{AF4C5C71-AAB2-4349-AD70-B1216A88C798}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Edb.Choco</RootNamespace>
-    <AssemblyName>Edb.Choco</AssemblyName>
+    <RootNamespace>Edb.Environment</RootNamespace>
+    <AssemblyName>Edb.Environment</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="ChocoController.cs" />
     <Compile Include="Interface\IChocolateyController.cs" />
+    <Compile Include="Interface\IOdbcRepository.cs" />
+    <Compile Include="Model\OdbcDriver.cs" />
+    <Compile Include="OdbcRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

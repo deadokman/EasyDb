@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controltest\UserDatasouceSettingsControlTest.cs" />
+    <Compile Include="EnvironmentTests\OdbcDriversExplorerTest.cs" />
     <Compile Include="GeneralSettingsTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SecureStoreTest.cs" />
@@ -78,6 +79,10 @@
     <ProjectReference Include="..\EasyDb\EasyDb.csproj">
       <Project>{ec6b895f-a4ee-4f9a-8e5b-54dcbbfe10ca}</Project>
       <Name>EasyDb</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Edb.Choco\Edb.Environment.csproj">
+      <Project>{af4c5c71-aab2-4349-ad70-b1216a88c798}</Project>
+      <Name>Edb.Environment</Name>
     </ProjectReference>
     <ProjectReference Include="..\EDb.Interfaces\EDb.Interfaces.csproj">
       <Project>{2c59b8b0-f8c1-487b-996d-03fa423cf9a2}</Project>

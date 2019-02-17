@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Edb.Choco.Interface
+namespace Edb.Environment.Interface
 {
     using System;
     using System.Threading.Tasks;

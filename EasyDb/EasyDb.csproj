@@ -528,9 +528,9 @@
     <Folder Include="DbDesigner\DbEntities\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Edb.Choco\Edb.Choco.csproj">
+    <ProjectReference Include="..\Edb.Choco\Edb.Environment.csproj">
       <Project>{af4c5c71-aab2-4349-ad70-b1216a88c798}</Project>
-      <Name>Edb.Choco</Name>
+      <Name>Edb.Environment</Name>
     </ProjectReference>
     <ProjectReference Include="..\Edb.Common\Edb.Common.csproj">
       <Project>{5380897F-9077-4D58-A7A5-911963B33366}</Project>
@@ -539,10 +539,6 @@
     <ProjectReference Include="..\EDb.Interfaces\EDb.Interfaces.csproj">
       <Project>{2c59b8b0-f8c1-487b-996d-03fa423cf9a2}</Project>
       <Name>EDb.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Edb.Odbc\Edb.Odbc.csproj">
-      <Project>{dc844049-25bc-462d-82c6-2855e7bececa}</Project>
-      <Name>Edb.Odbc</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

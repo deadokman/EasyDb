@@ -7,20 +7,20 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace Edb.Choco
+namespace Edb.Environment
 {
     using System;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
-    using System.Net.Http;
-    using System.Security.Principal;
-    using System.Threading.Tasks;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
+    using System.Net.Http;
+    using System.Security.Principal;
     using System.Text;
+    using System.Threading.Tasks;
 
-    using Edb.Choco.Interface;
+    using Edb.Environment.Interface;
 
     /// <summary>
     /// Defines the <see cref="ChocoController" />
@@ -144,7 +144,7 @@ namespace Edb.Choco
                 // and "/c " as the parameters.
                 // Incidentally, /c tells cmd that we want it to execute the command that follows,
                 // and then exit.
-                var procStartInfo = new ProcessStartInfo("cmd", "/c " + command);
+                var procStartInfo = new ProcessStartInfo("cmd", "/c " + this.command);
 
                 // The following commands are needed to redirect the standard output.
                 // This means that it will be redirected to the Process.StandardOutput StreamReader.

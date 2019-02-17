@@ -7,7 +7,8 @@
     using Autofac.Extras.NLog;
 
     using EasyDb.Annotations;
-    using Edb.Choco.Interface;
+
+    using Edb.Environment.Interface;
 
     using GalaSoft.MvvmLight;
     using GalaSoft.MvvmLight.CommandWpf;

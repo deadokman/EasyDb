@@ -25,8 +25,8 @@ namespace EasyDb
     using EasyDb.ViewModel.DataSource;
     using EasyDb.ViewModel.Settings;
 
-    using Edb.Choco;
-    using Edb.Choco.Interface;
+    using Edb.Environment;
+    using Edb.Environment.Interface;
 
     using MahApps.Metro;
     using MahApps.Metro.Controls.Dialogs;
