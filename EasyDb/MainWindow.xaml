@@ -78,10 +78,13 @@
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0">
                     <Menu>
-                        <MenuItem Header="{DynamicResource mw_File}">
+                        <MenuItem Header="{StaticResource mw_File}">
                             <MenuItem Header="MenuItem1"/>
                         </MenuItem>
-                        <MenuItem Header="{DynamicResource mw_View}" />
+                        <MenuItem Header="{StaticResource mw_View}" />
+                        <MenuItem Header="{StaticResource mw_Tools}">
+                            <MenuItem Header="{StaticResource mw_Tools_odbcmanager}" Command="{Binding OpenOdbcManager}"></MenuItem>
+                        </MenuItem>
                     </Menu>
                 </StackPanel>
                 <ToolBarTray VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" />

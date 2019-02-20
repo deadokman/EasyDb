@@ -23,6 +23,7 @@ namespace EasyDb
     using EasyDb.ViewModel;
     using EasyDb.ViewModel.Choco;
     using EasyDb.ViewModel.DataSource;
+    using EasyDb.ViewModel.Interfaces;
     using EasyDb.ViewModel.Settings;
 
     using Edb.Environment;
@@ -170,11 +171,15 @@ namespace EasyDb
             builder.RegisterType<DatasourceViewModel>().As<IDatasourceControlViewModel>().SingleInstance();
             builder.RegisterType<DialogCoordinator>().As<IDialogCoordinator>().SingleInstance();
             builder.RegisterType<ChocoController>().As<IChocolateyController>().SingleInstance();
+
+            // View models
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
             builder.RegisterType<GeneralSettingsViewModel>().As<GeneralSettingsViewModel>().SingleInstance();
             builder.RegisterType<SettingsWindowViewModel>().As<SettingsWindowViewModel>().SingleInstance();
             builder.RegisterType<LoginViewModel>().As<LoginViewModel>().SingleInstance();
             builder.RegisterType<ChocolateyInstallViewModel>().As<IChocolateyInstallViewModel>().SingleInstance();
+            builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
+            builder.RegisterType<OdbcRepository>().As<IOdbcRepository>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
         }
 

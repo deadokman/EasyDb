@@ -38,6 +38,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\WindowsPowerShell\3.0\System.Management.Automation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -49,9 +50,15 @@
     <Compile Include="ChocoController.cs" />
     <Compile Include="Interface\IChocolateyController.cs" />
     <Compile Include="Interface\IOdbcRepository.cs" />
+    <Compile Include="Keyhook\EKeyType.cs" />
+    <Compile Include="Keyhook\EState.cs" />
+    <Compile Include="Keyhook\KeyboardEventArgs.cs" />
+    <Compile Include="Keyhook\KeyboardExternal.cs" />
+    <Compile Include="Keyhook\KeyboardMonitor.cs" />
     <Compile Include="Model\OdbcDriver.cs" />
     <Compile Include="OdbcRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SupportExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

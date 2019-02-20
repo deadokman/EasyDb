@@ -7,6 +7,7 @@ namespace EasyDb.ViewModel
     using EasyDb.SandboxEnvironment;
     using EasyDb.ViewModel.Choco;
     using EasyDb.ViewModel.DataSource;
+    using EasyDb.ViewModel.Interfaces;
     using EasyDb.ViewModel.Settings;
     using GalaSoft.MvvmLight.Ioc;
     using NLog;
@@ -49,6 +50,17 @@ namespace EasyDb.ViewModel
             get
             {
                 return AutofacServiceLocator.Instance.GetInstance<IChocolateyInstallViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Gets instacne of OdbcMangerViewModel
+        /// </summary>
+        public IOdbcManagerViewModel OdbcManagerViewModel
+        {
+            get
+            {
+                return AutofacServiceLocator.Instance.GetInstance<IOdbcManagerViewModel>();
             }
         }
 

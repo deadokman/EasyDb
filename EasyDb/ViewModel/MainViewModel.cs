@@ -4,10 +4,12 @@ namespace EasyDb.ViewModel
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.IO;
+    using System.Windows;
     using System.Windows.Input;
 
     using EasyDb.Annotations;
     using EasyDb.Interfaces.Data;
+    using EasyDb.View;
     using EasyDb.View.Choco;
     using EasyDb.ViewModel.Choco;
 
@@ -102,6 +104,15 @@ namespace EasyDb.ViewModel
                         }
                     });
 
+            OpenOdbcManager = new RelayCommand(
+                () =>
+                    {
+                        var managerW = new OdbcManagerView();
+                        managerW.Owner = App.Current.MainWindow;
+                        managerW.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        managerW.Show();
+                    });
+
             // Validate choco install if necessary
             this.IsInterfaceEnabled = false;
             this._bgWorkerInit.RunWorkerAsync();
@@ -116,6 +127,11 @@ namespace EasyDb.ViewModel
         /// Gets or sets the ActivatePluginCommand
         /// </summary>
         public ICommand ActivatePluginCommand { get; set; }
+
+        /// <summary>
+        /// Opens ODBC manager as modal window
+        /// </summary>
+        public ICommand OpenOdbcManager { get; set; }
 
         /// <summary>
         /// Gets or sets the ActivePane

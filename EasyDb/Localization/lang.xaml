@@ -20,6 +20,8 @@
     <system:String x:Key="mw_Filters">Фильтры</system:String>
     <system:String x:Key="mw_Analyze">Анализ</system:String>
     <system:String x:Key="mw_View">Вид</system:String>
+    <system:String x:Key="mw_Tools">Инструменты</system:String>
+    <system:String x:Key="mw_Tools_odbcmanager">Менеджер ODBC драйверов</system:String>
     <system:String x:Key="mw_Settings">Настройки</system:String>
     <system:String x:Key="mw_PluginInit">Инициализация источников данных...</system:String>
     <!--Settings flyout-->
