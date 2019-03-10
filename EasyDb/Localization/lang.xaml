@@ -90,4 +90,11 @@
     <system:String x:Key="choco_dlg_SetUp_dlg">УСТАНОВИТЬ</system:String>
     <system:String x:Key="choco_dlg_SetUp_message">Установка Chocolatey</system:String>
     <system:String x:Key="choco_dlg_SetUp_text">Выполняется скачивание и установка Chocolatey</system:String>
+    <!--Контролл доступа к ODBC драйверам-->
+    <system:String x:Key="odbc_drivername">Имя</system:String>
+    <system:String x:Key="odbc_driverpath">Путь к файлу</system:String>
+    <system:String x:Key="odbc_driverver">Версия</system:String>
+    <system:String x:Key="odbc_installBtn">Добавить</system:String>
+    <system:String x:Key="odbc_cancelBtn">Закрыть</system:String>
+    <system:String x:Key="odbc_windowName">Менеджер драйверов ODBC</system:String>
 </ResourceDictionary>

@@ -78,6 +78,21 @@
         public string Password { get; set; }
 
         /// <summary>
+        /// Gets or sets the User
+        /// </summary>
+        [Required(ErrorMessage = "Username required")]
+        [OptionDisplayName("opt_def_user", "User:")]
+        public string User
+        {
+            get => this._user;
+            set
+            {
+                this._user = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the Port
         /// </summary>
         [Required(ErrorMessage = "Port required")]
@@ -89,21 +104,6 @@
             set
             {
                 this._port = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the User
-        /// </summary>
-        [Required(ErrorMessage = "Username required")]
-        [OptionDisplayName("opt_def_user", "User:")]
-        public string User
-        {
-            get => this._user;
-            set
-            {
-                this._user = value;
                 this.OnPropertyChanged();
             }
         }

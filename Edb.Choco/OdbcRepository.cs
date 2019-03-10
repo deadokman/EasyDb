@@ -1,12 +1,8 @@
 ﻿namespace Edb.Environment
 {
-    using System;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.IO;
     using System.Linq;
-    using System.Runtime.ExceptionServices;
-    using System.Threading;
 
     using Edb.Environment.Interface;
     using Edb.Environment.Model;
@@ -18,6 +14,7 @@
     /// </summary>
     public class OdbcRepository : IOdbcRepository
     {
+        private const string ODBC_INI_REG_PATH = "SOFTWARE\\ODBC\\ODBC.INI\\";
         private const string BaseOdbcPath = @"SOFTWARE\ODBC\ODBCINST.INI";
         private const string OdbcDriversCatalog = "ODBC Drivers";
 

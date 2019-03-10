@@ -11,9 +11,24 @@
         xmlns:viewModel="clr-namespace:EasyDb.ViewModel"
         mc:Ignorable="d"
         Background="{DynamicResource ControlBackgroundBrush}"
-        Title="{StaticResource dsms_settingsWindowTitle}" d:DataContext="{d:DesignInstance items:UserDataSource}" Height="450" Width="800" ShowMinButton="False" ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
+        Title="{StaticResource dsms_settingsWindowTitle}" d:DataContext="{d:DesignInstance items:UserDataSource}"
+                 Height="450" Width="800" ShowMinButton="False"
+                 ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
     <mah:MetroWindow.Resources>
         <converters:EmptyConverter x:Key="EmptyConverter"/>
+        <Style x:Key="TabControlHeaderRotate" TargetType="{x:Type TabItem}" BasedOn="{StaticResource MetroTabItem}">
+            <Setter Property="HeaderTemplate">
+                <Setter.Value>
+                    <DataTemplate>
+                        <ContentPresenter Height="30" Margin="0,0,0,0" Content="{TemplateBinding Content}">
+                            <ContentPresenter.LayoutTransform>
+                                <RotateTransform Angle="-270" />
+                            </ContentPresenter.LayoutTransform>
+                        </ContentPresenter>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </mah:MetroWindow.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
         <i:Interaction.Behaviors>
@@ -32,68 +47,83 @@
             <ColumnDefinition Width="2"/>
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="25"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <DockPanel Background="{DynamicResource GrayBrush10}" Grid.Row="0" />
-            <ListBox Background="{DynamicResource GrayBrush10}" Grid.Row="1" />
-        </Grid>
+        <Border BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DockPanel Background="{DynamicResource GrayBrush10}" Grid.Row="0" />
+                <ListBox Background="{DynamicResource GrayBrush10}" Grid.Row="1" />
+            </Grid>
+        </Border>
         <GridSplitter Grid.Column="1" VerticalAlignment="Stretch" Background="{DynamicResource ControlBackgroundBrush}" HorizontalAlignment="Stretch" />
-        <Grid Margin="5,0" Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="65"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition MinHeight="45" Height="*"/>
-                <RowDefinition Height="45"/>
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0" Margin="5">
-                <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}" />
-                    <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}" />
-                    <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" />
-                </DockPanel>
-            </StackPanel>
-            <ScrollViewer Grid.Row="1" Background="{StaticResource ControlBackgroundBrush}">
-                <mah:MetroAnimatedTabControl 
-                    BorderThickness="1"
-                    BorderBrush="{DynamicResource AccentColorBrush3}"
-                    Background="{StaticResource ControlBackgroundBrush}"
-                    mah:TabControlHelper.Underlined="TabPanel"
-                    VerticalAlignment="Stretch" 
-                    HorizontalAlignment="Stretch"
-                    MaxHeight="320"
-                    SelectedValue="{Binding SelectedDataSourceOption}"
-                    ItemsSource="{Binding SettingsObjects}">
-                    <TabControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
-                        </DataTemplate>
-                    </TabControl.ItemTemplate>
-                    <TabControl.ContentTemplate>
-                        <DataTemplate>
-                            <customControls:UserDatasouceSettingsControl 
+        <mah:MetroAnimatedTabControl          
+            TabStripMargin="0,0,0,0" 
+            mah:TabControlHelper.Transition="LeftReplace"
+            mah:TabControlHelper.CloseButtonEnabled="False" 
+            mah:TabControlHelper.Underlined="TabPanel" 
+            Margin="5,5,0,0" 
+            Grid.Column="2" TabStripPlacement="Right">
+            <TabItem Header="$options" Style="{StaticResource TabControlHeaderRotate}">
+                <Grid Margin="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="65"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition MinHeight="45" Height="*"/>
+                        <RowDefinition Height="45"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" Margin="5">
+                        <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                            <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}" />
+                            <TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
+                        </DockPanel>
+                        <DockPanel>
+                            <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}" />
+                            <TextBox Text="{Binding Comment, UpdateSourceTrigger=PropertyChanged}" />
+                        </DockPanel>
+                    </StackPanel>
+                    <ScrollViewer Grid.Row="1" Background="{StaticResource ControlBackgroundBrush}">
+                        <mah:MetroAnimatedTabControl 
+                                BorderThickness="1"
+                                BorderBrush="{DynamicResource AccentColorBrush3}"
+                                Background="{StaticResource ControlBackgroundBrush}"
+                                mah:TabControlHelper.Underlined="TabPanel"
+                                VerticalAlignment="Stretch" 
+                                HorizontalAlignment="Stretch"
+                                MaxHeight="320"
+                                SelectedValue="{Binding SelectedDataSourceOption}"
+                                ItemsSource="{Binding SettingsObjects}">
+                            <TabControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
+                                </DataTemplate>
+                            </TabControl.ItemTemplate>
+                            <TabControl.ContentTemplate>
+                                <DataTemplate>
+                                    <customControls:UserDatasouceSettingsControl 
                                 SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.SelectedDataSourceOption, Converter={StaticResource EmptyConverter}}" />
-                        </DataTemplate>
-                    </TabControl.ContentTemplate>
-                </mah:MetroAnimatedTabControl>
-            </ScrollViewer>
-            <StackPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="10" HorizontalAlignment="Left" Grid.Row="2">
-                <DockPanel>
-                    <Button MinWidth="100" Content="$testConn" />
-                    <TextBlock Margin="10,0" Text="Not tested yet" VerticalAlignment="Center" FontStyle="Italic" />
-                </DockPanel>
+                                </DataTemplate>
+                            </TabControl.ContentTemplate>
+                        </mah:MetroAnimatedTabControl>
+                    </ScrollViewer>
+                    <StackPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="10" HorizontalAlignment="Left" Grid.Row="2">
+                        <DockPanel>
+                            <Button MinWidth="100" Content="$testConn" />
+                            <TextBlock Margin="10,0" Text="Not tested yet" VerticalAlignment="Center" FontStyle="Italic" />
+                        </DockPanel>
+                        <CheckBox Margin="0,5" Content="$savepassword"/>
+                    </StackPanel>
+                    <DockPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="5" HorizontalAlignment="Right" Grid.Row="3">
+                        <Button Content="$apply_name" Style="{StaticResource MetroButtonAccentNoBorder}" Margin="0,2,10,2"  Width="120"/>
+                        <Button Content="$cancel_name" Style="{StaticResource MetroButton}" Width="120" />
+                    </DockPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="$driver" Style="{StaticResource TabControlHeaderRotate}">
 
-                <CheckBox Margin="0,5" Content="$savepassword"/>
-            </StackPanel>
-            <DockPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="5" HorizontalAlignment="Right" Grid.Row="3">
-                <Button Content="$apply_name" Style="{StaticResource MetroButtonAccentNoBorder}" Margin="0,2,10,2"  Width="120"/>
-                <Button Content="$cancel_name" Style="{StaticResource MetroButton}" Width="120" />
-            </DockPanel>
-        </Grid>
+            </TabItem>
+        </mah:MetroAnimatedTabControl>
+
     </Grid>
 </mah:MetroWindow>
