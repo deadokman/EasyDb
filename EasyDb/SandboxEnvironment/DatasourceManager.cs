@@ -12,6 +12,7 @@ namespace EasyDb.SandboxEnvironment
     using System.Windows;
     using System.Xml.Serialization;
 
+    using EasyDb.Annotations;
     using EasyDb.Interfaces.Data;
     using EasyDb.View;
     using EasyDb.ViewModel.DataSource;
@@ -20,6 +21,8 @@ namespace EasyDb.SandboxEnvironment
     using EDb.Interfaces;
 
     using NLog;
+
+    using ILogger = Autofac.Extras.NLog.ILogger;
 
     /// <summary>
     /// Get supported datasource drivers
@@ -32,9 +35,9 @@ namespace EasyDb.SandboxEnvironment
         private const string DataSourceStorageFile = "Edb.Datasource";
 
         /// <summary>
-        /// Defines the _logger
+        /// Logger instance
         /// </summary>
-        private static Logger _logger = LogManager.GetCurrentClassLogger();
+        private readonly ILogger _logger;
 
         /// <summary>
         /// Supported datasources collection
@@ -49,8 +52,10 @@ namespace EasyDb.SandboxEnvironment
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceManager"/> class.
         /// </summary>
-        public DatasourceManager()
+        /// <param name="logger">Class logger</param>
+        public DatasourceManager([NotNull] ILogger logger)
         {
+            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this._supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
             this._xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
             this.UserdefinedDatasources = new List<UserDataSource>();
@@ -87,8 +92,16 @@ namespace EasyDb.SandboxEnvironment
             };
 
             uds.SetGuid(module.ModuleGuid);
-            this.UserdefinedDatasources.Add(uds);
             return uds;
+        }
+
+        /// <summary>
+        /// Добавить объявленный пользователем источник данных в список
+        /// </summary>
+        /// <param name="uds">Источник данных прользователя</param>
+        public void ApplyUserDatasource(UserDataSource uds)
+        {
+            this.UserdefinedDatasources.Add(uds);
         }
 
         /// <summary>
@@ -146,15 +159,7 @@ namespace EasyDb.SandboxEnvironment
                         continue;
                     }
 
-                    var supportedSourceItem = new SupportedSourceItem(
-                        edbModuleProxy,
-                        (module) =>
-                            {
-                                var uds = this.CreateNewUserdatasource(module);
-                                this.DisplayUserDatasourceProperties(uds);
-                                return uds;
-                            });
-
+                    var supportedSourceItem = new SupportedSourceItem(edbModuleProxy);
                     this._supportedDataSources.Add(edbModuleProxy.ModuleGuid, supportedSourceItem);
                 }
                 catch (Exception ex)
@@ -193,19 +198,6 @@ namespace EasyDb.SandboxEnvironment
         /// <param name="eventArgs">The eventArgs<see cref="EventArgs"/></param>
         private void AppOnLanguageChanged(object sender, EventArgs eventArgs)
         {
-        }
-
-        /// <summary>
-        /// The DisplayUserDatasourceProperties
-        /// </summary>
-        /// <param name="uds">The uds<see cref="UserDataSource"/></param>
-        private void DisplayUserDatasourceProperties(UserDataSource uds)
-        {
-            var dlgWindow = new DatasourceSettingsView();
-            dlgWindow.DataContext = uds;
-            dlgWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dlgWindow.Owner = Application.Current.MainWindow;
-            dlgWindow.ShowDialog();
         }
 
         /// <summary>

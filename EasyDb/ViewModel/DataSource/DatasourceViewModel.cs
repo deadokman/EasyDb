@@ -1,16 +1,20 @@
 ﻿namespace EasyDb.ViewModel.DataSource
 {
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Windows;
     using System.Windows.Input;
+
+    using Autofac.Extras.NLog;
 
     using EasyDb.Annotations;
     using EasyDb.Interfaces.Data;
+    using EasyDb.View;
     using EasyDb.ViewModel.DataSource.Items;
-
     using GalaSoft.MvvmLight.CommandWpf;
 
     /// <summary>
@@ -18,6 +22,10 @@
     /// </summary>
     public class DatasourceViewModel : IDatasourceControlViewModel, INotifyPropertyChanged
     {
+        private readonly IDataSourceManager _manager;
+
+        private readonly ILogger _logger;
+
         /// <summary>
         /// Defines the _configureUserdataSourceCmd
         /// </summary>
@@ -33,20 +41,27 @@
         /// </summary>
         private ObservableCollection<UserDataSource> _userDatasources;
 
+        private SupportedSourceItem _selectedSourceItem;
+
+        private UserDataSource _editingUserDatasource;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
-        public DatasourceViewModel(IDataSourceManager manager)
+        /// <param name="logger">Logger instance</param>
+        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] ILogger logger)
         {
+            this._manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             manager.DatasourceLoaded += this.InstanceOnDatasourceLoaded;
             this.SupportedDatasources = manager.SupportedDatasources.ToArray();
             this.UserDatasources = new ObservableCollection<UserDataSource>(manager.UserdefinedDatasources);
             this.ConfigureDs = new RelayCommand<SupportedSourceItem>(
                 (si) =>
                     {
-                        var item = si.InvokeConfigure();
-                        this.UserDatasources.Add(item);
+                        SelectedSourceItem = si;
+                        this.DisplayUserDatasourceProperties();
                     });
         }
 
@@ -54,6 +69,38 @@
         /// Defines the PropertyChanged
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Changes editing context
+        /// </summary>
+        public SupportedSourceItem SelectedSourceItem
+        {
+            get => this._selectedSourceItem;
+            set
+            {
+                this._selectedSourceItem = value;
+                if (value != null)
+                {
+                    var uds = _manager.CreateNewUserdatasource(_selectedSourceItem.Module);
+                    this.EditingUserDatasource = uds;
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Editing user data source
+        /// </summary>
+        public UserDataSource EditingUserDatasource
+        {
+            get => this._editingUserDatasource;
+            set
+            {
+                this._editingUserDatasource = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Gets or sets the ConfigureDs
@@ -118,6 +165,17 @@
         {
             this.SupportedDatasources = datasources.ToArray();
             this.UserDatasources = new ObservableCollection<UserDataSource>(userSources);
+        }
+
+        /// <summary>
+        /// The DisplayUserDatasourceProperties
+        /// </summary>
+        private void DisplayUserDatasourceProperties()
+        {
+            var dlgWindow = new DatasourceSettingsView();
+            dlgWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dlgWindow.Owner = Application.Current.MainWindow;
+            dlgWindow.ShowDialog();
         }
     }
 }

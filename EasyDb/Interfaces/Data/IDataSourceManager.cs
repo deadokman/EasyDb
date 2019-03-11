@@ -46,6 +46,12 @@
         UserDataSource CreateNewUserdatasource(EdbDatasourceModule module);
 
         /// <summary>
+        /// Добавить объявленный пользователем источник данных в список
+        /// </summary>
+        /// <param name="uds">Источник данных прользователя</param>
+        void ApplyUserDatasource(UserDataSource uds);
+
+        /// <summary>
         /// Инициализировать менеджер данных
         /// </summary>
         /// <param name="dbModulesAssembliesPath">Путь к сборкам драйверов</param>

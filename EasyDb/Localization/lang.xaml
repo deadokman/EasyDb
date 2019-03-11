@@ -47,6 +47,8 @@
     <system:String x:Key="dsms_datasourceComment">Комментарий:</system:String>
     <system:String x:Key="dsms_optionWatermark"> ... </system:String>
     <system:String x:Key="dsms_passwordToolTipCapton">Включен CapsLock</system:String>
+    <system:String x:Key="dsms_optionsPanel">Настройки</system:String>
+    <system:String x:Key="dsms_driverInfoPanel">Драйвер</system:String>
 
     <system:String x:Key="dsms_ex_datasourceName">Требуется наименование</system:String>
     <system:String x:Key="opt_def_hostname">Имя хоста:</system:String>

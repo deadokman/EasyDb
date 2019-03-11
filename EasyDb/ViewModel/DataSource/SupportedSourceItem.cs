@@ -21,11 +21,6 @@ namespace EasyDb.ViewModel.DataSource
     public class SupportedSourceItem
     {
         /// <summary>
-        /// Defines the _invoke
-        /// </summary>
-        private readonly Func<EdbDatasourceModule, UserDataSource> _invoke;
-
-        /// <summary>
         /// Defines the _sourceModule
         /// </summary>
         private readonly EdbDatasourceModule _sourceModule;
@@ -34,14 +29,10 @@ namespace EasyDb.ViewModel.DataSource
         /// Initializes a new instance of the <see cref="SupportedSourceItem"/> class.
         /// </summary>
         /// <param name="sourceModule">The sourceModule<see cref="EdbDatasourceModule"/></param>
-        /// <param name="invokeCfgSourceModule">The invokeCfgSourceModule<see cref="Func{EdbDatasourceModule, UserDataSource}"/></param>
         public SupportedSourceItem(
-            [NotNull] EdbDatasourceModule sourceModule,
-            [NotNull] Func<EdbDatasourceModule, UserDataSource> invokeCfgSourceModule)
+            [NotNull] EdbDatasourceModule sourceModule)
         {
             this._sourceModule = sourceModule ?? throw new ArgumentNullException(nameof(sourceModule));
-            this._invoke = invokeCfgSourceModule ?? throw new ArgumentNullException(nameof(invokeCfgSourceModule));
-            this.InvokeCreateSource = new RelayCommand(() => { this.InvokeConfigure(); });
         }
 
         /// <summary>
@@ -71,24 +62,9 @@ namespace EasyDb.ViewModel.DataSource
         public string DatabaseName => this._sourceModule.DatabaseName;
 
         /// <summary>
-        /// Gets or sets the InvokeCreateSource
-        /// Вызвать делегат создания нового источника данных
-        /// </summary>
-        public ICommand InvokeCreateSource { get; set; }
-
-        /// <summary>
         /// Gets or sets the Module
         /// Драйвер источника данных
         /// </summary>
-        public EdbDatasourceModule Module { get; set; }
-
-        /// <summary>
-        /// Вызвать конфигурирование источника
-        /// </summary>
-        /// <returns>The <see cref="UserDataSource"/></returns>
-        public UserDataSource InvokeConfigure()
-        {
-            return this._invoke?.Invoke(this._sourceModule);
-        }
+        public EdbDatasourceModule Module => this._sourceModule;
     }
 }

@@ -28,5 +28,15 @@
         /// Datasources that has been declared by user
         /// </summary>
         ObservableCollection<UserDataSource> UserDatasources { get; }
+
+        /// <summary>
+        /// Changes editing context
+        /// </summary>
+        SupportedSourceItem SelectedSourceItem { get; set; }
+
+        /// <summary>
+        /// Editing user data source
+        /// </summary>
+        UserDataSource EditingUserDatasource { get; set; }
     }
 }
