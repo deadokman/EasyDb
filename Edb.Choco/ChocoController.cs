@@ -7,6 +7,15 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Collections.Generic;
+using chocolatey;
+using chocolatey.infrastructure.app.domain;
+using chocolatey.infrastructure.app.services;
+using chocolatey.infrastructure.logging;
+using Edb.Environment.ChocolateyGui;
+using Edb.Environment.Model;
+using NuGet;
+
 namespace Edb.Environment
 {
     using System;
@@ -19,7 +28,7 @@ namespace Edb.Environment
     using System.Security.Principal;
     using System.Text;
     using System.Threading.Tasks;
-
+    using Microsoft.VisualStudio.Threading;
     using Edb.Environment.Interface;
 
     /// <summary>
@@ -27,6 +36,9 @@ namespace Edb.Environment
     /// </summary>
     public class ChocoController : IChocolateyController
     {
+        private readonly ILogger logger;
+        private static readonly AsyncReaderWriterLock Lock = new AsyncReaderWriterLock();
+
         /// <summary>
         /// Powershell script default name
         /// </summary>
@@ -47,12 +59,24 @@ namespace Edb.Environment
         /// </summary>
         private string command = @"@powershell -NoProfile -ExecutionPolicy Bypass -Command ""iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin";
 
+        /// <summary>
+        /// Main chocolatey container instance
+        /// </summary>
+        private GetChocolatey _choco;
+
+        /// <summary>
+        /// Chocolatey package service
+        /// </summary>
+        private IChocolateyPackageInformationService _chocolateyPackageInformationService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChocoController"/> class.
         /// </summary>
-        public ChocoController()
+        public ChocoController(ILogger logger)
         {
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _choco = Lets.GetChocolatey().SetCustomLogging(new SerilogLogger(logger));
+            _chocolateyPackageInformationService = _choco.Container().GetInstance<IChocolateyPackageInformationService>();
         }
 
         /// <summary>
@@ -68,8 +92,18 @@ namespace Edb.Environment
         }
 
         /// <summary>
+        /// Get information about chocolatey package
+        /// </summary>
+        /// <param name="package">Choco package information</param>
+        /// <returns></returns>
+        public ChocolateyPackageInformation GetPackageInformation(IPackage package)
+        {
+            return _chocolateyPackageInformationService.get_package_information(package);
+        }
+
+        /// <summary>
         /// Powershell script run
-        /// </summa ry>
+        /// </summa>
         /// <param name="script">
         /// Script text
         /// </param>
@@ -133,6 +167,64 @@ namespace Edb.Environment
         }
 
         /// <summary>
+        /// Install package from chocolatey
+        /// </summary>
+        /// <param name="id">Package ID</param>
+        /// <param name="version">Version</param>
+        /// <param name="source">URL</param>
+        /// <param name="force">Force install</param>
+        /// <returns></returns>
+        public async Task<PackageOperationResult> InstallPackage(
+            string id,
+            string version = null,
+            Uri source = null,
+            bool force = false)
+        {
+            using (await Lock.WriteLockAsync())
+            {
+                var logger = new SerilogLogger(this.logger);
+                var choco = Lets.GetChocolatey().SetCustomLogging(logger);
+                choco.Set(
+                    config =>
+                    {
+                        config.CommandName = CommandNameType.install.ToString();
+                        config.PackageNames = id;
+                        config.Features.UsePackageExitCodes = false;
+
+                        if (version != null)
+                        {
+                            config.Version = version.ToString();
+                        }
+
+                        if (source != null)
+                        {
+                            config.Sources = source.ToString();
+                        }
+
+                        if (force)
+                        {
+                            config.Force = true;
+                        }
+                    });
+
+                Action<LogMessage> grabErrors;
+                var errors = GetErrors(out grabErrors);
+
+                using (logger.Intercept(grabErrors))
+                {
+                    await choco.RunAsync();
+                    if (Environment.ExitCode != 0)
+                    {
+                        Environment.ExitCode = 0;
+                        return new PackageOperationResult { Successful = false, Messages = errors.ToArray() };
+                    }
+
+                    return PackageOperationResult.SuccessfulCached;
+                }
+            }
+        }
+
+        /// <summary>
         /// Execure chocolatey installation
         /// </summary>
         /// <param name="progressReportFunc">Install report func</param>
@@ -169,6 +261,24 @@ namespace Edb.Environment
             {
                 // Log the exception
             }
+        }
+
+        private static List<string> GetErrors(out Action<LogMessage> grabErrors)
+        {
+            var errors = new List<string>();
+            grabErrors = m =>
+            {
+                switch (m.LogLevel)
+                {
+                    case LogLevelType.Warning:
+                    case LogLevelType.Error:
+                    case LogLevelType.Fatal:
+                        errors.Add(m.Message);
+                        break;
+                }
+            };
+
+            return errors;
         }
     }
 }

@@ -43,8 +43,14 @@ namespace EDb.Interfaces
             return this.GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
         }
 
+        /// <summary>
+        /// Module unique GUID
+        /// </summary>
         public virtual Guid ModuleGuid { get; private set; }
 
+        /// <summary>
+        /// Module version
+        /// </summary>
         public virtual Version Version { get; private set; }
 
         public virtual void SetVersion(Version version)

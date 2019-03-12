@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Edb.Environment.Model;
+
 namespace Edb.Environment.Interface
 {
     using System;
@@ -52,5 +54,15 @@ namespace Edb.Environment.Interface
         /// The <see cref="string"/>.
         /// </returns>
         Task<string> Runpowershell(string script);
+
+        /// <summary>
+        /// Install package from chocolatey
+        /// </summary>
+        /// <param name="id">Package ID</param>
+        /// <param name="version">Version</param>
+        /// <param name="source">URL</param>
+        /// <param name="force">Force install</param>
+        /// <returns></returns>
+        Task<PackageOperationResult> InstallPackage(string id, string version = null, Uri source = null, bool force = false);
     }
 }
