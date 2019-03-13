@@ -28,15 +28,17 @@ namespace Edb.Environment
     using System.Security.Principal;
     using System.Text;
     using System.Threading.Tasks;
-    using Microsoft.VisualStudio.Threading;
+
     using Edb.Environment.Interface;
+
+    using Microsoft.VisualStudio.Threading;
 
     /// <summary>
     /// Defines the <see cref="ChocoController" />
     /// </summary>
     public class ChocoController : IChocolateyController
     {
-        private readonly ILogger logger;
+        private readonly Autofac.Extras.NLog.ILogger logger;
         private static readonly AsyncReaderWriterLock Lock = new AsyncReaderWriterLock();
 
         /// <summary>
@@ -72,7 +74,10 @@ namespace Edb.Environment
         /// <summary>
         /// Initializes a new instance of the <see cref="ChocoController"/> class.
         /// </summary>
-        public ChocoController(ILogger logger)
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        public ChocoController(Autofac.Extras.NLog.ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _choco = Lets.GetChocolatey().SetCustomLogging(new SerilogLogger(logger));

@@ -10,6 +10,7 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:viewModel="clr-namespace:EasyDb.ViewModel"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        xmlns:pages="clr-namespace:EasyDb.View.Pages"
         mc:Ignorable="d"
         Background="{DynamicResource ControlBackgroundBrush}"
         Title="{StaticResource dsms_settingsWindowTitle}"  
@@ -148,7 +149,7 @@
                         </Grid>
                     </TabItem>
                     <TabItem mah:ControlsHelper.HeaderFontSize="20"  Header="{StaticResource dsms_driverInfoPanel}" Style="{StaticResource TabControlHeaderRotate}">
-
+                        <Frame Source="Pages/DriverInfoPage.xaml" NavigationUIVisibility="Hidden"/>
                     </TabItem>
                 </mah:MetroAnimatedTabControl>
                 <Rectangle Grid.Row="1" StrokeThickness="1" Stroke="{StaticResource AccentColorBrush4}"></Rectangle>

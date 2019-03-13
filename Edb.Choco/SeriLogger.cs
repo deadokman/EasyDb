@@ -1,208 +1,147 @@
-﻿using NuGet;
-using System;
-using chocolatey.infrastructure.logging;
-
-namespace Edb.Environment
+﻿namespace Edb.Environment
 {
-    // --------------------------------------------------------------------------------------------------------------------
-    // <copyright company="Chocolatey" file="SerilogLogger.cs">
-    //   Copyright 2014 - Present Rob Reynolds, the maintainers of Chocolatey, and RealDimensions Software, LLC
-    // </copyright>
-    // --------------------------------------------------------------------------------------------------------------------
-
     namespace ChocolateyGui
     {
+        using chocolatey.infrastructure.logging;
+        using System;
+
+        /// <summary>
+        /// Defines the <see cref="SerilogLogger" />
+        /// </summary>
         public class SerilogLogger : ILog
         {
-            private readonly ILogger _logger;
-            //private Action<Models.LogMessage> _interceptor;
-            private string _context;
-            // private IProgressService _progressService;
+            /// <summary>
+            /// Defines the _logger
+            /// </summary>
+            private readonly Autofac.Extras.NLog.ILogger _logger;
 
-            public SerilogLogger(ILogger logger)
+            /// <summary>
+            /// Defines the _context
+            /// </summary>
+            private string _context;
+
+            /// <summary>
+            /// Initializes a new instance of the <see cref="SerilogLogger"/> class.
+            /// </summary>
+            /// <param name="logger">The logger<see cref="Autofac.Extras.NLog.ILogger"/></param>
+            public SerilogLogger(Autofac.Extras.NLog.ILogger logger)
             {
-                _logger = logger;
-                // _progressService = progressService;
+                this._logger = logger;
             }
 
-            //public IDisposable Intercept(Action<Models.LogMessage> interceptor)
-            //{
-            //    return new InterceptMessages(this, interceptor);
-            //}
-
+            /// <summary>
+            /// The InitializeFor
+            /// </summary>
+            /// <param name="loggerName">The loggerName<see cref="string"/></param>
             public void InitializeFor(string loggerName)
             {
-                _context = loggerName;
+                this._context = loggerName;
             }
 
+            /// <summary>
+            /// The Debug
+            /// </summary>
+            /// <param name="message">The message<see cref="string"/></param>
+            /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Debug(string message, params object[] formatting)
             {
-                _logger.Log(MessageLevel.Debug, message, formatting);
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Debug,
-                //    Message = string.Format(message, formatting)
-                //};
-
-                //_interceptor?.Invoke(logMessage);
+                this._logger.Debug(message, formatting);
             }
 
+            /// <summary>
+            /// The Debug
+            /// </summary>
+            /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Debug(Func<string> message)
             {
-                _logger.Log(MessageLevel.Debug, message());
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Debug,
-                //    Message = message()
-                //};
-
-                //_interceptor?.Invoke(logMessage);
+                this._logger.Debug(message());
             }
 
+            /// <summary>
+            /// The Info
+            /// </summary>
+            /// <param name="message">The message<see cref="string"/></param>
+            /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Info(string message, params object[] formatting)
             {
-                _logger.Log(MessageLevel.Info, message, formatting);
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Info,
-                //    Message = string.Format(message, formatting)
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-                //_progressService.WriteMessage(logMessage.Message, PowerShellLineType.Output);
+                this._logger.Info(message, formatting);
             }
 
+            /// <summary>
+            /// The Info
+            /// </summary>
+            /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Info(Func<string> message)
             {
-                _logger.Log(MessageLevel.Info, message());
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Info,
-                //    Message = message()
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-               // _progressService.WriteMessage(logMessage.Message, PowerShellLineType.Output);
+                this._logger.Info(message());
             }
 
+            /// <summary>
+            /// The Warn
+            /// </summary>
+            /// <param name="message">The message<see cref="string"/></param>
+            /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Warn(string message, params object[] formatting)
             {
-                _logger.Log(MessageLevel.Warning, message, formatting);
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Warn,
-                //    Message = string.Format(message, formatting)
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-                //_progressService.WriteMessage(logMessage.Message, PowerShellLineType.Warning);
+                this._logger.Warn(message, formatting);
             }
 
+            /// <summary>
+            /// The Warn
+            /// </summary>
+            /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Warn(Func<string> message)
             {
-                _logger.Log(MessageLevel.Warning, message());
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Warn,
-                //    Message = message()
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-                //_progressService.WriteMessage(logMessage.Message, PowerShellLineType.Warning);
+                this._logger.Warn(message());
             }
 
+            /// <summary>
+            /// The Error
+            /// </summary>
+            /// <param name="message">The message<see cref="string"/></param>
+            /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Error(string message, params object[] formatting)
             {
-                _logger.Log(MessageLevel.Error, message, formatting);
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Error,
-                //    Message = string.Format(message, formatting)
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-                //_progressService.WriteMessage(logMessage.Message, PowerShellLineType.Error);
+                this._logger.Error(message, formatting);
             }
 
+            /// <summary>
+            /// The Error
+            /// </summary>
+            /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Error(Func<string> message)
             {
-                _logger.Log(MessageLevel.Error, message());
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Error,
-                //    Message = message()
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-                // _progressService.WriteMessage(logMessage.Message, PowerShellLineType.Error);
+                this._logger.Error(message());
             }
 
+            /// <summary>
+            /// The Fatal
+            /// </summary>
+            /// <param name="message">The message<see cref="string"/></param>
+            /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Fatal(string message, params object[] formatting)
             {
-                _logger.Log(MessageLevel.Fatal, message, formatting);
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Fatal,
-                //    Message = string.Format(message, formatting)
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-                // _progressService.WriteMessage(logMessage.Message, PowerShellLineType.Error);
+                this._logger.Fatal(message, formatting);
             }
 
+            /// <summary>
+            /// The Fatal
+            /// </summary>
+            /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Fatal(Func<string> message)
             {
-                _logger.Log(MessageLevel.Fatal, message());
-
-                //var logMessage = new Models.LogMessage
-                //{
-                //    Context = _context,
-                //    LogLevel = LogLevel.Fatal,
-                //    Message = message()
-                //};
-
-                //_interceptor?.Invoke(logMessage);
-                // _progressService.WriteMessage(logMessage.Message, PowerShellLineType.Error);
+                this._logger.Fatal(message());
             }
 
+            /// <summary>
+            /// The Intercept
+            /// </summary>
+            /// <param name="interceptor">The interceptor<see cref="Action{LogMessage}"/></param>
+            /// <returns>The <see cref="IDisposable"/></returns>
             public IDisposable Intercept(Action<LogMessage> interceptor)
             {
                 return new InterceptMessages(this, interceptor);
             }
-
-            //public class InterceptMessages : IDisposable
-            //{
-            //    private readonly SerilogLogger _logger;
-
-            //    public InterceptMessages(SerilogLogger logger, Action<Models.LogMessage> interceptor)
-            //    {
-            //        _logger = logger;
-            //        logger._interceptor = interceptor;
-            //    }
-
-            //    public void Dispose()
-            //    {
-            //        _logger._interceptor = null;
-            //    }
-            //}
         }
     }
 }

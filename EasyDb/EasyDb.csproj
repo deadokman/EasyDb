@@ -255,6 +255,9 @@
     <Compile Include="View\OdbcManagerView.xaml.cs">
       <DependentUpon>OdbcManagerView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Pages\DriverInfoPage.xaml.cs">
+      <DependentUpon>DriverInfoPage.xaml</DependentUpon>
+    </Compile>
     <!--<Compile Include="View\DiagramDesignerTool.xaml.cs">
       <DependentUpon>DiagramDesignerTool.xaml</DependentUpon>
     </Compile>-->
@@ -403,6 +406,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\OdbcManagerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Pages\DriverInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

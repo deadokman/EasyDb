@@ -55,6 +55,21 @@ namespace EasyDb.SandboxEnvironment
         public override Version Version => this._proxySubject.Version;
 
         /// <summary>
+        /// Identifier of chocolate ODBC package
+        /// </summary>
+        public override string ChocolateOdbcPackageId => this._proxySubject.ChocolateOdbcPackageId;
+
+        /// <summary>
+        /// URL to ODBC driver package
+        /// </summary>
+        public override string ChocolatepackageUrl => this._proxySubject.ChocolatepackageUrl;
+
+        /// <summary>
+        /// Driver download URLS
+        /// </summary>
+        public override string[] AlternativeDriverDownloadUrls => this._proxySubject.AlternativeDriverDownloadUrls;
+
+        /// <summary>
         /// Gets module source options collection
         /// </summary>
         /// <returns>Source options collection</returns>

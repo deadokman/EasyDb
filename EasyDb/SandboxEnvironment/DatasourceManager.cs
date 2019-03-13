@@ -14,7 +14,6 @@ namespace EasyDb.SandboxEnvironment
 
     using EasyDb.Annotations;
     using EasyDb.Interfaces.Data;
-    using EasyDb.View;
     using EasyDb.ViewModel.DataSource;
     using EasyDb.ViewModel.DataSource.Items;
 

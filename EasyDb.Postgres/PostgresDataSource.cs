@@ -54,5 +54,9 @@
         {
             return new EdbSourceOption[] { new GeneralOption(), new SshSsl() };
         }
+
+        public override string ChocolateOdbcPackageId { get; }
+
+        public override string ChocolatepackageUrl { get; }
     }
 }
