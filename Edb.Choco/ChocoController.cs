@@ -22,12 +22,15 @@ namespace Edb.Environment
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
+    using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
     using System.Net.Http;
     using System.Security.Principal;
     using System.Text;
     using System.Threading.Tasks;
+
+    using chocolatey.infrastructure.results;
 
     using Edb.Environment.Interface;
 
@@ -61,15 +64,6 @@ namespace Edb.Environment
         /// </summary>
         private string command = @"@powershell -NoProfile -ExecutionPolicy Bypass -Command ""iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin";
 
-        /// <summary>
-        /// Main chocolatey container instance
-        /// </summary>
-        private GetChocolatey _choco;
-
-        /// <summary>
-        /// Chocolatey package service
-        /// </summary>
-        private IChocolateyPackageInformationService _chocolateyPackageInformationService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChocoController"/> class.
@@ -80,8 +74,6 @@ namespace Edb.Environment
         public ChocoController(Autofac.Extras.NLog.ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _choco = Lets.GetChocolatey().SetCustomLogging(new SerilogLogger(logger));
-            _chocolateyPackageInformationService = _choco.Container().GetInstance<IChocolateyPackageInformationService>();
         }
 
         /// <summary>
@@ -100,10 +92,21 @@ namespace Edb.Environment
         /// Get information about chocolatey package
         /// </summary>
         /// <param name="package">Choco package information</param>
-        /// <returns></returns>
-        public ChocolateyPackageInformation GetPackageInformation(IPackage package)
+        /// <returns>ChocolateyPackageInformation package info</returns>
+        public async Task<PackageResult> GetPackageInformation(string packageId)
         {
-            return _chocolateyPackageInformationService.get_package_information(package);
+            var choco = Lets.GetChocolatey().SetCustomLogging(new SerilogLogger(this.logger));
+            choco = choco.Set(
+                config =>
+                    {
+                        config.CommandName = "list";
+                        config.Input = packageId;
+                        config.ListCommand.Exact = true;
+                        config.QuietOutput = true;
+                        config.RegularOutput = false;
+                    });
+
+            return await choco.ListAsync<PackageResult>().ContinueWith(r => r.Result.FirstOrDefault());
         }
 
         /// <summary>

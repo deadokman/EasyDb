@@ -23,8 +23,9 @@ namespace Edb.Environment.Interface
         /// Checks that ODBC driver installed
         /// </summary>
         /// <param name="driverName">System driver name</param>
+        /// <param name="driver">Driver instance</param>
         /// <returns>returns true if ODBC driver installed</returns>
-        bool OdbcDriverInstalled(string driverName);
+        bool OdbcDriverInstalled(string driverName, out OdbcDriver driver);
 
         /// <summary>
         /// Adds new DSN connection

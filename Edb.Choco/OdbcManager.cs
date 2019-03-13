@@ -1,23 +1,31 @@
-﻿using System;
-
-namespace Edb.Environment
+﻿namespace Edb.Environment
 {
+    using Interface;
+    using Microsoft.Win32;
+    using Model;
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-
-    using Interface;
-    using Model;
-
-    using Microsoft.Win32;
 
     /// <summary>
     /// Represents ODBC derivers repository inside the WINDOWS system
     /// </summary>
     public class OdbcManager : IOdbcManager
     {
+        /// <summary>
+        /// Defines the OdbcIniRegPath
+        /// </summary>
         private readonly string OdbcIniRegPath = Path.Combine("SOFTWARE", "ODBC", "ODBC.INI");
+
+        /// <summary>
+        /// Defines the OdbcInstallationRegPath
+        /// </summary>
         private readonly string OdbcInstallationRegPath = Path.Combine("SOFTWARE", "ODBC", "ODBCINST.INI");
+
+        /// <summary>
+        /// Defines the OdbcDriversCatalog
+        /// </summary>
         private const string OdbcDriversCatalog = "ODBC Drivers";
 
         /// <summary>
@@ -26,11 +34,12 @@ namespace Edb.Environment
         private Dictionary<string, OdbcDriver> _odbcDrivers;
 
         /// <summary>
-        /// Initialize ODBC driver manager
+        /// Initializes a new instance of the <see cref="OdbcManager"/> class.
         /// </summary>
         public OdbcManager()
         {
             _odbcDrivers = new Dictionary<string, OdbcDriver>();
+            RefreshDriversCatalog();
         }
 
         /// <summary>
@@ -39,7 +48,6 @@ namespace Edb.Environment
         /// <returns>ODBC drivers list</returns>
         public IEnumerable<OdbcDriver> ListOdbcDrivers()
         {
-            RefreshDriversCatalog();
             return _odbcDrivers.Values;
         }
 
@@ -47,11 +55,11 @@ namespace Edb.Environment
         /// Checks that ODBC driver installed
         /// </summary>
         /// <param name="driverName">System driver name</param>
+        /// <param name="driver">Driver instance</param>
         /// <returns>returns true if ODBC driver installed</returns>
-        public bool OdbcDriverInstalled(string driverName)
+        public bool OdbcDriverInstalled(string driverName, out OdbcDriver driver)
         {
-            RefreshDriversCatalog();
-            throw new System.NotImplementedException();
+            return this._odbcDrivers.TryGetValue(driverName, out driver);
         }
 
         /// <summary>
@@ -68,6 +76,7 @@ namespace Edb.Environment
             string database)
         {
             RefreshDriversCatalog();
+
             // Lookup driver path from driver name
             var driverKey = Registry.LocalMachine.CreateSubKey(Path.Combine(OdbcInstallationRegPath, driverName));
             if (driverKey == null)
@@ -79,16 +88,25 @@ namespace Edb.Environment
 
             // Add value to odbc data sources
             var datasourcesKey = Registry.LocalMachine.CreateSubKey(OdbcIniRegPath + "ODBC Data Sources");
-            if (datasourcesKey == null) throw new Exception("ODBC Registry key for datasources does not exist");
+            if (datasourcesKey == null)
+            {
+                throw new Exception("ODBC Registry key for datasources does not exist");
+            }
+
             datasourcesKey.SetValue(dsnName, driverName);
 
             // Create new key in odbc.ini with dsn name and add values
             var dsnKey = Registry.LocalMachine.CreateSubKey(OdbcIniRegPath + dsnName);
-            if (dsnKey == null) throw new Exception("ODBC Registry key for DSN was not created");
+            if (dsnKey == null)
+            {
+                throw new Exception("ODBC Registry key for DSN was not created");
+            }
+
             dsnKey.SetValue("Database", database);
             dsnKey.SetValue("Description", description);
             dsnKey.SetValue("Driver", driverPath);
-            dsnKey.SetValue("LastUser", Environment.UserName);
+
+            // dsnKey.SetValue("LastUser", Environment.UserName);
             dsnKey.SetValue("Server", server);
             dsnKey.SetValue("Database", database);
             dsnKey.SetValue("Trusted_Connection", trustedConnection ? "Yes" : "No");
@@ -100,7 +118,17 @@ namespace Edb.Environment
         /// <param name="dsnName">DSN name</param>
         public void RemoveDSN(string dsnName)
         {
-            throw new System.NotImplementedException();
+            // Remove DSN key
+            Registry.LocalMachine.DeleteSubKeyTree(OdbcIniRegPath + dsnName);
+
+            // Remove DSN name from values list in ODBC Data Sources key
+            var datasourcesKey = Registry.LocalMachine.CreateSubKey(OdbcIniRegPath + "ODBC Data Sources");
+            if (datasourcesKey == null)
+            {
+                throw new Exception("ODBC Registry key for datasources does not exist");
+            }
+
+            datasourcesKey.DeleteValue(dsnName);
         }
 
         /// <summary>
@@ -110,7 +138,13 @@ namespace Edb.Environment
         /// <returns></returns>
         public bool DSNExists(string dsnName)
         {
-            throw new System.NotImplementedException();
+            var driversKey = Registry.LocalMachine.CreateSubKey(OdbcInstallationRegPath + "ODBC Drivers");
+            if (driversKey == null)
+            {
+                throw new Exception("ODBC Registry key for drivers does not exist");
+            }
+
+            return driversKey.GetValue(dsnName) != null;
         }
 
         /// <summary>

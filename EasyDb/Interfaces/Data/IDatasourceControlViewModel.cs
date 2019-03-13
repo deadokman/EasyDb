@@ -8,6 +8,8 @@ namespace EasyDb.Interfaces.Data
     using EasyDb.ViewModel.DataSource;
     using EasyDb.ViewModel.DataSource.Items;
 
+    using NuGet;
+
     /// <summary>
     /// Interface for Data source control view
     /// </summary>
@@ -44,6 +46,26 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Chocolatey package
         /// </summary>
-        ChocolateyPackage Package { get; set; }
+        IPackage Package { get; set; }
+
+        /// <summary>
+        /// Downloading information about package
+        /// </summary>
+        bool PackageInfoLoad { get; set; }
+
+        /// <summary>
+        /// Assosiated ODBC driver
+        /// </summary>
+        OdbcDriver OdbcDriver { get; set; }
+
+        /// <summary>
+        /// Message for driver display page
+        /// </summary>
+        string DriverMessage { get; set; }
+
+        /// <summary>
+        /// Supported driver autoinstall from chocolatey
+        /// </summary>
+        bool AutoinstallSupportred { get; }
     }
 }

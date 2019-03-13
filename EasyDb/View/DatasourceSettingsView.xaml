@@ -20,6 +20,7 @@
     <mah:MetroWindow.Resources>
         <converters:EmptyConverter x:Key="EmptyConverter"/>
         <Style x:Key="TabControlHeaderRotate" TargetType="{x:Type TabItem}" BasedOn="{StaticResource MetroTabItem}">
+            <Setter Property="Padding" Value="-4,0,4,12"></Setter>
             <Setter Property="HeaderTemplate">
                 <Setter.Value>
                     <DataTemplate>
@@ -91,13 +92,12 @@
                 </Grid.RowDefinitions>
                 <mah:MetroAnimatedTabControl
                     Grid.Row="0"
-                    TabStripMargin="0,5,0,0"
+                    TabStripMargin="0,10,0,0"
                     mah:TabControlHelper.Transition="LeftReplace"
                     mah:TabControlHelper.CloseButtonEnabled="False" 
                     mah:TabControlHelper.Underlined="TabPanel" 
-                    Margin="5,5,0,0" 
                     TabStripPlacement="Right">
-                    <TabItem mah:ControlsHelper.HeaderFontSize="20"  Header="{StaticResource dsms_optionsPanel}" Style="{StaticResource TabControlHeaderRotate}">
+                    <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_optionsPanel}" Style="{StaticResource TabControlHeaderRotate}">
                         <Grid Margin="3">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -148,8 +148,11 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                    <TabItem mah:ControlsHelper.HeaderFontSize="20"  Header="{StaticResource dsms_driverInfoPanel}" Style="{StaticResource TabControlHeaderRotate}">
+                    <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_driverInfoPanel}" Style="{StaticResource TabControlHeaderRotate}">
                         <Frame Source="Pages/DriverInfoPage.xaml" NavigationUIVisibility="Hidden"/>
+                    </TabItem>
+                    <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_dnsn_driver_manager_tab}" Style="{StaticResource TabControlHeaderRotate}">
+                        <Frame Source="Pages/DsnDriverManagerPage.xaml" NavigationUIVisibility="Hidden"/>
                     </TabItem>
                 </mah:MetroAnimatedTabControl>
                 <Rectangle Grid.Row="1" StrokeThickness="1" Stroke="{StaticResource AccentColorBrush4}"></Rectangle>

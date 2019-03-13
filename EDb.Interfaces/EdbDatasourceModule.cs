@@ -69,6 +69,11 @@
         public abstract string OdbcSystemDriverName { get; }
 
         /// <summary>
+        /// Driver name for x32 architecture systems
+        /// </summary>
+        public abstract string OdbcSystem32DriverName { get; }
+
+        /// <summary>
         /// The SetVersion
         /// </summary>
         /// <param name="version">The version<see cref="Version"/></param>

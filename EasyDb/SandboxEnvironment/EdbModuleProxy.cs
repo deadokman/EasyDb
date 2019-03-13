@@ -75,6 +75,11 @@ namespace EasyDb.SandboxEnvironment
         public override string OdbcSystemDriverName => this._proxySubject.OdbcSystemDriverName;
 
         /// <summary>
+        /// Driver name for x32 architecture systems
+        /// </summary>
+        public override string OdbcSystem32DriverName => this._proxySubject.OdbcSystem32DriverName;
+
+        /// <summary>
         /// Gets module source options collection
         /// </summary>
         /// <returns>Source options collection</returns>

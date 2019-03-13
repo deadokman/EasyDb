@@ -10,14 +10,38 @@
       d:DesignHeight="300" d:DesignWidth="450"
       Title="DriverInfoPage" DataContext="{Binding Source={StaticResource Locator}, Path=DatasourceControlViewModel}" Background="{DynamicResource ControlBackgroundBrush}">
     <Page.Resources>
+        <Style x:Key="BlinkMetroCircleButtonStyle"  TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Transparent"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Name="StartBlinking">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="LightGray" Duration="00:00:01.2" RepeatBehavior="Forever" AutoReverse="True"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Trigger.EnterActions>
+                        <RemoveStoryboard BeginStoryboardName="StartBlinking"/>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
             <Setter Property="Margin" Value="0,2"/>
             <Setter Property="IsReadOnly" Value="True"></Setter>
+            <Setter Property="BorderThickness" Value=".5"/>
         </Style>
-        <Style x:Key="infoTextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MetroTextBlock}">
+        <Style x:Key="InfoTextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MetroTextBlock}">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
             <Setter Property="TextAlignment" Value="Center"/>
-            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="12"></Setter>
             <Setter Property="Margin" Value="5,0,15,0"></Setter>
@@ -37,7 +61,7 @@
                         Style="{DynamicResource MetroCircleButtonStyle}">
                 <iconPacks:PackIconMaterial  Foreground="{DynamicResource ValidationTextBrush}" Kind="Close" />
             </Button>
-            <TextBlock></TextBlock>
+            <TextBlock TextAlignment="Center" Text="{Binding DriverMessage}" Foreground="{DynamicResource TextBrush}" FontSize="12"/>
         </DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
             <Grid Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -47,34 +71,55 @@
                     <RowDefinition MinHeight="25"  Height="Auto"/>
                     <RowDefinition MinHeight="25"  Height="Auto"/>
                     <RowDefinition MinHeight="25"  Height="Auto"/>
+                    <RowDefinition MinHeight="25"  Height="Auto"/>
                     <RowDefinition MinHeight="25"  Height="*"/>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
-                <TextBlock Style="{StaticResource infoTextBlock}" Text="$drivername" Grid.Row="0" Grid.Column="0"/>
-                <TextBox IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.OdbcSystemDriverName}" Grid.Row="0" Grid.Column="1"/>
-                <TextBlock Style="{StaticResource infoTextBlock}" Text="$driverChocoId" Grid.Row="1" Grid.Column="0"/>
-                <TextBox IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.ChocolateOdbcPackageId}" Grid.Row="1" Grid.Column="1"/>
-                <TextBlock Style="{StaticResource infoTextBlock}" Text="$droverChocoUrl" Grid.Row="2" Grid.Column="0"/>
+                <TextBlock Style="{StaticResource InfoTextBlock}" Text="$drivername" Grid.Row="0" Grid.Column="0"/>
+                <DockPanel LastChildFill="True"  Grid.Row="0" Grid.Column="1">
+                    <Button IsEnabled="{Binding AutoinstallSupportred}" ToolTip="{StaticResource dsms_driver_execute_autoinst}" DockPanel.Dock="Right"  Width="30" Style="{StaticResource  BlinkMetroCircleButtonStyle}">
+                        <iconPacks:PackIconMaterial  Kind="CloudDownload" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}" />
+                    </Button>
+                    <TextBox DockPanel.Dock="Left" IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.OdbcSystemDriverName, Mode=OneWay}"/>
+                </DockPanel>
+                <TextBlock Style="{StaticResource InfoTextBlock}" Text="$driverChocoId" Grid.Row="1" Grid.Column="0"/>
+                <DockPanel LastChildFill="True"  Grid.Row="1" Grid.Column="1">
+                    <Button ToolTip="{StaticResource dsms_driver_refresh_info}" DockPanel.Dock="Right"  Width="30" Style="{StaticResource  MetroCircleButtonStyle}">
+                        <iconPacks:PackIconMaterial Kind="Refresh" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
+                    </Button>
+                    <TextBox IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.ChocolateOdbcPackageId, Mode=OneWay}" />
+                </DockPanel>
+                <TextBlock Style="{StaticResource InfoTextBlock}" Text="$droverChocoUrl" Grid.Row="2" Grid.Column="0"/>
                 <TextBlock Grid.Row="2" Grid.Column="1" TextAlignment="Left" VerticalAlignment="Center">                                
                             <Hyperlink Command="{Binding SomeCommand, ElementName=window}" CommandParameter="{Binding}">
                                 <TextBlock Text="{Binding SelectedSourceItem.Module.ChocolatepackageUrl}"></TextBlock>
                             </Hyperlink>
                 </TextBlock>
-                <TextBlock Style="{StaticResource infoTextBlock}" Text="$alternativeurls" Grid.Column="0" Grid.Row="3"/>
+                <TextBlock Style="{StaticResource InfoTextBlock}" Text="$alternativeurls" Grid.Column="0" Grid.Row="3"/>
                 <ComboBox Grid.Column="1" Grid.Row="3">
 
                 </ComboBox>
-                <TextBlock Style="{StaticResource infoTextBlock}" Text="$driverversion" Grid.Column="0" Grid.Row="4"/>
-                <TextBox IsReadOnly="True" Text="{Binding Package.Version}" Grid.Row="4" Grid.Column="1"/>
-                <Image Margin="2" Grid.Column="0" Grid.Row="5"/>
+                <TextBlock Style="{StaticResource InfoTextBlock}" Text="$driverversion/installed" Grid.Column="0" Grid.Row="4"/>
+                <DockPanel Grid.Row="4" Grid.Column="1">
+                    <TextBox MinWidth="120"  IsReadOnly="True" Text="{Binding Package.Version, Mode=OneWay}" />
+                    <TextBlock Margin="5,0" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}" Text="/"/>
+                    <TextBox IsReadOnly="True" Text="{Binding OdbcDriver.DriverVersion, Mode=OneWay}" />
+                </DockPanel>
+                <TextBlock Style="{StaticResource InfoTextBlock}" Text="$driverPath" Grid.Column="0" Grid.Row="5"/>
+                <TextBox IsReadOnly="True" Text="{Binding OdbcDriver.DriverDllPath, Mode=OneWay}" Grid.Column="1" Grid.Row="5" />
+                <Image Margin="2" Grid.Column="0" Grid.Row="6"/>
                 <TextBox 
-                    Text="{Binding Package.Description}"
-                    Margin="0,2,0,0" TextWrapping="Wrap" 
-                         VerticalAlignment="Stretch"
-                         HorizontalAlignment="Stretch" Grid.Row="5" Grid.Column="1">
+                    Text="{Binding Package.Description, Mode=OneWay}"
+                    IsReadOnly="True"
+                    Margin="0,2,0,0" 
+                    TextWrapping="Wrap" 
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch" 
+                    Grid.Row="6" Grid.Column="1">
                 </TextBox>
             </Grid>
         </ScrollViewer>

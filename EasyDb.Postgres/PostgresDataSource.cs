@@ -68,6 +68,11 @@
         /// <summary>
         /// ODBC driver name inside operating system
         /// </summary>
-        public override string OdbcSystemDriverName => "PostgreODBC";
+        public override string OdbcSystemDriverName => "PostgreSQL ANSI(x64)";
+
+        /// <summary>
+        /// Driver name for x32 architecture systems
+        /// </summary>
+        public override string OdbcSystem32DriverName => "PostgreSQL ANSI(x32)";
     }
 }

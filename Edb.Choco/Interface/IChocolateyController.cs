@@ -7,12 +7,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using Edb.Environment.Model;
-
 namespace Edb.Environment.Interface
 {
     using System;
     using System.Threading.Tasks;
+
+    using chocolatey.infrastructure.app.domain;
+    using chocolatey.infrastructure.results;
+
+    using Edb.Environment.Model;
+
+    using NuGet;
 
     /// <summary>
     /// Defines the <see cref="IChocolateyController" />
@@ -64,5 +69,13 @@ namespace Edb.Environment.Interface
         /// <param name="force">Force install</param>
         /// <returns></returns>
         Task<PackageOperationResult> InstallPackage(string id, string version = null, Uri source = null, bool force = false);
+
+
+        /// <summary>
+        /// Get information about chocolatey package
+        /// </summary>
+        /// <param name="package">Choco package information</param>
+        /// <returns></returns>
+        Task<PackageResult> GetPackageInformation(string packageId);
     }
 }

@@ -109,9 +109,12 @@ namespace EasyDb.CustomControls
         private static void SetObjectPropsDisplay(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var depObject = (UserDatasouceSettingsControl)d;
-            depObject.SourceOptions = FormatDatasourceOptions(
-                e.NewValue as EdbSourceOption,
-                Application.Current.Resources);
+            if (e.NewValue != null)
+            {
+                depObject.SourceOptions = FormatDatasourceOptions(
+                    e.NewValue as EdbSourceOption,
+                    Application.Current.Resources);
+            }
         }
     }
 }

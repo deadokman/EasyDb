@@ -43,12 +43,16 @@
     <system:String x:Key="dsm_datasourceTabTitle"> База данных </system:String>
     <system:String x:Key="dsm_addNewDatasource"> Добавить новую БД </system:String>
     <system:String x:Key="dsms_settingsWindowTitle">Настройки источника данных</system:String>
-    <system:String x:Key="dsms_datasourceName">Имя (DSN): </system:String>
+    <system:String x:Key="dsms_datasourceName">Имя: </system:String>
+    <system:String x:Key="dsms_DSNname">DSN:</system:String>
     <system:String x:Key="dsms_datasourceComment">Комментарий:</system:String>
     <system:String x:Key="dsms_optionWatermark"> ... </system:String>
     <system:String x:Key="dsms_passwordToolTipCapton">Включен CapsLock</system:String>
     <system:String x:Key="dsms_optionsPanel">Настройки</system:String>
-    <system:String x:Key="dsms_driverInfoPanel">Драйвер ODBC</system:String>
+    <system:String x:Key="dsms_driverInfoPanel">Драйвер</system:String>
+    <system:String x:Key="dsms_dnsn_driver_manager_tab">Менеджер DSN/ODBC</system:String>
+    <system:String x:Key="dsms_driver_execute_autoinst">Выполнить автоматическую установку драйвера, используя Chocolatey</system:String>
+    <system:String x:Key="dsms_driver_refresh_info">Обновить информацию о пакете и драйвере</system:String>
 
     <system:String x:Key="dsms_ex_datasourceName">Требуется наименование</system:String>
     <system:String x:Key="opt_def_hostname">Имя хоста:</system:String>
@@ -56,6 +60,11 @@
     <system:String x:Key="opt_def_database">База данных:</system:String>
     <system:String x:Key="opt_def_password">Пароль:</system:String>
     <system:String x:Key="opt_def_port">Порт:</system:String>
+
+    <system:String x:Key="dsms_err_no_driver">Не установлен драйвер.</system:String>
+    <system:String x:Key="dsms_err_no_autoinstall"> Chocolatey не установлен.</system:String>
+    <system:String x:Key="dsms_err_no_admin"> Требуются права администратора.</system:String>
+    
 
     <!--Chocolatey install dialog-->
     <system:String x:Key="choco_dlg_text_title">Установка дополнительного ПО</system:String>
@@ -98,5 +107,5 @@
     <system:String x:Key="odbc_driverver">Версия</system:String>
     <system:String x:Key="odbc_installBtn">Добавить</system:String>
     <system:String x:Key="odbc_cancelBtn">Закрыть</system:String>
-    <system:String x:Key="odbc_windowName">Менеджер драйверов ODBC</system:String>
+    <system:String x:Key="odbc_windowName">Менеджер драйверов/DSN подключений</system:String>
 </ResourceDictionary>
