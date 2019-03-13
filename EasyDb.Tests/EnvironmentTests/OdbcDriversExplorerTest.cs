@@ -12,17 +12,17 @@ namespace EasyDb.Tests.EnvironmentTests
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     /// <summary>
-    /// Tests on OdbcRepository
+    /// Tests on OdbcManager
     /// </summary>
     [TestClass]
     public class OdbcDriversExplorerTest
     {
-        public IOdbcRepository _repository;
+        public IOdbcManager Manager;
 
         [TestInitialize]
         public void SetUp()
         {
-            _repository = new OdbcRepository();
+            Manager = new OdbcManager();
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace EasyDb.Tests.EnvironmentTests
         [TestMethod]
         public void ListOdbcDeriversTest()
         {
-            var drivers = this._repository.ListOdbcDrivers();
+            var drivers = this.Manager.ListOdbcDrivers();
             Assert.IsTrue(drivers.Any());
         }
     }

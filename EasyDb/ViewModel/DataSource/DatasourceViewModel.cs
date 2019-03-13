@@ -26,7 +26,7 @@ namespace EasyDb.ViewModel.DataSource
     public class DatasourceViewModel : IDatasourceControlViewModel, INotifyPropertyChanged
     {
         private readonly IDataSourceManager _manager;
-        private readonly IOdbcRepository _odbcRepository;
+        private readonly IOdbcManager odbcManager;
         private readonly IChocolateyController _chocoController;
 
         private readonly ILogger _logger;
@@ -55,13 +55,13 @@ namespace EasyDb.ViewModel.DataSource
         /// Initializes a new instance of the <see cref="DatasourceViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
-        /// <param name="odbcRepository">Odbc driver managment repository</param>
+        /// <param name="odbcManager">Odbc driver managment repository</param>
         /// <param name="chocoController">Choco controller</param>
         /// <param name="logger">Logger instance</param>
-        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] IOdbcRepository odbcRepository, IChocolateyController chocoController, [NotNull] ILogger logger)
+        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] IOdbcManager odbcManager, IChocolateyController chocoController, [NotNull] ILogger logger)
         {
             this._manager = manager ?? throw new ArgumentNullException(nameof(manager));
-            this._odbcRepository = odbcRepository ?? throw new ArgumentNullException(nameof(odbcRepository));
+            this.odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
             this._chocoController = chocoController;
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             manager.DatasourceLoaded += this.InstanceOnDatasourceLoaded;
@@ -112,7 +112,7 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public bool OdbcDriverInstalled
         {
-            get => _odbcRepository.OdbcDriverInstalled(this.SelectedSourceItem?.Module.OdbcSystemDriverName);
+            get => odbcManager.OdbcDriverInstalled(this.SelectedSourceItem?.Module.OdbcSystemDriverName);
         }
 
         /// <summary>

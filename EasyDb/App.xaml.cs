@@ -179,7 +179,7 @@ namespace EasyDb
             builder.RegisterType<LoginViewModel>().As<LoginViewModel>().SingleInstance();
             builder.RegisterType<ChocolateyInstallViewModel>().As<IChocolateyInstallViewModel>().SingleInstance();
             builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
-            builder.RegisterType<OdbcRepository>().As<IOdbcRepository>().SingleInstance();
+            builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
         }
 

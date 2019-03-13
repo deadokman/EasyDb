@@ -19,18 +19,18 @@ namespace EasyDb.ViewModel
     /// </summary>
     public class OdbcManagerViewModel : ViewModelBase, IOdbcManagerViewModel
     {
-        private readonly IOdbcRepository _odbcRepository;
+        private readonly IOdbcManager odbcManager;
 
         private IEnumerable<OdbcDriver> _odbcDrivers;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OdbcManagerViewModel"/> class.
         /// </summary>
-        /// <param name="odbcRepository">Odbc drivers repository instance</param>
-        public OdbcManagerViewModel([NotNull] IOdbcRepository odbcRepository)
+        /// <param name="odbcManager">Odbc drivers repository instance</param>
+        public OdbcManagerViewModel([NotNull] IOdbcManager odbcManager)
         {
-            this._odbcRepository = odbcRepository ?? throw new ArgumentNullException(nameof(odbcRepository));
-            OdbcDrivers = this._odbcRepository.ListOdbcDrivers();
+            this.odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
+            OdbcDrivers = this.odbcManager.ListOdbcDrivers();
         }
 
         /// <summary>
