@@ -100,7 +100,7 @@
                     <TabItem mah:ControlsHelper.HeaderFontSize="20"  Header="{StaticResource dsms_optionsPanel}" Style="{StaticResource TabControlHeaderRotate}">
                         <Grid Margin="3">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="19"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="46"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition MinHeight="45" Height="*"/>

@@ -7,9 +7,13 @@
       xmlns:data="clr-namespace:EasyDb.Interfaces.Data"
       xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
       mc:Ignorable="d" 
-      d:DesignHeight="250" d:DesignWidth="450"
+      d:DesignHeight="300" d:DesignWidth="450"
       Title="DriverInfoPage" DataContext="{Binding Source={StaticResource Locator}, Path=DatasourceControlViewModel}" Background="{DynamicResource ControlBackgroundBrush}">
     <Page.Resources>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="IsReadOnly" Value="True"></Setter>
+        </Style>
         <Style x:Key="infoTextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MetroTextBlock}">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
             <Setter Property="TextAlignment" Value="Center"/>
@@ -38,28 +42,40 @@
         <ScrollViewer VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
             <Grid Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition MinHeight="25" Height="Auto"/>
+                    <RowDefinition MinHeight="25"  Height="Auto"/>
+                    <RowDefinition MinHeight="25"  Height="Auto"/>
+                    <RowDefinition MinHeight="25"  Height="Auto"/>
+                    <RowDefinition MinHeight="25"  Height="Auto"/>
+                    <RowDefinition MinHeight="25"  Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <TextBlock Style="{StaticResource infoTextBlock}" Text="$drivername" Grid.Row="0" Grid.Column="0"/>
-                <TextBox IsReadOnly="True"  Text="Some ODBC driver name" Grid.Row="0" Grid.Column="1"/>
+                <TextBox IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.OdbcSystemDriverName}" Grid.Row="0" Grid.Column="1"/>
                 <TextBlock Style="{StaticResource infoTextBlock}" Text="$driverChocoId" Grid.Row="1" Grid.Column="0"/>
-                <TextBox IsReadOnly="True"  Text="CohocId" Grid.Row="1" Grid.Column="1"/>
+                <TextBox IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.ChocolateOdbcPackageId}" Grid.Row="1" Grid.Column="1"/>
                 <TextBlock Style="{StaticResource infoTextBlock}" Text="$droverChocoUrl" Grid.Row="2" Grid.Column="0"/>
-                <DockPanel LastChildFill="True" Grid.Row="2" Grid.Column="1">
-                    <TextBlock>                                
-                            <Hyperlink Command="{Binding SomeCommand, ElementName=window}" CommandParameter="{Binding}">http://Someurltopakcage.org
+                <TextBlock Grid.Row="2" Grid.Column="1" TextAlignment="Left" VerticalAlignment="Center">                                
+                            <Hyperlink Command="{Binding SomeCommand, ElementName=window}" CommandParameter="{Binding}">
+                                <TextBlock Text="{Binding SelectedSourceItem.Module.ChocolatepackageUrl}"></TextBlock>
                             </Hyperlink>
-                    </TextBlock>
-                </DockPanel>
+                </TextBlock>
+                <TextBlock Style="{StaticResource infoTextBlock}" Text="$alternativeurls" Grid.Column="0" Grid.Row="3"/>
+                <ComboBox Grid.Column="1" Grid.Row="3">
 
+                </ComboBox>
+                <TextBlock Style="{StaticResource infoTextBlock}" Text="$driverversion" Grid.Column="0" Grid.Row="4"/>
+                <TextBox IsReadOnly="True" Text="{Binding Package.Version}" Grid.Row="4" Grid.Column="1"/>
+                <Image Margin="2" Grid.Column="0" Grid.Row="5"/>
+                <TextBox 
+                    Text="{Binding Package.Description}"
+                    Margin="0,2,0,0" TextWrapping="Wrap" 
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch" Grid.Row="5" Grid.Column="1">
+                </TextBox>
             </Grid>
         </ScrollViewer>
     </Grid>

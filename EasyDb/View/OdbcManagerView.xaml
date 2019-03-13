@@ -14,8 +14,7 @@
             <RowDefinition Height=".15*"/>
         </Grid.RowDefinitions>
         <Border Margin="0,0,0,5" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Grid.Row="0" >
-            <DataGrid
-            ItemsSource="{Binding OdbcDrivers}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
+            <DataGrid ItemsSource="{Binding OdbcDrivers}" AutoGenerateColumns="False" CanUserAddRows="False" CanUserDeleteRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn IsReadOnly="True" Binding="{Binding DriverName}" Width="200" Header="{StaticResource odbc_drivername}"/>
                     <DataGridTextColumn IsReadOnly="True" Binding="{Binding DriverVersion}" Width="100" Header="{StaticResource odbc_driverver}"/>

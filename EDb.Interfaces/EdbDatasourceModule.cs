@@ -64,6 +64,11 @@
         public virtual string[] AlternativeDriverDownloadUrls { get; }
 
         /// <summary>
+        /// ODBC driver name inside operating system
+        /// </summary>
+        public abstract string OdbcSystemDriverName { get; }
+
+        /// <summary>
         /// The SetVersion
         /// </summary>
         /// <param name="version">The version<see cref="Version"/></param>

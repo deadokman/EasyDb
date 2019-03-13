@@ -41,5 +41,15 @@
 
             return odbcDriversCatalog.Values;
         }
+
+        /// <summary>
+        /// Checks that ODBC driver installed
+        /// </summary>
+        /// <param name="driverName">System driver name</param>
+        /// <returns>returns true if ODBC driver installed</returns>
+        public bool OdbcDriverInstalled(string driverName)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

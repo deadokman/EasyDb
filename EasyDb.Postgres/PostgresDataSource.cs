@@ -1,6 +1,6 @@
 ﻿namespace EasyDb.Postgres
 {
-    using EasyDb.Postgres.Options;
+    using Options;
     using EDb.Interfaces;
     using EDb.Interfaces.Objects;
     using System.IO;
@@ -55,8 +55,19 @@
             return new EdbSourceOption[] { new GeneralOption(), new SshSsl() };
         }
 
-        public override string ChocolateOdbcPackageId { get; }
+        /// <summary>
+        /// Identifier of chocolate ODBC package
+        /// </summary>
+        public override string ChocolateOdbcPackageId => "psqlodbc";
 
-        public override string ChocolatepackageUrl { get; }
+        /// <summary>
+        /// URL to ODBC driver package
+        /// </summary>
+        public override string ChocolatepackageUrl => "https://chocolatey.org/packages/psqlodbc";
+
+        /// <summary>
+        /// ODBC driver name inside operating system
+        /// </summary>
+        public override string OdbcSystemDriverName => "PostgreODBC";
     }
 }

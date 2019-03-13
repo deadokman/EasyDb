@@ -70,6 +70,11 @@ namespace EasyDb.SandboxEnvironment
         public override string[] AlternativeDriverDownloadUrls => this._proxySubject.AlternativeDriverDownloadUrls;
 
         /// <summary>
+        /// ODBC driver name inside operating system
+        /// </summary>
+        public override string OdbcSystemDriverName => this._proxySubject.OdbcSystemDriverName;
+
+        /// <summary>
         /// Gets module source options collection
         /// </summary>
         /// <returns>Source options collection</returns>

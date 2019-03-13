@@ -1,4 +1,6 @@
-﻿namespace EasyDb.Interfaces.Data
+﻿using Edb.Environment.Model;
+
+namespace EasyDb.Interfaces.Data
 {
     using System.Collections.ObjectModel;
     using System.Windows.Input;
@@ -38,5 +40,10 @@
         /// Editing user data source
         /// </summary>
         UserDataSource EditingUserDatasource { get; set; }
+
+        /// <summary>
+        /// Chocolatey package
+        /// </summary>
+        ChocolateyPackage Package { get; set; }
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace EasyDb.ViewModel.DataSource
+﻿using EasyDb.ViewModel.DataSource.Items;
+using Edb.Environment.Interface;
+using Edb.Environment.Model;
+
+namespace EasyDb.ViewModel.DataSource
 {
     using System;
     using System.Collections.Generic;
@@ -14,7 +18,6 @@
     using EasyDb.Annotations;
     using EasyDb.Interfaces.Data;
     using EasyDb.View;
-    using EasyDb.ViewModel.DataSource.Items;
     using GalaSoft.MvvmLight.CommandWpf;
 
     /// <summary>
@@ -23,6 +26,8 @@
     public class DatasourceViewModel : IDatasourceControlViewModel, INotifyPropertyChanged
     {
         private readonly IDataSourceManager _manager;
+        private readonly IOdbcRepository _odbcRepository;
+        private readonly IChocolateyController _chocoController;
 
         private readonly ILogger _logger;
 
@@ -44,15 +49,20 @@
         private SupportedSourceItem _selectedSourceItem;
 
         private UserDataSource _editingUserDatasource;
+        private ChocolateyPackage _package;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
+        /// <param name="odbcRepository">Odbc driver managment repository</param>
+        /// <param name="chocoController">Choco controller</param>
         /// <param name="logger">Logger instance</param>
-        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] ILogger logger)
+        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] IOdbcRepository odbcRepository, IChocolateyController chocoController, [NotNull] ILogger logger)
         {
             this._manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this._odbcRepository = odbcRepository ?? throw new ArgumentNullException(nameof(odbcRepository));
+            this._chocoController = chocoController;
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             manager.DatasourceLoaded += this.InstanceOnDatasourceLoaded;
             this.SupportedDatasources = manager.SupportedDatasources.ToArray();
@@ -87,6 +97,22 @@
 
                 OnPropertyChanged();
             }
+        }
+
+        /// <summary>
+        /// Supported chocolatey autoinstall
+        /// </summary>
+        public bool AutoinstallSupportred
+        {
+            get => _chocoController.IsAdministrator() && _chocoController.ValidateChocoInstall();
+        }
+
+        /// <summary>
+        /// Дарайвер ODBC установлен
+        /// </summary>
+        public bool OdbcDriverInstalled
+        {
+            get => _odbcRepository.OdbcDriverInstalled(this.SelectedSourceItem?.Module.OdbcSystemDriverName);
         }
 
         /// <summary>
@@ -141,6 +167,19 @@
             {
                 this._userDatasources = value;
                 this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Информация о пакете драйвера Chocolatey
+        /// </summary>
+        public ChocolateyPackage Package
+        {
+            get => _package;
+            set
+            {
+                _package = value;
+                OnPropertyChanged();
             }
         }
 

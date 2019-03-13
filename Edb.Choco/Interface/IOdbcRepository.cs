@@ -18,5 +18,12 @@ namespace Edb.Environment.Interface
         /// </summary>
         /// <returns>ODBC drivers list</returns>
         IEnumerable<OdbcDriver> ListOdbcDrivers();
+
+        /// <summary>
+        /// Checks that ODBC driver installed
+        /// </summary>
+        /// <param name="driverName">System driver name</param>
+        /// <returns>returns true if ODBC driver installed</returns>
+        bool OdbcDriverInstalled(string driverName);
     }
 }
