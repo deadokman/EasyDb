@@ -1,0 +1,146 @@
+﻿<Page x:Class="EasyDb.View.DataSource.Pages.DriverInfoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:data="clr-namespace:EasyDb.Interfaces.Data"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:converters="clr-namespace:EasyDb.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="450"
+      Title="DriverInfoPage" DataContext="{Binding Source={StaticResource Locator}, Path=DatasourceControlViewModel}" Background="{DynamicResource ControlBackgroundBrush}">
+    <Page.Resources>
+        <converters:StringEmptyToVisibilityConverter x:Key="StringToVisConv" />
+        <Style x:Key="BlinkMetroCircleButtonStyle"  TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+            <Setter Property="Width" Value="30"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="Background">
+                <Setter.Value>
+                    <SolidColorBrush Color="Transparent"/>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard Name="StartBlinking">
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Background).(SolidColorBrush.Color)" To="LightGray" Duration="00:00:01.2" RepeatBehavior="Forever" AutoReverse="True"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Trigger.EnterActions>
+                        <RemoveStoryboard BeginStoryboardName="StartBlinking"/>
+                    </Trigger.EnterActions>
+                    <Setter Property="Background" Value="{DynamicResource ControlsDisabledBrush}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource MetroTextBox}">
+            <Setter Property="Margin" Value="0,2"/>
+            <Setter Property="IsReadOnly" Value="True"></Setter>
+            <Setter Property="BorderThickness" Value=".5"/>
+        </Style>
+        <Style x:Key="InfoTextBlock" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource MetroTextBlock}">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="12"></Setter>
+            <Setter Property="Margin" Value="5,0,15,0"></Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Visibility="{Binding DriverMessage, Converter={StaticResource StringToVisConv}}" Height="20" LastChildFill="True" Grid.Row="0" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush}">
+            <Button Margin="5" Width="20" Height="20" 
+                        DockPanel.Dock="Right" 
+                        HorizontalContentAlignment="Center"
+                        VerticalAlignment="Center" 
+                        HorizontalAlignment="Right" 
+                        Style="{DynamicResource MetroCircleButtonStyle}">
+                <iconPacks:PackIconMaterial  Foreground="{DynamicResource ValidationTextBrush}" Kind="Close" />
+            </Button>
+            <TextBlock TextAlignment="Center" Text="{Binding DriverMessage}" Foreground="{DynamicResource TextBrush}" FontSize="12"/>
+        </DockPanel>
+        <StackPanel Background="{DynamicResource AccentColorBrush4}" Grid.Column="0" Grid.Row="1">
+            <Button 
+                Command="{Binding InstallPackageAutoCmd}"
+                IsEnabled="{Binding AutoinstallSupportred}"
+                ToolTip="{StaticResource dsms_driver_execute_autoinst}" 
+                Style="{StaticResource  BlinkMetroCircleButtonStyle}">
+                <iconPacks:PackIconMaterial  Kind="CloudDownload" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}" />
+            </Button>
+            <Button 
+                Command="{Binding RefreshPackageInformationCmd}" 
+                Style="{StaticResource MetroCircleButton_30}"
+                ToolTip="{StaticResource dsms_driver_refresh_info}">
+                <iconPacks:PackIconMaterial Kind="Refresh" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
+            </Button>
+        </StackPanel>
+        <Border BorderThickness="1,0,0,0" BorderBrush="{DynamicResource AccentColorBrush}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" Grid.Column="1">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                <Grid Margin="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
+                        <RowDefinition MinHeight="25"  Height="Auto"/>
+                        <RowDefinition MinHeight="25"  Height="Auto"/>
+                        <RowDefinition MinHeight="25"  Height="Auto"/>
+                        <RowDefinition MinHeight="25"  Height="Auto"/>
+                        <RowDefinition MinHeight="25"  Height="Auto"/>
+                        <RowDefinition MinHeight="25"  Height="*"/>
+                        <RowDefinition MinHeight="25" Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource InfoTextBlock}" Text="$drivername" Grid.Row="0" Grid.Column="0"/>
+                    <DockPanel LastChildFill="True"  Grid.Row="0" Grid.Column="1">
+                        <TextBox DockPanel.Dock="Left" IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.OdbcSystemDriverName, Mode=OneWay}"/>
+                    </DockPanel>
+                    <TextBlock Style="{StaticResource InfoTextBlock}" Text="$driverChocoId" Grid.Row="1" Grid.Column="0"/>
+                    <DockPanel LastChildFill="True"  Grid.Row="1" Grid.Column="1">
+                        <TextBox IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.ChocolateOdbcPackageId, Mode=OneWay}" />
+                    </DockPanel>
+                    <TextBlock Style="{StaticResource InfoTextBlock}" Text="$droverChocoUrl" Grid.Row="2" Grid.Column="0"/>
+                    <TextBlock Grid.Row="2" Grid.Column="1" TextAlignment="Left" VerticalAlignment="Center">                                
+                            <Hyperlink Command="{Binding SomeCommand, ElementName=window}" CommandParameter="{Binding}">
+                                <TextBlock Text="{Binding SelectedSourceItem.Module.ChocolatepackageUrl}"></TextBlock>
+                            </Hyperlink>
+                </TextBlock>
+                    <TextBlock Style="{StaticResource InfoTextBlock}" Text="$alternativeurls" Grid.Column="0" Grid.Row="3"/>
+                    <ComboBox Grid.Column="1" Grid.Row="3">
+
+                    </ComboBox>
+                    <TextBlock Style="{StaticResource InfoTextBlock}" Text="$driverversion/installed" Grid.Column="0" Grid.Row="4"/>
+                    <DockPanel Grid.Row="4" Grid.Column="1">
+                        <TextBox MinWidth="120"  IsReadOnly="True" Text="{Binding Package.Version, Mode=OneWay}" />
+                        <TextBlock Margin="5,0" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextBrush}" Text="/"/>
+                        <TextBox IsReadOnly="True" Text="{Binding OdbcDriver.DriverVersion, Mode=OneWay}" />
+                    </DockPanel>
+                    <TextBlock Style="{StaticResource InfoTextBlock}" Text="$driverPath" Grid.Column="0" Grid.Row="5"/>
+                    <TextBox IsReadOnly="True" Text="{Binding OdbcDriver.DriverDllPath, Mode=OneWay}" Grid.Column="1" Grid.Row="5" />
+                    <Image Margin="2" Grid.Column="0" Grid.Row="6"/>
+                    <TextBox 
+                    Text="{Binding Package.Description, Mode=OneWay}"
+                    IsReadOnly="True"
+                    Margin="0,2,0,0" 
+                    TextWrapping="Wrap" 
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch" 
+                    Grid.Row="6" Grid.Column="1">
+                    </TextBox>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+    </Grid>
+</Page>

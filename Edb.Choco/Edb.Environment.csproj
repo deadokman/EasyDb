@@ -72,10 +72,11 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChocoController.cs" />
-    <Compile Include="ChocolateyExtensions.cs" />
+    <Compile Include="Chocolatey\ChocoController.cs" />
+    <Compile Include="Chocolatey\ChocolateyExtensions.cs" />
     <Compile Include="InterceptMessage.cs" />
     <Compile Include="Interface\IChocolateyController.cs" />
+    <Compile Include="Interface\IChocoMessageListner.cs" />
     <Compile Include="Interface\IOdbcManager.cs" />
     <Compile Include="Keyhook\EKeyType.cs" />
     <Compile Include="Keyhook\EState.cs" />

@@ -169,6 +169,7 @@
     <Compile Include="Converters\BoolToBlurRadiusConverter.cs" />
     <Compile Include="Converters\DoubleToIntegerConverter.cs" />
     <Compile Include="Converters\EmptyConverter.cs" />
+    <Compile Include="Converters\StringEmptyToVisibilityConverter.cs" />
     <Compile Include="Converters\StringToResourceConverter.cs" />
     <Compile Include="CustomControls\DatasourceSettings\DatasourceOption.cs" />
     <Compile Include="CustomControls\DatasourceSettings\DatasourceSettingsGridTemplateSelector.cs" />
@@ -256,16 +257,19 @@
     <Compile Include="ViewModel\Settings\IProgramSettings.cs" />
     <Compile Include="ViewModel\SqlEditors\SqlExecuterWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="View\DatasourceSettingsView.xaml.cs">
+    <Compile Include="View\DataSource\DatasourceSettingsView.xaml.cs">
       <DependentUpon>DatasourceSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataSource\PackageInstallDialog.xaml.cs">
+      <DependentUpon>PackageInstallDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DsnManagerView.xaml.cs">
       <DependentUpon>DsnManagerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\DriverInfoPage.xaml.cs">
+    <Compile Include="View\DataSource\Pages\DriverInfoPage.xaml.cs">
       <DependentUpon>DriverInfoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\Pages\DsnDriverManagerPage.xaml.cs">
+    <Compile Include="View\DataSource\Pages\DsnDriverManagerPage.xaml.cs">
       <DependentUpon>DsnDriverManagerPage.xaml</DependentUpon>
     </Compile>
     <!--<Compile Include="View\DiagramDesignerTool.xaml.cs">
@@ -411,7 +415,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DatasourceSettingsView.xaml">
+    <Page Include="View\DataSource\DatasourceSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DataSource\PackageInstallDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -419,11 +427,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\DriverInfoPage.xaml">
+    <Page Include="View\DataSource\Pages\DriverInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Pages\DsnDriverManagerPage.xaml">
+    <Page Include="View\DataSource\Pages\DsnDriverManagerPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

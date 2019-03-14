@@ -77,5 +77,17 @@ namespace Edb.Environment.Interface
         /// <param name="package">Choco package information</param>
         /// <returns></returns>
         Task<PackageResult> GetPackageInformation(string packageId);
+
+        /// <summary>
+        /// Register choco message listner
+        /// </summary>
+        /// <param name="listner">listner</param>
+        void RegisterLisner(IChocoMessageListner listner);
+
+        /// <summary>
+        /// Unregister choco message listner
+        /// </summary>
+        /// <param name="listner">listner</param>
+        void UnregisterLisner(IChocoMessageListner listner);
     }
 }

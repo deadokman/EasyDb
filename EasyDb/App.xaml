@@ -31,9 +31,9 @@
                 <!--<ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/Colors.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/VS/textbox.xaml" />-->
                 <ResourceDictionary Source="Localization/lang.xaml" />
-                <ResourceDictionary Source="/CustomControls/ControlTemplateDictionary.xaml"/>
-                <ResourceDictionary Source="/DockTheme/IconsCustom.xaml" />
-                <ResourceDictionary Source="/WpfButtonBorderlessStyle.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/CustomControls/ControlTemplateDictionary.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DockTheme/IconsCustom.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/WpfButtonBorderlessStyle.xaml"/>
                 <ResourceDictionary>
                     <system:String x:Key="CogLogo">
                         F1 M 32.6227,68.9728C 33.1208,70.2446 33.7077,71.4719 34.3757,72.6471C 35.567,72.7702 36.7761,72.8333 38,72.8333C 40.6447,72.8333 

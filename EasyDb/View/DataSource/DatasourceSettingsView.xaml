@@ -1,4 +1,4 @@
-﻿<mah:MetroWindow x:Class="EasyDb.View.DatasourceSettingsView"
+﻿<mah:MetroWindow x:Class="EasyDb.View.DataSource.DatasourceSettingsView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -10,8 +10,8 @@
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:viewModel="clr-namespace:EasyDb.ViewModel"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-        xmlns:pages="clr-namespace:EasyDb.View.Pages"
-        mc:Ignorable="d"
+                 mc:Ignorable="d"
+        mah:DialogParticipation.Register="{Binding}"
         Background="{DynamicResource ControlBackgroundBrush}"
         Title="{StaticResource dsms_settingsWindowTitle}"  
                  DataContext="{Binding Source={StaticResource Locator}, Path=DatasourceControlViewModel}"
@@ -93,19 +93,30 @@
                 <mah:MetroAnimatedTabControl
                     Grid.Row="0"
                     TabStripMargin="0,10,0,0"
-                    mah:TabControlHelper.Transition="LeftReplace"
+                    mah:TabControlHelper.Transition="Up"
                     mah:TabControlHelper.CloseButtonEnabled="False" 
                     mah:TabControlHelper.Underlined="TabPanel" 
                     TabStripPlacement="Right">
                     <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_optionsPanel}" Style="{StaticResource TabControlHeaderRotate}">
                         <Grid Margin="3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="30"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="46"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition MinHeight="45" Height="*"/>
                             </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="0" Margin="5" Grid.RowSpan="2">
+                            <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource AccentColorBrush}" Grid.Column="0" Grid.RowSpan="10">
+                                <StackPanel Background="{DynamicResource AccentColorBrush4}">
+                                    <Button ToolTip="{StaticResource dsms_test_connection_button}" Style="{StaticResource MetroCircleButton_30}" >
+                                        <iconPacks:PackIconMaterial Kind="ConsoleNetwork" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
+                                    </Button>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Grid.Column="1" Grid.Row="0" Margin="5,0" Grid.RowSpan="2">
                                 <DockPanel Margin="0,0,0,4" LastChildFill="True">
                                     <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}" />
                                     <TextBox Text="{Binding EditingUserDatasource.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
@@ -115,7 +126,7 @@
                                     <TextBox Text="{Binding EditingUserDatasource.Comment, UpdateSourceTrigger=PropertyChanged}" />
                                 </DockPanel>
                             </StackPanel>
-                            <ScrollViewer Grid.Row="2" Background="{StaticResource ControlBackgroundBrush}">
+                            <ScrollViewer Margin="5,0" Grid.Column="1"  Grid.Row="2" Background="{StaticResource ControlBackgroundBrush}">
                                 <mah:MetroAnimatedTabControl 
                                         BorderThickness="1"
                                         BorderBrush="{DynamicResource AccentColorBrush3}"
@@ -139,17 +150,13 @@
                                     </TabControl.ContentTemplate>
                                 </mah:MetroAnimatedTabControl>
                             </ScrollViewer>
-                            <StackPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="10,10,0,10" HorizontalAlignment="Left" Grid.Row="3">
-                                <DockPanel>
-                                    <Button MinWidth="100" Content="$testConn" />
-                                    <TextBlock Margin="10,0" Text="Not tested yet" VerticalAlignment="Center" FontStyle="Italic" />
-                                </DockPanel>
+                            <StackPanel Grid.Column="1"  Background="{DynamicResource ControlBackgroundBrush}" Margin="10,10,0,10" HorizontalAlignment="Left" Grid.Row="3">
                                 <CheckBox Margin="0,5" Content="$savepassword"/>
                             </StackPanel>
                         </Grid>
                     </TabItem>
                     <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_driverInfoPanel}" Style="{StaticResource TabControlHeaderRotate}">
-                        <Frame Source="Pages/DriverInfoPage.xaml" NavigationUIVisibility="Hidden"/>
+                        <Frame Source="Pages/DriverInfoPage.xaml"  NavigationUIVisibility="Hidden"/>
                     </TabItem>
                     <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_dnsn_driver_manager_tab}" Style="{StaticResource TabControlHeaderRotate}">
                         <Frame Source="Pages/DsnDriverManagerPage.xaml" NavigationUIVisibility="Hidden"/>

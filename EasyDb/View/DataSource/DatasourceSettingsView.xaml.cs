@@ -1,4 +1,4 @@
-﻿namespace EasyDb.View
+﻿namespace EasyDb.View.DataSource
 {
     using MahApps.Metro.Controls;
 

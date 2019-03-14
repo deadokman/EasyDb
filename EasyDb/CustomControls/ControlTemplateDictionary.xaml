@@ -3,6 +3,11 @@
                     xmlns:local="clr-namespace:CSGO.Trader"
                     xmlns:customControls="clr-namespace:EasyDb.CustomControls">
     <!-- Buttons customization -->
+    <Style x:Key="MetroCircleButton_30" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButtonStyle}">
+        <Setter Property="Width" Value="30"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
     <Style x:Key="MetroButtonAccentNoBorder" TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
         <Setter Property="Background" Value="{DynamicResource AccentColorBrush}"/>

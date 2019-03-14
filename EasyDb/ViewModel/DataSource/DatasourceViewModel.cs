@@ -17,10 +17,14 @@ namespace EasyDb.ViewModel.DataSource
     using Annotations;
     using EasyDb.Interfaces.Data;
     using EasyDb.View;
+    using EasyDb.View.Choco;
+    using EasyDb.View.DataSource;
 
     using EDb.Interfaces;
 
     using GalaSoft.MvvmLight.CommandWpf;
+
+    using MahApps.Metro.Controls.Dialogs;
 
     using NuGet;
 
@@ -35,6 +39,9 @@ namespace EasyDb.ViewModel.DataSource
         private const string NoChocolateyResourceName = "dsms_err_no_autoinstall";
         private const string NoAdmonRightsResourceName = "dsms_err_no_admin";
         private readonly IDataSourceManager _datasourceManager;
+
+        private readonly IDialogCoordinator _dialogCoordinator;
+
         private readonly IOdbcManager _odbcManager;
         private readonly IChocolateyController _chocoController;
 
@@ -73,12 +80,14 @@ namespace EasyDb.ViewModel.DataSource
         /// Initializes a new instance of the <see cref="DatasourceViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
+        /// <param name="dialogCoord">Dialog coordinator</param>
         /// <param name="odbcManager">Odbc driver managment repository</param>
         /// <param name="chocoController">Choco controller</param>
         /// <param name="logger">Logger instance</param>
-        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] IOdbcManager odbcManager, IChocolateyController chocoController, [NotNull] ILogger logger)
+        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] IDialogCoordinator dialogCoord, [NotNull] IOdbcManager odbcManager, IChocolateyController chocoController, [NotNull] ILogger logger)
         {
             this._datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this._dialogCoordinator = dialogCoord ?? throw new ArgumentNullException(nameof(dialogCoord));
             this._odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
             this._chocoController = chocoController;
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -101,7 +110,7 @@ namespace EasyDb.ViewModel.DataSource
             {
                 if (Package != null && AutoinstallSupportred)
                 {
-                    ProcessInProgress = true;
+                    DisplayPkgInstallDialog();
                     var res = await _chocoController.InstallPackage(Package.Id);
                     if (!res.Successful)
                     {
@@ -110,7 +119,6 @@ namespace EasyDb.ViewModel.DataSource
                         DriverMessage = sb.ToString();
                     }
 
-                    ProcessInProgress = false;
                     LoadPackageInformation(SelectedSourceItem?.Module);
                     RefreshDriverInformation(SelectedSourceItem?.Module);
                 }
@@ -155,6 +163,7 @@ namespace EasyDb.ViewModel.DataSource
         {
             get => _chocoController.ValidateChocoInstall()
                    && SelectedSourceItem != null
+                   && this._chocoController.IsAdministrator()
                    && !string.IsNullOrEmpty(SelectedSourceItem.Module.GetCorrectDriverName())
                    && Package != null && !OdbcDriverInstalled;
         }
@@ -375,6 +384,14 @@ namespace EasyDb.ViewModel.DataSource
 
             DriverMessage = sb.ToString();
             this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
+        }
+
+        private async void DisplayPkgInstallDialog()
+        {
+            var cd = new CustomDialog();
+            cd.Height = 250;
+            cd.Content = new PackageInstallDialog(this._chocoController);
+            await this._dialogCoordinator.ShowMetroDialogAsync(this, cd);
         }
     }
 }

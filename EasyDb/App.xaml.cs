@@ -27,6 +27,7 @@ namespace EasyDb
     using EasyDb.ViewModel.Settings;
 
     using Edb.Environment;
+    using Edb.Environment.Chocolatey;
     using Edb.Environment.Interface;
 
     using MahApps.Metro;

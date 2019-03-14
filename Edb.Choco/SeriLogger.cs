@@ -4,11 +4,14 @@
     {
         using chocolatey.infrastructure.logging;
         using System;
+        using System.Collections.Generic;
+
+        using Edb.Environment.Interface;
 
         /// <summary>
-        /// Defines the <see cref="SerilogLogger" />
+        /// Defines the <see cref="ChocolateyLoggerWrapper" />
         /// </summary>
-        public class SerilogLogger : ILog
+        public class ChocolateyLoggerWrapper : ILog
         {
             /// <summary>
             /// Defines the _logger
@@ -18,15 +21,16 @@
             /// <summary>
             /// Defines the _context
             /// </summary>
-            private string _context;
+            private List<IChocoMessageListner> _listners;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="SerilogLogger"/> class.
+            /// Initializes a new instance of the <see cref="ChocolateyLoggerWrapper"/> class.
             /// </summary>
             /// <param name="logger">The logger<see cref="Autofac.Extras.NLog.ILogger"/></param>
-            public SerilogLogger(Autofac.Extras.NLog.ILogger logger)
+            public ChocolateyLoggerWrapper(Autofac.Extras.NLog.ILogger logger)
             {
                 this._logger = logger;
+                _listners = new List<IChocoMessageListner>();
             }
 
             /// <summary>
@@ -35,7 +39,31 @@
             /// <param name="loggerName">The loggerName<see cref="string"/></param>
             public void InitializeFor(string loggerName)
             {
-                this._context = loggerName;
+                
+            }
+
+            /// <summary>
+            /// Register chocolatey log listner
+            /// </summary>
+            /// <param name="listner">Listner instance</param>
+            public void RegisterListner(IChocoMessageListner listner)
+            {
+                if (!this._listners.Contains(listner))
+                {
+                    this._listners.Add(listner);
+                }
+            }
+
+            /// <summary>
+            /// Register chocolatey log listner
+            /// </summary>
+            /// <param name="listner">Listner instance</param>
+            public void UnregisterListner(IChocoMessageListner listner)
+            {
+                if (!this._listners.Contains(listner))
+                {
+                    this._listners.Remove(listner);
+                }
             }
 
             /// <summary>

@@ -7,41 +7,42 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-using System.Collections.Generic;
-using chocolatey;
-using chocolatey.infrastructure.app.domain;
-using chocolatey.infrastructure.app.services;
-using chocolatey.infrastructure.logging;
-using Edb.Environment.ChocolateyGui;
-using Edb.Environment.Model;
-using NuGet;
-
-namespace Edb.Environment
+namespace Edb.Environment.Chocolatey
 {
+    using chocolatey;
+    using chocolatey.infrastructure.app.domain;
+    using chocolatey.infrastructure.logging;
+    using chocolatey.infrastructure.results;
+    using Edb.Environment.ChocolateyGui;
+    using Edb.Environment.Interface;
+    using Edb.Environment.Model;
+    using Microsoft.VisualStudio.Threading;
     using System;
+    using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.IO;
     using System.Linq;
     using System.Management.Automation;
     using System.Management.Automation.Runspaces;
-    using System.Net.Http;
     using System.Security.Principal;
     using System.Text;
     using System.Threading.Tasks;
-
-    using chocolatey.infrastructure.results;
-
-    using Edb.Environment.Interface;
-
-    using Microsoft.VisualStudio.Threading;
+    using HttpClient = System.Net.Http.HttpClient;
 
     /// <summary>
     /// Defines the <see cref="ChocoController" />
     /// </summary>
     public class ChocoController : IChocolateyController
     {
+        /// <summary>
+        /// Defines the logger
+        /// </summary>
         private readonly Autofac.Extras.NLog.ILogger logger;
+
+        /// <summary>
+        /// Defines the Lock
+        /// </summary>
         private static readonly AsyncReaderWriterLock Lock = new AsyncReaderWriterLock();
 
         /// <summary>
@@ -64,16 +65,19 @@ namespace Edb.Environment
         /// </summary>
         private string command = @"@powershell -NoProfile -ExecutionPolicy Bypass -Command ""iex ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1'))"" && SET PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin";
 
+        /// <summary>
+        /// Defines the _loggerWrapper
+        /// </summary>
+        private ChocolateyLoggerWrapper _loggerWrapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChocoController"/> class.
         /// </summary>
-        /// <param name="logger">
-        /// The logger.
-        /// </param>
+        /// <param name="logger">The logger<see cref="Autofac.Extras.NLog.ILogger"/></param>
         public ChocoController(Autofac.Extras.NLog.ILogger logger)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _loggerWrapper = new ChocolateyLoggerWrapper(logger);
         }
 
         /// <summary>
@@ -91,11 +95,11 @@ namespace Edb.Environment
         /// <summary>
         /// Get information about chocolatey package
         /// </summary>
-        /// <param name="package">Choco package information</param>
-        /// <returns>ChocolateyPackageInformation package info</returns>
+        /// <param name="packageId">The packageId<see cref="string"/></param>
+        /// <returns>The <see cref="Task{PackageResult}"/></returns>
         public async Task<PackageResult> GetPackageInformation(string packageId)
         {
-            var choco = Lets.GetChocolatey().SetCustomLogging(new SerilogLogger(this.logger));
+            var choco = Lets.GetChocolatey().SetCustomLogging(_loggerWrapper);
             choco = choco.Set(
                 config =>
                     {
@@ -110,15 +114,28 @@ namespace Edb.Environment
         }
 
         /// <summary>
-        /// Powershell script run
-        /// </summa>
-        /// <param name="script">
-        /// Script text
-        /// </param>
-        /// <returns>
-        /// Execution results
-        /// The <see cref="string"/>.
-        /// </returns>
+        /// Register choco message listner
+        /// </summary>
+        /// <param name="listner">listner</param>
+        public void RegisterLisner(IChocoMessageListner listner)
+        {
+            this._loggerWrapper.RegisterListner(listner);
+        }
+
+        /// <summary>
+        /// Unregister choco message listner
+        /// </summary>
+        /// <param name="listner">listner</param>
+        public void UnregisterLisner(IChocoMessageListner listner)
+        {
+            this._loggerWrapper.UnregisterListner(listner);
+        }
+
+        /// <summary>
+        /// The Runpowershell
+        /// </summary>
+        /// <param name="script">The script<see cref="string"/></param>
+        /// <returns>The <see cref="Task{string}"/></returns>
         public Task<string> Runpowershell(string script)
         {
             return Task.Factory.StartNew(
@@ -190,8 +207,7 @@ namespace Edb.Environment
         {
             using (await Lock.WriteLockAsync())
             {
-                var logger = new SerilogLogger(this.logger);
-                var choco = Lets.GetChocolatey().SetCustomLogging(logger);
+                var choco = Lets.GetChocolatey().SetCustomLogging(this._loggerWrapper);
                 choco.Set(
                     config =>
                     {
@@ -218,7 +234,7 @@ namespace Edb.Environment
                 Action<LogMessage> grabErrors;
                 var errors = GetErrors(out grabErrors);
 
-                using (logger.Intercept(grabErrors))
+                using (this._loggerWrapper.Intercept(grabErrors))
                 {
                     await choco.RunAsync();
                     if (Environment.ExitCode != 0)
@@ -271,6 +287,11 @@ namespace Edb.Environment
             }
         }
 
+        /// <summary>
+        /// The GetErrors
+        /// </summary>
+        /// <param name="grabErrors">The grabErrors<see cref="Action{LogMessage}"/></param>
+        /// <returns>The <see cref="List{string}"/></returns>
         private static List<string> GetErrors(out Action<LogMessage> grabErrors)
         {
             var errors = new List<string>();

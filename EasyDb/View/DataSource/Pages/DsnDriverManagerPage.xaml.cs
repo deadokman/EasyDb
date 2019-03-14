@@ -1,7 +1,7 @@
-﻿using System.Windows.Controls;
-
-namespace EasyDb.View.Pages
+﻿namespace EasyDb.View.DataSource.Pages
 {
+    using System.Windows.Controls;
+
     /// <summary>
     /// Interaction logic for DsnDriverManagerPage.xaml
     /// </summary>
@@ -13,7 +13,7 @@ namespace EasyDb.View.Pages
         /// </summary>
         public DsnDriverManagerPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }
