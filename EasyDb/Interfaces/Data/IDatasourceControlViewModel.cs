@@ -16,10 +16,20 @@ namespace EasyDb.Interfaces.Data
     public interface IDatasourceControlViewModel
     {
         /// <summary>
-        /// Gets or sets the ConfigureDs
+        /// Gets or sets the ConfigureDsCmd
         /// Команда конфигурирования источника данных
         /// </summary>
-        ICommand ConfigureDs { get; set; }
+        ICommand ConfigureDsCmd { get; set; }
+
+        /// <summary>
+        /// Refresh pakcage and driver information command
+        /// </summary>
+        ICommand RefreshPackageInformationCmd { get; set; }
+
+        /// <summary>
+        /// Install package with chocolatey in semi-auto mode
+        /// </summary>
+        ICommand InstallPackageAutoCmd { get; set; }
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -51,7 +61,7 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Downloading information about package
         /// </summary>
-        bool PackageInfoLoad { get; set; }
+        bool ProcessInProgress { get; set; }
 
         /// <summary>
         /// Assosiated ODBC driver

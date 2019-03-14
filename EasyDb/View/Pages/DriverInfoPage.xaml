@@ -81,14 +81,14 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Style="{StaticResource InfoTextBlock}" Text="$drivername" Grid.Row="0" Grid.Column="0"/>
                 <DockPanel LastChildFill="True"  Grid.Row="0" Grid.Column="1">
-                    <Button IsEnabled="{Binding AutoinstallSupportred}" ToolTip="{StaticResource dsms_driver_execute_autoinst}" DockPanel.Dock="Right"  Width="30" Style="{StaticResource  BlinkMetroCircleButtonStyle}">
+                    <Button Command="{Binding InstallPackageAutoCmd}" IsEnabled="{Binding AutoinstallSupportred}" ToolTip="{StaticResource dsms_driver_execute_autoinst}" DockPanel.Dock="Right"  Width="30" Style="{StaticResource  BlinkMetroCircleButtonStyle}">
                         <iconPacks:PackIconMaterial  Kind="CloudDownload" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}" />
                     </Button>
                     <TextBox DockPanel.Dock="Left" IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.OdbcSystemDriverName, Mode=OneWay}"/>
                 </DockPanel>
                 <TextBlock Style="{StaticResource InfoTextBlock}" Text="$driverChocoId" Grid.Row="1" Grid.Column="0"/>
                 <DockPanel LastChildFill="True"  Grid.Row="1" Grid.Column="1">
-                    <Button ToolTip="{StaticResource dsms_driver_refresh_info}" DockPanel.Dock="Right"  Width="30" Style="{StaticResource  MetroCircleButtonStyle}">
+                    <Button Command="{Binding RefreshPackageInformationCmd}" ToolTip="{StaticResource dsms_driver_refresh_info}" DockPanel.Dock="Right"  Width="30" Style="{StaticResource  MetroCircleButtonStyle}">
                         <iconPacks:PackIconMaterial Kind="Refresh" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
                     </Button>
                     <TextBox IsReadOnly="True"  Text="{Binding SelectedSourceItem.Module.ChocolateOdbcPackageId, Mode=OneWay}" />

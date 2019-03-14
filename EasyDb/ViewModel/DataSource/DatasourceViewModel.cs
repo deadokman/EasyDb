@@ -14,7 +14,7 @@ namespace EasyDb.ViewModel.DataSource
     using System.Windows;
     using System.Windows.Input;
 
-    using EasyDb.Annotations;
+    using Annotations;
     using EasyDb.Interfaces.Data;
     using EasyDb.View;
 
@@ -85,12 +85,36 @@ namespace EasyDb.ViewModel.DataSource
             manager.DatasourceLoaded += this.InstanceOnDatasourceLoaded;
             this.SupportedDatasources = manager.SupportedDatasources.ToArray();
             this.UserDatasources = new ObservableCollection<UserDataSource>(manager.UserdefinedDatasources);
-            this.ConfigureDs = new RelayCommand<SupportedSourceItem>(
+            this.ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(
                 (si) =>
                     {
                         SelectedSourceItem = si;
                         this.DisplayUserDatasourceProperties();
                     });
+            this.RefreshPackageInformationCmd = new RelayCommand(() =>
+            {
+                LoadPackageInformation(SelectedSourceItem?.Module);
+                RefreshDriverInformation(SelectedSourceItem?.Module);
+            });
+
+            InstallPackageAutoCmd = new RelayCommand(async () =>
+            {
+                if (Package != null && AutoinstallSupportred)
+                {
+                    ProcessInProgress = true;
+                    var res = await _chocoController.InstallPackage(Package.Id);
+                    if (!res.Successful)
+                    {
+                        var sb = new StringBuilder(DriverMessage);
+                        sb.Append(res.Exception.Message);
+                        DriverMessage = sb.ToString();
+                    }
+
+                    ProcessInProgress = false;
+                    LoadPackageInformation(SelectedSourceItem?.Module);
+                    RefreshDriverInformation(SelectedSourceItem?.Module);
+                }
+            });
         }
 
         /// <summary>
@@ -108,7 +132,6 @@ namespace EasyDb.ViewModel.DataSource
             {
                 this._selectedSourceItem = value;
                 Package = null;
-                OdbcDriver = null;
                 if (value != null)
                 {
                     var uds = this._datasourceManager.CreateNewUserdatasource(_selectedSourceItem.Module);
@@ -163,10 +186,10 @@ namespace EasyDb.ViewModel.DataSource
         }
 
         /// <summary>
-        /// Gets or sets the ConfigureDs
+        /// Gets or sets the ConfigureDsCmd
         /// Open modal window to configure Database source
         /// </summary>
-        public ICommand ConfigureDs
+        public ICommand ConfigureDsCmd
         {
             get => this._configureUserdataSourceCmd;
             set
@@ -175,6 +198,16 @@ namespace EasyDb.ViewModel.DataSource
                 this.OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Refresh pakcage and driver information command
+        /// </summary>
+        public ICommand RefreshPackageInformationCmd { get; set; }
+
+        /// <summary>
+        /// Install package with chocolatey in semi-auto mode
+        /// </summary>
+        public ICommand InstallPackageAutoCmd { get; set; }
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -246,7 +279,7 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Downloading information about package
         /// </summary>
-        public bool PackageInfoLoad
+        public bool ProcessInProgress
         {
             get => this._packageInfoLoad;
             set
@@ -296,15 +329,27 @@ namespace EasyDb.ViewModel.DataSource
         /// <param name="edbDatasourceModule">Module</param>
         private async void LoadPackageInformation(EdbDatasourceModule edbDatasourceModule)
         {
-            PackageInfoLoad = true;
+            Package = null;
+            if (edbDatasourceModule == null)
+            {
+                return;
+            }
+
+            ProcessInProgress = true;
             var res = await this._chocoController.GetPackageInformation(edbDatasourceModule.ChocolateOdbcPackageId);
-            PackageInfoLoad = false;
+            ProcessInProgress = false;
             Package = res?.Package;
             this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
         }
 
         private void RefreshDriverInformation(EdbDatasourceModule edbDatasourceModule)
         {
+            OdbcDriver = null;
+            if (edbDatasourceModule == null)
+            {
+                return;
+            }
+
             OdbcDriver driver;
             OdbcDriverInstalled = _odbcManager.OdbcDriverInstalled(edbDatasourceModule.GetCorrectDriverName(), out driver);
             OdbcDriver = driver;
