@@ -95,7 +95,8 @@
                     TabStripMargin="0,10,0,0"
                     mah:TabControlHelper.Transition="Up"
                     mah:TabControlHelper.CloseButtonEnabled="False" 
-                    mah:TabControlHelper.Underlined="TabPanel" 
+                    mah:TabControlHelper.Underlined="TabPanel"
+                    mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource AccentBaseColorBrush}"
                     TabStripPlacement="Right">
                     <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_optionsPanel}" Style="{StaticResource TabControlHeaderRotate}">
                         <Grid Margin="3">

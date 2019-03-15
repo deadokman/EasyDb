@@ -1,17 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace EasyDb.View.DataSource
 {
@@ -28,6 +20,8 @@ namespace EasyDb.View.DataSource
     {
         private readonly IChocolateyController _controller;
 
+        private FlowDocument _document;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PackageInstallDialog"/> class.
         /// Package install dialog
@@ -37,6 +31,8 @@ namespace EasyDb.View.DataSource
         {
             this._controller = controller ?? throw new ArgumentNullException(nameof(controller));
             InitializeComponent();
+            _document = new FlowDocument();
+            LogsTextBox.Document = _document;
         }
 
         /// <summary>
@@ -47,7 +43,50 @@ namespace EasyDb.View.DataSource
         /// <param name="ex">Exception</param>
         public void ChocoMessage(MessageLevel level, string message, Exception ex = null)
         {
-            throw new NotImplementedException();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                SolidColorBrush foregroundBrush;
+                switch (level)
+                {
+                    case MessageLevel.Error:
+                    case MessageLevel.Fatal:
+                        foregroundBrush = new SolidColorBrush(Colors.Red);
+                        break;
+                    case MessageLevel.Warning:
+                        foregroundBrush = new SolidColorBrush(Colors.Yellow);
+                        break;
+                    default:
+                        foregroundBrush = (SolidColorBrush)App.Current.Resources["AccentColorBrush"];
+                        break;
+                }
+                var paragraph = new Paragraph();
+                paragraph.Inlines.Add(new Run(message)
+                {
+                    Foreground = foregroundBrush
+                });
+
+                _document.Blocks.Add(paragraph);
+                if (ex != null)
+                {
+                    paragraph.Inlines.Add(new Run(message)
+                    {
+                        Foreground = new SolidColorBrush(Colors.Red)
+                    });
+                }
+
+                LogsTextBox.ScrollToEnd();
+            });
+        }
+
+        private void PackageInstallDialog_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            this._controller.RegisterLisner(this);
+            LogsTextBox.Document.Blocks.Clear();
+        }
+
+        private void PackageInstallDialog_OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            this._controller.UnregisterLisner(this);
         }
     }
 }

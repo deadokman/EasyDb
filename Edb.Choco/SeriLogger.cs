@@ -1,4 +1,6 @@
-﻿namespace Edb.Environment
+﻿using NuGet;
+
+namespace Edb.Environment
 {
     namespace ChocolateyGui
     {
@@ -74,6 +76,7 @@
             public void Debug(string message, params object[] formatting)
             {
                 this._logger.Debug(message, formatting);
+                NotifyListners(MessageLevel.Debug, message);
             }
 
             /// <summary>
@@ -82,7 +85,9 @@
             /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Debug(Func<string> message)
             {
-                this._logger.Debug(message());
+                var msg = message();
+                this._logger.Debug(msg);
+                NotifyListners(MessageLevel.Debug, msg);
             }
 
             /// <summary>
@@ -93,6 +98,7 @@
             public void Info(string message, params object[] formatting)
             {
                 this._logger.Info(message, formatting);
+                NotifyListners(MessageLevel.Debug, message);
             }
 
             /// <summary>
@@ -101,7 +107,9 @@
             /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Info(Func<string> message)
             {
-                this._logger.Info(message());
+                var msg = message();
+                this._logger.Info(msg);
+                NotifyListners(MessageLevel.Info, msg);
             }
 
             /// <summary>
@@ -112,6 +120,7 @@
             public void Warn(string message, params object[] formatting)
             {
                 this._logger.Warn(message, formatting);
+                NotifyListners(MessageLevel.Warning, message);
             }
 
             /// <summary>
@@ -120,7 +129,9 @@
             /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Warn(Func<string> message)
             {
-                this._logger.Warn(message());
+                var msg = message();
+                this._logger.Warn(msg);
+                NotifyListners(MessageLevel.Warning, msg);
             }
 
             /// <summary>
@@ -131,6 +142,7 @@
             public void Error(string message, params object[] formatting)
             {
                 this._logger.Error(message, formatting);
+                NotifyListners(MessageLevel.Error, message);
             }
 
             /// <summary>
@@ -139,7 +151,9 @@
             /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Error(Func<string> message)
             {
-                this._logger.Error(message());
+                var msg = message();
+                this._logger.Error(msg);
+                NotifyListners(MessageLevel.Error, msg);
             }
 
             /// <summary>
@@ -150,6 +164,7 @@
             public void Fatal(string message, params object[] formatting)
             {
                 this._logger.Fatal(message, formatting);
+                NotifyListners(MessageLevel.Fatal, message);
             }
 
             /// <summary>
@@ -158,17 +173,27 @@
             /// <param name="message">The message<see cref="Func{string}"/></param>
             public void Fatal(Func<string> message)
             {
-                this._logger.Fatal(message());
+                var msg = message();
+                this._logger.Fatal(msg);
+                NotifyListners(MessageLevel.Fatal, msg);
             }
 
             /// <summary>
             /// The Intercept
             /// </summary>
-            /// <param name="interceptor">The interceptor<see cref="Action{LogMessage}"/></param>
+            /// <param name="interceptor">The interceptor<see cref="Action{NotifyListners}"/></param>
             /// <returns>The <see cref="IDisposable"/></returns>
             public IDisposable Intercept(Action<LogMessage> interceptor)
             {
                 return new InterceptMessages(this, interceptor);
+            }
+
+            private void NotifyListners(MessageLevel level, string message, Exception ex = null)
+            {
+                foreach (var chocoMessageListner in _listners)
+                {
+                    chocoMessageListner.ChocoMessage(level, message, ex);
+                }
             }
         }
     }

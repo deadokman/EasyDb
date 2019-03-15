@@ -1,4 +1,8 @@
-﻿namespace EDb.Interfaces
+﻿using System.Security;
+using System.Security.Permissions;
+
+[assembly: AllowPartiallyTrustedCallers]
+namespace EDb.Interfaces
 {
     using EDb.Interfaces.Objects;
     using EDb.Interfaces.Options;
@@ -99,6 +103,15 @@
         public virtual void SetGuid(Guid guid)
         {
             ModuleGuid = guid;
+        }
+
+        [SecurityPermissionAttribute(SecurityAction.Demand,
+            Flags = SecurityPermissionFlag.Infrastructure)]
+        [SecuritySafeCritical]
+        [SecurityCritical]
+        public override object InitializeLifetimeService()
+        {
+            return null;
         }
     }
 }

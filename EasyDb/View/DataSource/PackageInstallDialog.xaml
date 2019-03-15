@@ -5,19 +5,22 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasyDb.View.DataSource"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             Loaded="PackageInstallDialog_OnLoaded"
+             Unloaded="PackageInstallDialog_OnUnloaded"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Background="{DynamicResource ControlBackgroundBrush}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="55"/>
+            <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
         <TextBlock FontWeight="Light"  Text="{StaticResource cpid_header}" Foreground="{DynamicResource TextBrush}" TextAlignment="Center" VerticalAlignment="Center" FontSize="20"></TextBlock>
-        <Border BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}" Grid.Row="1">
-            <TextBox Margin="5" x:Name="LogsTextBlock" TextWrapping="Wrap" Foreground="{StaticResource AccentColorBrush}" FontSize="12" Background="{DynamicResource ControlBackgroundBrush}"/>
-        </Border>
-        
+        <Expander ExpandDirection="Down" Grid.Row="1">
+            <Border VerticalAlignment="Stretch" HorizontalAlignment="Stretch" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
+                <RichTextBox IsReadOnly="True" Margin="5" x:Name="LogsTextBox" Foreground="{StaticResource AccentColorBrush}" FontSize="12" Background="{DynamicResource ControlBackgroundBrush}"/>
+            </Border>
+        </Expander>
         <mah:MetroProgressBar Grid.Row="2" IsIndeterminate="True"></mah:MetroProgressBar>
     </Grid>
 </UserControl>

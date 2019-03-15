@@ -110,17 +110,27 @@ namespace EasyDb.ViewModel.DataSource
             {
                 if (Package != null && AutoinstallSupportred)
                 {
-                    DisplayPkgInstallDialog();
-                    var res = await _chocoController.InstallPackage(Package.Id);
-                    if (!res.Successful)
+                    var dlg = SwitchPkgInstallDialog();
+                    try
                     {
-                        var sb = new StringBuilder(DriverMessage);
-                        sb.Append(res.Exception.Message);
-                        DriverMessage = sb.ToString();
-                    }
+                        var res = await _chocoController.InstallPackage(Package.Id);
+                        if (!res.Successful)
+                        {
+                            var sb = new StringBuilder(DriverMessage);
+                            sb.Append(res.Exception.Message);
+                            DriverMessage = sb.ToString();
+                        }
 
-                    LoadPackageInformation(SelectedSourceItem?.Module);
-                    RefreshDriverInformation(SelectedSourceItem?.Module);
+                        LoadPackageInformation(SelectedSourceItem?.Module);
+                        RefreshDriverInformation(SelectedSourceItem?.Module);
+                        SwitchPkgInstallDialog(dlg, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        this._logger.Error(ex);
+                        SwitchPkgInstallDialog(dlg, false);
+                        throw ex;
+                    }
                 }
             });
         }
@@ -354,6 +364,7 @@ namespace EasyDb.ViewModel.DataSource
         private void RefreshDriverInformation(EdbDatasourceModule edbDatasourceModule)
         {
             OdbcDriver = null;
+            _odbcManager.RefreshDriversCatalog();
             if (edbDatasourceModule == null)
             {
                 return;
@@ -386,12 +397,21 @@ namespace EasyDb.ViewModel.DataSource
             this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
         }
 
-        private async void DisplayPkgInstallDialog()
+        private BaseMetroDialog SwitchPkgInstallDialog(BaseMetroDialog dlg = null, bool show = true)
         {
-            var cd = new CustomDialog();
-            cd.Height = 250;
-            cd.Content = new PackageInstallDialog(this._chocoController);
-            await this._dialogCoordinator.ShowMetroDialogAsync(this, cd);
+            if (show)
+            {
+                var cd = new CustomDialog();
+                cd.Height = 250;
+                cd.Content = new PackageInstallDialog(this._chocoController);
+                this._dialogCoordinator.ShowMetroDialogAsync(this, cd);
+                return cd;
+            }
+            else
+            {
+                this._dialogCoordinator.HideMetroDialogAsync(this, dlg);
+                return dlg;
+            }
         }
     }
 }
