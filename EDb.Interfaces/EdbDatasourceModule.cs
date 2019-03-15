@@ -105,9 +105,6 @@ namespace EDb.Interfaces
             ModuleGuid = guid;
         }
 
-        [SecurityPermissionAttribute(SecurityAction.Demand,
-            Flags = SecurityPermissionFlag.Infrastructure)]
-        [SecuritySafeCritical]
         [SecurityCritical]
         public override object InitializeLifetimeService()
         {

@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using System.Security;
 
-[assembly: AllowPartiallyTrustedCallers]
 namespace EasyDb.SandboxEnvironment
 {
     using System;
