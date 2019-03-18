@@ -6,15 +6,23 @@ namespace EasyDb.SandboxEnvironment
     using System.Data;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.InteropServices;
+    using System.Runtime.Remoting;
+    using System.Runtime.Remoting.Lifetime;
+    using System.Security;
     using System.Windows.Media;
 
     using EDb.Interfaces;
     using EDb.Interfaces.Objects;
+    using EDb.Interfaces.Options;
 
     /// <summary>
     /// Proxy EdbModule calls in safe context
     /// </summary>
-    public class EdbModuleProxy : EdbDatasourceModule
+    [SecuritySafeCritical]
+    [ComVisible(true)]
+    [Serializable]
+    public class EdbModuleProxy : IEdbSourceModule
     {
         /// <summary>
         /// Poxy entity subject
@@ -30,14 +38,20 @@ namespace EasyDb.SandboxEnvironment
         }
 
         /// <summary>
+        /// Gets the ModuleGuid
+        /// Module unique GUID
+        /// </summary>
+        public Guid ModuleGuid => this._proxySubject.ModuleGuid;
+
+        /// <summary>
         /// Gets database image icon
         /// </summary>
-        public override byte[] DatabaseIcon => this._proxySubject.DatabaseIcon;
+        public byte[] DatabaseIcon => this._proxySubject.DatabaseIcon;
 
         /// <summary>
         /// Gets database name
         /// </summary>
-        public override string DatabaseName => this._proxySubject.DatabaseName;
+        public string DatabaseName => this._proxySubject.DatabaseName;
 
         /// <summary>
         /// Gets support of db module interface
@@ -47,43 +61,43 @@ namespace EasyDb.SandboxEnvironment
         /// <summary>
         /// Gets supported object types
         /// </summary>
-        public override SupportedObjectTypes[] SupportedTypes => this._proxySubject.SupportedTypes;
+        public SupportedObjectTypes[] SupportedTypes => this._proxySubject.SupportedTypes;
 
         /// <summary>
         /// Gets module version
         /// </summary>
-        public override Version Version => this._proxySubject.Version;
+        public Version Version => this._proxySubject.Version;
 
         /// <summary>
         /// Identifier of chocolate ODBC package
         /// </summary>
-        public override string ChocolateOdbcPackageId => this._proxySubject.ChocolateOdbcPackageId;
+        public string ChocolateOdbcPackageId => this._proxySubject.ChocolateOdbcPackageId;
 
         /// <summary>
         /// URL to ODBC driver package
         /// </summary>
-        public override string ChocolatepackageUrl => this._proxySubject.ChocolatepackageUrl;
+        public string ChocolatepackageUrl => this._proxySubject.ChocolatepackageUrl;
 
         /// <summary>
         /// Driver download URLS
         /// </summary>
-        public override string[] AlternativeDriverDownloadUrls => this._proxySubject.AlternativeDriverDownloadUrls;
+        public string[] AlternativeDriverDownloadUrls => this._proxySubject.AlternativeDriverDownloadUrls;
 
         /// <summary>
         /// ODBC driver name inside operating system
         /// </summary>
-        public override string OdbcSystemDriverName => this._proxySubject.OdbcSystemDriverName;
+        public string OdbcSystemDriverName => this._proxySubject.OdbcSystemDriverName;
 
         /// <summary>
         /// Driver name for x32 architecture systems
         /// </summary>
-        public override string OdbcSystem32DriverName => this._proxySubject.OdbcSystem32DriverName;
+        public string OdbcSystem32DriverName => this._proxySubject.OdbcSystem32DriverName;
 
         /// <summary>
         /// Gets module source options collection
         /// </summary>
         /// <returns>Source options collection</returns>
-        public override EdbSourceOption[] GetOptions()
+        public EdbSourceOption[] GetOptions()
         {
             return this._proxySubject.GetOptions();
         }
@@ -97,7 +111,7 @@ namespace EasyDb.SandboxEnvironment
         {
             var assembly = Assembly.LoadFrom(assemblyPath);
             var types = assembly.GetTypes().Where(
-                t => t.IsClass && !t.IsAbstract && t.BaseType == typeof(EdbDatasourceModule)).ToArray();
+                t => !t.IsAbstract && t.IsClass && t.GetInterfaces().Any(iface => iface == typeof(IEdbSourceModule))).ToArray();
 
             if (types.Length > 1)
             {
@@ -120,14 +134,34 @@ namespace EasyDb.SandboxEnvironment
             this._proxySubject = this.ProcessType(moduleType);
             this._proxySubject.SetGuid(attribute.SourceGuid);
             this._proxySubject.SetVersion(attribute.Version);
+
+            /*
+            // register a sponsor
+            object lifetimeService = RemotingServices.GetLifetimeService(this._proxySubject);
+            if (lifetimeService is ILease)
+            {
+                ILease lease = (ILease)lifetimeService;
+                lease.Register(this);
+            }
+            */
+
             return true;
+        }
+
+        /// <summary>
+        /// Get option defenition objects
+        /// </summary>
+        /// <returns>Returns module options definition</returns>
+        public ModuleOptionDefinition[] GetOptionsDefenitions()
+        {
+            return this._proxySubject.GetOptionsDefenitions();
         }
 
         /// <summary>
         /// Set guid
         /// </summary>
         /// <param name="guid">guid</param>
-        public override void SetGuid(Guid guid)
+        public void SetGuid(Guid guid)
         {
             this._proxySubject.SetGuid(guid);
         }
@@ -136,7 +170,7 @@ namespace EasyDb.SandboxEnvironment
         /// Set version
         /// </summary>
         /// <param name="version">version</param>
-        public override void SetVersion(Version version)
+        public void SetVersion(Version version)
         {
             this._proxySubject.SetVersion(version);
         }

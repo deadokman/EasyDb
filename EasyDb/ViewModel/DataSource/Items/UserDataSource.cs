@@ -67,7 +67,7 @@
         /// Gets or sets the LinkedEdbSourceModule
         /// Драйвер СУБД
         /// </summary>
-        public EdbDatasourceModule LinkedEdbSourceModule { get; set; }
+        public IEdbSourceModule LinkedEdbSourceModule { get; set; }
 
         /// <summary>
         /// Gets or sets the Name

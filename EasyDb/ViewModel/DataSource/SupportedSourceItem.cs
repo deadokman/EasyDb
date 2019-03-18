@@ -4,15 +4,11 @@ using System.Windows.Media.Imaging;
 namespace EasyDb.ViewModel.DataSource
 {
     using System;
-    using System.Windows.Input;
     using System.Windows.Media;
 
     using EasyDb.Annotations;
-    using EasyDb.ViewModel.DataSource.Items;
 
     using EDb.Interfaces;
-
-    using GalaSoft.MvvmLight.CommandWpf;
 
     /// <summary>
     /// Supported source view model item. Display items collection in deriver selection menu
@@ -23,14 +19,14 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Defines the _sourceModule
         /// </summary>
-        private readonly EdbDatasourceModule _sourceModule;
+        private readonly IEdbSourceModule _sourceModule;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedSourceItem"/> class.
         /// </summary>
         /// <param name="sourceModule">The sourceModule<see cref="EdbDatasourceModule"/></param>
         public SupportedSourceItem(
-            [NotNull] EdbDatasourceModule sourceModule)
+            [NotNull] IEdbSourceModule sourceModule)
         {
             this._sourceModule = sourceModule ?? throw new ArgumentNullException(nameof(sourceModule));
         }
@@ -65,6 +61,6 @@ namespace EasyDb.ViewModel.DataSource
         /// Gets or sets the Module
         /// Драйвер источника данных
         /// </summary>
-        public EdbDatasourceModule Module => this._sourceModule;
+        public IEdbSourceModule Module => this._sourceModule;
     }
 }

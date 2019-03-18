@@ -4,39 +4,111 @@
     <system:String x:Key="app_name">EasyDb</system:String>
     <system:String x:Key="app_ver">0.0.0</system:String>
     <!--Unhandled error window-->
-    <system:String x:Key="errorw_title">Error</system:String>
-    <system:String x:Key="errorw_expander_title">Details</system:String>
-    <system:String x:Key="errorw_main_title">Unhandled error during execution program occured</system:String>
+    <system:String x:Key="errorw_title">Ошибка</system:String>
+    <system:String x:Key="errorw_expander_title">Подробнее</system:String>
+    <system:String x:Key="errorw_main_title">Во время работы приложения произошла ошибка</system:String>
+
     <!--Database diagramm designer-->
-    <system:String x:Key="mw_DbEntities">DbEntities</system:String>
+    <system:String x:Key="mw_DbEntities">Объекты базы</system:String>
     <!--Log messages-->
-    <system:String x:Key="log_NotImplementedAttr">Detected plugin inside assembly: {0}, it can't be loaded. Contact with developer.</system:String>
+    <system:String x:Key="log_NotImplementedAttr">Найден тип источника данных {0} в сборке {1}, который не может быть загружен. Обратитесь к разработчикам.</system:String>
+    <system:String x:Key="log_CannotFileDatasourceGuid">Не удалось найти драйвер источника данных для пользовательского подключения: {0}</system:String>
     <!-- Main window -->
-    <system:String x:Key="mw_Status">Status</system:String>
-    <system:String x:Key="mw_StatusWork">Work in progress</system:String>
-    <system:String x:Key="mw_File">File</system:String>
-    <system:String x:Key="mw_Filters">Filters</system:String>
-    <system:String x:Key="mw_Analyze">Analytics</system:String>
-    <system:String x:Key="mw_View">View</system:String>
-    <system:String x:Key="mw_Settings">Settings</system:String>
-    <system:String x:Key="mw_PluginInit">Plugin initialization...</system:String>
+    <system:String x:Key="mw_Status">Статус</system:String>
+    <system:String x:Key="mw_StatusWork">Работает</system:String>
+    <system:String x:Key="mw_File">Файл</system:String>
+    <system:String x:Key="mw_Filters">Фильтры</system:String>
+    <system:String x:Key="mw_Analyze">Анализ</system:String>
+    <system:String x:Key="mw_View">Вид</system:String>
+    <system:String x:Key="mw_Tools">Инструменты</system:String>
+    <system:String x:Key="mw_Tools_odbcmanager">Менеджер ODBC драйверов</system:String>
+    <system:String x:Key="mw_Settings">Настройки</system:String>
+    <system:String x:Key="mw_PluginInit">Инициализация источников данных...</system:String>
     <!--Settings flyout-->
-    <system:String x:Key="fs_saveSettings">Apply</system:String>
-    <system:String x:Key="fs_cancel">Cancel</system:String>
-    <system:String x:Key="fs_reset">Reset to default</system:String>
+    <system:String x:Key="fs_saveSettings">Применить</system:String>
+    <system:String x:Key="fs_cancel">Отменить</system:String>
+    <system:String x:Key="fs_reset">По умолчанию</system:String>
     <!-- General settings -->
-    <system:String x:Key="gs_BaseTheme">Base theme:</system:String>
-    <system:String x:Key="gs_Accent">Accent:</system:String>
-    <system:String x:Key="gs_Lang">Language:</system:String>
-    <system:String x:Key="gs_PluginsLocation">Plugin folder:</system:String>
-    <system:String x:Key="gs_SettingsWidth">Settings flyout width:</system:String>
-    <system:String x:Key="gs_themetile">Language and themes</system:String>
-    <system:String x:Key="gs_General">General</system:String>
-    <system:String x:Key="gs_Warning">Warning!</system:String>
-    <system:String x:Key="gs_SettingsWarning">Some of the settings will be applied after restart</system:String>
-    <system:String x:Key="gs_SettingsResetText">Reset defaults</system:String>
-    <!--Steam analytics tab-->
-    <system:String x:Key="sa_SellTabname">Sell</system:String>
-    <system:String x:Key="sa_BuyTabname">Buy</system:String>
-    <system:String x:Key="sa_Details">Details</system:String>
+    <system:String x:Key="gs_BaseTheme">Базовая тема:</system:String>
+    <system:String x:Key="gs_Accent">Акцент:</system:String>
+    <system:String x:Key="gs_Lang">Язык:</system:String>
+    <system:String x:Key="gs_PluginsLocation">Путь к плагинам:</system:String>
+    <system:String x:Key="gs_SettingsWidth">Ширина окна настроек:</system:String>
+    <system:String x:Key="gs_themetile">Язык и оформление</system:String>
+    <system:String x:Key="gs_General">Общие</system:String>
+    <system:String x:Key="gs_Warning">Внимание!</system:String>
+    <system:String x:Key="gs_SettingsWarning">Некоторые из настроек будут применены после перезапуска программы</system:String>
+    <system:String x:Key="gs_SettingsResetText">Сброс настроек</system:String>
+    <!--Datasource manager tab-->
+    <system:String x:Key="dsm_datasourceTabTitle">База данных</system:String>
+    <system:String x:Key="dsm_addNewDatasource">Добавить новую БД</system:String>
+    <system:String x:Key="dsms_settingsWindowTitle">Настройки источника данных</system:String>
+    <system:String x:Key="dsms_datasourceName">Имя:</system:String>
+    <system:String x:Key="dsms_DSNname">DSN:</system:String>
+    <system:String x:Key="dsms_datasourceComment">Комментарий:</system:String>
+    <system:String x:Key="dsms_optionWatermark">...</system:String>
+    <system:String x:Key="dsms_passwordToolTipCapton">Включен CapsLock</system:String>
+    <system:String x:Key="dsms_optionsPanel">Настройки</system:String>
+    <system:String x:Key="dsms_driverInfoPanel">Драйвер</system:String>
+    <system:String x:Key="dsms_dnsn_driver_manager_tab">Менеджер DSN/ODBC</system:String>
+    <system:String x:Key="dsms_driver_execute_autoinst">Выполнить автоматическую установку драйвера, используя Chocolatey</system:String>
+    <system:String x:Key="dsms_driver_refresh_info">Обновить информацию о пакете и драйвере</system:String>
+    <system:String x:Key="dsms_test_connection_button">Проверить соединение</system:String>
+
+    <!--Chocolatey package install dialog-->
+    <system:String x:Key="cpid_header">Выполняется установка пакета из Chocolatey</system:String>
+
+    <system:String x:Key="dsms_ex_datasourceName">Требуется наименование</system:String>
+    <system:String x:Key="opt_def_hostname">Имя хоста:</system:String>
+    <system:String x:Key="opt_def_user">Пользователь:</system:String>
+    <system:String x:Key="opt_def_database">База данных:</system:String>
+    <system:String x:Key="opt_def_password">Пароль:</system:String>
+    <system:String x:Key="opt_def_port">Порт:</system:String>
+
+    <system:String x:Key="dsms_err_no_driver">Не установлен драйвер.</system:String>
+    <system:String x:Key="dsms_err_no_autoinstall">Chocolatey не установлен.</system:String>
+    <system:String x:Key="dsms_err_no_admin">Требуются права администратора.</system:String>
+
+    <!--Chocolatey install dialog-->
+    <system:String x:Key="choco_dlg_text_title">Установка дополнительного ПО</system:String>
+    <system:String x:Key="choco_dlg_text_title_success">Установка выполнена успешно</system:String>
+    <system:String x:Key="choco_dlg_text_title_errors">Установка не выполнена из-за ошибок:</system:String>
+    <system:String x:Key="choco_dlg_text_admin_p1">Для корректной установки драйверов OleDb на вашем компьютере 
+        требуется наличие ПО "Chocolatey". 
+        Для автоматической установки необходимо закрыть приложение и запустить его от имени администратора. 
+        Или же вы можете выполнить установку данного ПО в ручную перейдя по ссылке:
+    </system:String>
+    <system:String x:Key="choco_dlg_text_admin_p2">
+        Если вы считаете, что поддержка данной функциональности вам не нужна, можете пропустить этот диалог и/или скрыть его.
+    </system:String>
+    <system:String x:Key="choco_dlg_in_admin_app_p1">
+        Для корректной установки драйверов OleDb на вашем компьютере 
+                требуется наличие ПО "Chocolatey". Вы можете закрыть данный диалог, если считаете, что данный функционал вам не нужен
+                или установить его в ручную, перейдя по ссылке:
+    </system:String>
+    <system:String x:Key="choco_dlg_in_admin_app_p2">
+        Вы можете выполнить автоматическую установку нажав на кнопку
+    </system:String>
+    <system:String x:Key="choco_dlg_install_success">
+        Установка Chocolatey выполнена успешно, в дальнейшей с его помощью будут устанавливаться драйверы OleDb и другое ПО, 
+        необходимое для работы приложения.
+    </system:String>
+    <system:String x:Key="choco_dlg_install_progress">
+        Программа установки выполняет необходимые операции, это может занять несколько минут. 
+        Для установки дополнительного ПО требуется подключение к сети интернет.
+    </system:String>
+    <system:String x:Key="choco_dlg_text_hide">Больше не показывать этот диалог</system:String>
+    <system:String x:Key="choco_dlg_close_app">ЗАКРЫТЬ ПО</system:String>
+    <system:String x:Key="choco_dlg_cancel_dlg">ПРОПУСТИТЬ</system:String>
+    <system:String x:Key="choco_dlg_understand_dlg">ПОНЯТНО</system:String>
+    <system:String x:Key="choco_dlg_SetUp_dlg">УСТАНОВИТЬ</system:String>
+    <system:String x:Key="choco_dlg_SetUp_message">Установка Chocolatey</system:String>
+    <system:String x:Key="choco_dlg_SetUp_text">Выполняется скачивание и установка Chocolatey</system:String>
+    <!--Контролл доступа к ODBC драйверам-->
+    <system:String x:Key="odbc_drivername">Имя</system:String>
+    <system:String x:Key="odbc_driverpath">Путь к файлу</system:String>
+    <system:String x:Key="odbc_driverver">Версия</system:String>
+    <system:String x:Key="odbc_installBtn">Добавить</system:String>
+    <system:String x:Key="odbc_cancelBtn">Закрыть</system:String>
+    <system:String x:Key="odbc_windowName">Менеджер драйверов/DSN подключений</system:String>
 </ResourceDictionary>

@@ -1,113 +1,94 @@
-﻿using System.Security;
-using System.Security.Permissions;
+﻿using EDb.Interfaces.Objects;
+using System;
 
-[assembly: AllowPartiallyTrustedCallers]
 namespace EDb.Interfaces
 {
-    using EDb.Interfaces.Objects;
     using EDb.Interfaces.Options;
-    using System;
-    using System.Data;
-    using System.Linq;
 
     /// <summary>
-    /// Defines the <see cref="EdbDatasourceModule" />
+    /// Base module interface
     /// </summary>
-    public abstract class EdbDatasourceModule : MarshalByRefObject, IEdbSourceModule
+    public interface IEdbSourceModule
     {
         /// <summary>
         /// Gets the DatabaseName
         /// Имя модуля СУБД
         /// </summary>
-        public abstract string DatabaseName { get; }
+        string DatabaseName { get; }
 
         /// <summary>
         /// Gets the SupportedTypes
         /// Типы поддерживаемых объектов базы данных
         /// </summary>
-        public abstract SupportedObjectTypes[] SupportedTypes { get; }
+        SupportedObjectTypes[] SupportedTypes { get; }
 
         /// <summary>
         /// Gets the DatabaseIcon
         /// Значек базы данных
         /// </summary>
-        public abstract byte[] DatabaseIcon { get; }
+        byte[] DatabaseIcon { get; }
 
         /// <summary>
         /// Option objects
         /// Вернуть объекты настроек
         /// </summary>
         /// <returns>Plugin options collection</returns>
-        public abstract EdbSourceOption[] GetOptions();
+        EdbSourceOption[] GetOptions();
 
         /// <summary>
         /// Gets the ModuleGuid
         /// Module unique GUID
         /// </summary>
-        public virtual Guid ModuleGuid { get; private set; }
+        Guid ModuleGuid { get; }
 
         /// <summary>
         /// Gets the Version
         /// Module version
         /// </summary>
-        public virtual Version Version { get; private set; }
+        Version Version { get;  }
 
         /// <summary>
         /// Identifier of chocolate ODBC package
         /// </summary>
-        public abstract string ChocolateOdbcPackageId { get; }
+        string ChocolateOdbcPackageId { get; }
 
         /// <summary>
         /// URL to ODBC driver package
         /// </summary>
-        public abstract string ChocolatepackageUrl { get; }
+        string ChocolatepackageUrl { get; }
 
         /// <summary>
         /// Driver download URLS
         /// </summary>
-        public virtual string[] AlternativeDriverDownloadUrls { get; }
+        string[] AlternativeDriverDownloadUrls { get; }
 
         /// <summary>
         /// ODBC driver name inside operating system
         /// </summary>
-        public abstract string OdbcSystemDriverName { get; }
+        string OdbcSystemDriverName { get; }
 
         /// <summary>
         /// Driver name for x32 architecture systems
         /// </summary>
-        public abstract string OdbcSystem32DriverName { get; }
+        string OdbcSystem32DriverName { get; }
 
         /// <summary>
         /// The SetVersion
         /// </summary>
         /// <param name="version">The version<see cref="Version"/></param>
-        public virtual void SetVersion(Version version)
-        {
-            Version = version;
-        }
+        void SetVersion(Version version);
 
         /// <summary>
         /// Get option defenition objects
         /// </summary>
         /// <returns>Returns module options definition</returns>
-        public virtual ModuleOptionDefinition[] GetOptionsDefenitions()
-        {
-            return this.GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
-        }
+        ModuleOptionDefinition[] GetOptionsDefenitions();
 
-        [SecurityCritical]
-        public override object InitializeLifetimeService()
-        {
-            return null;
-        }
 
         /// <summary>
         /// The SetGuid
         /// </summary>
         /// <param name="guid">The guid<see cref="Guid"/></param>
-        public virtual void SetGuid(Guid guid)
-        {
-            ModuleGuid = guid;
-        }
+        void SetGuid(Guid guid);
     }
 }

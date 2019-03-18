@@ -43,7 +43,7 @@
         /// </summary>
         /// <param name="module">Database driver</param>
         /// <returns>User defined data source</returns>
-        UserDataSource CreateNewUserdatasource(EdbDatasourceModule module);
+        UserDataSource CreateNewUserdatasource(IEdbSourceModule module);
 
         /// <summary>
         /// Добавить объявленный пользователем источник данных в список

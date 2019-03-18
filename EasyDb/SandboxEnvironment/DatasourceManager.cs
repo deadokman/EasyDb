@@ -82,7 +82,7 @@ namespace EasyDb.SandboxEnvironment
         /// </summary>
         /// <param name="module">datasource module</param>
         /// <returns>User defined datasource</returns>
-        public UserDataSource CreateNewUserdatasource(EdbDatasourceModule module)
+        public UserDataSource CreateNewUserdatasource(IEdbSourceModule module)
         {
             var uds = new UserDataSource
             {

@@ -133,6 +133,9 @@ namespace EasyDb.ViewModel.DataSource
                     }
                 }
             });
+
+            CloseInformationMessage = new RelayCommand(
+                () => { DriverMessage = string.Empty; });
         }
 
         /// <summary>
@@ -227,6 +230,11 @@ namespace EasyDb.ViewModel.DataSource
         /// Install package with chocolatey in semi-auto mode
         /// </summary>
         public ICommand InstallPackageAutoCmd { get; set; }
+
+        /// <summary>
+        /// Закрыть информационное сообщение
+        /// </summary>
+        public ICommand CloseInformationMessage { get; set; }
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -346,7 +354,7 @@ namespace EasyDb.ViewModel.DataSource
         /// Execute chocolatey package info download if supported by database module
         /// </summary>
         /// <param name="edbDatasourceModule">Module</param>
-        private async void LoadPackageInformation(EdbDatasourceModule edbDatasourceModule)
+        private async void LoadPackageInformation(IEdbSourceModule edbDatasourceModule)
         {
             Package = null;
             if (edbDatasourceModule == null)
@@ -355,13 +363,23 @@ namespace EasyDb.ViewModel.DataSource
             }
 
             ProcessInProgress = true;
-            var res = await this._chocoController.GetPackageInformation(edbDatasourceModule.ChocolateOdbcPackageId);
-            ProcessInProgress = false;
-            Package = res?.Package;
+            try
+            {
+                var res = await this._chocoController.GetPackageInformation(edbDatasourceModule.ChocolateOdbcPackageId);
+                Package = res?.Package;
+                ProcessInProgress = false;
+            }
+            catch (Exception ex)
+            {
+                ProcessInProgress = false;
+                DriverMessage = ex.Message;
+                throw;
+            }
+
             this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
         }
 
-        private void RefreshDriverInformation(EdbDatasourceModule edbDatasourceModule)
+        private void RefreshDriverInformation(IEdbSourceModule edbDatasourceModule)
         {
             OdbcDriver = null;
             _odbcManager.RefreshDriversCatalog();

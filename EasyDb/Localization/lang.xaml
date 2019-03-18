@@ -51,9 +51,17 @@
     <system:String x:Key="dsms_optionsPanel">Настройки</system:String>
     <system:String x:Key="dsms_driverInfoPanel">Драйвер</system:String>
     <system:String x:Key="dsms_dnsn_driver_manager_tab">Менеджер DSN/ODBC</system:String>
+    <!--Driver page-->
     <system:String x:Key="dsms_driver_execute_autoinst">Выполнить автоматическую установку драйвера, используя Chocolatey</system:String>
     <system:String x:Key="dsms_driver_refresh_info">Обновить информацию о пакете и драйвере</system:String>
     <system:String x:Key="dsms_test_connection_button">Проверить соединение</system:String>
+    <system:String x:Key="dsms_drivername">Имя драйвера:</system:String>
+    <system:String x:Key="dsms_driver_choco_id">ID пакета:</system:String>
+    <system:String x:Key="dsms_driver_choco_url">URL пакета:</system:String>
+    <system:String x:Key="dsms_additional_urls">Доп. URL:</system:String>
+    <system:String x:Key="dsms_versions">Вер. пакет/драйвер:</system:String>
+    <system:String x:Key="dsms_driver_dll_path">Путь к файлу драйвера:</system:String>
+    <system:String x:Key="dsms_refresh_driver_info">Обновление информации о драйвере</system:String>
 
     <!--Chocolatey package install dialog-->
     <system:String x:Key="cpid_header">Выполняется установка пакета из Chocolatey</system:String>

@@ -18,6 +18,7 @@
                  Height="450" Width="800" ShowMinButton="False"
                  ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
     <mah:MetroWindow.Resources>
+        <converters:StringEmptyToVisibilityConverter x:Key="StringToVisConv" />
         <converters:EmptyConverter x:Key="EmptyConverter"/>
         <Style x:Key="TabControlHeaderRotate" TargetType="{x:Type TabItem}" BasedOn="{StaticResource MetroTabItem}">
             <Setter Property="Padding" Value="-4,0,4,12"></Setter>
@@ -93,7 +94,7 @@
                 <mah:MetroAnimatedTabControl
                     Grid.Row="0"
                     TabStripMargin="0,10,0,0"
-                    mah:TabControlHelper.Transition="Up"
+                    mah:TabControlHelper.Transition="RightReplace"
                     mah:TabControlHelper.CloseButtonEnabled="False" 
                     mah:TabControlHelper.Underlined="TabPanel"
                     mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource AccentBaseColorBrush}"
@@ -156,7 +157,41 @@
                             </StackPanel>
                         </Grid>
                     </TabItem>
-                    <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_driverInfoPanel}" Style="{StaticResource TabControlHeaderRotate}">
+                    <TabItem Style="{StaticResource TabControlHeaderRotate}">
+                        <TabItem.HeaderTemplate>
+                            <DataTemplate>
+                                <DockPanel Margin="0,0,0,0">
+                                    <DockPanel.LayoutTransform>
+                                        <RotateTransform CenterX="0" CenterY="0" Angle="90"/>
+                                    </DockPanel.LayoutTransform>
+                                    <TextBlock  FontSize="16" Text="{StaticResource dsms_driverInfoPanel}"/>
+                                    <iconPacks:PackIconMaterial Margin="5,-5,0,0" 
+                                                                Visibility="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.DriverMessage, Converter={StaticResource StringToVisConv}}" 
+                                                                Kind="Alert" Width="20" 
+                                                                VerticalAlignment="Center" 
+                                                                HorizontalAlignment="Center" 
+                                                                Background="Transparent" 
+                                                                Foreground="{DynamicResource AccentColorBrush}">
+                                        <iconPacks:PackIconMaterial.Style>
+                                            <Style TargetType="{x:Type iconPacks:PackIconMaterial}">
+                                                <Setter Property="Opacity" Value="1"></Setter>
+                                                <Style.Triggers>
+                                                    <Trigger Property="IsEnabled" Value="True">
+                                                        <Trigger.EnterActions>
+                                                            <BeginStoryboard Name="StartBlinking">
+                                                                <Storyboard>
+                                                                    <DoubleAnimation Storyboard.TargetProperty="Opacity" To=".3" Duration="00:00:01.2" RepeatBehavior="Forever" AutoReverse="True"/>
+                                                                </Storyboard>
+                                                            </BeginStoryboard>
+                                                        </Trigger.EnterActions>
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </iconPacks:PackIconMaterial.Style>
+                                    </iconPacks:PackIconMaterial>
+                                </DockPanel>
+                            </DataTemplate>
+                        </TabItem.HeaderTemplate>
                         <Frame Source="Pages/DriverInfoPage.xaml"  NavigationUIVisibility="Hidden"/>
                     </TabItem>
                     <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_dnsn_driver_manager_tab}" Style="{StaticResource TabControlHeaderRotate}">

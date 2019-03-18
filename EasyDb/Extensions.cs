@@ -30,7 +30,7 @@
         /// </summary>
         /// <param name="module">Edb module</param>
         /// <returns>Driver name</returns>
-        public static string GetCorrectDriverName(this EdbDatasourceModule module)
+        public static string GetCorrectDriverName(this IEdbSourceModule module)
         {
             return IntPtr.Size == 8 ? module?.OdbcSystemDriverName : module?.OdbcSystem32DriverName;
         }

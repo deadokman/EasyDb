@@ -32,6 +32,11 @@ namespace EasyDb.Interfaces.Data
         ICommand InstallPackageAutoCmd { get; set; }
 
         /// <summary>
+        /// Закрыть информационное сообщение
+        /// </summary>
+        ICommand CloseInformationMessage { get; set; }
+
+        /// <summary>
         /// Gets the SupportedDatasources
         /// Get collection of supported datasources
         /// </summary>
