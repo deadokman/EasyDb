@@ -181,21 +181,15 @@
     <Compile Include="Converters\SettingsSizeLimitConverter.cs" />
     <Compile Include="Ext\PasswordHelperExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Interfaces\Data\IDatasourceControlViewModel.cs" />
-    <Compile Include="Interfaces\Data\IDataSourceManager.cs" />
-    <Compile Include="Interfaces\Data\IUserDataSource.cs" />
+    <Compile Include="ViewModel\Interfaces\IDatasourceControlViewModel.cs" />
     <Compile Include="Interfaces\IPasswordStorage.cs" />
     <Compile Include="IoC\AutofacServiceLocator.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="SandboxEnvironment\AssemblyLoader.cs" />
-    <Compile Include="SandboxEnvironment\EdbModuleProxy.cs" />
     <Compile Include="ViewModel\Choco\ChocolateyInstallViewModel.cs" />
     <Compile Include="ViewModel\Choco\IChocolateyInstallViewModel.cs" />
     <Compile Include="ViewModel\DataSource\DatasourceViewModel.cs" />
-    <Compile Include="ViewModel\DataSource\Items\EdbSourceOptionProxy.cs" />
-    <Compile Include="ViewModel\DataSource\Items\UserDatasourceConfiguration.cs" />
-    <Compile Include="ViewModel\DataSource\Items\UserDataSource.cs" />
-    <Compile Include="ViewModel\DataSource\SupportedSourceItem.cs" />
+    <Compile Include="Model\EdbSourceOptionProxy.cs" />
+    <Compile Include="ViewModel\DataSource\UserDataSourceViewModelItem.cs" />
     <Compile Include="ViewModel\Interfaces\IOdbcManagerViewModel.cs" />
     <Compile Include="ViewModel\OdbcManagerViewModel.cs" />
     <Compile Include="ViewModel\ValidationExceptionBehavior.cs" />
@@ -237,7 +231,6 @@
     <Compile Include="CustomControls\GeneralSettringsPage.xaml.cs">
       <DependentUpon>GeneralSettringsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SandboxEnvironment\DatasourceManager.cs" />
     <Compile Include="SecureStore\PasswordStoreSecure.cs" />
     <Compile Include="UnhandledErrorWindow.xaml.cs">
       <DependentUpon>UnhandledErrorWindow.xaml</DependentUpon>
@@ -564,6 +557,7 @@
   <ItemGroup>
     <Folder Include="Connections\" />
     <Folder Include="DbDesigner\DbEntities\" />
+    <Folder Include="ViewModel\DataSource\Items\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Edb.Choco\Edb.Environment.csproj">

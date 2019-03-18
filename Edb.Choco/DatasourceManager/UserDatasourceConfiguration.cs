@@ -1,4 +1,4 @@
-﻿namespace EasyDb.ViewModel.DataSource.Items
+﻿namespace EasyDb.Model
 {
     using System;
 
@@ -9,6 +9,11 @@
     /// </summary>
     public class UserDatasourceConfiguration
     {
+        /// <summary>
+        /// Identifier of current configuration instance
+        /// </summary>
+        public Guid ConfigurationGuid { get; set; }
+
         /// <summary>
         /// Gets or sets the Comment
         /// Комментарий к источнику данных

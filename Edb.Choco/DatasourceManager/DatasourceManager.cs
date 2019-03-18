@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Security;
-
-namespace EasyDb.SandboxEnvironment
+﻿namespace EasyDb.SandboxEnvironment
 {
     using System;
     using System.Collections.Generic;
@@ -13,12 +10,14 @@ namespace EasyDb.SandboxEnvironment
     using System.Windows;
     using System.Xml.Serialization;
 
-    using EasyDb.Annotations;
-    using EasyDb.Interfaces.Data;
-    using EasyDb.ViewModel.DataSource;
-    using EasyDb.ViewModel.DataSource.Items;
+    using EasyDb.Model;
+
+    using Edb.Environment.DatasourceManager;
+    using Edb.Environment.Interface;
+    using Edb.Environment.SandboxEnvironment;
 
     using EDb.Interfaces;
+    using EDb.Interfaces.Annotations;
 
     using NLog;
 
@@ -58,7 +57,7 @@ namespace EasyDb.SandboxEnvironment
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this._supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
             this._xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
-            this.UserdefinedDatasources = new List<UserDataSource>();
+            this.UserDatasourceConfigurations = new List<UserDatasourceConfiguration>();
         }
 
         /// <summary>
@@ -72,36 +71,37 @@ namespace EasyDb.SandboxEnvironment
         public IEnumerable<SupportedSourceItem> SupportedDatasources => this._supportedDataSources.Values;
 
         /// <summary>
-        /// Gets or sets the UserdefinedDatasources
+        /// Gets or sets the UserDatasources
         /// Collection of user defined datasources
         /// </summary>
-        public List<UserDataSource> UserdefinedDatasources { get; set; }
+        public List<UserDatasourceConfiguration> UserDatasourceConfigurations { get; set; }
+
+        /// <summary>
+        /// Gets the path to datasource configuration storage file
+        /// </summary>
+        private string DatasourceConfigStorage => Path.Combine(Directory.GetCurrentDirectory(), DataSourceStorageFile);
 
         /// <summary>
         /// Creates new user defined datasource
         /// </summary>
         /// <param name="module">datasource module</param>
         /// <returns>User defined datasource</returns>
-        public UserDataSource CreateNewUserdatasource(IEdbSourceModule module)
+        public UserDatasourceConfiguration CreateDataSourceConfig(IEdbSourceModule module)
         {
-            var uds = new UserDataSource
-            {
-                LinkedEdbSourceModule = module,
-                SettingsObjects = module.GetOptions()
-                    .Select(opt => new EdbSourceOptionProxy(opt)).ToArray()
-            };
-
-            uds.SetGuid(module.ModuleGuid);
-            return uds;
+            var udsConfig = new UserDatasourceConfiguration();
+            udsConfig.ModuleGuid = module.ModuleGuid;
+            udsConfig.ConfigurationGuid = Guid.NewGuid();
+            udsConfig.SettingsObjects = module.GetOptions();
+            return udsConfig;
         }
 
         /// <summary>
         /// Добавить объявленный пользователем источник данных в список
         /// </summary>
-        /// <param name="uds">Источник данных прользователя</param>
-        public void ApplyUserDatasource(UserDataSource uds)
+        /// <param name="udsc">Источник данных прользователя</param>
+        public void ApplyUserDatasource(UserDatasourceConfiguration udsc)
         {
-            this.UserdefinedDatasources.Add(uds);
+            this.UserDatasourceConfigurations.Add(udsc);
         }
 
         /// <summary>
@@ -111,25 +111,28 @@ namespace EasyDb.SandboxEnvironment
         /// <param name="dbModulesAssembliesPath">The dbModulesAssembliesPath<see cref="string"/></param>
         public void InitialLoad(string dbModulesAssembliesPath)
         {
-            List<UserDataSource> serializedSources;
+            List<UserDatasourceConfiguration> serializedSources;
 
             // Load and serialize XML doc. Create new one if it does not exists;
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), DataSourceStorageFile);
-            if (File.Exists(filePath))
+            if (File.Exists(DatasourceConfigStorage))
             {
                 try
                 {
-                    serializedSources = (List<UserDataSource>)this._xseri.Deserialize(File.OpenRead(filePath));
+                    using (var fs = File.OpenRead(DatasourceConfigStorage))
+                    {
+                        serializedSources = (List<UserDatasourceConfiguration>)this._xseri.Deserialize(fs);
+                    }
+
                 }
                 catch (Exception ex)
                 {
                     _logger.Error($"Error while parsing user defined sources: \n {ex}");
-                    serializedSources = new List<UserDataSource>();
+                    serializedSources = new List<UserDatasourceConfiguration>();
                 }
             }
             else
             {
-                serializedSources = new List<UserDataSource>();
+                serializedSources = new List<UserDatasourceConfiguration>();
             }
 
             if (!Directory.Exists(dbModulesAssembliesPath))
@@ -155,7 +158,7 @@ namespace EasyDb.SandboxEnvironment
                     var edbModuleProxy = (EdbModuleProxy)proxyInstanceHandle.Unwrap();
                     if (!edbModuleProxy.InitializeProxyIntance(assmFile))
                     {
-                        _logger.Log(LogLevel.Warn, new Exception($"Assembly: {assmFile} skipped, because it does not implement EasyDb module interface"));
+                        this._logger.Warn(new Exception($"Assembly: {assmFile} skipped, because it does not implement EasyDb module interface"));
                         continue;
                     }
 
@@ -171,23 +174,50 @@ namespace EasyDb.SandboxEnvironment
             // Restore user defined datasource
             foreach (var uds in serializedSources)
             {
-                SupportedSourceItem dbSourceModule;
-
                 // Check that user defined data source exists in datasource module
-                if (this._supportedDataSources.TryGetValue(uds.DatasourceGuid, out dbSourceModule))
+                if (this._supportedDataSources.ContainsKey(uds.ModuleGuid))
                 {
-                    uds.LinkedEdbSourceModule = dbSourceModule.Module;
-                    this.UserdefinedDatasources.Add(uds);
+                    this.UserDatasourceConfigurations.Add(uds);
                 }
                 else
                 {
-                    _logger.Warn(Application.Current.Resources["log_NotImplementedAttr"].ToString(), uds.Name);
+                    _logger.Error($"Cannot find module GUID: [{uds.ModuleGuid}] while loading user datasource config [{uds.ConfigurationGuid}]", uds.Name);
                 }
             }
 
             if (this.DatasourceLoaded != null)
             {
-                this.DatasourceLoaded.Invoke(this._supportedDataSources.Values, this.UserdefinedDatasources);
+                this.DatasourceLoaded.Invoke(this._supportedDataSources.Values, this.UserDatasourceConfigurations);
+            }
+        }
+
+        /// <summary>
+        /// Returns module instance for guid
+        /// </summary>
+        /// <param name="guid">Module identifier</param>
+        /// <returns>Module instance</returns>
+        public IEdbSourceModule GetModuleByGuid(Guid guid)
+        {
+            return this._supportedDataSources[guid].Module;
+        }
+
+        /// <summary>
+        /// Save datasource configuration to config file at hard drive
+        /// </summary>
+        public void StoreUserDatasourceConfigurations()
+        {
+            // Create temporary copy of storage file
+            try
+            {
+                var tmpFile = string.Concat(DataSourceStorageFile, "$tmp");
+                File.Copy(DataSourceStorageFile, tmpFile, true);
+
+            }
+            catch (Exception ex)
+            {
+                var msg = "Exception while saving datasource configuration";
+                this._logger.Error(msg, ex);
+                throw new Exception(msg, ex);
             }
         }
 

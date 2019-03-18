@@ -13,6 +13,8 @@ using EDb.Interfaces.Validation;
 
 namespace EDb.Interfaces
 {
+    using System.Security;
+
     public class ValidationViewModelBase : MarshalByRefObject, IDataErrorInfo, IValidationExceptionHandler, INotifyPropertyChanged
     {
         private readonly Dictionary<string, Tuple<PropertyInfo, ValidationAttribute[]>> _validators;
@@ -134,6 +136,12 @@ namespace EDb.Interfaces
                     }
                 }
             }
+        }
+
+        [SecurityCritical]
+        public override object InitializeLifetimeService()
+        {
+            return null;
         }
     }
 }

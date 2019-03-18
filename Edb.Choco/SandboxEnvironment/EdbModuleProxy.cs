@@ -1,16 +1,10 @@
-﻿using System.Security.Permissions;
-
-namespace EasyDb.SandboxEnvironment
+﻿namespace Edb.Environment.SandboxEnvironment
 {
     using System;
-    using System.Data;
     using System.Linq;
     using System.Reflection;
     using System.Runtime.InteropServices;
-    using System.Runtime.Remoting;
-    using System.Runtime.Remoting.Lifetime;
     using System.Security;
-    using System.Windows.Media;
 
     using EDb.Interfaces;
     using EDb.Interfaces.Objects;

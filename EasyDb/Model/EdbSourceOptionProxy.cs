@@ -1,7 +1,6 @@
-﻿using EDb.Interfaces;
-
-namespace EasyDb.ViewModel.DataSource.Items
+﻿namespace EasyDb.Model
 {
+    using EDb.Interfaces;
     using EDb.Interfaces.Options;
 
     /// <summary>
@@ -16,13 +15,8 @@ namespace EasyDb.ViewModel.DataSource.Items
         /// <param name="edbOption">edb option</param>
         public EdbSourceOptionProxy(EdbSourceOption edbOption)
         {
-            OptionSubject = edbOption;
+            this.OptionSubject = edbOption;
         }
-
-        /// <summary>
-        /// Gets options subject
-        /// </summary>
-        public EdbSourceOption OptionSubject { get; private set; }
 
         /// <summary>
         /// Gets option defenition name
@@ -30,12 +24,17 @@ namespace EasyDb.ViewModel.DataSource.Items
         public override string OptionsDefinitionName => this.OptionSubject?.OptionsDefinitionName;
 
         /// <summary>
+        /// Gets options subject
+        /// </summary>
+        protected EdbSourceOption OptionSubject { get; private set; }
+
+        /// <summary>
         /// Return module option definition
         /// </summary>
         /// <returns>Module options definition</returns>
         public override ModuleOptionDefinition ToOptionDefinition()
         {
-            return OptionSubject.ToOptionDefinition();
+            return this.OptionSubject.ToOptionDefinition();
         }
     }
 }

@@ -63,6 +63,9 @@
     <system:String x:Key="dsms_driver_dll_path">Путь к файлу драйвера:</system:String>
     <system:String x:Key="dsms_refresh_driver_info">Обновление информации о драйвере</system:String>
 
+    <system:String x:Key="dsms_apply_databasecon_settings">Сохранить</system:String>
+    <system:String x:Key="dsms_cancel_databasecon_settings">Отменить</system:String>
+
     <!--Chocolatey package install dialog-->
     <system:String x:Key="cpid_header">Выполняется установка пакета из Chocolatey</system:String>
 

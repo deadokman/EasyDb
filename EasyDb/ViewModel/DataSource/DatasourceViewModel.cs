@@ -13,21 +13,15 @@ namespace EasyDb.ViewModel.DataSource
     using System.Text;
     using System.Windows;
     using System.Windows.Input;
-
     using Annotations;
     using EasyDb.Interfaces.Data;
-    using EasyDb.View;
-    using EasyDb.View.Choco;
+    using EasyDb.Model;
     using EasyDb.View.DataSource;
-
+    using Edb.Environment.DatasourceManager;
     using EDb.Interfaces;
-
     using GalaSoft.MvvmLight.CommandWpf;
-
     using MahApps.Metro.Controls.Dialogs;
-
     using NuGet;
-
     using ILogger = Autofac.Extras.NLog.ILogger;
 
     /// <summary>
@@ -60,11 +54,11 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Defines the _userDatasources
         /// </summary>
-        private ObservableCollection<UserDataSource> _userDatasources;
+        private ObservableCollection<UserDataSourceViewModelItem> _userDatasources;
 
         private SupportedSourceItem _selectedSourceItem;
 
-        private UserDataSource _editingUserDatasource;
+        private UserDataSourceViewModelItem _editingUserDatasource;
 
         private IPackage _package;
 
@@ -74,7 +68,9 @@ namespace EasyDb.ViewModel.DataSource
 
         private bool _odbcDriverInstalled;
 
-        private string _driverMessage;
+        private string _warningMessage;
+
+        private bool _gotDriverProblems;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceViewModel"/> class.
@@ -93,7 +89,9 @@ namespace EasyDb.ViewModel.DataSource
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             manager.DatasourceLoaded += this.InstanceOnDatasourceLoaded;
             this.SupportedDatasources = manager.SupportedDatasources.ToArray();
-            this.UserDatasources = new ObservableCollection<UserDataSource>(manager.UserdefinedDatasources);
+            var udsVmi = manager.UserDatasourceConfigurations.Select(
+                i => new UserDataSourceViewModelItem(i, this._datasourceManager.GetModuleByGuid(i.ModuleGuid)));
+            this.UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
             this.ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(
                 (si) =>
                     {
@@ -116,9 +114,9 @@ namespace EasyDb.ViewModel.DataSource
                         var res = await _chocoController.InstallPackage(Package.Id);
                         if (!res.Successful)
                         {
-                            var sb = new StringBuilder(DriverMessage);
+                            var sb = new StringBuilder(this.WarningMessage);
                             sb.Append(res.Exception.Message);
-                            DriverMessage = sb.ToString();
+                            this.WarningMessage = sb.ToString();
                         }
 
                         LoadPackageInformation(SelectedSourceItem?.Module);
@@ -134,8 +132,23 @@ namespace EasyDb.ViewModel.DataSource
                 }
             });
 
-            CloseInformationMessage = new RelayCommand(
-                () => { DriverMessage = string.Empty; });
+            this.CloseInformationMessageCmd = new RelayCommand(
+                () => { this.WarningMessage = string.Empty; });
+
+            this.ApplyDatasourceSettingsCmd = new RelayCommand(
+                () =>
+                    {
+                        if (!this.EditingUserDatasource.ValidateAll())
+                        {
+                            this.WarningMessage = "$someinvalidconfig";
+                        }
+                    });
+
+            this.CloseSettingsWindowCmd = new RelayCommand(
+                () =>
+                    {
+                        throw new NotImplementedException();
+                    });
         }
 
         /// <summary>
@@ -155,8 +168,9 @@ namespace EasyDb.ViewModel.DataSource
                 Package = null;
                 if (value != null)
                 {
-                    var uds = this._datasourceManager.CreateNewUserdatasource(_selectedSourceItem.Module);
-                    this.EditingUserDatasource = uds;
+                    var uds = this._datasourceManager.CreateDataSourceConfig(_selectedSourceItem.Module);
+                    var udsvm = new UserDataSourceViewModelItem(uds, this._selectedSourceItem.Module);
+                    this.EditingUserDatasource = udsvm;
                     if (this._chocoController.ValidateChocoInstall())
                     {
                         this.LoadPackageInformation(value.Module);
@@ -182,6 +196,19 @@ namespace EasyDb.ViewModel.DataSource
         }
 
         /// <summary>
+        /// Datasource got problems with driver
+        /// </summary>
+        public bool GotDriverProblems
+        {
+            get => this._gotDriverProblems;
+            set
+            {
+                this._gotDriverProblems = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Дарайвер ODBC установлен
         /// </summary>
         public bool OdbcDriverInstalled
@@ -197,7 +224,7 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Editing user data source
         /// </summary>
-        public UserDataSource EditingUserDatasource
+        public UserDataSourceViewModelItem EditingUserDatasource
         {
             get => this._editingUserDatasource;
             set
@@ -234,7 +261,17 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Закрыть информационное сообщение
         /// </summary>
-        public ICommand CloseInformationMessage { get; set; }
+        public ICommand CloseInformationMessageCmd { get; set; }
+
+        /// <summary>
+        /// Save datasource settings and finish user data source
+        /// </summary>
+        public ICommand ApplyDatasourceSettingsCmd { get; set; }
+
+        /// <summary>
+        /// Закрыть окно настроек источника данных
+        /// </summary>
+        public ICommand CloseSettingsWindowCmd { get; set; }
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -254,7 +291,7 @@ namespace EasyDb.ViewModel.DataSource
         /// Gets or sets the UserDatasources
         /// Collection of user defined database sources
         /// </summary>
-        public ObservableCollection<UserDataSource> UserDatasources
+        public ObservableCollection<UserDataSourceViewModelItem> UserDatasources
         {
             get => this._userDatasources;
             set
@@ -293,12 +330,12 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Message for driver display page
         /// </summary>
-        public string DriverMessage
+        public string WarningMessage
         {
-            get => this._driverMessage;
+            get => this._warningMessage;
             set
             {
-                this._driverMessage = value;
+                this._warningMessage = value;
                 this.OnPropertyChanged();
             }
         }
@@ -330,13 +367,14 @@ namespace EasyDb.ViewModel.DataSource
         /// The InstanceOnDatasourceLoaded
         /// </summary>
         /// <param name="datasources">The datasources<see cref="IEnumerable{SupportedSourceItem}"/></param>
-        /// <param name="userSources">The userSources<see cref="IEnumerable{UserDataSource}"/></param>
+        /// <param name="userSources">The userSources<see cref="IEnumerable{UserDataSourceViewModelItem}"/></param>
         private void InstanceOnDatasourceLoaded(
             IEnumerable<SupportedSourceItem> datasources,
-            IEnumerable<UserDataSource> userSources)
+            IEnumerable<UserDatasourceConfiguration> userSources)
         {
             this.SupportedDatasources = datasources.ToArray();
-            this.UserDatasources = new ObservableCollection<UserDataSource>(userSources);
+            var udsVmi = userSources.Select(i => new UserDataSourceViewModelItem(i, this._datasourceManager.GetModuleByGuid(i.ModuleGuid)));
+            this.UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
         }
 
         /// <summary>
@@ -372,7 +410,7 @@ namespace EasyDb.ViewModel.DataSource
             catch (Exception ex)
             {
                 ProcessInProgress = false;
-                DriverMessage = ex.Message;
+                this.WarningMessage = ex.Message;
                 throw;
             }
 
@@ -382,6 +420,7 @@ namespace EasyDb.ViewModel.DataSource
         private void RefreshDriverInformation(IEdbSourceModule edbDatasourceModule)
         {
             OdbcDriver = null;
+            _gotDriverProblems = false;
             _odbcManager.RefreshDriversCatalog();
             if (edbDatasourceModule == null)
             {
@@ -397,6 +436,7 @@ namespace EasyDb.ViewModel.DataSource
             {
                 var msg = Application.Current.Resources[NoDriverResourceName] ?? "Driver not installed.";
                 sb.Append(msg);
+                GotDriverProblems = true;
             }
 
             if (!_chocoController.ValidateChocoInstall())
@@ -411,7 +451,14 @@ namespace EasyDb.ViewModel.DataSource
                 sb.Append(msg);
             }
 
-            DriverMessage = sb.ToString();
+            if (this._package != null && !this._package.IsLatestVersion)
+            {
+                var msg = "Not a last driver version.";
+                sb.Append(msg);
+                GotDriverProblems = true;
+            }
+
+            this.WarningMessage = sb.ToString();
             this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
         }
 

@@ -1,14 +1,12 @@
-﻿using System.IO;
-using System.Windows.Media.Imaging;
-
-namespace EasyDb.ViewModel.DataSource
+﻿namespace Edb.Environment.DatasourceManager
 {
     using System;
+    using System.IO;
     using System.Windows.Media;
-
-    using EasyDb.Annotations;
+    using System.Windows.Media.Imaging;
 
     using EDb.Interfaces;
+    using EDb.Interfaces.Annotations;
 
     /// <summary>
     /// Supported source view model item. Display items collection in deriver selection menu
@@ -39,7 +37,7 @@ namespace EasyDb.ViewModel.DataSource
         {
             get
             {
-                using (var memStream = new MemoryStream(_sourceModule.DatabaseIcon))
+                using (var memStream = new MemoryStream(this._sourceModule.DatabaseIcon))
                 {
                     var bi = new BitmapImage();
                     bi.BeginInit();

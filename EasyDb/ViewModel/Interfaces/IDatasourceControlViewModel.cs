@@ -8,6 +8,8 @@ namespace EasyDb.Interfaces.Data
     using EasyDb.ViewModel.DataSource;
     using EasyDb.ViewModel.DataSource.Items;
 
+    using Edb.Environment.DatasourceManager;
+
     using NuGet;
 
     /// <summary>
@@ -34,7 +36,17 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Закрыть информационное сообщение
         /// </summary>
-        ICommand CloseInformationMessage { get; set; }
+        ICommand CloseInformationMessageCmd { get; set; }
+
+        /// <summary>
+        /// Save datasource settings and finish user data source
+        /// </summary>
+        ICommand ApplyDatasourceSettingsCmd { get; set; }
+
+        /// <summary>
+        /// Закрыть окно настроек источника данных
+        /// </summary>
+        ICommand CloseSettingsWindowCmd { get; set; }
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -46,7 +58,7 @@ namespace EasyDb.Interfaces.Data
         /// Gets the UserDatasources
         /// Datasources that has been declared by user
         /// </summary>
-        ObservableCollection<UserDataSource> UserDatasources { get; }
+        ObservableCollection<UserDataSourceViewModelItem> UserDatasources { get; }
 
         /// <summary>
         /// Changes editing context
@@ -56,7 +68,7 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Editing user data source
         /// </summary>
-        UserDataSource EditingUserDatasource { get; set; }
+        UserDataSourceViewModelItem EditingUserDatasource { get; set; }
 
         /// <summary>
         /// Chocolatey package
@@ -76,11 +88,16 @@ namespace EasyDb.Interfaces.Data
         /// <summary>
         /// Message for driver display page
         /// </summary>
-        string DriverMessage { get; set; }
+        string WarningMessage { get; set; }
 
         /// <summary>
         /// Supported driver autoinstall from chocolatey
         /// </summary>
         bool AutoinstallSupportred { get; }
+
+        /// <summary>
+        /// Datasource got problems with driver
+        /// </summary>
+        bool GotDriverProblems { get; }
     }
 }

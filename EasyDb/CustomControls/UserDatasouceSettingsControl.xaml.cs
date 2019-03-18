@@ -11,6 +11,7 @@ namespace EasyDb.CustomControls
 
     using EasyDb.Annotations;
     using EasyDb.CustomControls.DatasourceSettings;
+    using EasyDb.Model;
 
     using EDb.Interfaces;
 

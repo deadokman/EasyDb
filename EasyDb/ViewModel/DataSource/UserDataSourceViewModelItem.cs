@@ -2,15 +2,18 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Windows.Input;
     using System.Xml.Serialization;
+
+    using EasyDb.Model;
 
     using EDb.Interfaces;
 
     /// <summary>
     /// Presents datasource created by user
     /// </summary>
-    public class UserDataSource : ValidationViewModelBase
+    public class UserDataSourceViewModelItem : ValidationViewModelBase
     {
         /// <summary>
         /// Defines the _dsConfig
@@ -20,27 +23,18 @@
         /// <summary>
         /// Defines the _selectedDataSourceOption
         /// </summary>
-        private EdbSourceOptionProxy _selectedDataSourceOption;
+        private EdbSourceOption _selectedDataSourceOption;
 
         /// <summary>
-        /// Defines the _settingsObjects
+        /// Initializes a new instance of the <see cref="UserDataSourceViewModelItem"/> class.
+        /// Конструктор класса
         /// </summary>
-        private EdbSourceOptionProxy[] _settingsObjects;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserDataSource"/> class.
-        /// </summary>
-        public UserDataSource()
+        /// <param name="udsConfig">Конфигурация</param>
+        /// <param name="module">Модуль</param>
+        public UserDataSourceViewModelItem(UserDatasourceConfiguration udsConfig, IEdbSourceModule module)
         {
-            this._dsConfig = new UserDatasourceConfiguration();
+            this._dsConfig = udsConfig;
         }
-
-        /// <summary>
-        /// Gets or sets the ApplySettingsCommand
-        /// Applies settings to the datasource
-        /// </summary>
-        [XmlIgnore]
-        public ICommand ApplySettingsCommand { get; set; }
 
         /// <summary>
         /// Gets or sets the Comment
@@ -87,7 +81,7 @@
         /// <summary>
         /// Gets or sets the SelectedDataSourceOption
         /// </summary>
-        public EdbSourceOptionProxy SelectedDataSourceOption
+        public EdbSourceOption SelectedDataSourceOption
         {
             get => this._selectedDataSourceOption;
             set
@@ -101,22 +95,10 @@
         /// Gets or sets the SettingsObjects
         /// User datasource tab settings
         /// </summary>
-        public EdbSourceOptionProxy[] SettingsObjects
+        public EdbSourceOption[] SettingsObjects
         {
-            get => this._settingsObjects;
-            set
-            {
-                this._settingsObjects = value;
-                this.OnPropertyChanged();
-            }
+            get => this._dsConfig.SettingsObjects;
         }
-
-        /// <summary>
-        /// Gets or sets the TestConnection
-        /// Command to test Connection
-        /// </summary>
-        [XmlIgnore]
-        public ICommand TestConnection { get; set; }
 
         /// <summary>
         /// Установить Guid модуля
@@ -125,6 +107,20 @@
         public void SetGuid(Guid moduleGuid)
         {
             this._dsConfig.ModuleGuid = moduleGuid;
+        }
+
+        /// <summary>
+        /// Validate all source options
+        /// </summary>
+        /// <returns>Returns true if all options is valid</returns>
+        public bool ValidateAll()
+        {
+            if (this._dsConfig.SettingsObjects != null)
+            {
+                return this._dsConfig.SettingsObjects.Any(opt => !opt.IsValid) && this.IsValid;
+            }
+
+            return this.IsValid;
         }
     }
 }

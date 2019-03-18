@@ -85,18 +85,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <DockPanel Visibility="{Binding DriverMessage, Converter={StaticResource StringToVisConv}}" Height="20" LastChildFill="True" Grid.Row="0" Grid.ColumnSpan="2" Background="{DynamicResource AccentColorBrush2}">
-                <Button Margin="5" Width="20" Height="20" 
-                        DockPanel.Dock="Right" 
-                        HorizontalContentAlignment="Center"
-                        VerticalAlignment="Center" 
-                        HorizontalAlignment="Right" 
-                        Command="{Binding CloseInformationMessage}"
-                        Style="{DynamicResource MetroCircleButtonStyle}">
-                    <iconPacks:PackIconMaterial Foreground="{DynamicResource ValidationTextBrush}" Kind="Close" />
-                </Button>
-                <TextBlock TextAlignment="Center" Text="{Binding DriverMessage}" Foreground="{DynamicResource TextBrush}" FontSize="12"/>
-            </DockPanel>
             <StackPanel Background="{DynamicResource AccentColorBrush4}" Grid.Column="0" Grid.Row="1">
                 <Button 
                 Command="{Binding InstallPackageAutoCmd}"
