@@ -10,10 +10,13 @@ namespace EasyDb.ViewModel.DataSource
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
+    using System.Security;
     using System.Text;
     using System.Windows;
     using System.Windows.Input;
     using Annotations;
+
+    using EasyDb.Interfaces;
     using EasyDb.Interfaces.Data;
     using EasyDb.Model;
     using EasyDb.View.DataSource;
@@ -23,6 +26,7 @@ namespace EasyDb.ViewModel.DataSource
     using MahApps.Metro.Controls.Dialogs;
     using NuGet;
     using ILogger = Autofac.Extras.NLog.ILogger;
+    using LogLevel = NLog.LogLevel;
 
     /// <summary>
     /// Implements logic for datasource creation control
@@ -33,6 +37,8 @@ namespace EasyDb.ViewModel.DataSource
         private const string NoChocolateyResourceName = "dsms_err_no_autoinstall";
         private const string NoAdmonRightsResourceName = "dsms_err_no_admin";
         private readonly IDataSourceManager _datasourceManager;
+
+        private readonly IPasswordStorage _passwordStorage;
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
@@ -72,20 +78,30 @@ namespace EasyDb.ViewModel.DataSource
 
         private bool _gotDriverProblems;
 
+        private bool _storePasswordSecure;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
+        /// <param name="passwordStorage">Password storage implementation</param>
         /// <param name="dialogCoord">Dialog coordinator</param>
         /// <param name="odbcManager">Odbc driver managment repository</param>
         /// <param name="chocoController">Choco controller</param>
         /// <param name="logger">Logger instance</param>
-        public DatasourceViewModel([NotNull] IDataSourceManager manager, [NotNull] IDialogCoordinator dialogCoord, [NotNull] IOdbcManager odbcManager, IChocolateyController chocoController, [NotNull] ILogger logger)
+        public DatasourceViewModel(
+            [NotNull] IDataSourceManager manager,
+            [NotNull] IPasswordStorage passwordStorage,
+           [NotNull] IDialogCoordinator dialogCoord,
+           [NotNull] IOdbcManager odbcManager,
+           [NotNull] IChocolateyController chocoController,
+           [NotNull] ILogger logger)
         {
             this._datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this._passwordStorage = passwordStorage ?? throw new ArgumentNullException(nameof(passwordStorage));
             this._dialogCoordinator = dialogCoord ?? throw new ArgumentNullException(nameof(dialogCoord));
             this._odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
-            this._chocoController = chocoController;
+            this._chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             manager.DatasourceLoaded += this.InstanceOnDatasourceLoaded;
             this.SupportedDatasources = manager.SupportedDatasources.ToArray();
@@ -138,9 +154,28 @@ namespace EasyDb.ViewModel.DataSource
             this.ApplyDatasourceSettingsCmd = new RelayCommand(
                 () =>
                     {
-                        if (!this.EditingUserDatasource.ValidateAll())
+                        if (!this.EditingUserDatasource.AllValid())
                         {
-                            this.WarningMessage = "$someinvalidconfig";
+                            this.WarningMessage = this.EditingUserDatasource.GetErrors();
+                            return;
+                        }
+
+                        this._datasourceManager.ApplyUserDatasource(this.EditingUserDatasource.DsConfiguration);
+                        try
+                        {
+                            this._datasourceManager.StoreUserDatasourceConfigurations();
+                        }
+                        catch (Exception ex)
+                        {
+                            var msg = "Error while saving user datasource configuration";
+                            this._logger.Log(LogLevel.Error, msg, ex);
+                            throw new Exception(msg, ex);
+                        }
+
+                        // Execute password store
+                        if (StorePasswordSecure)
+                        {
+                            this._passwordStorage.StorePasswordSecure(PasswordSecureString, this.EditingUserDatasource.DatasourceGuid);
                         }
                     });
 
@@ -209,6 +244,19 @@ namespace EasyDb.ViewModel.DataSource
         }
 
         /// <summary>
+        /// Store password securely in password storage
+        /// </summary>
+        public bool StorePasswordSecure
+        {
+            get => this._storePasswordSecure;
+            set
+            {
+                this._storePasswordSecure = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
         /// Дарайвер ODBC установлен
         /// </summary>
         public bool OdbcDriverInstalled
@@ -272,6 +320,11 @@ namespace EasyDb.ViewModel.DataSource
         /// Закрыть окно настроек источника данных
         /// </summary>
         public ICommand CloseSettingsWindowCmd { get; set; }
+
+        /// <summary>
+        /// Password secure string
+        /// </summary>
+        public SecureString PasswordSecureString { get; set; }
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -420,7 +473,7 @@ namespace EasyDb.ViewModel.DataSource
         private void RefreshDriverInformation(IEdbSourceModule edbDatasourceModule)
         {
             OdbcDriver = null;
-            _gotDriverProblems = false;
+            GotDriverProblems = false;
             _odbcManager.RefreshDriversCatalog();
             if (edbDatasourceModule == null)
             {

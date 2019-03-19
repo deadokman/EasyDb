@@ -73,6 +73,7 @@ namespace EDb.Interfaces
         public void ValidationExceptionsChanged(int count)
         {
             _validationExceptionCount = count;
+            _isValid = count == 0;
             OnPropertyChanged("ValidPropertiesCount");
         }
 
@@ -112,6 +113,7 @@ namespace EDb.Interfaces
         /// <summary>
         /// Gets the number of properties which have a validation attribute
         /// </summary>
+        [XmlIgnore]
         public int TotalPropertiesWithValidationCount => _validators.Count();
 
         [DebuggerHidden]

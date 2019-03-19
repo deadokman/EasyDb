@@ -1,8 +1,10 @@
 ﻿namespace EasyDb.Model
 {
     using System;
+    using System.Xml.Serialization;
 
     using EDb.Interfaces;
+    using EDb.Interfaces.Options;
 
     /// <summary>
     /// Настройки источника данных пользователя

@@ -79,7 +79,8 @@
     <system:String x:Key="dsms_err_no_driver">Не установлен драйвер.</system:String>
     <system:String x:Key="dsms_err_no_autoinstall"> Chocolatey не установлен.</system:String>
     <system:String x:Key="dsms_err_no_admin"> Требуются права администратора.</system:String>
-    
+    <system:String x:Key="dsms_secure_password_store">Сохранить пароль</system:String>
+
     <!--Chocolatey install dialog-->
     <system:String x:Key="choco_dlg_text_title">Установка дополнительного ПО</system:String>
     <system:String x:Key="choco_dlg_text_title_success">Установка выполнена успешно</system:String>

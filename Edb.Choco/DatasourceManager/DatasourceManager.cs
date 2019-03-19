@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
     using System.Security;
     using System.Security.Permissions;
@@ -31,7 +32,7 @@
         /// <summary>
         /// Datasource storage filepath
         /// </summary>
-        private const string DataSourceStorageFile = "Edb.Datasource";
+        private const string DataSourceStorageFile = "Edb.Datasource.Config.xml";
 
         /// <summary>
         /// Logger instance
@@ -56,7 +57,6 @@
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this._supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
-            this._xseri = new XmlSerializer(typeof(List<UserDatasourceConfiguration>));
             this.UserDatasourceConfigurations = new List<UserDatasourceConfiguration>();
         }
 
@@ -113,28 +113,6 @@
         {
             List<UserDatasourceConfiguration> serializedSources;
 
-            // Load and serialize XML doc. Create new one if it does not exists;
-            if (File.Exists(DatasourceConfigStorage))
-            {
-                try
-                {
-                    using (var fs = File.OpenRead(DatasourceConfigStorage))
-                    {
-                        serializedSources = (List<UserDatasourceConfiguration>)this._xseri.Deserialize(fs);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error($"Error while parsing user defined sources: \n {ex}");
-                    serializedSources = new List<UserDatasourceConfiguration>();
-                }
-            }
-            else
-            {
-                serializedSources = new List<UserDatasourceConfiguration>();
-            }
-
             if (!Directory.Exists(dbModulesAssembliesPath))
             {
                 throw new Exception($"Path NotFound {dbModulesAssembliesPath}");
@@ -169,6 +147,32 @@
                 {
                     _logger.Error($"err: {ex}");
                 }
+            }
+
+            this._xseri = new XmlSerializer(
+                typeof(List<UserDatasourceConfiguration>),
+                _supportedDataSources.SelectMany(sds => sds.Value.Module.GetOptions().Select(opt => opt.GetType())).ToArray());
+
+            // Load and serialize XML doc. Create new one if it does not exists;
+            if (File.Exists(DatasourceConfigStorage))
+            {
+                try
+                {
+                    using (var fs = File.OpenRead(DatasourceConfigStorage))
+                    {
+                        serializedSources = (List<UserDatasourceConfiguration>)this._xseri.Deserialize(fs);
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error($"Error while parsing user defined sources: \n {ex}");
+                    serializedSources = new List<UserDatasourceConfiguration>();
+                }
+            }
+            else
+            {
+                serializedSources = new List<UserDatasourceConfiguration>();
             }
 
             // Restore user defined datasource
@@ -206,18 +210,44 @@
         /// </summary>
         public void StoreUserDatasourceConfigurations()
         {
+            var tmpFile = string.Concat(DataSourceStorageFile, "$tmp");
+            if (!File.Exists(DataSourceStorageFile))
+            {
+                using (var resourceStream = Assembly.GetExecutingAssembly()
+                    .GetManifestResourceStream("Edb.Environment.DatasourceStorageTemplate.xml"))
+                {
+                    // Create new file from template
+                    using (var newfileStream = File.Create(DataSourceStorageFile))
+                    {
+                        resourceStream.CopyTo(newfileStream);
+                    }
+                }
+            }
+
             // Create temporary copy of storage file
             try
             {
-                var tmpFile = string.Concat(DataSourceStorageFile, "$tmp");
                 File.Copy(DataSourceStorageFile, tmpFile, true);
-
             }
             catch (Exception ex)
             {
                 var msg = "Exception while saving datasource configuration";
                 this._logger.Error(msg, ex);
                 throw new Exception(msg, ex);
+            }
+
+            try
+            {
+                using (var dsfs = File.Open(DataSourceStorageFile, FileMode.Truncate))
+                {
+                    this._xseri.Serialize(dsfs, this.UserDatasourceConfigurations);
+                }
+            }
+            catch (Exception ex)
+            {
+                var msg = "Error while writing new datasource configurations, trying to revert";
+                this._logger.Error(msg, ex);
+                File.Copy(tmpFile, DataSourceStorageFile, true);
             }
         }
 

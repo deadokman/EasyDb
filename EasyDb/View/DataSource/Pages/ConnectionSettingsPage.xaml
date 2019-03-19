@@ -1,0 +1,75 @@
+﻿<Page x:Class="EasyDb.View.DataSource.Pages.ConnectionSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:EasyDb.View.DataSource.Pages"
+      xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+      xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+      xmlns:customControls="clr-namespace:EasyDb.CustomControls"
+      xmlns:converters="clr-namespace:EasyDb.Converters"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ConnectionSettingsPage" DataContext="{Binding Source={StaticResource Locator}, Path=DatasourceControlViewModel}">
+    <Page.Resources>
+        <converters:StringEmptyToVisibilityConverter x:Key="StringToVisConv" />
+    </Page.Resources>
+    <Grid Margin="2">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="46"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition MinHeight="45" Height="*"/>
+        </Grid.RowDefinitions>
+        <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource AccentColorBrush}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10">
+            <StackPanel Background="{DynamicResource AccentColorBrush4}">
+                <Button ToolTip="{StaticResource dsms_test_connection_button}" Style="{StaticResource MetroCircleButton_30}" >
+                    <iconPacks:PackIconMaterial Kind="ConsoleNetwork" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
+                </Button>
+            </StackPanel>
+        </Border>
+        <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,2,0,0" Grid.RowSpan="2">
+            <DockPanel Margin="0,0,0,4" LastChildFill="True">
+                <TextBlock Foreground="{DynamicResource TextBrush}" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}" />
+                <TextBox TabIndex="0" Text="{Binding EditingUserDatasource.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
+            </DockPanel>
+            <DockPanel>
+                <TextBlock Foreground="{DynamicResource TextBrush}" MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}" />
+                <TextBox TabIndex="1" Text="{Binding EditingUserDatasource.Comment, UpdateSourceTrigger=PropertyChanged}" />
+            </DockPanel>
+        </StackPanel>
+        <ScrollViewer Margin="5,0" Grid.Column="1"  Grid.Row="3" Background="{StaticResource ControlBackgroundBrush}">
+            <mah:MetroAnimatedTabControl 
+                                        BorderThickness="1"
+                                        BorderBrush="{DynamicResource AccentColorBrush3}"
+                                        Background="{StaticResource ControlBackgroundBrush}"
+                                        mah:TabControlHelper.Underlined="TabPanel"
+                                        VerticalAlignment="Stretch" 
+                                        HorizontalAlignment="Stretch"
+                                        MaxHeight="320"
+                                        SelectedValue="{Binding EditingUserDatasource.SelectedDataSourceOption}"
+                                        ItemsSource="{Binding EditingUserDatasource.SettingsObjects, Mode=OneWay}">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <customControls:UserDatasouceSettingsControl 
+                            PasswordStr="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.PasswordSecureString, Mode=OneWayToSource}" 
+                            SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Page}}, Path=DataContext.EditingUserDatasource.SelectedDataSourceOption}" />
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </mah:MetroAnimatedTabControl>
+        </ScrollViewer>
+        <StackPanel Grid.Column="1"  Background="{DynamicResource ControlBackgroundBrush}" Margin="10,10,0,10" HorizontalAlignment="Left" Grid.Row="4">
+            <CheckBox Margin="0,5" Content="{StaticResource dsms_secure_password_store }"/>
+        </StackPanel>
+    </Grid>
+</Page>

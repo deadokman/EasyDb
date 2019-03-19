@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
+    using System.Text;
     using System.Windows.Input;
     using System.Xml.Serialization;
 
@@ -35,6 +36,11 @@
         {
             this._dsConfig = udsConfig;
         }
+
+        /// <summary>
+        /// Returns datasource configuration model
+        /// </summary>
+        public UserDatasourceConfiguration DsConfiguration => this._dsConfig;
 
         /// <summary>
         /// Gets or sets the Comment
@@ -113,14 +119,30 @@
         /// Validate all source options
         /// </summary>
         /// <returns>Returns true if all options is valid</returns>
-        public bool ValidateAll()
+        public bool AllValid()
         {
             if (this._dsConfig.SettingsObjects != null)
             {
-                return this._dsConfig.SettingsObjects.Any(opt => !opt.IsValid) && this.IsValid;
+                return this._dsConfig.SettingsObjects.All(opt => string.IsNullOrEmpty(opt.Error)) && this.IsValid;
             }
 
             return this.IsValid;
+        }
+
+        /// <summary>
+        /// Get options erros
+        /// </summary>
+        /// <returns>Errors</returns>
+        public string GetErrors()
+        {
+            var sb = new StringBuilder();
+            sb.Append(" " + this.Error);
+            foreach (var dsConfigSettingsObject in this._dsConfig.SettingsObjects)
+            {
+                sb.Append(" " + dsConfigSettingsObject.Error);
+            }
+
+            return sb.ToString();
         }
     }
 }

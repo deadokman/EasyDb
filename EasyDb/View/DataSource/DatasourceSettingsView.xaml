@@ -4,13 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
-        xmlns:items="clr-namespace:EasyDb.ViewModel.DataSource.Items"
-        xmlns:customControls="clr-namespace:EasyDb.CustomControls"
         xmlns:converters="clr-namespace:EasyDb.Converters"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:viewModel="clr-namespace:EasyDb.ViewModel"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-                 mc:Ignorable="d"
+        mc:Ignorable="d"
         mah:DialogParticipation.Register="{Binding}"
         Background="{DynamicResource ControlBackgroundBrush}"
         Title="{StaticResource dsms_settingsWindowTitle}"  
@@ -88,12 +86,25 @@
         <Border Grid.Column="2" BorderThickness="1" BorderBrush="{DynamicResource AccentColorBrush}">
             <Grid>
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="1"/>
                     <RowDefinition Height="45"/>
                 </Grid.RowDefinitions>
+                <DockPanel Visibility="{Binding WarningMessage, Converter={StaticResource StringToVisConv}}" Height="20" LastChildFill="True" Grid.Row="0" Background="{DynamicResource AccentColorBrush2}">
+                    <Button Margin="5" Width="20" Height="20" 
+                            DockPanel.Dock="Right" 
+                            HorizontalContentAlignment="Center"
+                            VerticalAlignment="Center" 
+                            HorizontalAlignment="Right" 
+                            Command="{Binding CloseInformationMessageCmd}"
+                            Style="{DynamicResource MetroCircleButtonStyle}">
+                        <iconPacks:PackIconMaterial Foreground="{DynamicResource ValidationTextBrush}" Kind="Close" />
+                    </Button>
+                    <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="{Binding WarningMessage}" Foreground="{DynamicResource TextBrush}" FontSize="12"/>
+                </DockPanel>
                 <mah:MetroAnimatedTabControl
-                    Grid.Row="0"
+                    Grid.Row="1"
                     TabStripMargin="0,10,0,0"
                     mah:TabControlHelper.Transition="RightReplace"
                     mah:TabControlHelper.CloseButtonEnabled="False" 
@@ -101,75 +112,7 @@
                     mah:TabControlHelper.UnderlineSelectedBrush="{DynamicResource AccentBaseColorBrush}"
                     TabStripPlacement="Right">
                     <TabItem mah:ControlsHelper.HeaderFontSize="16"  Header="{StaticResource dsms_optionsPanel}" Style="{StaticResource TabControlHeaderRotate}">
-                        <Grid Margin="2">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="46"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition MinHeight="45" Height="*"/>
-                            </Grid.RowDefinitions>
-                            <DockPanel Visibility="{Binding WarningMessage, Converter={StaticResource StringToVisConv}}" Height="20" LastChildFill="True" Grid.Row="0" Grid.Column="1" Background="{DynamicResource AccentColorBrush2}">
-                                <Button Margin="5" Width="20" Height="20" 
-                                        DockPanel.Dock="Right" 
-                                        HorizontalContentAlignment="Center"
-                                        VerticalAlignment="Center" 
-                                        HorizontalAlignment="Right" 
-                                        Command="{Binding CloseInformationMessageCmd}"
-                                        Style="{DynamicResource MetroCircleButtonStyle}">
-                                    <iconPacks:PackIconMaterial Foreground="{DynamicResource ValidationTextBrush}" Kind="Close" />
-                                </Button>
-                                <TextBlock TextAlignment="Center" Text="{Binding WarningMessage}" Foreground="{DynamicResource TextBrush}" FontSize="12"/>
-                            </DockPanel>
-                            <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource AccentColorBrush}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10">
-                                <StackPanel Background="{DynamicResource AccentColorBrush4}">
-                                    <Button ToolTip="{StaticResource dsms_test_connection_button}" Style="{StaticResource MetroCircleButton_30}" >
-                                        <iconPacks:PackIconMaterial Kind="ConsoleNetwork" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
-                                    </Button>
-                                </StackPanel>
-                            </Border>
-                            <StackPanel Grid.Column="1" Grid.Row="1" Margin="5,2,0,0" Grid.RowSpan="2">
-                                <DockPanel Margin="0,0,0,4" LastChildFill="True">
-                                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceName}" />
-                                    <TextBox Text="{Binding EditingUserDatasource.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
-                                </DockPanel>
-                                <DockPanel>
-                                    <TextBlock MinWidth="100" HorizontalAlignment="Left" VerticalAlignment="Center" Text="{StaticResource dsms_datasourceComment}" />
-                                    <TextBox Text="{Binding EditingUserDatasource.Comment, UpdateSourceTrigger=PropertyChanged}" />
-                                </DockPanel>
-                            </StackPanel>
-                            <ScrollViewer Margin="5,0" Grid.Column="1"  Grid.Row="3" Background="{StaticResource ControlBackgroundBrush}">
-                                <mah:MetroAnimatedTabControl 
-                                        BorderThickness="1"
-                                        BorderBrush="{DynamicResource AccentColorBrush3}"
-                                        Background="{StaticResource ControlBackgroundBrush}"
-                                        mah:TabControlHelper.Underlined="TabPanel"
-                                        VerticalAlignment="Stretch" 
-                                        HorizontalAlignment="Stretch"
-                                        MaxHeight="320"
-                                        SelectedValue="{Binding EditingUserDatasource.SelectedDataSourceOption}"
-                                        ItemsSource="{Binding EditingUserDatasource.SettingsObjects, Mode=OneWay}">
-                                    <TabControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock FontSize="14" FontWeight="Bold" Text="{Binding OptionsDefinitionName}"/>
-                                        </DataTemplate>
-                                    </TabControl.ItemTemplate>
-                                    <TabControl.ContentTemplate>
-                                        <DataTemplate>
-                                            <customControls:UserDatasouceSettingsControl 
-                                                    SelectedObject="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type mah:MetroWindow}}, Path=DataContext.EditingUserDatasource.SelectedDataSourceOption, Converter={StaticResource EmptyConverter}}" />
-                                        </DataTemplate>
-                                    </TabControl.ContentTemplate>
-                                </mah:MetroAnimatedTabControl>
-                            </ScrollViewer>
-                            <StackPanel Grid.Column="1"  Background="{DynamicResource ControlBackgroundBrush}" Margin="10,10,0,10" HorizontalAlignment="Left" Grid.Row="4">
-                                <CheckBox Margin="0,5" Content="$savepassword"/>
-                            </StackPanel>
-                        </Grid>
+                        <Frame Source="Pages/ConnectionSettingsPage.xaml" NavigationUIVisibility="Hidden"/>
                     </TabItem>
                     <TabItem Style="{StaticResource TabControlHeaderRotate}">
                         <TabItem.HeaderTemplate>
@@ -212,8 +155,8 @@
                         <Frame Source="Pages/DsnDriverManagerPage.xaml" NavigationUIVisibility="Hidden"/>
                     </TabItem>
                 </mah:MetroAnimatedTabControl>
-                <Rectangle Grid.Row="1" StrokeThickness="1" Stroke="{StaticResource AccentColorBrush4}"></Rectangle>
-                <DockPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="0,5,43,5" HorizontalAlignment="Right" Grid.Row="2">
+                <Rectangle Grid.Row="2" StrokeThickness="1" Stroke="{StaticResource AccentColorBrush4}"></Rectangle>
+                <DockPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="0,5,43,5" HorizontalAlignment="Right" Grid.Row="3">
                     <Button Command="{Binding ApplyDatasourceSettingsCmd}" Content="{StaticResource dsms_apply_databasecon_settings}" Style="{StaticResource MetroButtonAccentNoBorder}" Margin="0,2,10,2"  Width="120"/>
                     <Button Content="{StaticResource dsms_cancel_databasecon_settings}" Style="{StaticResource MetroButton}" Width="120" />
                 </DockPanel>

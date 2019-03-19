@@ -52,7 +52,7 @@
         /// <returns>The <see cref="EdbSourceOption[]"/></returns>
         public override EdbSourceOption[] GetOptions()
         {
-            return new EdbSourceOption[] { new GeneralOption(), new SshSsl() };
+            return new EdbSourceOption[] { new GeneralOption() };
         }
 
         /// <summary>

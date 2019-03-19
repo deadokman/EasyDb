@@ -7,6 +7,7 @@
 
     using EasyDb.Annotations;
 
+    using EDb.Interfaces;
     using EDb.Interfaces.Options;
 
     /// <summary>
@@ -18,13 +19,18 @@
         [NotNull]
         private readonly OptionProperty _optProp;
 
+        private readonly EdbSourceOption _optionObject;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceOption"/> class.
         /// </summary>
         /// <param name="optProp">The depObjectTarget<see cref="object"/></param>
-        public DatasourceOption([NotNull] OptionProperty optProp)
+        /// <param name="optionObject">Options object</param>
+        public DatasourceOption([NotNull] OptionProperty optProp, [NotNull] EdbSourceOption optionObject)
         {
             this._optProp = optProp ?? throw new ArgumentNullException(nameof(optProp));
+            this._optionObject = optionObject ?? throw new ArgumentNullException(nameof(optionObject));
+            optionObject.SetThrowExceptionOnInvalidate(true);
         }
 
         /// <summary>
@@ -56,8 +62,11 @@
         [DebuggerHidden]
         public object Value
         {
-            get => this._optProp.Value ?? this._optProp.DefaultValue;
-            set => this._optProp.Value = value;
+            get => this._optProp.PropertyInfo.GetValue(this._optionObject);
+            set
+            {
+                this._optProp.PropertyInfo.SetValue(this._optionObject, value);
+            }
         }
     }
 }

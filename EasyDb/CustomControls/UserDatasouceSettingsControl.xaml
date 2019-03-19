@@ -13,6 +13,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding RelativeSource={RelativeSource Self} }">
     <UserControl.Resources>
+        <Style TargetType="DataGridCell" x:Key="NoTabStopCell">
+            <Setter Property="IsTabStop" Value="False" />
+        </Style>
         <converters:DoubleToIntegerConverter x:Key="DtoIConv"/>
         <DataTemplate x:Key="TextEditDataTemplate">
             <Grid>
@@ -20,9 +23,10 @@
                     <viewModel:ValidationExceptionBehavior />
                 </i:Interaction.Behaviors>
                 <TextBox
+                    IsTabStop="False"
                     BorderThickness="0"
                     mah:TextBoxHelper.Watermark="{StaticResource dsms_optionWatermark}"
-                    Text = "{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
+                    Text = "{Binding Value, UpdateSourceTrigger=PropertyChanged, NotifyOnTargetUpdated=True, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}"
                     IsReadOnly="{Binding IsReadOnly}" />
             </Grid>
         </DataTemplate>
@@ -30,7 +34,7 @@
             <CheckBox Checked="{Binding Value, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, ValidatesOnExceptions=True, NotifyOnValidationError=True}" />
         </DataTemplate>
         <DataTemplate x:Key="NumericTemplate">
-            <mah:NumericUpDown HorizontalContentAlignment="Left" Value="{Binding Value, 
+            <mah:NumericUpDown IsTabStop="False" HorizontalContentAlignment="Left" Value="{Binding Value, 
                 UpdateSourceTrigger=PropertyChanged, 
                 ValidatesOnDataErrors=True, 
                 ValidatesOnExceptions=True, 
@@ -38,8 +42,10 @@
         </DataTemplate>
         <DataTemplate x:Key="PasswordBoxField">
             <PasswordBox 
+                IsTabStop="False"
                 mah:PasswordBoxHelper.CapsLockWarningToolTip="{StaticResource dsms_passwordToolTipCapton}"
-                mah:PasswordBoxHelper.CapsLockIcon="{StaticResource DefaultCapsLockIcon}" />
+                mah:PasswordBoxHelper.CapsLockIcon="{StaticResource DefaultCapsLockIcon}"
+                PasswordChanged="PasswordBox_OnPasswordChanged" />
         </DataTemplate>
     </UserControl.Resources>
     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
@@ -65,8 +71,8 @@
             Name="PropsDisplayGrid"
             VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <DataGrid.Columns>
-                <DataGridTextColumn KeyboardNavigation.IsTabStop="False" Width="Auto" IsReadOnly="True" Binding="{Binding OptionName}" />
-                <DataGridTemplateColumn Width="*">
+                <DataGridTextColumn KeyboardNavigation.IsTabStop="True" Width="Auto" IsReadOnly="True" Binding="{Binding OptionName}" />
+                <DataGridTemplateColumn KeyboardNavigation.TabIndex="3" CellStyle="{StaticResource NoTabStopCell}" Width="*">
                     <DataGridTemplateColumn.CellTemplateSelector>
                         <datasourceSettings:DatasourceSettingsGridTemplateSelector
                             TextFieldTemplate="{StaticResource TextEditDataTemplate}"

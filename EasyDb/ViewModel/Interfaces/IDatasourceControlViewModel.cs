@@ -3,6 +3,7 @@
 namespace EasyDb.Interfaces.Data
 {
     using System.Collections.ObjectModel;
+    using System.Security;
     using System.Windows.Input;
 
     using EasyDb.ViewModel.DataSource;
@@ -47,6 +48,11 @@ namespace EasyDb.Interfaces.Data
         /// Закрыть окно настроек источника данных
         /// </summary>
         ICommand CloseSettingsWindowCmd { get; set; }
+
+        /// <summary>
+        /// Password secure string
+        /// </summary>
+        SecureString PasswordSecureString { get; set; }
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -99,5 +105,10 @@ namespace EasyDb.Interfaces.Data
         /// Datasource got problems with driver
         /// </summary>
         bool GotDriverProblems { get; }
+
+        /// <summary>
+        /// Store password securely in password storage
+        /// </summary>
+        bool StorePasswordSecure { get; set; }
     }
 }

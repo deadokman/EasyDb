@@ -188,12 +188,11 @@
     <Compile Include="ViewModel\Choco\ChocolateyInstallViewModel.cs" />
     <Compile Include="ViewModel\Choco\IChocolateyInstallViewModel.cs" />
     <Compile Include="ViewModel\DataSource\DatasourceViewModel.cs" />
-    <Compile Include="Model\EdbSourceOptionProxy.cs" />
     <Compile Include="ViewModel\DataSource\UserDataSourceViewModelItem.cs" />
     <Compile Include="ViewModel\Interfaces\IOdbcManagerViewModel.cs" />
     <Compile Include="ViewModel\OdbcManagerViewModel.cs" />
     <Compile Include="ViewModel\ValidationExceptionBehavior.cs" />
-    <Compile Include="View\Choco\ChocolateyInstallControll.xaml.cs">
+    <Compile Include="CustomControls\Choco\ChocolateyInstallControll.xaml.cs">
       <DependentUpon>ChocolateyInstallControll.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DatasourceControlView.xaml.cs">
@@ -231,7 +230,7 @@
     <Compile Include="CustomControls\GeneralSettringsPage.xaml.cs">
       <DependentUpon>GeneralSettringsPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SecureStore\PasswordStoreSecure.cs" />
+    <Compile Include="SecureStore\PasswordStoreSecureWindows.cs" />
     <Compile Include="UnhandledErrorWindow.xaml.cs">
       <DependentUpon>UnhandledErrorWindow.xaml</DependentUpon>
     </Compile>
@@ -255,6 +254,9 @@
     </Compile>
     <Compile Include="View\DataSource\PackageInstallDialog.xaml.cs">
       <DependentUpon>PackageInstallDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\DataSource\Pages\ConnectionSettingsPage.xaml.cs">
+      <DependentUpon>ConnectionSettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\DsnManagerView.xaml.cs">
       <DependentUpon>DsnManagerView.xaml</DependentUpon>
@@ -296,7 +298,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\Choco\ChocolateyInstallControll.xaml">
+    <Page Include="CustomControls\Choco\ChocolateyInstallControll.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -413,6 +415,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\DataSource\PackageInstallDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\DataSource\Pages\ConnectionSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -557,6 +563,7 @@
   <ItemGroup>
     <Folder Include="Connections\" />
     <Folder Include="DbDesigner\DbEntities\" />
+    <Folder Include="Model\" />
     <Folder Include="ViewModel\DataSource\Items\" />
   </ItemGroup>
   <ItemGroup>

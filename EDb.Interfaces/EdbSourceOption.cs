@@ -7,6 +7,8 @@ using EDb.Interfaces.Options;
 
 namespace EDb.Interfaces
 {
+    using System.Xml.Serialization;
+
     /// <summary>
     /// Interface for datasource options
     /// Класс настроек для источника данных
@@ -15,11 +17,13 @@ namespace EDb.Interfaces
     public abstract class EdbSourceOption : ValidationViewModelBase
     {
         [Browsable(false)]
-        public virtual string OptionsDefinitionName { get; protected set; }
+        [XmlIgnore]
+        public virtual string OptionsDefinitionName { get; set; }
 
         /// <summary>
         /// Initialized instance of module options definitions
         /// </summary>
+        [XmlIgnore]
         protected ModuleOptionDefinition OptionDefinitions;
 
         /// <summary>
@@ -51,16 +55,14 @@ namespace EDb.Interfaces
             for (var i = 0; i < definitionProps.Length; i++)
             {
                 var pdata = definitionProps[i];
-                var op = new OptionProperty();
-
-                // check is password property
-                op.ResourcePropertyKey = pdata.optDisplay.ResourceNameKey;
-                op.DefaultPropertyName = pdata.optDisplay.AlternativeName;
-                op.DefaultValue = pdata.prop.GetValue(this);
-                op.ReadOnly = !pdata.prop.CanWrite;
-                op.PropertyValueTypeName = pdata.prop.PropertyType.FullName;
-                op.IsPasswordProperty = CheckIsPassword(pdata.prop);
-                resultArr[i] = op;
+                resultArr[i] = new OptionProperty(
+                    pdata.optDisplay.AlternativeName,
+                    pdata.optDisplay.ResourceNameKey,
+                    pdata.prop.PropertyType.FullName,
+                    pdata.prop.GetValue(this),
+                    !pdata.prop.CanWrite,
+                    CheckIsPassword(pdata.prop),
+                    pdata.prop);
             }
 
             var moduleOptionDefenition = new ModuleOptionDefinition();

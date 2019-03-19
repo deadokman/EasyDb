@@ -16,10 +16,11 @@ namespace EasyDb
 
     using CommonServiceLocator;
 
+    using EasyDb.Interfaces;
     using EasyDb.Interfaces.Data;
     using EasyDb.IoC;
     using EasyDb.SandboxEnvironment;
-    using EasyDb.View.Choco;
+    using EasyDb.SecureStore;
     using EasyDb.ViewModel;
     using EasyDb.ViewModel.Choco;
     using EasyDb.ViewModel.DataSource;
@@ -172,6 +173,7 @@ namespace EasyDb
             builder.RegisterType<DatasourceViewModel>().As<IDatasourceControlViewModel>().SingleInstance();
             builder.RegisterType<DialogCoordinator>().As<IDialogCoordinator>().SingleInstance();
             builder.RegisterType<ChocoController>().As<IChocolateyController>().SingleInstance();
+            builder.RegisterType<PasswordStoreSecureWindows>().As<IPasswordStorage>().SingleInstance();
 
             // View models
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();

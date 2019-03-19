@@ -16,7 +16,7 @@
     /// <summary>
     /// Store DB password secure
     /// </summary>
-    public class PasswordStoreSecure : IPasswordStorage
+    public class PasswordStoreSecureWindows : IPasswordStorage
     {
         /// <summary>
         /// Defines the RegistryKey
@@ -29,9 +29,9 @@
         private ILogger _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PasswordStoreSecure"/> class.
+        /// Initializes a new instance of the <see cref="PasswordStoreSecureWindows"/> class.
         /// </summary>
-        public PasswordStoreSecure()
+        public PasswordStoreSecureWindows()
         {
             this._logger = LogManager.GetCurrentClassLogger();
         }

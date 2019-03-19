@@ -11,9 +11,9 @@ namespace EasyDb.ViewModel
     using System.Windows.Input;
 
     using EasyDb.Annotations;
+    using EasyDb.CustomControls.Choco;
     using EasyDb.Interfaces.Data;
     using EasyDb.View;
-    using EasyDb.View.Choco;
     using EasyDb.ViewModel.Choco;
 
     using Edb.Environment.Interface;

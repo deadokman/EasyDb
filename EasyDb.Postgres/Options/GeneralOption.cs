@@ -69,13 +69,6 @@
             }
         }
 
-        /// <summary>
-        /// Gets or sets the Password
-        /// </summary>
-        [Required(ErrorMessage = "Password required")]
-        [OptionDisplayName("opt_def_password", "Password:")]
-        [PasswordField]
-        public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets the User
@@ -91,6 +84,13 @@
                 this.OnPropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Gets or sets the Password
+        /// </summary>
+        [OptionDisplayName("opt_def_password", "Password:")]
+        [PasswordField]
+        public string Password { get; set; }
 
         /// <summary>
         /// Gets or sets the Port

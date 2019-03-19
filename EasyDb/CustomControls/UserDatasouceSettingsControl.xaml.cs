@@ -2,10 +2,12 @@
 
 namespace EasyDb.CustomControls
 {
+    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Security;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -30,6 +32,16 @@ namespace EasyDb.CustomControls
             new PropertyMetadata(null, SetObjectPropsDisplay));
 
         /// <summary>
+        /// Password dependency property
+        /// </summary>
+        public static readonly DependencyProperty PasswordStrProperty =
+            DependencyProperty.Register(
+                "PasswordStr",
+                typeof(SecureString),
+                typeof(UserDatasouceSettingsControl),
+                new PropertyMetadata(null));
+
+        /// <summary>
         /// Defines the _sourceOptions
         /// </summary>
         private IList<DatasourceOption> _sourceOptions;
@@ -48,13 +60,28 @@ namespace EasyDb.CustomControls
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
+        /// Password secure string
+        /// </summary>
+        public SecureString PasswordStr
+        {
+            get { return (SecureString)GetValue(PasswordStrProperty); }
+            set { SetValue(PasswordStrProperty, value); }
+        }
+
+        /// <summary>
         /// Gets or sets the SelectedObject
         /// </summary>
-        public EdbSourceOptionProxy SelectedObject
+        public EdbSourceOption SelectedObject
         {
-            get => (EdbSourceOptionProxy)this.GetValue(SelectedObjectProperty);
+            get
+            {
+                return (EdbSourceOption)this.GetValue(SelectedObjectProperty);
+            }
 
-            set => this.SetValue(SelectedObjectProperty, value);
+            set
+            {
+                this.SetValue(SelectedObjectProperty, value);
+            }
         }
 
         /// <summary>
@@ -86,7 +113,7 @@ namespace EasyDb.CustomControls
             {
                 var optionName = resourceDictionary[prop.ResourcePropertyKey] as string
                                  ?? prop.DefaultPropertyName;
-                res.Add(new DatasourceOption(prop) { OptionName = optionName });
+                res.Add(new DatasourceOption(prop, valueObject) { OptionName = optionName });
             }
 
             return res;
@@ -115,6 +142,24 @@ namespace EasyDb.CustomControls
                 depObject.SourceOptions = FormatDatasourceOptions(
                     e.NewValue as EdbSourceOption,
                     Application.Current.Resources);
+            }
+        }
+
+        private static void PropertyChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var depOb = (UserDatasouceSettingsControl)d;
+            if (e.NewValue != null)
+            {
+                return;
+            }
+        }
+
+        private void PasswordBox_OnPasswordChanged(object sender, RoutedEventArgs e)
+        {
+            var pwdBox = e.OriginalSource as PasswordBox;
+            if (pwdBox != null)
+            {
+                PasswordStr = pwdBox.SecurePassword;
             }
         }
     }
