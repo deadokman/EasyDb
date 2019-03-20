@@ -11,8 +11,9 @@
         mc:Ignorable="d"
         mah:DialogParticipation.Register="{Binding}"
         Background="{DynamicResource ControlBackgroundBrush}"
+        x:Name="DsSettingsWindow"
         Title="{StaticResource dsms_settingsWindowTitle}"  
-                 DataContext="{Binding Source={StaticResource Locator}, Path=DatasourceControlViewModel}"
+                 DataContext="{Binding Source={StaticResource Locator}, Path=DataSourceSettingsViewModel}"
                  Height="450" Width="800" ShowMinButton="False"
                  ShowMaxRestoreButton="False" ShowIconOnTitleBar="False">
     <mah:MetroWindow.Resources>
@@ -157,8 +158,8 @@
                 </mah:MetroAnimatedTabControl>
                 <Rectangle Grid.Row="2" StrokeThickness="1" Stroke="{StaticResource AccentColorBrush4}"></Rectangle>
                 <DockPanel Background="{DynamicResource ControlBackgroundBrush}" Margin="0,5,43,5" HorizontalAlignment="Right" Grid.Row="3">
-                    <Button Command="{Binding ApplyDatasourceSettingsCmd}" Content="{StaticResource dsms_apply_databasecon_settings}" Style="{StaticResource MetroButtonAccentNoBorder}" Margin="0,2,10,2"  Width="120"/>
-                    <Button Content="{StaticResource dsms_cancel_databasecon_settings}" Style="{StaticResource MetroButton}" Width="120" />
+                    <Button CommandParameter="{Binding ElementName=DsSettingsWindow}" Command="{Binding ApplyDatasourceSettingsCmd}" Content="{StaticResource dsms_apply_databasecon_settings}" Style="{StaticResource MetroButtonAccentNoBorder}" Margin="0,2,10,2"  Width="120"/>
+                    <Button CommandParameter="{Binding ElementName=DsSettingsWindow}" Command="{Binding CloseSettingsWindowCmd}" Content="{StaticResource dsms_cancel_databasecon_settings}" Style="{StaticResource MetroButton}" Width="120" />
                 </DockPanel>
             </Grid>
         </Border>

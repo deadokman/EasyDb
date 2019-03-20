@@ -2,6 +2,9 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using EasyDb.ViewModel.DbExplorer;
+using GalaSoft.MvvmLight.Messaging;
+
 namespace EasyDb
 {
     using System;
@@ -17,7 +20,6 @@ namespace EasyDb
     using CommonServiceLocator;
 
     using EasyDb.Interfaces;
-    using EasyDb.Interfaces.Data;
     using EasyDb.IoC;
     using EasyDb.SandboxEnvironment;
     using EasyDb.SecureStore;
@@ -170,10 +172,12 @@ namespace EasyDb
             var builder = AutofacServiceLocator.Instance.GetBuilder();
             builder.RegisterModule<NLogModule>();
             builder.RegisterType<DatasourceManager>().As<IDataSourceManager>().SingleInstance();
-            builder.RegisterType<DatasourceViewModel>().As<IDatasourceControlViewModel>().SingleInstance();
+            builder.RegisterType<DatasourceViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
             builder.RegisterType<DialogCoordinator>().As<IDialogCoordinator>().SingleInstance();
             builder.RegisterType<ChocoController>().As<IChocolateyController>().SingleInstance();
             builder.RegisterType<PasswordStoreSecureWindows>().As<IPasswordStorage>().SingleInstance();
+            builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
+            builder.RegisterType<Messenger>().As<IMessenger>().SingleInstance();
 
             // View models
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
@@ -183,6 +187,7 @@ namespace EasyDb
             builder.RegisterType<ChocolateyInstallViewModel>().As<IChocolateyInstallViewModel>().SingleInstance();
             builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
             builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
+            builder.RegisterType<DbExplorerViewModel>().As<DbExplorerViewModel>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
         }
 

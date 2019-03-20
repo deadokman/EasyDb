@@ -1,6 +1,9 @@
-﻿using EasyDb.ViewModel.DataSource.Items;
+﻿using System.IO;
+using EasyDb.ViewModel.DataSource.Items;
+using EasyDb.ViewModel.Interfaces;
 using Edb.Environment.Interface;
 using Edb.Environment.Model;
+using MahApps.Metro.Controls;
 
 namespace EasyDb.ViewModel.DataSource
 {
@@ -17,7 +20,6 @@ namespace EasyDb.ViewModel.DataSource
     using Annotations;
 
     using EasyDb.Interfaces;
-    using EasyDb.Interfaces.Data;
     using EasyDb.Model;
     using EasyDb.View.DataSource;
     using Edb.Environment.DatasourceManager;
@@ -31,7 +33,7 @@ namespace EasyDb.ViewModel.DataSource
     /// <summary>
     /// Implements logic for datasource creation control
     /// </summary>
-    public class DatasourceViewModel : IDatasourceControlViewModel, INotifyPropertyChanged
+    public class DatasourceViewModel : IDataSourceSettingsViewModel, INotifyPropertyChanged
     {
         private const string NoDriverResourceName = "dsms_err_no_driver";
         private const string NoChocolateyResourceName = "dsms_err_no_autoinstall";
@@ -46,21 +48,6 @@ namespace EasyDb.ViewModel.DataSource
         private readonly IChocolateyController _chocoController;
 
         private readonly ILogger _logger;
-
-        /// <summary>
-        /// Defines the _configureUserdataSourceCmd
-        /// </summary>
-        private ICommand _configureUserdataSourceCmd;
-
-        /// <summary>
-        /// Defines the _supportedDatasources
-        /// </summary>
-        private SupportedSourceItem[] _supportedDatasources;
-
-        /// <summary>
-        /// Defines the _userDatasources
-        /// </summary>
-        private ObservableCollection<UserDataSourceViewModelItem> _userDatasources;
 
         private SupportedSourceItem _selectedSourceItem;
 
@@ -103,17 +90,7 @@ namespace EasyDb.ViewModel.DataSource
             this._odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
             this._chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            manager.DatasourceLoaded += this.InstanceOnDatasourceLoaded;
-            this.SupportedDatasources = manager.SupportedDatasources.ToArray();
-            var udsVmi = manager.UserDatasourceConfigurations.Select(
-                i => new UserDataSourceViewModelItem(i, this._datasourceManager.GetModuleByGuid(i.ModuleGuid)));
-            this.UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
-            this.ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(
-                (si) =>
-                    {
-                        SelectedSourceItem = si;
-                        this.DisplayUserDatasourceProperties();
-                    });
+
             this.RefreshPackageInformationCmd = new RelayCommand(() =>
             {
                 LoadPackageInformation(SelectedSourceItem?.Module);
@@ -149,10 +126,16 @@ namespace EasyDb.ViewModel.DataSource
             });
 
             this.CloseInformationMessageCmd = new RelayCommand(
-                () => { this.WarningMessage = string.Empty; });
-
-            this.ApplyDatasourceSettingsCmd = new RelayCommand(
                 () =>
+                {
+                    this.WarningMessage = string.Empty;
+                    this.Package = null;
+                    this.OdbcDriver = null;
+                    this.SelectedSourceItem = null;
+                });
+
+            this.ApplyDatasourceSettingsCmd = new RelayCommand<MetroWindow>(
+                (w) =>
                     {
                         if (!this.EditingUserDatasource.AllValid())
                         {
@@ -177,10 +160,12 @@ namespace EasyDb.ViewModel.DataSource
                         {
                             this._passwordStorage.StorePasswordSecure(PasswordSecureString, this.EditingUserDatasource.DatasourceGuid);
                         }
+
+                        w.Close();
                     });
 
-            this.CloseSettingsWindowCmd = new RelayCommand(
-                () =>
+            this.CloseSettingsWindowCmd = new RelayCommand<MetroWindow>(
+                (w) =>
                     {
                         throw new NotImplementedException();
                     });
@@ -283,20 +268,6 @@ namespace EasyDb.ViewModel.DataSource
         }
 
         /// <summary>
-        /// Gets or sets the ConfigureDsCmd
-        /// Open modal window to configure Database source
-        /// </summary>
-        public ICommand ConfigureDsCmd
-        {
-            get => this._configureUserdataSourceCmd;
-            set
-            {
-                this._configureUserdataSourceCmd = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
         /// Refresh pakcage and driver information command
         /// </summary>
         public ICommand RefreshPackageInformationCmd { get; set; }
@@ -325,34 +296,6 @@ namespace EasyDb.ViewModel.DataSource
         /// Password secure string
         /// </summary>
         public SecureString PasswordSecureString { get; set; }
-
-        /// <summary>
-        /// Gets the SupportedDatasources
-        /// Collection of supported databases
-        /// </summary>
-        public SupportedSourceItem[] SupportedDatasources
-        {
-            get => this._supportedDatasources;
-            private set
-            {
-                this._supportedDatasources = value;
-                this.OnPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the UserDatasources
-        /// Collection of user defined database sources
-        /// </summary>
-        public ObservableCollection<UserDataSourceViewModelItem> UserDatasources
-        {
-            get => this._userDatasources;
-            set
-            {
-                this._userDatasources = value;
-                this.OnPropertyChanged();
-            }
-        }
 
         /// <summary>
         /// Информация о пакете драйвера Chocolatey
@@ -414,31 +357,6 @@ namespace EasyDb.ViewModel.DataSource
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        /// <summary>
-        /// The InstanceOnDatasourceLoaded
-        /// </summary>
-        /// <param name="datasources">The datasources<see cref="IEnumerable{SupportedSourceItem}"/></param>
-        /// <param name="userSources">The userSources<see cref="IEnumerable{UserDataSourceViewModelItem}"/></param>
-        private void InstanceOnDatasourceLoaded(
-            IEnumerable<SupportedSourceItem> datasources,
-            IEnumerable<UserDatasourceConfiguration> userSources)
-        {
-            this.SupportedDatasources = datasources.ToArray();
-            var udsVmi = userSources.Select(i => new UserDataSourceViewModelItem(i, this._datasourceManager.GetModuleByGuid(i.ModuleGuid)));
-            this.UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
-        }
-
-        /// <summary>
-        /// The DisplayUserDatasourceProperties
-        /// </summary>
-        private void DisplayUserDatasourceProperties()
-        {
-            var dlgWindow = new DatasourceSettingsView();
-            dlgWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dlgWindow.Owner = Application.Current.MainWindow;
-            dlgWindow.ShowDialog();
         }
 
         /// <summary>

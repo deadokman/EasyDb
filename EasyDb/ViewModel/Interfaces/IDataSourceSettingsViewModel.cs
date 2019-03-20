@@ -1,29 +1,17 @@
-﻿using Edb.Environment.Model;
+﻿using System.Security;
+using System.Windows.Input;
+using EasyDb.ViewModel.DataSource.Items;
+using Edb.Environment.DatasourceManager;
+using Edb.Environment.Model;
+using NuGet;
 
-namespace EasyDb.Interfaces.Data
+namespace EasyDb.ViewModel.Interfaces
 {
-    using System.Collections.ObjectModel;
-    using System.Security;
-    using System.Windows.Input;
-
-    using EasyDb.ViewModel.DataSource;
-    using EasyDb.ViewModel.DataSource.Items;
-
-    using Edb.Environment.DatasourceManager;
-
-    using NuGet;
-
     /// <summary>
     /// Interface for Data source control view
     /// </summary>
-    public interface IDatasourceControlViewModel
+    public interface IDataSourceSettingsViewModel
     {
-        /// <summary>
-        /// Gets or sets the ConfigureDsCmd
-        /// Команда конфигурирования источника данных
-        /// </summary>
-        ICommand ConfigureDsCmd { get; set; }
-
         /// <summary>
         /// Refresh pakcage and driver information command
         /// </summary>
@@ -53,18 +41,6 @@ namespace EasyDb.Interfaces.Data
         /// Password secure string
         /// </summary>
         SecureString PasswordSecureString { get; set; }
-
-        /// <summary>
-        /// Gets the SupportedDatasources
-        /// Get collection of supported datasources
-        /// </summary>
-        SupportedSourceItem[] SupportedDatasources { get; }
-
-        /// <summary>
-        /// Gets the UserDatasources
-        /// Datasources that has been declared by user
-        /// </summary>
-        ObservableCollection<UserDataSourceViewModelItem> UserDatasources { get; }
 
         /// <summary>
         /// Changes editing context

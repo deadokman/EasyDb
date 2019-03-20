@@ -158,7 +158,7 @@
                                             CanAutoHide="True"
                                             AutoHideMinWidth="200"
                                             Title="{StaticResource dsm_datasourceTabTitle}">
-                                            <view:DatasourceControl />
+                                            <view:DatasourceExplorerControl />
                                         </xcad:LayoutAnchorable>
                                     </xcad:LayoutAnchorGroup>
                                 </xcad:LayoutAnchorSide>

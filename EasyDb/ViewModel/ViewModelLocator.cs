@@ -1,8 +1,9 @@
+using EasyDb.ViewModel.DbExplorer;
+
 namespace EasyDb.ViewModel
 {
     using Autofac;
     using CommonServiceLocator;
-    using EasyDb.Interfaces.Data;
     using EasyDb.IoC;
     using EasyDb.SandboxEnvironment;
     using EasyDb.ViewModel.Choco;
@@ -76,11 +77,11 @@ namespace EasyDb.ViewModel
         }
 
         /// <summary>
-        /// Gets the DatasourceControlViewModel
+        /// Gets the DataSourceSettingsViewModel
         /// </summary>
-        public IDatasourceControlViewModel DatasourceControlViewModel
+        public IDataSourceSettingsViewModel DataSourceSettingsViewModel
         {
-            get { return AutofacServiceLocator.Instance.GetInstance<IDatasourceControlViewModel>(); }
+            get { return AutofacServiceLocator.Instance.GetInstance<IDataSourceSettingsViewModel>(); }
         }
 
         /// <summary>
@@ -91,6 +92,17 @@ namespace EasyDb.ViewModel
             get
             {
                 return AutofacServiceLocator.Instance.GetInstance<GeneralSettingsViewModel>();
+            }
+        }
+
+        /// <summary>
+        /// Db explorer view model
+        /// </summary>
+        public DbExplorerViewModel DbExplorerViewModel
+        {
+            get
+            {
+                return AutofacServiceLocator.Instance.GetInstance<DbExplorerViewModel>();
             }
         }
 

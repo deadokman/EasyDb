@@ -181,7 +181,8 @@
     <Compile Include="Converters\SettingsSizeLimitConverter.cs" />
     <Compile Include="Ext\PasswordHelperExtensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="ViewModel\Interfaces\IDatasourceControlViewModel.cs" />
+    <Compile Include="ViewModel\DbExplorer\DbExplorerViewModel.cs" />
+    <Compile Include="ViewModel\Interfaces\IDataSourceSettingsViewModel.cs" />
     <Compile Include="Interfaces\IPasswordStorage.cs" />
     <Compile Include="IoC\AutofacServiceLocator.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -195,8 +196,8 @@
     <Compile Include="CustomControls\Choco\ChocolateyInstallControll.xaml.cs">
       <DependentUpon>ChocolateyInstallControll.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\DatasourceControlView.xaml.cs">
-      <DependentUpon>DatasourceControlView.xaml</DependentUpon>
+    <Compile Include="View\DatasourceExplorerView.xaml.cs">
+      <DependentUpon>DatasourceExplorerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="DbDesigner\DbDesignerCanvas.xaml.cs">
       <DependentUpon>DbDesignerCanvas.xaml</DependentUpon>
@@ -302,7 +303,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\DatasourceControlView.xaml">
+    <Page Include="View\DatasourceExplorerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -563,7 +564,7 @@
   <ItemGroup>
     <Folder Include="Connections\" />
     <Folder Include="DbDesigner\DbEntities\" />
-    <Folder Include="Model\" />
+    <Folder Include="ViewModelCommunication\" />
     <Folder Include="ViewModel\DataSource\Items\" />
   </ItemGroup>
   <ItemGroup>

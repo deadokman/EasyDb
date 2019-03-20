@@ -1,4 +1,7 @@
-﻿namespace EasyDb.SandboxEnvironment
+﻿using Edb.Environment.CommunicationArgs;
+using GalaSoft.MvvmLight.Messaging;
+
+namespace EasyDb.SandboxEnvironment
 {
     using System;
     using System.Collections.Generic;
@@ -39,6 +42,8 @@
         /// </summary>
         private readonly ILogger _logger;
 
+        private readonly IMessenger _messenger;
+
         /// <summary>
         /// Supported datasources collection
         /// </summary>
@@ -53,9 +58,11 @@
         /// Initializes a new instance of the <see cref="DatasourceManager"/> class.
         /// </summary>
         /// <param name="logger">Class logger</param>
-        public DatasourceManager([NotNull] ILogger logger)
+        /// <param name="messenger">Messenger</param>
+        public DatasourceManager([NotNull] ILogger logger, [NotNull] IMessenger messenger)
         {
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this._messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
             this._supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
             this.UserDatasourceConfigurations = new List<UserDatasourceConfiguration>();
         }
@@ -193,6 +200,8 @@
             {
                 this.DatasourceLoaded.Invoke(this._supportedDataSources.Values, this.UserDatasourceConfigurations);
             }
+
+            _messenger.Send(new DatasourcesIniaialized(this._supportedDataSources.Values, this.UserDatasourceConfigurations));
         }
 
         /// <summary>
@@ -249,6 +258,9 @@
                 this._logger.Error(msg, ex);
                 File.Copy(tmpFile, DataSourceStorageFile, true);
             }
+
+            this._messenger.Send(new DatasourcesIniaialized(this.SupportedDatasources, this.UserDatasourceConfigurations));
+            File.Delete(tmpFile);
         }
 
         /// <summary>

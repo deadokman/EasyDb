@@ -1,5 +1,6 @@
 using System.Linq;
 using System.Security;
+using GalaSoft.MvvmLight.Messaging;
 
 namespace EasyDb.ViewModel
 {
@@ -12,7 +13,6 @@ namespace EasyDb.ViewModel
 
     using EasyDb.Annotations;
     using EasyDb.CustomControls.Choco;
-    using EasyDb.Interfaces.Data;
     using EasyDb.View;
     using EasyDb.ViewModel.Choco;
 
@@ -66,20 +66,33 @@ namespace EasyDb.ViewModel
         /// <param name="dialogCoordinator">Dialog coordinator</param>
         /// <param name="chocoController">Chocolatey controller</param>
         /// <param name="chocoInstallVm">Chocolatey install view model</param>
+        /// <param name="messenger">Messanger instance</param>
         public MainViewModel(
                              [NotNull] IDataSourceManager manager,
                              [NotNull] IDialogCoordinator dialogCoordinator,
                              [NotNull] IChocolateyController chocoController,
-                                    IChocolateyInstallViewModel chocoInstallVm)
+                             [NotNull] IChocolateyInstallViewModel chocoInstallVm,
+                             [NotNull] IMessenger messenger)
         {
             if (chocoController == null)
             {
                 throw new ArgumentNullException(nameof(chocoController));
             }
 
+            if (chocoInstallVm == null)
+            {
+                throw new ArgumentNullException(nameof(chocoInstallVm));
+            }
+
+            if (messenger == null)
+            {
+                throw new ArgumentNullException(nameof(messenger));
+            }
+
             this._manager = manager ?? throw new ArgumentNullException(nameof(manager));
             this._dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
             this._chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
+            this.IsInterfaceEnabled = false;
             this._bgWorkerInit.DoWork += (sender, args) =>
                 {
                     manager.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
