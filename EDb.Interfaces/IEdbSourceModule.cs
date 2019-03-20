@@ -84,6 +84,10 @@ namespace EDb.Interfaces
         /// <returns>Returns module options definition</returns>
         ModuleOptionDefinition[] GetOptionsDefenitions();
 
+        /// <summary>
+        /// Query producer
+        /// </summary>
+        IEdbModuleQueryProducer QueryModuleProducer { get; }
 
         /// <summary>
         /// The SetGuid

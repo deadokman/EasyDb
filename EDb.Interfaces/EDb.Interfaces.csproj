@@ -55,7 +55,9 @@
   <ItemGroup>
     <Compile Include="EdbDatasourceAttribute.cs" />
     <Compile Include="EdbDatasourceModule.cs" />
+    <Compile Include="EdbModuleQueryProducer.cs" />
     <Compile Include="EdbSourceOption.cs" />
+    <Compile Include="IEdbModuleQueryProducer.cs" />
     <Compile Include="IEdbSourceModule.cs" />
     <Compile Include="Objects\SupportedObjectTypes.cs" />
     <Compile Include="OptionDisplayNameAttribute.cs" />

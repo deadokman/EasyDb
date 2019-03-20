@@ -88,6 +88,11 @@
         public string OdbcSystem32DriverName => this._proxySubject.OdbcSystem32DriverName;
 
         /// <summary>
+        /// Query producer
+        /// </summary>
+        public IEdbModuleQueryProducer QueryModuleProducer => this._proxySubject.QueryModuleProducer;
+
+        /// <summary>
         /// Gets module source options collection
         /// </summary>
         /// <returns>Source options collection</returns>

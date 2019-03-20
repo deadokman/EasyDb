@@ -74,5 +74,10 @@
         /// Driver name for x32 architecture systems
         /// </summary>
         public override string OdbcSystem32DriverName => "PostgreSQL ANSI(x32)";
+
+        /// <summary>
+        /// Query module producer
+        /// </summary>
+        public override IEdbModuleQueryProducer QueryModuleProducer { get; }
     }
 }

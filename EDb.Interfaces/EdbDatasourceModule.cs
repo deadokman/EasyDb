@@ -95,6 +95,11 @@ namespace EDb.Interfaces
             return this.GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
         }
 
+        /// <summary>
+        /// Query producer
+        /// </summary>
+        public abstract IEdbModuleQueryProducer QueryModuleProducer { get; }
+
         [SecurityCritical]
         public override object InitializeLifetimeService()
         {
