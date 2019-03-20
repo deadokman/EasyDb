@@ -1,98 +1,125 @@
-﻿using EDb.Interfaces.Objects;
-using System;
+﻿using System.Security;
+using System.Security.Permissions;
 
+[assembly: AllowPartiallyTrustedCallers]
 namespace EDb.Interfaces
 {
+    using EDb.Interfaces.Objects;
     using EDb.Interfaces.Options;
+    using System;
+    using System.Data;
+    using System.Linq;
 
     /// <summary>
-    /// Base module interface
+    /// Defines the <see cref="EdbDataDatasource" />
     /// </summary>
-    public interface IEdbSourceModule
+    public abstract class EdbDataDatasource : MarshalByRefObject, IEdbDataSource
     {
         /// <summary>
         /// Gets the DatabaseName
         /// Имя модуля СУБД
         /// </summary>
-        string DatabaseName { get; }
+        public abstract string DatabaseName { get; }
 
         /// <summary>
         /// Gets the SupportedTypes
         /// Типы поддерживаемых объектов базы данных
         /// </summary>
-        SupportedObjectTypes[] SupportedTypes { get; }
+        public abstract SupportedObjectTypes[] SupportedTypes { get; }
 
         /// <summary>
         /// Gets the DatabaseIcon
         /// Значек базы данных
         /// </summary>
-        byte[] DatabaseIcon { get; }
+        public abstract byte[] DatabaseIcon { get; }
 
         /// <summary>
         /// Option objects
         /// Вернуть объекты настроек
         /// </summary>
         /// <returns>Plugin options collection</returns>
-        EdbSourceOption[] GetOptions();
+        public abstract EdbSourceOption[] GetOptions();
 
         /// <summary>
         /// Gets the ModuleGuid
         /// Module unique GUID
         /// </summary>
-        Guid ModuleGuid { get; }
+        public virtual Guid ModuleGuid { get; private set; }
 
         /// <summary>
         /// Gets the Version
         /// Module version
         /// </summary>
-        Version Version { get;  }
+        public virtual Version Version { get; private set; }
 
         /// <summary>
         /// Identifier of chocolate ODBC package
         /// </summary>
-        string ChocolateOdbcPackageId { get; }
+        public abstract string ChocolateOdbcPackageId { get; }
 
         /// <summary>
         /// URL to ODBC driver package
         /// </summary>
-        string ChocolatepackageUrl { get; }
+        public abstract string ChocolatepackageUrl { get; }
 
         /// <summary>
         /// Driver download URLS
         /// </summary>
-        string[] AlternativeDriverDownloadUrls { get; }
+        public virtual string[] AlternativeDriverDownloadUrls { get; }
 
         /// <summary>
         /// ODBC driver name inside operating system
         /// </summary>
-        string OdbcSystemDriverName { get; }
+        public abstract string OdbcSystemDriverName { get; }
 
         /// <summary>
         /// Driver name for x32 architecture systems
         /// </summary>
-        string OdbcSystem32DriverName { get; }
+        public abstract string OdbcSystem32DriverName { get; }
 
         /// <summary>
         /// The SetVersion
         /// </summary>
         /// <param name="version">The version<see cref="Version"/></param>
-        void SetVersion(Version version);
+        public virtual void SetVersion(Version version)
+        {
+            Version = version;
+        }
 
         /// <summary>
         /// Get option defenition objects
         /// </summary>
         /// <returns>Returns module options definition</returns>
-        ModuleOptionDefinition[] GetOptionsDefenitions();
+        public virtual ModuleOptionDefinition[] GetOptionsDefenitions()
+        {
+            return this.GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
+        }
 
         /// <summary>
         /// Query producer
         /// </summary>
-        IEdbModuleQueryProducer QueryModuleProducer { get; }
+        public abstract IEdbDataSourceQueryProducer QueryProducer { get; }
+
+        [SecurityCritical]
+        public override object InitializeLifetimeService()
+        {
+            return null;
+        }
+
+        /// <summary>
+        /// Creates connection string for datasoure
+        /// </summary>
+        /// <param name="options">Datasource options</param>
+        /// <returns>Returns connection string</returns>
+        public abstract string IntroduceConnectionString(EdbSourceOption[] options);
 
         /// <summary>
         /// The SetGuid
         /// </summary>
         /// <param name="guid">The guid<see cref="Guid"/></param>
-        void SetGuid(Guid guid);
+        public virtual void SetGuid(Guid guid)
+        {
+            ModuleGuid = guid;
+        }
     }
 }

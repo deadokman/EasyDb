@@ -128,7 +128,7 @@ namespace EasyDb.ViewModel.DbExplorer
         private void RefreshViewmodelData()
         {
             this.SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
-            var udsVmi = _datasourceManager.UserDatasourceConfigurations.Select(i => new UserDataSourceViewModelItem(i, this._datasourceManager.GetModuleByGuid(i.ModuleGuid)));
+            var udsVmi = _datasourceManager.UserDatasourceConfigurations.Select(i => new UserDataSourceViewModelItem(i, this._datasourceManager.GetModuleByGuid(i.DatasoureGuid)));
             this.UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
         }
 

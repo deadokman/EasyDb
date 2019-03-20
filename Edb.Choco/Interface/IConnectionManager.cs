@@ -19,8 +19,13 @@ namespace Edb.Environment.Interface
         /// </summary>
         /// <param name="datasourceConfig">User datasource confiuration</param>
         /// <returns></returns>
-        IEdbConnectionLink ProduceDbConnection(UserDatasourceConfiguration datasourceConfig);
+        IEDbConnectionLink ProduceDbConnection(UserDatasourceConfiguration datasourceConfig);
 
+        /// <summary>
+        /// List all avaliable connections
+        /// </summary>
+        /// <returns>Returns all avaliable connections</returns>
+        IEnumerable<IEDbConnectionLink> ListConnections();
 
     }
 }

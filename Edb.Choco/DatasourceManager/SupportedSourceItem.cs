@@ -15,18 +15,18 @@
     public class SupportedSourceItem
     {
         /// <summary>
-        /// Defines the _sourceModule
+        /// Defines the dataSource
         /// </summary>
-        private readonly IEdbSourceModule _sourceModule;
+        private readonly IEdbDataSource dataSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedSourceItem"/> class.
         /// </summary>
-        /// <param name="sourceModule">The sourceModule<see cref="EdbDatasourceModule"/></param>
+        /// <param name="dataSource">The dataSource<see cref="EdbDataDatasource"/></param>
         public SupportedSourceItem(
-            [NotNull] IEdbSourceModule sourceModule)
+            [NotNull] IEdbDataSource dataSource)
         {
-            this._sourceModule = sourceModule ?? throw new ArgumentNullException(nameof(sourceModule));
+            this.dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         {
             get
             {
-                using (var memStream = new MemoryStream(this._sourceModule.DatabaseIcon))
+                using (var memStream = new MemoryStream(this.dataSource.DatabaseIcon))
                 {
                     var bi = new BitmapImage();
                     bi.BeginInit();
@@ -53,12 +53,12 @@
         /// Gets the DatabaseName
         /// Имя источника данных
         /// </summary>
-        public string DatabaseName => this._sourceModule.DatabaseName;
+        public string DatabaseName => this.dataSource.DatabaseName;
 
         /// <summary>
         /// Gets or sets the Module
         /// Драйвер источника данных
         /// </summary>
-        public IEdbSourceModule Module => this._sourceModule;
+        public IEdbDataSource Module => this.dataSource;
     }
 }

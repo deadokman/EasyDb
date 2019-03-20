@@ -32,7 +32,7 @@
         /// </summary>
         /// <param name="udsConfig">Конфигурация</param>
         /// <param name="module">Модуль</param>
-        public UserDataSourceViewModelItem(UserDatasourceConfiguration udsConfig, IEdbSourceModule module)
+        public UserDataSourceViewModelItem(UserDatasourceConfiguration udsConfig, IEdbDataSource module)
         {
             this._dsConfig = udsConfig;
         }
@@ -60,14 +60,14 @@
         /// </summary>
         public Guid DatasourceGuid
         {
-            get => this._dsConfig.ModuleGuid;
+            get => this._dsConfig.DatasoureGuid;
         }
 
         /// <summary>
-        /// Gets or sets the LinkedEdbSourceModule
+        /// Gets or sets the LinkedEdbDataSource
         /// Драйвер СУБД
         /// </summary>
-        public IEdbSourceModule LinkedEdbSourceModule { get; set; }
+        public IEdbDataSource LinkedEdbDataSource { get; set; }
 
         /// <summary>
         /// Gets or sets the Name
@@ -98,12 +98,12 @@
         }
 
         /// <summary>
-        /// Gets or sets the SettingsObjects
+        /// Gets or sets the OptionsObjects
         /// User datasource tab settings
         /// </summary>
         public EdbSourceOption[] SettingsObjects
         {
-            get => this._dsConfig.SettingsObjects;
+            get => this._dsConfig.OptionsObjects;
         }
 
         /// <summary>
@@ -112,7 +112,7 @@
         /// <param name="moduleGuid">Set datasource guid ID</param>
         public void SetGuid(Guid moduleGuid)
         {
-            this._dsConfig.ModuleGuid = moduleGuid;
+            this._dsConfig.DatasoureGuid = moduleGuid;
         }
 
         /// <summary>
@@ -121,9 +121,9 @@
         /// <returns>Returns true if all options is valid</returns>
         public bool AllValid()
         {
-            if (this._dsConfig.SettingsObjects != null)
+            if (this._dsConfig.OptionsObjects != null)
             {
-                return this._dsConfig.SettingsObjects.All(opt => string.IsNullOrEmpty(opt.Error)) && this.IsValid;
+                return this._dsConfig.OptionsObjects.All(opt => string.IsNullOrEmpty(opt.Error)) && this.IsValid;
             }
 
             return this.IsValid;
@@ -137,7 +137,7 @@
         {
             var sb = new StringBuilder();
             sb.Append(" " + this.Error);
-            foreach (var dsConfigSettingsObject in this._dsConfig.SettingsObjects)
+            foreach (var dsConfigSettingsObject in this._dsConfig.OptionsObjects)
             {
                 sb.Append(" " + dsConfigSettingsObject.Error);
             }

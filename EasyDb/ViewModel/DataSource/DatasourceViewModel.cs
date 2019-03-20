@@ -362,11 +362,11 @@ namespace EasyDb.ViewModel.DataSource
         /// <summary>
         /// Execute chocolatey package info download if supported by database module
         /// </summary>
-        /// <param name="edbDatasourceModule">Module</param>
-        private async void LoadPackageInformation(IEdbSourceModule edbDatasourceModule)
+        /// <param name="edbDataDatasource">Module</param>
+        private async void LoadPackageInformation(IEdbDataSource edbDataDatasource)
         {
             Package = null;
-            if (edbDatasourceModule == null)
+            if (edbDataDatasource == null)
             {
                 return;
             }
@@ -374,7 +374,7 @@ namespace EasyDb.ViewModel.DataSource
             ProcessInProgress = true;
             try
             {
-                var res = await this._chocoController.GetPackageInformation(edbDatasourceModule.ChocolateOdbcPackageId);
+                var res = await this._chocoController.GetPackageInformation(edbDataDatasource.ChocolateOdbcPackageId);
                 Package = res?.Package;
                 ProcessInProgress = false;
             }
@@ -388,18 +388,18 @@ namespace EasyDb.ViewModel.DataSource
             this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
         }
 
-        private void RefreshDriverInformation(IEdbSourceModule edbDatasourceModule)
+        private void RefreshDriverInformation(IEdbDataSource edbDataDatasource)
         {
             OdbcDriver = null;
             GotDriverProblems = false;
             _odbcManager.RefreshDriversCatalog();
-            if (edbDatasourceModule == null)
+            if (edbDataDatasource == null)
             {
                 return;
             }
 
             OdbcDriver driver;
-            OdbcDriverInstalled = _odbcManager.OdbcDriverInstalled(edbDatasourceModule.GetCorrectDriverName(), out driver);
+            OdbcDriverInstalled = _odbcManager.OdbcDriverInstalled(edbDataDatasource.GetCorrectDriverName(), out driver);
             OdbcDriver = driver;
             var sb = new StringBuilder();
 

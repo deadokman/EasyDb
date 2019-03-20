@@ -9,7 +9,7 @@ namespace EDb.Interfaces
     /// <summary>
     /// Produces querys for datasource module
     /// </summary>
-    public interface IEdbModuleQueryProducer
+    public interface IEdbDataSourceQueryProducer
     {
         /// <summary>
         /// Returns connection test query for datasource module

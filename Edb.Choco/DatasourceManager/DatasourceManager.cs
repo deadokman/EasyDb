@@ -93,12 +93,12 @@ namespace EasyDb.SandboxEnvironment
         /// </summary>
         /// <param name="module">datasource module</param>
         /// <returns>User defined datasource</returns>
-        public UserDatasourceConfiguration CreateDataSourceConfig(IEdbSourceModule module)
+        public UserDatasourceConfiguration CreateDataSourceConfig(IEdbDataSource module)
         {
             var udsConfig = new UserDatasourceConfiguration();
-            udsConfig.ModuleGuid = module.ModuleGuid;
+            udsConfig.DatasoureGuid = module.ModuleGuid;
             udsConfig.ConfigurationGuid = Guid.NewGuid();
-            udsConfig.SettingsObjects = module.GetOptions();
+            udsConfig.OptionsObjects = module.GetOptions();
             return udsConfig;
         }
 
@@ -138,9 +138,9 @@ namespace EasyDb.SandboxEnvironment
                     var proxyInstanceHandle =
                         Activator.CreateInstanceFrom(
                         untrustedDomain,
-                        typeof(EdbModuleProxy).Assembly.ManifestModule.FullyQualifiedName,
-                        typeof(EdbModuleProxy).FullName);
-                    var edbModuleProxy = (EdbModuleProxy)proxyInstanceHandle.Unwrap();
+                        typeof(EdbDataProxy).Assembly.ManifestModule.FullyQualifiedName,
+                        typeof(EdbDataProxy).FullName);
+                    var edbModuleProxy = (EdbDataProxy)proxyInstanceHandle.Unwrap();
                     if (!edbModuleProxy.InitializeProxyIntance(assmFile))
                     {
                         this._logger.Warn(new Exception($"Assembly: {assmFile} skipped, because it does not implement EasyDb module interface"));
@@ -186,13 +186,13 @@ namespace EasyDb.SandboxEnvironment
             foreach (var uds in serializedSources)
             {
                 // Check that user defined data source exists in datasource module
-                if (this._supportedDataSources.ContainsKey(uds.ModuleGuid))
+                if (this._supportedDataSources.ContainsKey(uds.DatasoureGuid))
                 {
                     this.UserDatasourceConfigurations.Add(uds);
                 }
                 else
                 {
-                    _logger.Error($"Cannot find module GUID: [{uds.ModuleGuid}] while loading user datasource config [{uds.ConfigurationGuid}]", uds.Name);
+                    _logger.Error($"Cannot find module GUID: [{uds.DatasoureGuid}] while loading user datasource config [{uds.ConfigurationGuid}]", uds.Name);
                 }
             }
 
@@ -209,7 +209,7 @@ namespace EasyDb.SandboxEnvironment
         /// </summary>
         /// <param name="guid">Module identifier</param>
         /// <returns>Module instance</returns>
-        public IEdbSourceModule GetModuleByGuid(Guid guid)
+        public IEdbDataSource GetModuleByGuid(Guid guid)
         {
             return this._supportedDataSources[guid].Module;
         }
@@ -291,7 +291,7 @@ namespace EasyDb.SandboxEnvironment
             var fileIOpermissions = new FileIOPermission(FileIOPermissionAccess.Read, assemblies);
             fileIOpermissions.AddPathList(FileIOPermissionAccess.PathDiscovery, assemblies);
             permSet.AddPermission(fileIOpermissions);
-            AssemblyName name = typeof(EdbModuleProxy).Assembly.GetName();
+            AssemblyName name = typeof(EdbDataProxy).Assembly.GetName();
             var strongName = new StrongName(
                 new StrongNamePublicKeyBlob(name.GetPublicKey()),
                 name.Name,

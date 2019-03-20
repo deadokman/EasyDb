@@ -45,7 +45,7 @@
         /// </summary>
         /// <param name="module">Database driver</param>
         /// <returns>User defined data source</returns>
-        UserDatasourceConfiguration CreateDataSourceConfig(IEdbSourceModule module);
+        UserDatasourceConfiguration CreateDataSourceConfig(IEdbDataSource module);
 
         /// <summary>
         /// Добавить объявленный пользователем источник данных в список
@@ -64,7 +64,7 @@
         /// </summary>
         /// <param name="guid">Module identifier</param>
         /// <returns>Module instance</returns>
-        IEdbSourceModule GetModuleByGuid(Guid guid);
+        IEdbDataSource GetModuleByGuid(Guid guid);
 
         /// <summary>
         /// Save datasource configuration to config file at hard drive

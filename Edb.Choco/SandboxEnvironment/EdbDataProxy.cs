@@ -5,7 +5,6 @@
     using System.Reflection;
     using System.Runtime.InteropServices;
     using System.Security;
-
     using EDb.Interfaces;
     using EDb.Interfaces.Objects;
     using EDb.Interfaces.Options;
@@ -16,23 +15,23 @@
     [SecuritySafeCritical]
     [ComVisible(true)]
     [Serializable]
-    public class EdbModuleProxy : IEdbSourceModule
+    public class EdbDataProxy : IEdbDataSource
     {
         /// <summary>
         /// Poxy entity subject
         /// </summary>
-        private EdbDatasourceModule _proxySubject;
+        private EdbDataDatasource _proxySubject;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EdbModuleProxy"/> class.
+        /// Initializes a new instance of the <see cref="EdbDataProxy"/> class.
         /// </summary>
-        public EdbModuleProxy()
+        public EdbDataProxy()
         {
             this.SupportDbModuleInstance = false;
         }
 
         /// <summary>
-        /// Gets the ModuleGuid
+        /// Gets the DatasoureGuid
         /// Module unique GUID
         /// </summary>
         public Guid ModuleGuid => this._proxySubject.ModuleGuid;
@@ -90,7 +89,7 @@
         /// <summary>
         /// Query producer
         /// </summary>
-        public IEdbModuleQueryProducer QueryModuleProducer => this._proxySubject.QueryModuleProducer;
+        public IEdbDataSourceQueryProducer QueryProducer => this._proxySubject.QueryProducer;
 
         /// <summary>
         /// Gets module source options collection
@@ -110,11 +109,11 @@
         {
             var assembly = Assembly.LoadFrom(assemblyPath);
             var types = assembly.GetTypes().Where(
-                t => !t.IsAbstract && t.IsClass && t.GetInterfaces().Any(iface => iface == typeof(IEdbSourceModule))).ToArray();
+                t => !t.IsAbstract && t.IsClass && t.GetInterfaces().Any(iface => iface == typeof(IEdbDataSource))).ToArray();
 
             if (types.Length > 1)
             {
-                throw new Exception($"Module assembly: {assembly.FullName} contains more than one interface EdbDatasourceModule");
+                throw new Exception($"Module assembly: {assembly.FullName} contains more than one interface EdbDataDatasource");
             }
 
             if (types.Length == 0)
@@ -157,6 +156,16 @@
         }
 
         /// <summary>
+        /// Creates connection string for datasoure
+        /// </summary>
+        /// <param name="options">Datasource options</param>
+        /// <returns>Returns connection string</returns>
+        public string IntroduceConnectionString(EdbSourceOption[] options)
+        {
+            return this._proxySubject.IntroduceConnectionString(options);
+        }
+
+        /// <summary>
         /// Set guid
         /// </summary>
         /// <param name="guid">guid</param>
@@ -178,12 +187,12 @@
         /// Process plugin type
         /// </summary>
         /// <param name="t">The t<see cref="Type"/></param>
-        /// <returns>The <see cref="EdbDatasourceModule"/></returns>
-        private EdbDatasourceModule ProcessType(Type t)
+        /// <returns>The <see cref="EdbDataDatasource"/></returns>
+        private EdbDataDatasource ProcessType(Type t)
         {
             try
             {
-                return (EdbDatasourceModule)Activator.CreateInstance(t);
+                return (EdbDataDatasource)Activator.CreateInstance(t);
             }
             catch (Exception ex)
             {

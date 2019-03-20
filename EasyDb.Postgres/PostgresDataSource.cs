@@ -10,7 +10,7 @@
     /// Defines the <see cref="PostgresDataSource" />
     /// </summary>
     [EdbDatasource("E7B64810-1527-4954-B93B-6C7E46F31E2E", "0.0.1")]
-    public class PostgresDataSource : EdbDatasourceModule
+    public class PostgresDataSource : EdbDataDatasource
     {
         /// <summary>
         /// Gets the DatabaseName
@@ -78,6 +78,16 @@
         /// <summary>
         /// Query module producer
         /// </summary>
-        public override IEdbModuleQueryProducer QueryModuleProducer { get; }
+        public override IEdbDataSourceQueryProducer QueryProducer { get; }
+
+        /// <summary>
+        /// Creates connection string for datasoure
+        /// </summary>
+        /// <param name="options">Datasource options</param>
+        /// <returns>Returns connection string</returns>
+        public override string IntroduceConnectionString(EdbSourceOption[] options)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

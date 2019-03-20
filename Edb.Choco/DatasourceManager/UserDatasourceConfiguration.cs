@@ -23,10 +23,10 @@
         public string Comment { get; set; }
 
         /// <summary>
-        /// Gets or sets the ModuleGuid
+        /// Gets or sets the DatasoureGuid
         /// Идентификатор записи источника данных
         /// </summary>
-        public Guid ModuleGuid { get; set; }
+        public Guid DatasoureGuid { get; set; }
 
         /// <summary>
         /// Gets or sets the Name
@@ -35,9 +35,9 @@
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the SettingsObjects
+        /// Gets or sets the OptionsObjects
         /// Общие настройки источника данных
         /// </summary>
-        public EdbSourceOption[] SettingsObjects { get; set; }
+        public EdbSourceOption[] OptionsObjects { get; set; }
     }
 }
