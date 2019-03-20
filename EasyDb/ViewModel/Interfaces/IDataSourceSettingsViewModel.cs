@@ -38,6 +38,21 @@ namespace EasyDb.ViewModel.Interfaces
         ICommand CloseSettingsWindowCmd { get; set; }
 
         /// <summary>
+        /// Test database connection
+        /// </summary>
+        ICommand TestConnection { get; set; }
+
+        /// <summary>
+        /// True if Database connection valid
+        /// </summary>
+        bool DatabaseConnectionValid { get; set; }
+
+        /// <summary>
+        /// Processing database connection
+        /// </summary>
+        bool DatabaseConnectionInProgress { get; set; }
+
+        /// <summary>
         /// Password secure string
         /// </summary>
         SecureString PasswordSecureString { get; set; }

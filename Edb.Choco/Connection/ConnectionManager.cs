@@ -1,24 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Odbc;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EasyDb.Model;
-using Edb.Environment.Interface;
-using Edb.Environment.Model;
-using EDb.Interfaces.Annotations;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="ConnectionManager.cs" company="SimpleExample">
+//   SimpleExample
+// </copyright>
+// <summary>
+//   Connections manager
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 namespace Edb.Environment.Connection
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Data.Odbc;
+    using System.Diagnostics.CodeAnalysis;
+
+    using EasyDb.Model;
+
+    using Edb.Environment.Interface;
+    using Edb.Environment.Model;
+
+    using EDb.Interfaces.Annotations;
+
     /// <summary>
-    /// Менеджер подключений
+    /// Connections manager
     /// </summary>
     public class ConnectionManager : IConnectionManager
     {
+        /// <summary>
+        /// The _datasource manager.
+        /// </summary>
         private readonly IDataSourceManager _datasourceManager;
 
-        private Dictionary<Guid, IEDbConnectionLink> _connectionLinks;
+        /// <summary>
+        /// The _connection links.
+        /// </summary>
+        private readonly Dictionary<Guid, IEDbConnectionLink> _connectionLinks;
 
         /// <summary>
         /// Creates 
@@ -62,6 +78,11 @@ namespace Edb.Environment.Connection
         public IEnumerable<IEDbConnectionLink> ListConnections()
         {
             return _connectionLinks.Values;
+        }
+
+        public void CloseConnectionForSource(Guid userDatasourceId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,23 +1,17 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="IChocolateyController.cs" company="">
-//   
+// <copyright file="IChocolateyController.cs" company="SimpleExample">
+//   Controlls chocolatey packages
 // </copyright>
 // <summary>
-//   Defines the <see cref="IChocolateyController" />
+//   Defines the
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace Edb.Environment.Interface
 {
     using System;
     using System.Threading.Tasks;
-
-    using chocolatey.infrastructure.app.domain;
     using chocolatey.infrastructure.results;
-
     using Edb.Environment.Model;
-
-    using NuGet;
 
     /// <summary>
     /// Defines the <see cref="IChocolateyController" />
@@ -64,30 +58,30 @@ namespace Edb.Environment.Interface
         /// Install package from chocolatey
         /// </summary>
         /// <param name="id">Package ID</param>
-        /// <param name="version">Version</param>
-        /// <param name="source">URL</param>
+        /// <param name="version">package Version</param>
+        /// <param name="source">URL to packages source</param>
         /// <param name="force">Force install</param>
-        /// <returns></returns>
+        /// <returns>Result of package operation</returns>
         Task<PackageOperationResult> InstallPackage(string id, string version = null, Uri source = null, bool force = false);
 
 
         /// <summary>
         /// Get information about chocolatey package
         /// </summary>
-        /// <param name="package">Choco package information</param>
-        /// <returns></returns>
+        /// <param name="packageId">Choco package Id</param>
+        /// <returns>Result of package information extraction</returns>
         Task<PackageResult> GetPackageInformation(string packageId);
 
         /// <summary>
         /// Register choco message listner
         /// </summary>
-        /// <param name="listner">listner</param>
+        /// <param name="listner">Cohoclatey message listner</param>
         void RegisterLisner(IChocoMessageListner listner);
 
         /// <summary>
         /// Unregister choco message listner
         /// </summary>
-        /// <param name="listner">listner</param>
+        /// <param name="listner">Cohoclatey message listner</param>
         void UnregisterLisner(IChocoMessageListner listner);
     }
 }

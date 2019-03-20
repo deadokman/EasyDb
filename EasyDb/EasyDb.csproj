@@ -166,6 +166,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\StyleCop\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
     <Compile Include="Converters\BoolToBlurRadiusConverter.cs" />
     <Compile Include="Converters\DoubleToIntegerConverter.cs" />
     <Compile Include="Converters\EmptyConverter.cs" />
@@ -180,7 +183,6 @@
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
     <Compile Include="Converters\SettingsSizeLimitConverter.cs" />
     <Compile Include="Ext\PasswordHelperExtensions.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ViewModel\DbExplorer\DbExplorerViewModel.cs" />
     <Compile Include="ViewModel\Interfaces\IDataSourceSettingsViewModel.cs" />
     <Compile Include="Interfaces\IPasswordStorage.cs" />
@@ -188,7 +190,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\Choco\ChocolateyInstallViewModel.cs" />
     <Compile Include="ViewModel\Choco\IChocolateyInstallViewModel.cs" />
-    <Compile Include="ViewModel\DataSource\DatasourceViewModel.cs" />
+    <Compile Include="ViewModel\DataSource\DatasourceSettingsViewModel.cs" />
     <Compile Include="ViewModel\DataSource\UserDataSourceViewModelItem.cs" />
     <Compile Include="ViewModel\Interfaces\IOdbcManagerViewModel.cs" />
     <Compile Include="ViewModel\OdbcManagerViewModel.cs" />
@@ -478,10 +480,12 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="..\StyleCop\EasyDb.header">
+      <Link>EasyDb.header</Link>
+    </None>
     <None Include="..\StyleCop\MinimumRecommendedRules.ruleset">
       <Link>MinimumRecommendedRules.ruleset</Link>
     </None>
-    <None Include="EasyDb.header" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

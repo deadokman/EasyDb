@@ -31,6 +31,7 @@ namespace EasyDb
 
     using Edb.Environment;
     using Edb.Environment.Chocolatey;
+    using Edb.Environment.Connection;
     using Edb.Environment.Interface;
 
     using MahApps.Metro;
@@ -172,12 +173,12 @@ namespace EasyDb
             var builder = AutofacServiceLocator.Instance.GetBuilder();
             builder.RegisterModule<NLogModule>();
             builder.RegisterType<DatasourceManager>().As<IDataSourceManager>().SingleInstance();
-            builder.RegisterType<DatasourceViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
             builder.RegisterType<DialogCoordinator>().As<IDialogCoordinator>().SingleInstance();
             builder.RegisterType<ChocoController>().As<IChocolateyController>().SingleInstance();
             builder.RegisterType<PasswordStoreSecureWindows>().As<IPasswordStorage>().SingleInstance();
             builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
             builder.RegisterType<Messenger>().As<IMessenger>().SingleInstance();
+            builder.RegisterType<ConnectionManager>().As<IConnectionManager>().SingleInstance();
 
             // View models
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
@@ -186,8 +187,8 @@ namespace EasyDb
             builder.RegisterType<LoginViewModel>().As<LoginViewModel>().SingleInstance();
             builder.RegisterType<ChocolateyInstallViewModel>().As<IChocolateyInstallViewModel>().SingleInstance();
             builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
-            builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
             builder.RegisterType<DbExplorerViewModel>().As<DbExplorerViewModel>().SingleInstance();
+            builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
         }
 

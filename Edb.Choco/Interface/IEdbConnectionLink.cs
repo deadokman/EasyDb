@@ -7,12 +7,12 @@ namespace Edb.Environment.Interface
     /// <summary>
     /// Easy DB connection link 
     /// </summary>
-    public interface IEDbConnectionLink : IDisposable
+    public interface IEDbConnectionLink : IDisposable, IDbConnection
     {
         /// <summary>
         /// Reference to real database connection
         /// </summary>
-        IDbConnection DatabaseConnection { get; set; }
+        IDbConnection UnderlyingConnection { get; }
 
         /// <summary>
         /// Edb datasource GUID

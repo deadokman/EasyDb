@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\StyleCop\MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -88,6 +89,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\StyleCop\GlobalSuppressions.cs">
+      <Link>GlobalSuppressions.cs</Link>
+    </Compile>
     <Compile Include="Chocolatey\ChocoController.cs" />
     <Compile Include="Chocolatey\ChocolateyExtensions.cs" />
     <Compile Include="CommunicationArgs\DatasourcesIniaialized.cs" />
@@ -119,6 +123,12 @@
     <Compile Include="SupportExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\StyleCop\EasyDb.header">
+      <Link>EasyDb.header</Link>
+    </None>
+    <None Include="..\StyleCop\MinimumRecommendedRules.ruleset">
+      <Link>MinimumRecommendedRules.ruleset</Link>
+    </None>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

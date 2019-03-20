@@ -1,5 +1,4 @@
-﻿using System.IO;
-using EasyDb.ViewModel.DataSource.Items;
+﻿using EasyDb.ViewModel.DataSource.Items;
 using EasyDb.ViewModel.Interfaces;
 using Edb.Environment.Interface;
 using Edb.Environment.Model;
@@ -8,10 +7,7 @@ using MahApps.Metro.Controls;
 namespace EasyDb.ViewModel.DataSource
 {
     using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel;
-    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Security;
     using System.Text;
@@ -20,7 +16,6 @@ namespace EasyDb.ViewModel.DataSource
     using Annotations;
 
     using EasyDb.Interfaces;
-    using EasyDb.Model;
     using EasyDb.View.DataSource;
     using Edb.Environment.DatasourceManager;
     using EDb.Interfaces;
@@ -33,7 +28,7 @@ namespace EasyDb.ViewModel.DataSource
     /// <summary>
     /// Implements logic for datasource creation control
     /// </summary>
-    public class DatasourceViewModel : IDataSourceSettingsViewModel, INotifyPropertyChanged
+    public class DatasourceSettingsViewModel : IDataSourceSettingsViewModel, INotifyPropertyChanged
     {
         private const string NoDriverResourceName = "dsms_err_no_driver";
         private const string NoChocolateyResourceName = "dsms_err_no_autoinstall";
@@ -67,8 +62,12 @@ namespace EasyDb.ViewModel.DataSource
 
         private bool _storePasswordSecure;
 
+        private bool _databaseConnectionValid;
+
+        private bool _databaseConnectionInProgress;
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="DatasourceViewModel"/> class.
+        /// Initializes a new instance of the <see cref="DatasourceSettingsViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
         /// <param name="passwordStorage">Password storage implementation</param>
@@ -76,14 +75,21 @@ namespace EasyDb.ViewModel.DataSource
         /// <param name="odbcManager">Odbc driver managment repository</param>
         /// <param name="chocoController">Choco controller</param>
         /// <param name="logger">Logger instance</param>
-        public DatasourceViewModel(
+        /// <param name="connectionManager">Connection manager</param>
+        public DatasourceSettingsViewModel(
             [NotNull] IDataSourceManager manager,
             [NotNull] IPasswordStorage passwordStorage,
            [NotNull] IDialogCoordinator dialogCoord,
            [NotNull] IOdbcManager odbcManager,
            [NotNull] IChocolateyController chocoController,
-           [NotNull] ILogger logger)
+           [NotNull] ILogger logger,
+            [NotNull] IConnectionManager connectionManager)
         {
+            if (connectionManager == null)
+            {
+                throw new ArgumentNullException(nameof(connectionManager));
+            }
+
             this._datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
             this._passwordStorage = passwordStorage ?? throw new ArgumentNullException(nameof(passwordStorage));
             this._dialogCoordinator = dialogCoord ?? throw new ArgumentNullException(nameof(dialogCoord));
@@ -167,7 +173,24 @@ namespace EasyDb.ViewModel.DataSource
             this.CloseSettingsWindowCmd = new RelayCommand<MetroWindow>(
                 (w) =>
                     {
-                        throw new NotImplementedException();
+                        w.Close();
+                    });
+
+            this.TestConnection = new RelayCommand(
+                () =>
+                    {
+                        DatabaseConnectionInProgress = true;
+                        if (EditingUserDatasource.AllValid())
+                        {
+                            using (var conn = connectionManager.ProduceDbConnection(EditingUserDatasource.DsConfiguration))
+                            {
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            WarningMessage = "$cannottestinvalid";
+                        }
                     });
         }
 
@@ -291,6 +314,37 @@ namespace EasyDb.ViewModel.DataSource
         /// Закрыть окно настроек источника данных
         /// </summary>
         public ICommand CloseSettingsWindowCmd { get; set; }
+
+        /// <summary>
+        /// Test database connection
+        /// </summary>
+        public ICommand TestConnection { get; set; }
+
+        /// <summary>
+        /// True if Database connection valid
+        /// </summary>
+        public bool DatabaseConnectionValid
+        {
+            get => this._databaseConnectionValid;
+            set
+            {
+                this._databaseConnectionValid = value;
+                this.OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Processing database connection
+        /// </summary>
+        public bool DatabaseConnectionInProgress
+        {
+            get => this._databaseConnectionInProgress;
+            set
+            {
+                this._databaseConnectionInProgress = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// Password secure string

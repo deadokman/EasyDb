@@ -27,5 +27,11 @@ namespace Edb.Environment.Interface
         /// <returns>Returns all avaliable connections</returns>
         IEnumerable<IEDbConnectionLink> ListConnections();
 
+        /// <summary>
+        /// Closing connection for user datasource for id
+        /// </summary>
+        /// <param name="userDatasourceId">Identifier of userdatasource configuration</param>
+        void CloseConnectionForSource(Guid userDatasourceId);
+
     }
 }
