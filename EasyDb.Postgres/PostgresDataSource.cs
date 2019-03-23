@@ -1,9 +1,12 @@
 ﻿namespace EasyDb.Postgres
 {
+    using System;
+
     using Options;
     using EDb.Interfaces;
     using EDb.Interfaces.Objects;
     using System.IO;
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -12,6 +15,9 @@
     [EdbDatasource("E7B64810-1527-4954-B93B-6C7E46F31E2E", "0.0.1")]
     public class PostgresDataSource : EdbDataDatasource
     {
+        // PostgreSQL
+        private readonly string _connectionStringTemplate = "Driver={5};Server={0};Port={1};Database={2};\r\nUid={3};Pwd={4}";
+
         /// <summary>
         /// Gets the DatabaseName
         /// </summary>
@@ -87,7 +93,21 @@
         /// <returns>Returns connection string</returns>
         public override string IntroduceConnectionString(EdbSourceOption[] options)
         {
-            throw new System.NotImplementedException();
+            var generalOptions = options.OfType<GeneralOption>().FirstOrDefault();
+            if (generalOptions != null)
+            {
+                // Driver={PostgreSQL};Server={0};Port={1};Database={2};\r\nUid={3};Pwd={4}
+                return string.Format(
+                    _connectionStringTemplate,
+                    generalOptions.Host,
+                    generalOptions.Port,
+                    generalOptions.Database,
+                    generalOptions.User,
+                    generalOptions.Password,
+                    "{PostgreSQL}");
+            }
+
+            throw new Exception($"Cannot fild supported option type {nameof(GeneralOption)}");
         }
     }
 }

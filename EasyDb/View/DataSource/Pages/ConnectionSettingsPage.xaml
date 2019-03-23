@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
         <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource AccentColorBrush}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10">
             <StackPanel Background="{DynamicResource AccentColorBrush4}">
-                <Button ToolTip="{StaticResource dsms_test_connection_button}" Style="{StaticResource MetroCircleButton_30}" >
+                <Button Command="{Binding TestConnection}" ToolTip="{StaticResource dsms_test_connection_button}" Style="{StaticResource MetroCircleButton_30}" >
                     <iconPacks:PackIconMaterial Kind="ConsoleNetwork" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
                 </Button>
             </StackPanel>

@@ -43,6 +43,11 @@ namespace EasyDb.ViewModel.Interfaces
         ICommand TestConnection { get; set; }
 
         /// <summary>
+        /// Supported datasource collection
+        /// </summary>
+        SupportedSourceItem[] SupportedDatasources { get; set; }
+
+        /// <summary>
         /// True if Database connection valid
         /// </summary>
         bool DatabaseConnectionValid { get; set; }

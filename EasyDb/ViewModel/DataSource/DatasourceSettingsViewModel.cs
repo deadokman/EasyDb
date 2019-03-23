@@ -8,6 +8,7 @@ namespace EasyDb.ViewModel.DataSource
 {
     using System;
     using System.ComponentModel;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Security;
     using System.Text;
@@ -15,11 +16,16 @@ namespace EasyDb.ViewModel.DataSource
     using System.Windows.Input;
     using Annotations;
 
+    using EasyDb.Commands;
     using EasyDb.Interfaces;
     using EasyDb.View.DataSource;
+
+    using Edb.Environment.CommunicationArgs;
     using Edb.Environment.DatasourceManager;
     using EDb.Interfaces;
     using GalaSoft.MvvmLight.CommandWpf;
+    using GalaSoft.MvvmLight.Messaging;
+
     using MahApps.Metro.Controls.Dialogs;
     using NuGet;
     using ILogger = Autofac.Extras.NLog.ILogger;
@@ -66,6 +72,8 @@ namespace EasyDb.ViewModel.DataSource
 
         private bool _databaseConnectionInProgress;
 
+        private SupportedSourceItem[] _supportedDatasources;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceSettingsViewModel"/> class.
         /// </summary>
@@ -76,6 +84,7 @@ namespace EasyDb.ViewModel.DataSource
         /// <param name="chocoController">Choco controller</param>
         /// <param name="logger">Logger instance</param>
         /// <param name="connectionManager">Connection manager</param>
+        /// <param name="messenger">view model messenger</param>
         public DatasourceSettingsViewModel(
             [NotNull] IDataSourceManager manager,
             [NotNull] IPasswordStorage passwordStorage,
@@ -83,11 +92,17 @@ namespace EasyDb.ViewModel.DataSource
            [NotNull] IOdbcManager odbcManager,
            [NotNull] IChocolateyController chocoController,
            [NotNull] ILogger logger,
-            [NotNull] IConnectionManager connectionManager)
+            [NotNull] IConnectionManager connectionManager,
+            [NotNull] IMessenger messenger)
         {
             if (connectionManager == null)
             {
                 throw new ArgumentNullException(nameof(connectionManager));
+            }
+
+            if (messenger == null)
+            {
+                throw new ArgumentNullException(nameof(messenger));
             }
 
             this._datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
@@ -96,14 +111,18 @@ namespace EasyDb.ViewModel.DataSource
             this._odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
             this._chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
             this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            SupportedDatasources = this._datasourceManager.SupportedDatasources.ToArray();
 
-            this.RefreshPackageInformationCmd = new RelayCommand(() =>
+            // Reaction on datasources loaded communication message
+            messenger.Register(this, new Action<DatasourcesIniaialized>(iniaialized => SupportedDatasources = iniaialized.SupportedSources.ToArray()));
+
+            this.RefreshPackageInformationCmd = new EDbCommand(() =>
             {
                 LoadPackageInformation(SelectedSourceItem?.Module);
                 RefreshDriverInformation(SelectedSourceItem?.Module);
             });
 
-            InstallPackageAutoCmd = new RelayCommand(async () =>
+            InstallPackageAutoCmd = new EDbCommand(async () =>
             {
                 if (Package != null && AutoinstallSupportred)
                 {
@@ -131,7 +150,7 @@ namespace EasyDb.ViewModel.DataSource
                 }
             });
 
-            this.CloseInformationMessageCmd = new RelayCommand(
+            this.CloseInformationMessageCmd = new EDbCommand(
                 () =>
                 {
                     this.WarningMessage = string.Empty;
@@ -140,7 +159,7 @@ namespace EasyDb.ViewModel.DataSource
                     this.SelectedSourceItem = null;
                 });
 
-            this.ApplyDatasourceSettingsCmd = new RelayCommand<MetroWindow>(
+            this.ApplyDatasourceSettingsCmd = new EDbCommand<MetroWindow>(
                 (w) =>
                     {
                         if (!this.EditingUserDatasource.AllValid())
@@ -176,7 +195,7 @@ namespace EasyDb.ViewModel.DataSource
                         w.Close();
                     });
 
-            this.TestConnection = new RelayCommand(
+            this.TestConnection = new EDbCommand(
                 () =>
                     {
                         DatabaseConnectionInProgress = true;
@@ -319,6 +338,19 @@ namespace EasyDb.ViewModel.DataSource
         /// Test database connection
         /// </summary>
         public ICommand TestConnection { get; set; }
+
+        /// <summary>
+        /// Supported datasource collection
+        /// </summary>
+        public SupportedSourceItem[] SupportedDatasources
+        {
+            get => this._supportedDatasources;
+            set
+            {
+                this._supportedDatasources = value;
+                this.OnPropertyChanged();
+            }
+        }
 
         /// <summary>
         /// True if Database connection valid
