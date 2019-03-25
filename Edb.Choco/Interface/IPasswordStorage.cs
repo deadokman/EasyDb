@@ -1,8 +1,8 @@
-﻿namespace EasyDb.Interfaces
-{
-    using System;
-    using System.Security;
+﻿using System;
+using System.Security;
 
+namespace Edb.Environment.Interface
+{
     /// <summary>
     /// Interface for password storage
     /// </summary>

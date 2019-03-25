@@ -1,4 +1,6 @@
-﻿namespace EasyDb.Postgres
+﻿using EasyDb.Postgres.QueryProducing;
+
+namespace EasyDb.Postgres
 {
     using System;
 
@@ -19,9 +21,9 @@
         private readonly string _connectionStringTemplate = "Driver={5};Server={0};Port={1};Database={2};\r\nUid={3};Pwd={4}";
 
         /// <summary>
-        /// Gets the DatabaseName
+        /// Gets the DatasourceName
         /// </summary>
-        public override string DatabaseName => "PostgreSql";
+        public override string DatasourceName => "PostgreSql";
 
         /// <summary>
         /// Gets the SupportedTypes
@@ -74,17 +76,12 @@
         /// <summary>
         /// ODBC driver name inside operating system
         /// </summary>
-        public override string OdbcSystemDriverName => "PostgreSQL ANSI(x64)";
+        public override string OdbcSystemDriverName => "PostgreSQL Unicode(x64)";
 
         /// <summary>
         /// Driver name for x32 architecture systems
         /// </summary>
-        public override string OdbcSystem32DriverName => "PostgreSQL ANSI(x32)";
-
-        /// <summary>
-        /// Query module producer
-        /// </summary>
-        public override IEdbDataSourceQueryProducer QueryProducer { get; }
+        public override string OdbcSystem32DriverName => "PostgreSQL Unicode";
 
         /// <summary>
         /// Creates connection string for datasoure
@@ -104,10 +101,19 @@
                     generalOptions.Database,
                     generalOptions.User,
                     generalOptions.Password,
-                    "{PostgreSQL}");
+                    "{" + OdbcSystemDriverName + "}");
             }
 
             throw new Exception($"Cannot fild supported option type {nameof(GeneralOption)}");
+        }
+
+        /// <summary>
+        /// Database query producer
+        /// </summary>
+        /// <returns>Instance of database query producer</returns>
+        public override IEdbDataSourceQueryProducer GetQueryProducer()
+        {
+            return new PostgresQueryProducer();
         }
     }
 }

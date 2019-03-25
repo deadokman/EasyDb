@@ -10,7 +10,6 @@
     using System.Windows.Input;
     using EasyDb.Annotations;
     using EasyDb.Commands;
-    using EasyDb.Interfaces;
     using EasyDb.View.DataSource;
     using EasyDb.ViewModel.Interfaces;
     using Edb.Environment.CommunicationArgs;

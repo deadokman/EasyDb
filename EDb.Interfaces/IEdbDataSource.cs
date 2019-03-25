@@ -11,10 +11,10 @@ namespace EDb.Interfaces
     public interface IEdbDataSource
     {
         /// <summary>
-        /// Gets the DatabaseName
+        /// Gets the DatasourceName
         /// Имя модуля СУБД
         /// </summary>
-        string DatabaseName { get; }
+        string DatasourceName { get; }
 
         /// <summary>
         /// Gets the SupportedTypes
@@ -85,11 +85,6 @@ namespace EDb.Interfaces
         ModuleOptionDefinition[] GetOptionsDefenitions();
 
         /// <summary>
-        /// Query producer
-        /// </summary>
-        IEdbDataSourceQueryProducer QueryProducer { get; }
-
-        /// <summary>
         /// Creates connection string for datasoure
         /// </summary>
         /// <param name="options">Datasource options</param>
@@ -101,5 +96,11 @@ namespace EDb.Interfaces
         /// </summary>
         /// <param name="guid">The guid<see cref="Guid"/></param>
         void SetGuid(Guid guid);
+
+        /// <summary>
+        /// Get database query producer
+        /// </summary>
+        /// <returns></returns>
+        IEdbDataSourceQueryProducer GetQueryProducer();
     }
 }

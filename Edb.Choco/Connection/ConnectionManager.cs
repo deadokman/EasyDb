@@ -7,17 +7,17 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Security;
+
 namespace Edb.Environment.Connection
 {
     using System;
     using System.Collections.Generic;
     using System.Data.Odbc;
-    using System.Diagnostics.CodeAnalysis;
-
     using EasyDb.Model;
 
-    using Edb.Environment.Interface;
-    using Edb.Environment.Model;
+    using Interface;
+    using Model;
 
     using EDb.Interfaces.Annotations;
 
@@ -31,6 +31,8 @@ namespace Edb.Environment.Connection
         /// </summary>
         private readonly IDataSourceManager _datasourceManager;
 
+        private readonly IPasswordStorage _passwordStorage;
+
         /// <summary>
         /// The _connection links.
         /// </summary>
@@ -40,9 +42,10 @@ namespace Edb.Environment.Connection
         /// Creates 
         /// </summary>
         /// <param name="datasourceManager">Datasource manager</param>
-        public ConnectionManager(IDataSourceManager datasourceManager)
+        public ConnectionManager(IDataSourceManager datasourceManager, IPasswordStorage passwordStorage)
         {
-            _datasourceManager = datasourceManager;
+            _datasourceManager = datasourceManager ?? throw new ArgumentNullException(nameof(datasourceManager));
+            _passwordStorage = passwordStorage ?? throw new ArgumentNullException(nameof(passwordStorage));
             _connectionLinks = new Dictionary<Guid, IEDbConnectionLink>();
         }
 
@@ -50,8 +53,9 @@ namespace Edb.Environment.Connection
         /// Produce connection for datasource config
         /// </summary>
         /// <param name="datasourceConfig">User datasource confiuration</param>
+        /// <param name="passwordStr">Password secure string</param>
         /// <returns></returns>
-        public IEDbConnectionLink ProduceDbConnection([NotNull] UserDatasourceConfiguration datasourceConfig)
+        public IEDbConnectionLink ProduceDbConnection([NotNull] UserDatasourceConfiguration datasourceConfig, SecureString passwordStr = null)
         {
             if (datasourceConfig == null)
             {
@@ -62,9 +66,16 @@ namespace Edb.Environment.Connection
             if (!_connectionLinks.TryGetValue(datasourceConfig.ConfigurationGuid, out connectionLink))
             {
                 var module = _datasourceManager.GetModuleByGuid(datasourceConfig.DatasoureGuid);
+
+                // restore password from storage
+                if (passwordStr == null && !_passwordStorage.TryGetPluginPassword(out passwordStr, datasourceConfig.ConfigurationGuid))
+                {
+                    throw new Exception("Password does not supplied");
+                }
+
                 var connectionString = module.IntroduceConnectionString(datasourceConfig.OptionsObjects);
                 var connection = new OdbcConnection(connectionString);
-                connectionLink =  new EDbConnectionLink(datasourceConfig, connection);
+                connectionLink = new EDbConnectionLink(datasourceConfig, connection);
                 _connectionLinks.Add(datasourceConfig.ConfigurationGuid, connectionLink);
             }
 

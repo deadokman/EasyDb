@@ -5,7 +5,7 @@ using System.Security.Permissions;
 namespace EDb.Interfaces
 {
     using EDb.Interfaces.Objects;
-    using EDb.Interfaces.Options;
+    using Options;
     using System;
     using System.Data;
     using System.Linq;
@@ -16,10 +16,10 @@ namespace EDb.Interfaces
     public abstract class EdbDataDatasource : MarshalByRefObject, IEdbDataSource
     {
         /// <summary>
-        /// Gets the DatabaseName
+        /// Gets the DatasourceName
         /// Имя модуля СУБД
         /// </summary>
-        public abstract string DatabaseName { get; }
+        public abstract string DatasourceName { get; }
 
         /// <summary>
         /// Gets the SupportedTypes
@@ -95,11 +95,6 @@ namespace EDb.Interfaces
             return GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
         }
 
-        /// <summary>
-        /// Query producer
-        /// </summary>
-        public abstract IEdbDataSourceQueryProducer QueryProducer { get; }
-
         [SecurityCritical]
         public override object InitializeLifetimeService()
         {
@@ -121,5 +116,11 @@ namespace EDb.Interfaces
         {
             ModuleGuid = guid;
         }
+
+        /// <summary>
+        /// Database query producer
+        /// </summary>
+        /// <returns>Instance of database query producer</returns>
+        public abstract IEdbDataSourceQueryProducer GetQueryProducer();
     }
 }

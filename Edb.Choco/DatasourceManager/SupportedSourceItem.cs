@@ -50,10 +50,10 @@
         }
 
         /// <summary>
-        /// Gets the DatabaseName
+        /// Gets the DatasourceName
         /// Имя источника данных
         /// </summary>
-        public string DatabaseName => _dataSource.DatabaseName;
+        public string DatabaseName => _dataSource.DatasourceName;
 
         /// <summary>
         /// Gets or sets the Module

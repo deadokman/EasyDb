@@ -120,6 +120,7 @@
     <Compile Include="Interface\IChocoMessageListner.cs" />
     <Compile Include="Interface\IEDbConnectionLink.cs" />
     <Compile Include="Interface\IOdbcManager.cs" />
+    <Compile Include="Interface\IPasswordStorage.cs" />
     <Compile Include="Keyhook\EKeyType.cs" />
     <Compile Include="Keyhook\EState.cs" />
     <Compile Include="Keyhook\KeyboardEventArgs.cs" />

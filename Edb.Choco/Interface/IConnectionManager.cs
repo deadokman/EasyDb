@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using EasyDb.Model;
@@ -18,8 +19,9 @@ namespace Edb.Environment.Interface
         /// Produce connection for datasource config
         /// </summary>
         /// <param name="datasourceConfig">User datasource confiuration</param>
+        /// <param name="passwordStr">Password secure string</param>
         /// <returns></returns>
-        IEDbConnectionLink ProduceDbConnection(UserDatasourceConfiguration datasourceConfig);
+        IEDbConnectionLink ProduceDbConnection(UserDatasourceConfiguration datasourceConfig, SecureString passwordStr = null);
 
         /// <summary>
         /// List all avaliable connections

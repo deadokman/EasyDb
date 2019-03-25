@@ -1,4 +1,6 @@
-﻿namespace EasyDb.SecureStore
+﻿using Edb.Environment.Interface;
+
+namespace EasyDb.SecureStore
 {
     using System;
     using System.Runtime.InteropServices;
@@ -7,8 +9,6 @@
     using System.Text;
 
     using EasyDb.Ext;
-    using EasyDb.Interfaces;
-
     using Microsoft.Win32;
 
     using NLog;

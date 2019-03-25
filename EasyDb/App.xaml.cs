@@ -18,8 +18,6 @@ namespace EasyDb
     using Autofac.Extras.NLog;
 
     using CommonServiceLocator;
-
-    using EasyDb.Interfaces;
     using EasyDb.IoC;
     using EasyDb.SandboxEnvironment;
     using EasyDb.SecureStore;

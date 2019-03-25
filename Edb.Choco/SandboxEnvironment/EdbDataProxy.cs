@@ -44,7 +44,7 @@
         /// <summary>
         /// Gets database name
         /// </summary>
-        public string DatabaseName => _proxySubject.DatabaseName;
+        public string DatasourceName => _proxySubject.DatasourceName;
 
         /// <summary>
         /// Gets support of db module interface
@@ -85,11 +85,6 @@
         /// Driver name for x32 architecture systems
         /// </summary>
         public string OdbcSystem32DriverName => _proxySubject.OdbcSystem32DriverName;
-
-        /// <summary>
-        /// Query producer
-        /// </summary>
-        public IEdbDataSourceQueryProducer QueryProducer => _proxySubject.QueryProducer;
 
         /// <summary>
         /// Gets module source options collection
@@ -172,6 +167,11 @@
         public void SetGuid(Guid guid)
         {
             _proxySubject.SetGuid(guid);
+        }
+
+        public IEdbDataSourceQueryProducer GetQueryProducer()
+        {
+            return _proxySubject.GetQueryProducer();
         }
 
         /// <summary>

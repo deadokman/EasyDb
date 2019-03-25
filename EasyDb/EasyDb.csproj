@@ -184,7 +184,6 @@
     <Compile Include="Ext\PasswordHelperExtensions.cs" />
     <Compile Include="ViewModel\DbExplorer\DbExplorerViewModel.cs" />
     <Compile Include="ViewModel\Interfaces\IDataSourceSettingsViewModel.cs" />
-    <Compile Include="Interfaces\IPasswordStorage.cs" />
     <Compile Include="IoC\AutofacServiceLocator.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModel\Choco\ChocolateyInstallViewModel.cs" />
