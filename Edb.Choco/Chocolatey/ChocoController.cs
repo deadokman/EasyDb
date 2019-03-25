@@ -29,6 +29,7 @@ namespace Edb.Environment.Chocolatey
     using System.Text;
     using System.Threading.Tasks;
     using HttpClient = System.Net.Http.HttpClient;
+    using LogLevel = NLog.LogLevel;
 
     /// <summary>
     /// Defines the <see cref="ChocoController" />
@@ -281,9 +282,9 @@ namespace Edb.Environment.Chocolatey
                 // Display the command output.
                 Console.WriteLine(result);
             }
-            catch (Exception objException)
+            catch (Exception ex)
             {
-                // Log the exception
+                this.logger.Log(LogLevel.Error, ex);
             }
         }
 

@@ -4,11 +4,20 @@ using EasyDb.Model;
 
 namespace Edb.Environment.Interface
 {
+    using Edb.Environment.Delegates;
+    using Edb.Environment.EventArgs;
+    using Edb.Environment.Model;
+
     /// <summary>
     /// Easy DB connection link 
     /// </summary>
     public interface IEDbConnectionLink : IDisposable, IDbConnection
     {
+        /// <summary>
+        /// Lost connection event
+        /// </summary>
+        event ConnectionError ConnectionLost;
+
         /// <summary>
         /// Reference to real database connection
         /// </summary>

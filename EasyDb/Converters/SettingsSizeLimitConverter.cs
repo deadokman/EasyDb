@@ -24,7 +24,7 @@
         /// <returns>The <see cref="object"/></returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return this.CalcWidth(value);
+            return CalcWidth(value);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// <returns>The <see cref="object"/></returns>
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return this.CalcWidth(value);
+            return CalcWidth(value);
         }
 
         /// <summary>

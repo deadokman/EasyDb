@@ -19,7 +19,6 @@ namespace Edb.Environment.Model
         /// <summary>
         /// Creates new instance of ODBC driver
         /// </summary>
-        /// <param name="driverName">Driver name</param>
         public OdbcDriver()
         {
         }

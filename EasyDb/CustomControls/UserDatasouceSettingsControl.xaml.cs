@@ -1,6 +1,4 @@
-﻿using EasyDb.ViewModel.DataSource.Items;
-
-namespace EasyDb.CustomControls
+﻿namespace EasyDb.CustomControls
 {
     using System;
     using System.Collections;

@@ -1,6 +1,6 @@
 ﻿using System.Security;
 using System.Windows.Input;
-using EasyDb.ViewModel.DataSource.Items;
+using EasyDb.ViewModel.DataSource;
 using Edb.Environment.DatasourceManager;
 using Edb.Environment.Model;
 using NuGet;

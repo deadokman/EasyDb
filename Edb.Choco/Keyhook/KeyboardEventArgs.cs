@@ -4,6 +4,8 @@ namespace Edb.Environment.Keyhook
 {
     using System.Windows.Forms;
 
+    using EventArgs = System.EventArgs;
+
     public class KeyboardEventArgs : EventArgs
     {
         public EState State { get; private set; }

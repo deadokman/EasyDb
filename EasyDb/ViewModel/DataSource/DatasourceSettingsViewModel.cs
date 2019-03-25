@@ -1,10 +1,4 @@
-﻿using EasyDb.ViewModel.DataSource.Items;
-using EasyDb.ViewModel.Interfaces;
-using Edb.Environment.Interface;
-using Edb.Environment.Model;
-using MahApps.Metro.Controls;
-
-namespace EasyDb.ViewModel.DataSource
+﻿namespace EasyDb.ViewModel.DataSource
 {
     using System;
     using System.ComponentModel;
@@ -14,18 +8,19 @@ namespace EasyDb.ViewModel.DataSource
     using System.Text;
     using System.Windows;
     using System.Windows.Input;
-    using Annotations;
-
+    using EasyDb.Annotations;
     using EasyDb.Commands;
     using EasyDb.Interfaces;
     using EasyDb.View.DataSource;
-
+    using EasyDb.ViewModel.Interfaces;
     using Edb.Environment.CommunicationArgs;
     using Edb.Environment.DatasourceManager;
+    using Edb.Environment.Interface;
+    using Edb.Environment.Model;
     using EDb.Interfaces;
     using GalaSoft.MvvmLight.CommandWpf;
     using GalaSoft.MvvmLight.Messaging;
-
+    using MahApps.Metro.Controls;
     using MahApps.Metro.Controls.Dialogs;
     using NuGet;
     using ILogger = Autofac.Extras.NLog.ILogger;
@@ -37,15 +32,17 @@ namespace EasyDb.ViewModel.DataSource
     public class DatasourceSettingsViewModel : IDataSourceSettingsViewModel, INotifyPropertyChanged
     {
         private const string NoDriverResourceName = "dsms_err_no_driver";
-        private const string NoChocolateyResourceName = "dsms_err_no_autoinstall";
-        private const string NoAdmonRightsResourceName = "dsms_err_no_admin";
-        private readonly IDataSourceManager _datasourceManager;
 
-        private readonly IPasswordStorage _passwordStorage;
+        private const string NoChocolateyResourceName = "dsms_err_no_autoinstall";
+
+        private const string NoAdmonRightsResourceName = "dsms_err_no_admin";
+
+        private readonly IDataSourceManager _datasourceManager;
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
         private readonly IOdbcManager _odbcManager;
+
         private readonly IChocolateyController _chocoController;
 
         private readonly ILogger _logger;
@@ -105,18 +102,22 @@ namespace EasyDb.ViewModel.DataSource
                 throw new ArgumentNullException(nameof(messenger));
             }
 
-            this._datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
-            this._passwordStorage = passwordStorage ?? throw new ArgumentNullException(nameof(passwordStorage));
-            this._dialogCoordinator = dialogCoord ?? throw new ArgumentNullException(nameof(dialogCoord));
-            this._odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
-            this._chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
-            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            SupportedDatasources = this._datasourceManager.SupportedDatasources.ToArray();
+            if (passwordStorage == null)
+            {
+                throw new ArgumentNullException(nameof(passwordStorage));
+            }
+
+            _datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
+            _dialogCoordinator = dialogCoord ?? throw new ArgumentNullException(nameof(dialogCoord));
+            _odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
+            _chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
 
             // Reaction on datasources loaded communication message
             messenger.Register(this, new Action<DatasourcesIniaialized>(iniaialized => SupportedDatasources = iniaialized.SupportedSources.ToArray()));
 
-            this.RefreshPackageInformationCmd = new EDbCommand(() =>
+            RefreshPackageInformationCmd = new EDbCommand(() =>
             {
                 LoadPackageInformation(SelectedSourceItem?.Module);
                 RefreshDriverInformation(SelectedSourceItem?.Module);
@@ -132,9 +133,9 @@ namespace EasyDb.ViewModel.DataSource
                         var res = await _chocoController.InstallPackage(Package.Id);
                         if (!res.Successful)
                         {
-                            var sb = new StringBuilder(this.WarningMessage);
+                            var sb = new StringBuilder(WarningMessage);
                             sb.Append(res.Exception.Message);
-                            this.WarningMessage = sb.ToString();
+                            WarningMessage = sb.ToString();
                         }
 
                         LoadPackageInformation(SelectedSourceItem?.Module);
@@ -143,59 +144,59 @@ namespace EasyDb.ViewModel.DataSource
                     }
                     catch (Exception ex)
                     {
-                        this._logger.Error(ex);
+                        _logger.Error(ex);
                         SwitchPkgInstallDialog(dlg, false);
-                        throw ex;
+                        throw;
                     }
                 }
             });
 
-            this.CloseInformationMessageCmd = new EDbCommand(
+            CloseInformationMessageCmd = new EDbCommand(
                 () =>
                 {
-                    this.WarningMessage = string.Empty;
-                    this.Package = null;
-                    this.OdbcDriver = null;
-                    this.SelectedSourceItem = null;
+                    WarningMessage = string.Empty;
+                    Package = null;
+                    OdbcDriver = null;
+                    SelectedSourceItem = null;
                 });
 
-            this.ApplyDatasourceSettingsCmd = new EDbCommand<MetroWindow>(
+            ApplyDatasourceSettingsCmd = new EDbCommand<MetroWindow>(
                 (w) =>
                     {
-                        if (!this.EditingUserDatasource.AllValid())
+                        if (!EditingUserDatasource.AllValid())
                         {
-                            this.WarningMessage = this.EditingUserDatasource.GetErrors();
+                            WarningMessage = EditingUserDatasource.GetErrors();
                             return;
                         }
 
-                        this._datasourceManager.ApplyUserDatasource(this.EditingUserDatasource.DsConfiguration);
+                        _datasourceManager.ApplyUserDatasource(EditingUserDatasource.DsConfiguration);
                         try
                         {
-                            this._datasourceManager.StoreUserDatasourceConfigurations();
+                            _datasourceManager.StoreUserDatasourceConfigurations();
                         }
                         catch (Exception ex)
                         {
                             var msg = "Error while saving user datasource configuration";
-                            this._logger.Log(LogLevel.Error, msg, ex);
+                            _logger.Log(LogLevel.Error, msg, ex);
                             throw new Exception(msg, ex);
                         }
 
                         // Execute password store
                         if (StorePasswordSecure)
                         {
-                            this._passwordStorage.StorePasswordSecure(PasswordSecureString, this.EditingUserDatasource.DatasourceGuid);
+                            passwordStorage.StorePasswordSecure(PasswordSecureString, EditingUserDatasource.DatasourceGuid);
                         }
 
                         w.Close();
                     });
 
-            this.CloseSettingsWindowCmd = new RelayCommand<MetroWindow>(
+            CloseSettingsWindowCmd = new RelayCommand<MetroWindow>(
                 (w) =>
                     {
                         w.Close();
                     });
 
-            this.TestConnection = new EDbCommand(
+            TestConnection = new EDbCommand(
                 () =>
                     {
                         DatabaseConnectionInProgress = true;
@@ -203,7 +204,9 @@ namespace EasyDb.ViewModel.DataSource
                         {
                             using (var conn = connectionManager.ProduceDbConnection(EditingUserDatasource.DsConfiguration))
                             {
-                                return;
+                                var cmd = conn.CreateCommand();
+                                cmd.CommandText = "select 1";
+                                cmd.ExecuteNonQuery();
                             }
                         }
                         else
@@ -223,19 +226,19 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public SupportedSourceItem SelectedSourceItem
         {
-            get => this._selectedSourceItem;
+            get => _selectedSourceItem;
             set
             {
-                this._selectedSourceItem = value;
+                _selectedSourceItem = value;
                 Package = null;
                 if (value != null)
                 {
-                    var uds = this._datasourceManager.CreateDataSourceConfig(_selectedSourceItem.Module);
-                    var udsvm = new UserDataSourceViewModelItem(uds, this._selectedSourceItem.Module);
-                    this.EditingUserDatasource = udsvm;
-                    if (this._chocoController.ValidateChocoInstall())
+                    var uds = _datasourceManager.CreateDataSourceConfig(_selectedSourceItem.Module);
+                    var udsvm = new UserDataSourceViewModelItem(uds, _selectedSourceItem.Module);
+                    EditingUserDatasource = udsvm;
+                    if (_chocoController.ValidateChocoInstall())
                     {
-                        this.LoadPackageInformation(value.Module);
+                        LoadPackageInformation(value.Module);
                     }
 
                     RefreshDriverInformation(value.Module);
@@ -252,7 +255,7 @@ namespace EasyDb.ViewModel.DataSource
         {
             get => _chocoController.ValidateChocoInstall()
                    && SelectedSourceItem != null
-                   && this._chocoController.IsAdministrator()
+                   && _chocoController.IsAdministrator()
                    && !string.IsNullOrEmpty(SelectedSourceItem.Module.GetCorrectDriverName())
                    && Package != null && !OdbcDriverInstalled;
         }
@@ -262,11 +265,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public bool GotDriverProblems
         {
-            get => this._gotDriverProblems;
+            get => _gotDriverProblems;
             set
             {
-                this._gotDriverProblems = value;
-                this.OnPropertyChanged();
+                _gotDriverProblems = value;
+                OnPropertyChanged();
             }
         }
 
@@ -275,11 +278,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public bool StorePasswordSecure
         {
-            get => this._storePasswordSecure;
+            get => _storePasswordSecure;
             set
             {
-                this._storePasswordSecure = value;
-                this.OnPropertyChanged();
+                _storePasswordSecure = value;
+                OnPropertyChanged();
             }
         }
 
@@ -288,11 +291,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public bool OdbcDriverInstalled
         {
-            get => this._odbcDriverInstalled;
+            get => _odbcDriverInstalled;
             private set
             {
-                this._odbcDriverInstalled = value;
-                this.OnPropertyChanged();
+                _odbcDriverInstalled = value;
+                OnPropertyChanged();
             }
         }
 
@@ -301,11 +304,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public UserDataSourceViewModelItem EditingUserDatasource
         {
-            get => this._editingUserDatasource;
+            get => _editingUserDatasource;
             set
             {
-                this._editingUserDatasource = value;
-                this.OnPropertyChanged();
+                _editingUserDatasource = value;
+                OnPropertyChanged();
             }
         }
 
@@ -344,11 +347,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public SupportedSourceItem[] SupportedDatasources
         {
-            get => this._supportedDatasources;
+            get => _supportedDatasources;
             set
             {
-                this._supportedDatasources = value;
-                this.OnPropertyChanged();
+                _supportedDatasources = value;
+                OnPropertyChanged();
             }
         }
 
@@ -357,11 +360,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public bool DatabaseConnectionValid
         {
-            get => this._databaseConnectionValid;
+            get => _databaseConnectionValid;
             set
             {
-                this._databaseConnectionValid = value;
-                this.OnPropertyChanged();
+                _databaseConnectionValid = value;
+                OnPropertyChanged();
             }
         }
 
@@ -370,11 +373,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public bool DatabaseConnectionInProgress
         {
-            get => this._databaseConnectionInProgress;
+            get => _databaseConnectionInProgress;
             set
             {
-                this._databaseConnectionInProgress = value;
-                this.OnPropertyChanged();
+                _databaseConnectionInProgress = value;
+                OnPropertyChanged();
             }
         }
 
@@ -401,11 +404,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public OdbcDriver OdbcDriver
         {
-            get => this._odbcDriver;
+            get => _odbcDriver;
             set
             {
-                this._odbcDriver = value;
-                this.OnPropertyChanged();
+                _odbcDriver = value;
+                OnPropertyChanged();
             }
         }
 
@@ -414,11 +417,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public string WarningMessage
         {
-            get => this._warningMessage;
+            get => _warningMessage;
             set
             {
-                this._warningMessage = value;
-                this.OnPropertyChanged();
+                _warningMessage = value;
+                OnPropertyChanged();
             }
         }
 
@@ -427,11 +430,11 @@ namespace EasyDb.ViewModel.DataSource
         /// </summary>
         public bool ProcessInProgress
         {
-            get => this._packageInfoLoad;
+            get => _packageInfoLoad;
             set
             {
-                this._packageInfoLoad = value;
-                this.OnPropertyChanged();
+                _packageInfoLoad = value;
+                OnPropertyChanged();
             }
         }
 
@@ -442,7 +445,7 @@ namespace EasyDb.ViewModel.DataSource
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -460,18 +463,18 @@ namespace EasyDb.ViewModel.DataSource
             ProcessInProgress = true;
             try
             {
-                var res = await this._chocoController.GetPackageInformation(edbDataDatasource.ChocolateOdbcPackageId);
+                var res = await _chocoController.GetPackageInformation(edbDataDatasource.ChocolateOdbcPackageId);
                 Package = res?.Package;
                 ProcessInProgress = false;
             }
             catch (Exception ex)
             {
                 ProcessInProgress = false;
-                this.WarningMessage = ex.Message;
+                WarningMessage = ex.Message;
                 throw;
             }
 
-            this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
+            OnPropertyChanged(nameof(AutoinstallSupportred));
         }
 
         private void RefreshDriverInformation(IEdbDataSource edbDataDatasource)
@@ -502,21 +505,21 @@ namespace EasyDb.ViewModel.DataSource
                 sb.Append(msg);
             }
 
-            if (!this._chocoController.IsAdministrator())
+            if (!_chocoController.IsAdministrator())
             {
                 var msg = Application.Current.Resources[NoAdmonRightsResourceName] ?? " App. have no admin rights.";
                 sb.Append(msg);
             }
 
-            if (this._package != null && !this._package.IsLatestVersion)
+            if (_package != null && !_package.IsLatestVersion)
             {
                 var msg = "Not a last driver version.";
                 sb.Append(msg);
                 GotDriverProblems = true;
             }
 
-            this.WarningMessage = sb.ToString();
-            this.OnPropertyChanged(nameof(this.AutoinstallSupportred));
+            WarningMessage = sb.ToString();
+            OnPropertyChanged(nameof(AutoinstallSupportred));
         }
 
         private BaseMetroDialog SwitchPkgInstallDialog(BaseMetroDialog dlg = null, bool show = true)
@@ -525,13 +528,13 @@ namespace EasyDb.ViewModel.DataSource
             {
                 var cd = new CustomDialog();
                 cd.Height = 250;
-                cd.Content = new PackageInstallDialog(this._chocoController);
-                this._dialogCoordinator.ShowMetroDialogAsync(this, cd);
+                cd.Content = new PackageInstallDialog(_chocoController);
+                _dialogCoordinator.ShowMetroDialogAsync(this, cd);
                 return cd;
             }
             else
             {
-                this._dialogCoordinator.HideMetroDialogAsync(this, dlg);
+                _dialogCoordinator.HideMetroDialogAsync(this, dlg);
                 return dlg;
             }
         }

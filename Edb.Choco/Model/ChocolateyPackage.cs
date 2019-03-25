@@ -14,7 +14,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="ChocolateyPackage"/> class.
         /// </summary>
-        /// <param name="Id">The Id<see cref="string"/></param>
+        /// <param name="id">The Id<see cref="string"/></param>
         public ChocolateyPackage(string id)
         {
             Id = id;

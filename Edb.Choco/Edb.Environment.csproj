@@ -20,8 +20,12 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
     <CodeAnalysisRuleSet>..\StyleCop\MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <DocumentationFile>bin\Debug\Edb.Environment.xml</DocumentationFile>
+    <NoWarn>1591</NoWarn>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -107,6 +111,8 @@
     <Compile Include="DatasourceManager\DatasourceManager.cs" />
     <Compile Include="DatasourceManager\SupportedSourceItem.cs" />
     <Compile Include="DatasourceManager\UserDatasourceConfiguration.cs" />
+    <Compile Include="Delegates\ConnectionErrorEventArgs.cs" />
+    <Compile Include="Delegates\ConnectionError.cs" />
     <Compile Include="Interface\IConnectionManager.cs" />
     <Compile Include="Interface\IDataSourceManager.cs" />
     <Compile Include="InterceptMessage.cs" />

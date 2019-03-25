@@ -1,16 +1,12 @@
-﻿namespace EasyDb.ViewModel.DataSource.Items
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using EasyDb.Model;
+using EDb.Interfaces;
+
+namespace EasyDb.ViewModel.DataSource
 {
-    using System;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Windows.Input;
-    using System.Xml.Serialization;
-
-    using EasyDb.Model;
-
-    using EDb.Interfaces;
-
     /// <summary>
     /// Presents datasource created by user
     /// </summary>
@@ -34,13 +30,13 @@
         /// <param name="module">Модуль</param>
         public UserDataSourceViewModelItem(UserDatasourceConfiguration udsConfig, IEdbDataSource module)
         {
-            this._dsConfig = udsConfig;
+            _dsConfig = udsConfig;
         }
 
         /// <summary>
         /// Returns datasource configuration model
         /// </summary>
-        public UserDatasourceConfiguration DsConfiguration => this._dsConfig;
+        public UserDatasourceConfiguration DsConfiguration => _dsConfig;
 
         /// <summary>
         /// Gets or sets the Comment
@@ -48,10 +44,10 @@
         /// </summary>
         public string Comment
         {
-            get => this._dsConfig.Comment;
+            get => _dsConfig.Comment;
             set
             {
-                this._dsConfig.Comment = value;
+                _dsConfig.Comment = value;
             }
         }
 
@@ -60,7 +56,7 @@
         /// </summary>
         public Guid DatasourceGuid
         {
-            get => this._dsConfig.DatasoureGuid;
+            get => _dsConfig.DatasoureGuid;
         }
 
         /// <summary>
@@ -76,11 +72,11 @@
         [Required(ErrorMessageResourceName = "dsms_ex_datasourceName")]
         public string Name
         {
-            get => this._dsConfig.Name;
+            get => _dsConfig.Name;
             set
             {
-                this._dsConfig.Name = value;
-                this.OnPropertyChanged();
+                _dsConfig.Name = value;
+                OnPropertyChanged();
             }
         }
 
@@ -89,11 +85,11 @@
         /// </summary>
         public EdbSourceOption SelectedDataSourceOption
         {
-            get => this._selectedDataSourceOption;
+            get => _selectedDataSourceOption;
             set
             {
-                this._selectedDataSourceOption = value;
-                this.OnPropertyChanged();
+                _selectedDataSourceOption = value;
+                OnPropertyChanged();
             }
         }
 
@@ -103,7 +99,7 @@
         /// </summary>
         public EdbSourceOption[] SettingsObjects
         {
-            get => this._dsConfig.OptionsObjects;
+            get => _dsConfig.OptionsObjects;
         }
 
         /// <summary>
@@ -112,7 +108,7 @@
         /// <param name="moduleGuid">Set datasource guid ID</param>
         public void SetGuid(Guid moduleGuid)
         {
-            this._dsConfig.DatasoureGuid = moduleGuid;
+            _dsConfig.DatasoureGuid = moduleGuid;
         }
 
         /// <summary>
@@ -121,12 +117,12 @@
         /// <returns>Returns true if all options is valid</returns>
         public bool AllValid()
         {
-            if (this._dsConfig.OptionsObjects != null)
+            if (_dsConfig.OptionsObjects != null)
             {
-                return this._dsConfig.OptionsObjects.All(opt => string.IsNullOrEmpty(opt.Error)) && this.IsValid;
+                return _dsConfig.OptionsObjects.All(opt => string.IsNullOrEmpty(opt.Error)) && IsValid;
             }
 
-            return this.IsValid;
+            return IsValid;
         }
 
         /// <summary>
@@ -136,8 +132,8 @@
         public string GetErrors()
         {
             var sb = new StringBuilder();
-            sb.Append(" " + this.Error);
-            foreach (var dsConfigSettingsObject in this._dsConfig.OptionsObjects)
+            sb.Append(" " + Error);
+            foreach (var dsConfigSettingsObject in _dsConfig.OptionsObjects)
             {
                 sb.Append(" " + dsConfigSettingsObject.Error);
             }
@@ -149,7 +145,7 @@
         /// <returns>A string that represents the current object.</returns>
         public override string ToString()
         {
-            return this.Name;
+            return Name;
         }
     }
 }

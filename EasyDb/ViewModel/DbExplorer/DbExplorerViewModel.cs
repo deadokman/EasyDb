@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -7,9 +6,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using EasyDb.Annotations;
-using EasyDb.Model;
 using EasyDb.View.DataSource;
-using EasyDb.ViewModel.DataSource.Items;
+using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.Interfaces;
 using Edb.Environment.CommunicationArgs;
 using Edb.Environment.DatasourceManager;
@@ -37,7 +35,7 @@ namespace EasyDb.ViewModel.DbExplorer
         /// </summary>
         private ObservableCollection<UserDataSourceViewModelItem> _userDatasources;
 
-        private ICommand configureDsCmd;
+        private ICommand _configureDsCmd;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DbExplorerViewModel"/> class.
@@ -48,10 +46,10 @@ namespace EasyDb.ViewModel.DbExplorer
         /// <param name="messenger">View model communication messenger</param>
         public DbExplorerViewModel(IDataSourceSettingsViewModel datasourceSettingsViewModel, IDataSourceManager datasourceManager, IMessenger messenger)
         {
-            this._datasourceSettingsViewModel = datasourceSettingsViewModel;
-            this._datasourceManager = datasourceManager;
-            this.SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
-            this.ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(
+            _datasourceSettingsViewModel = datasourceSettingsViewModel;
+            _datasourceManager = datasourceManager;
+            SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
+            ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(
                 DisplayUserDatasourceProperties);
 
             // Reaction on datasources loaded communication message
@@ -70,10 +68,10 @@ namespace EasyDb.ViewModel.DbExplorer
         /// </summary>
         public ICommand ConfigureDsCmd
         {
-            get => configureDsCmd;
+            get => _configureDsCmd;
             set
             {
-                configureDsCmd = value;
+                _configureDsCmd = value;
                 OnPropertyChanged();
             }
         }
@@ -84,11 +82,11 @@ namespace EasyDb.ViewModel.DbExplorer
         /// </summary>
         public SupportedSourceItem[] SupportedDatasources
         {
-            get => this._supportedDatasources;
+            get => _supportedDatasources;
             private set
             {
-                this._supportedDatasources = value;
-                this.OnPropertyChanged();
+                _supportedDatasources = value;
+                OnPropertyChanged();
             }
         }
 
@@ -98,11 +96,11 @@ namespace EasyDb.ViewModel.DbExplorer
         /// </summary>
         public ObservableCollection<UserDataSourceViewModelItem> UserDatasources
         {
-            get => this._userDatasources;
+            get => _userDatasources;
             set
             {
-                this._userDatasources = value;
-                this.OnPropertyChanged();
+                _userDatasources = value;
+                OnPropertyChanged();
             }
         }
 
@@ -127,9 +125,9 @@ namespace EasyDb.ViewModel.DbExplorer
 
         private void RefreshViewmodelData()
         {
-            this.SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
-            var udsVmi = _datasourceManager.UserDatasourceConfigurations.Select(i => new UserDataSourceViewModelItem(i, this._datasourceManager.GetModuleByGuid(i.DatasoureGuid)));
-            this.UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
+            SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
+            var udsVmi = _datasourceManager.UserDatasourceConfigurations.Select(i => new UserDataSourceViewModelItem(i, _datasourceManager.GetModuleByGuid(i.DatasoureGuid)));
+            UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
         }
 
         /// <summary>
