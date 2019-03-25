@@ -90,7 +90,7 @@ namespace EDb.Interfaces
         public ValidationViewModelBase()
         {
             // Initialize propInfo for derived type
-            _validators = this.GetType().GetProperties()
+            _validators = GetType().GetProperties()
                 .Select(p => new { propInfo = p, Attrs = p.GetCustomAttributes<ValidationAttribute>() })
                 .Where(pair => pair.Attrs.Any())
                 .ToDictionary(p => p.propInfo.Name, p => new Tuple<PropertyInfo, ValidationAttribute[]>(p.propInfo, p.Attrs.ToArray()));
@@ -106,7 +106,7 @@ namespace EDb.Interfaces
             protected set
             {
                 _isValid = value;
-                this.OnPropertyChanged("IsValid");
+                OnPropertyChanged("IsValid");
             }
         }
 
@@ -124,13 +124,13 @@ namespace EDb.Interfaces
             if (propertyName != "IsValid")
             {
                 // update the isValid status
-                if (string.IsNullOrEmpty(this.Error) && this.ValidPropertiesCount == this.TotalPropertiesWithValidationCount)
+                if (string.IsNullOrEmpty(Error) && ValidPropertiesCount == TotalPropertiesWithValidationCount)
                 {
-                    this.IsValid = true;
+                    IsValid = true;
                 }
                 else
                 {
-                    this.IsValid = false;
+                    IsValid = false;
                     var error = this[propertyName];
                     if (_throwOninvalidate && !String.IsNullOrEmpty(error))
                     {

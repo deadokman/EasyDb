@@ -49,7 +49,7 @@
         /// </summary>
         public UserDatasouceSettingsControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -73,12 +73,12 @@
         {
             get
             {
-                return (EdbSourceOption)this.GetValue(SelectedObjectProperty);
+                return (EdbSourceOption)GetValue(SelectedObjectProperty);
             }
 
             set
             {
-                this.SetValue(SelectedObjectProperty, value);
+                SetValue(SelectedObjectProperty, value);
             }
         }
 
@@ -87,11 +87,11 @@
         /// </summary>
         public IList<DatasourceOption> SourceOptions
         {
-            get => this._sourceOptions;
+            get => _sourceOptions;
             set
             {
-                this._sourceOptions = value;
-                this.OnPropertyChanged();
+                _sourceOptions = value;
+                OnPropertyChanged();
             }
         }
 
@@ -124,7 +124,7 @@
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>

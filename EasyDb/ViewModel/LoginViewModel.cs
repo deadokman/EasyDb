@@ -25,7 +25,7 @@
         /// </summary>
         public LoginViewModel()
         {
-            this.AuthCommand = new RelayCommand(() => { });
+            AuthCommand = new RelayCommand(() => { });
         }
 
         /// <summary>
@@ -42,13 +42,13 @@
         {
             get
             {
-                return this._isStorePassword;
+                return _isStorePassword;
             }
 
             set
             {
-                this._isStorePassword = value;
-                RaisePropertyChanged(() => this.IsStorePassword);
+                _isStorePassword = value;
+                RaisePropertyChanged(() => IsStorePassword);
             }
         }
 
@@ -60,12 +60,12 @@
         {
             get
             {
-                return this._login;
+                return _login;
             }
 
             set
             {
-                this._login = value;
+                _login = value;
             }
         }
     }

@@ -12,7 +12,7 @@
         /// </summary>
         public TabView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

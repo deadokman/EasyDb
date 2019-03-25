@@ -54,11 +54,11 @@ namespace EasyDb
         /// </summary>
         public App()
         {
-            this.InitializeComponent();
-            LanguageChanged += this.App_LanguageChanged;
+            InitializeComponent();
+            LanguageChanged += App_LanguageChanged;
 
             // AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
-            this.DispatcherUnhandledException += this.OnDispatcherUnhandledException;
+            DispatcherUnhandledException += OnDispatcherUnhandledException;
             _mLanguages.Clear();
             _mLanguages.Add(new CultureInfo("en-US")); // Нейтральная культура для этого проекта
             _mLanguages.Add(new CultureInfo("ru-RU"));
@@ -210,7 +210,7 @@ namespace EasyDb
         /// <param name="e">The e<see cref="DispatcherUnhandledExceptionEventArgs"/></param>
         private void OnDispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            var unhandedWindow = new UnhandledErrorWindow(e.Exception, this.MainWindow);
+            var unhandedWindow = new UnhandledErrorWindow(e.Exception, MainWindow);
             unhandedWindow.ShowDialog();
 
             e.Handled = true;

@@ -92,7 +92,7 @@ namespace EDb.Interfaces
         /// <returns>Returns module options definition</returns>
         public virtual ModuleOptionDefinition[] GetOptionsDefenitions()
         {
-            return this.GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
+            return GetOptions().Select(so => so.ToOptionDefinition()).ToArray();
         }
 
         /// <summary>

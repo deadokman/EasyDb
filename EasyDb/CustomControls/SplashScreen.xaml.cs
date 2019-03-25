@@ -22,7 +22,7 @@
         /// </summary>
         public SplashScreen()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         /// <summary>
@@ -32,12 +32,12 @@
         {
             get
             {
-                return (string)this.GetValue(CurrentTextProperty);
+                return (string)GetValue(CurrentTextProperty);
             }
 
             set
             {
-                this.SetValue(CurrentTextProperty, value);
+                SetValue(CurrentTextProperty, value);
             }
         }
 

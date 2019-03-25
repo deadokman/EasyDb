@@ -27,24 +27,24 @@
         /// </summary>
         public EdbDataProxy()
         {
-            this.SupportDbModuleInstance = false;
+            SupportDbModuleInstance = false;
         }
 
         /// <summary>
         /// Gets the DatasoureGuid
         /// Module unique GUID
         /// </summary>
-        public Guid ModuleGuid => this._proxySubject.ModuleGuid;
+        public Guid ModuleGuid => _proxySubject.ModuleGuid;
 
         /// <summary>
         /// Gets database image icon
         /// </summary>
-        public byte[] DatabaseIcon => this._proxySubject.DatabaseIcon;
+        public byte[] DatabaseIcon => _proxySubject.DatabaseIcon;
 
         /// <summary>
         /// Gets database name
         /// </summary>
-        public string DatabaseName => this._proxySubject.DatabaseName;
+        public string DatabaseName => _proxySubject.DatabaseName;
 
         /// <summary>
         /// Gets support of db module interface
@@ -54,42 +54,42 @@
         /// <summary>
         /// Gets supported object types
         /// </summary>
-        public SupportedObjectTypes[] SupportedTypes => this._proxySubject.SupportedTypes;
+        public SupportedObjectTypes[] SupportedTypes => _proxySubject.SupportedTypes;
 
         /// <summary>
         /// Gets module version
         /// </summary>
-        public Version Version => this._proxySubject.Version;
+        public Version Version => _proxySubject.Version;
 
         /// <summary>
         /// Identifier of chocolate ODBC package
         /// </summary>
-        public string ChocolateOdbcPackageId => this._proxySubject.ChocolateOdbcPackageId;
+        public string ChocolateOdbcPackageId => _proxySubject.ChocolateOdbcPackageId;
 
         /// <summary>
         /// URL to ODBC driver package
         /// </summary>
-        public string ChocolatepackageUrl => this._proxySubject.ChocolatepackageUrl;
+        public string ChocolatepackageUrl => _proxySubject.ChocolatepackageUrl;
 
         /// <summary>
         /// Driver download URLS
         /// </summary>
-        public string[] AlternativeDriverDownloadUrls => this._proxySubject.AlternativeDriverDownloadUrls;
+        public string[] AlternativeDriverDownloadUrls => _proxySubject.AlternativeDriverDownloadUrls;
 
         /// <summary>
         /// ODBC driver name inside operating system
         /// </summary>
-        public string OdbcSystemDriverName => this._proxySubject.OdbcSystemDriverName;
+        public string OdbcSystemDriverName => _proxySubject.OdbcSystemDriverName;
 
         /// <summary>
         /// Driver name for x32 architecture systems
         /// </summary>
-        public string OdbcSystem32DriverName => this._proxySubject.OdbcSystem32DriverName;
+        public string OdbcSystem32DriverName => _proxySubject.OdbcSystem32DriverName;
 
         /// <summary>
         /// Query producer
         /// </summary>
-        public IEdbDataSourceQueryProducer QueryProducer => this._proxySubject.QueryProducer;
+        public IEdbDataSourceQueryProducer QueryProducer => _proxySubject.QueryProducer;
 
         /// <summary>
         /// Gets module source options collection
@@ -97,7 +97,7 @@
         /// <returns>Source options collection</returns>
         public EdbSourceOption[] GetOptions()
         {
-            return this._proxySubject.GetOptions();
+            return _proxySubject.GetOptions();
         }
 
         /// <summary>
@@ -129,13 +129,13 @@
             }
 
             var attribute = (EdbDatasourceAttribute)attributes[0];
-            this._proxySubject = this.ProcessType(moduleType);
-            this._proxySubject.SetGuid(attribute.SourceGuid);
-            this._proxySubject.SetVersion(attribute.Version);
+            _proxySubject = ProcessType(moduleType);
+            _proxySubject.SetGuid(attribute.SourceGuid);
+            _proxySubject.SetVersion(attribute.Version);
 
             /*
             // register a sponsor
-            object lifetimeService = RemotingServices.GetLifetimeService(this._proxySubject);
+            object lifetimeService = RemotingServices.GetLifetimeService(_proxySubject);
             if (lifetimeService is ILease)
             {
                 ILease lease = (ILease)lifetimeService;
@@ -152,7 +152,7 @@
         /// <returns>Returns module options definition</returns>
         public ModuleOptionDefinition[] GetOptionsDefenitions()
         {
-            return this._proxySubject.GetOptionsDefenitions();
+            return _proxySubject.GetOptionsDefenitions();
         }
 
         /// <summary>
@@ -162,7 +162,7 @@
         /// <returns>Returns connection string</returns>
         public string IntroduceConnectionString(EdbSourceOption[] options)
         {
-            return this._proxySubject.IntroduceConnectionString(options);
+            return _proxySubject.IntroduceConnectionString(options);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@
         /// <param name="guid">guid</param>
         public void SetGuid(Guid guid)
         {
-            this._proxySubject.SetGuid(guid);
+            _proxySubject.SetGuid(guid);
         }
 
         /// <summary>
@@ -180,7 +180,7 @@
         /// <param name="version">version</param>
         public void SetVersion(Version version)
         {
-            this._proxySubject.SetVersion(version);
+            _proxySubject.SetVersion(version);
         }
 
         /// <summary>

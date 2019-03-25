@@ -12,7 +12,7 @@
         /// </summary>
         public SqlQueryToolView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

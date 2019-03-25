@@ -12,7 +12,7 @@
         /// </summary>
         public GeneralSettringsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

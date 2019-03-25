@@ -13,7 +13,7 @@
         /// </summary>
         public DriverInfoPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

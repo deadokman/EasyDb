@@ -58,8 +58,8 @@
             InstallChocolateyCommand = new RelayCommand(
                 async () =>
                     {
-                        this._logger.Debug("Installing Chocolate via powershell");
-                        var ctrl = await this._dialogCoordinator.ShowProgressAsync(
+                        _logger.Debug("Installing Chocolate via powershell");
+                        var ctrl = await _dialogCoordinator.ShowProgressAsync(
                             Application.Current.MainWindow.DataContext,
                             Application.Current.Resources["choco_dlg_SetUp_message"].ToString(),
                             Application.Current.Resources["choco_dlg_SetUp_text"].ToString());
@@ -69,7 +69,7 @@
                         try
                         {
                             var install = await _chocoController.DownloadAndStorePowershellInstall();
-                            await this._chocoController.Runpowershell(install).ContinueWith(
+                            await _chocoController.Runpowershell(install).ContinueWith(
                                 (res) => { ctrl.CloseAsync(); });
                             InstallationCompletedSuccessfully = true;
                         }
@@ -77,7 +77,7 @@
                         {
                             InstallErrors = $"$errmsg: \n {ex.Message}";
                             InstallationHasErrors = true;
-                            this._logger.Error(ex);
+                            _logger.Error(ex);
                             await ctrl.CloseAsync();
                         }
                     });
@@ -88,23 +88,23 @@
         /// Running in administrator mode
         /// Приложение запущено в режиме администратора
         /// </summary>
-        public bool IsInAdministrativeMode => this._chocoController.IsAdministrator();
+        public bool IsInAdministrativeMode => _chocoController.IsAdministrator();
 
         /// <summary>
         /// Application runs not in administrator mode
         /// </summary>
-        public bool IsNotInAdministrativeMode => !this._chocoController.IsAdministrator();
+        public bool IsNotInAdministrativeMode => !_chocoController.IsAdministrator();
 
         /// <summary>
         /// Installation was coompleted Successfully
         /// </summary>
         public bool InstallationCompletedSuccessfully
         {
-            get => this._installationCompletedSuccessfully;
+            get => _installationCompletedSuccessfully;
             set
             {
-                this._installationCompletedSuccessfully = value;
-                this.RaisePropertyChanged(() => InstallationCompletedSuccessfully);
+                _installationCompletedSuccessfully = value;
+                RaisePropertyChanged(() => InstallationCompletedSuccessfully);
             }
         }
 
@@ -113,11 +113,11 @@
         /// </summary>
         public bool InstallationHasErrors
         {
-            get => this._installationHasErrors;
+            get => _installationHasErrors;
             set
             {
-                this._installationHasErrors = value;
-                this.RaisePropertyChanged(() => InstallationHasErrors);
+                _installationHasErrors = value;
+                RaisePropertyChanged(() => InstallationHasErrors);
             }
         }
 
@@ -126,11 +126,11 @@
         /// </summary>
         public string InstallErrors
         {
-            get => this._installErrors;
+            get => _installErrors;
             set
             {
-                this._installErrors = value;
-                this.RaisePropertyChanged(() => InstallErrors);
+                _installErrors = value;
+                RaisePropertyChanged(() => InstallErrors);
             }
         }
 

@@ -31,7 +31,7 @@ namespace Edb.Environment
             /// <param name="logger">The logger<see cref="Autofac.Extras.NLog.ILogger"/></param>
             public ChocolateyLoggerWrapper(Autofac.Extras.NLog.ILogger logger)
             {
-                this._logger = logger;
+                _logger = logger;
                 _listners = new List<IChocoMessageListner>();
             }
 
@@ -50,9 +50,9 @@ namespace Edb.Environment
             /// <param name="listner">Listner instance</param>
             public void RegisterListner(IChocoMessageListner listner)
             {
-                if (!this._listners.Contains(listner))
+                if (!_listners.Contains(listner))
                 {
-                    this._listners.Add(listner);
+                    _listners.Add(listner);
                 }
             }
 
@@ -62,9 +62,9 @@ namespace Edb.Environment
             /// <param name="listner">Listner instance</param>
             public void UnregisterListner(IChocoMessageListner listner)
             {
-                if (!this._listners.Contains(listner))
+                if (!_listners.Contains(listner))
                 {
-                    this._listners.Remove(listner);
+                    _listners.Remove(listner);
                 }
             }
 
@@ -75,7 +75,7 @@ namespace Edb.Environment
             /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Debug(string message, params object[] formatting)
             {
-                this._logger.Debug(message, formatting);
+                _logger.Debug(message, formatting);
                 NotifyListners(MessageLevel.Debug, message);
             }
 
@@ -86,7 +86,7 @@ namespace Edb.Environment
             public void Debug(Func<string> message)
             {
                 var msg = message();
-                this._logger.Debug(msg);
+                _logger.Debug(msg);
                 NotifyListners(MessageLevel.Debug, msg);
             }
 
@@ -97,7 +97,7 @@ namespace Edb.Environment
             /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Info(string message, params object[] formatting)
             {
-                this._logger.Info(message, formatting);
+                _logger.Info(message, formatting);
                 NotifyListners(MessageLevel.Debug, message);
             }
 
@@ -108,7 +108,7 @@ namespace Edb.Environment
             public void Info(Func<string> message)
             {
                 var msg = message();
-                this._logger.Info(msg);
+                _logger.Info(msg);
                 NotifyListners(MessageLevel.Info, msg);
             }
 
@@ -119,7 +119,7 @@ namespace Edb.Environment
             /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Warn(string message, params object[] formatting)
             {
-                this._logger.Warn(message, formatting);
+                _logger.Warn(message, formatting);
                 NotifyListners(MessageLevel.Warning, message);
             }
 
@@ -130,7 +130,7 @@ namespace Edb.Environment
             public void Warn(Func<string> message)
             {
                 var msg = message();
-                this._logger.Warn(msg);
+                _logger.Warn(msg);
                 NotifyListners(MessageLevel.Warning, msg);
             }
 
@@ -141,7 +141,7 @@ namespace Edb.Environment
             /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Error(string message, params object[] formatting)
             {
-                this._logger.Error(message, formatting);
+                _logger.Error(message, formatting);
                 NotifyListners(MessageLevel.Error, message);
             }
 
@@ -152,7 +152,7 @@ namespace Edb.Environment
             public void Error(Func<string> message)
             {
                 var msg = message();
-                this._logger.Error(msg);
+                _logger.Error(msg);
                 NotifyListners(MessageLevel.Error, msg);
             }
 
@@ -163,7 +163,7 @@ namespace Edb.Environment
             /// <param name="formatting">The formatting<see cref="object[]"/></param>
             public void Fatal(string message, params object[] formatting)
             {
-                this._logger.Fatal(message, formatting);
+                _logger.Fatal(message, formatting);
                 NotifyListners(MessageLevel.Fatal, message);
             }
 
@@ -174,7 +174,7 @@ namespace Edb.Environment
             public void Fatal(Func<string> message)
             {
                 var msg = message();
-                this._logger.Fatal(msg);
+                _logger.Fatal(msg);
                 NotifyListners(MessageLevel.Fatal, msg);
             }
 

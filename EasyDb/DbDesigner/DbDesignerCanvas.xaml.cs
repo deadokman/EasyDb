@@ -12,7 +12,7 @@
         /// </summary>
         public DbDesignerCanvas()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

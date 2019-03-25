@@ -44,12 +44,12 @@
         {
             get
             {
-                return (ImageSource)this.GetValue(ImageProperty);
+                return (ImageSource)GetValue(ImageProperty);
             }
 
             set
             {
-                this.SetValue(ImageProperty, value);
+                SetValue(ImageProperty, value);
             }
         }
 
@@ -60,12 +60,12 @@
         {
             get
             {
-                return (string)this.GetValue(TextProperty);
+                return (string)GetValue(TextProperty);
             }
 
             set
             {
-                this.SetValue(TextProperty, value);
+                SetValue(TextProperty, value);
             }
         }
     }

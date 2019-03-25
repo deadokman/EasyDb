@@ -17,7 +17,7 @@
         /// <summary>
         /// Defines the dataSource
         /// </summary>
-        private readonly IEdbDataSource dataSource;
+        private readonly IEdbDataSource _dataSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SupportedSourceItem"/> class.
@@ -26,7 +26,7 @@
         public SupportedSourceItem(
             [NotNull] IEdbDataSource dataSource)
         {
-            this.dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
+            _dataSource = dataSource ?? throw new ArgumentNullException(nameof(dataSource));
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         {
             get
             {
-                using (var memStream = new MemoryStream(this.dataSource.DatabaseIcon))
+                using (var memStream = new MemoryStream(_dataSource.DatabaseIcon))
                 {
                     var bi = new BitmapImage();
                     bi.BeginInit();
@@ -53,12 +53,12 @@
         /// Gets the DatabaseName
         /// Имя источника данных
         /// </summary>
-        public string DatabaseName => this.dataSource.DatabaseName;
+        public string DatabaseName => _dataSource.DatabaseName;
 
         /// <summary>
         /// Gets or sets the Module
         /// Драйвер источника данных
         /// </summary>
-        public IEdbDataSource Module => this.dataSource;
+        public IEdbDataSource Module => _dataSource;
     }
 }

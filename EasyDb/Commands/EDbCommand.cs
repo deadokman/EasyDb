@@ -18,7 +18,7 @@
         /// <param name="invokeCommand">command invocator</param>
         public EDbCommand(Action<T> invokeCommand)
         {
-            this.InvokeCommand = invokeCommand;
+            InvokeCommand = invokeCommand;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@
         public virtual bool CanExecute(object parameter)
         {
             T castType = parameter as T;
-            return this.InvokeCommand != null && castType != null;
+            return InvokeCommand != null && castType != null;
         }
 
         /// <summary>
@@ -56,7 +56,7 @@
         /// <param name="parameter">The parameter<see cref="object"/></param>
         public void Execute(object parameter)
         {
-            this.InvokeCommand.Invoke((T)parameter);
+            InvokeCommand.Invoke((T)parameter);
         }
     }
 
@@ -75,7 +75,7 @@
         public EDbCommand(Action invocator)
             : base((v) => { invocator.Invoke(); })
         {
-            this._invocator = invocator;
+            _invocator = invocator;
         }
 
         /// <summary>

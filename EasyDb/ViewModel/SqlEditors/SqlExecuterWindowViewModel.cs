@@ -18,7 +18,7 @@
         {
             var view = new SqlQueryToolView();
             view.DataContext = this;
-            this.ViewInstance = view;
+            ViewInstance = view;
         }
 
         /// <summary>

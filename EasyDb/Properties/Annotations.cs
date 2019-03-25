@@ -101,7 +101,7 @@ namespace EasyDb.Annotations
         /// <param name="formatParameterName">The formatParameterName<see cref="string"/></param>
         public StringFormatMethodAttribute([NotNull] string formatParameterName)
         {
-            this.FormatParameterName = formatParameterName;
+            FormatParameterName = formatParameterName;
         }
 
         /// <summary>
@@ -126,7 +126,7 @@ namespace EasyDb.Annotations
         /// <param name="name">The name<see cref="string"/></param>
         public ValueProviderAttribute([NotNull] string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace EasyDb.Annotations
         /// <param name="parameterName">The parameterName<see cref="string"/></param>
         public NotifyPropertyChangedInvocatorAttribute([NotNull] string parameterName)
         {
-            this.ParameterName = parameterName;
+            ParameterName = parameterName;
         }
 
         /// <summary>
@@ -199,8 +199,8 @@ namespace EasyDb.Annotations
         /// <param name="forceFullStates">The forceFullStates<see cref="bool"/></param>
         public ContractAnnotationAttribute([NotNull] string contract, bool forceFullStates)
         {
-            this.Contract = contract;
-            this.ForceFullStates = forceFullStates;
+            Contract = contract;
+            ForceFullStates = forceFullStates;
         }
 
         /// <summary>
@@ -235,7 +235,7 @@ namespace EasyDb.Annotations
         /// <param name="required">The required<see cref="bool"/></param>
         public LocalizationRequiredAttribute(bool required)
         {
-            this.Required = required;
+            Required = required;
         }
 
         /// <summary>
@@ -269,7 +269,7 @@ namespace EasyDb.Annotations
         /// <param name="baseType">The baseType<see cref="Type"/></param>
         public BaseTypeRequiredAttribute([NotNull] Type baseType)
         {
-            this.BaseType = baseType;
+            BaseType = baseType;
         }
 
         /// <summary>
@@ -319,8 +319,8 @@ namespace EasyDb.Annotations
         /// <param name="targetFlags">The targetFlags<see cref="ImplicitUseTargetFlags"/></param>
         public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
         {
-            this.UseKindFlags = useKindFlags;
-            this.TargetFlags = targetFlags;
+            UseKindFlags = useKindFlags;
+            TargetFlags = targetFlags;
         }
 
         /// <summary>
@@ -374,8 +374,8 @@ namespace EasyDb.Annotations
         /// <param name="targetFlags">The targetFlags<see cref="ImplicitUseTargetFlags"/></param>
         public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
         {
-            this.UseKindFlags = useKindFlags;
-            this.TargetFlags = targetFlags;
+            UseKindFlags = useKindFlags;
+            TargetFlags = targetFlags;
         }
 
         /// <summary>
@@ -462,7 +462,7 @@ namespace EasyDb.Annotations
         /// <param name="comment">The comment<see cref="string"/></param>
         public PublicAPIAttribute([NotNull] string comment)
         {
-            this.Comment = comment;
+            Comment = comment;
         }
 
         /// <summary>
@@ -510,7 +510,7 @@ namespace EasyDb.Annotations
         /// <param name="justification">The justification<see cref="string"/></param>
         public MustUseReturnValueAttribute([NotNull] string justification)
         {
-            this.Justification = justification;
+            Justification = justification;
         }
 
         /// <summary>
@@ -553,7 +553,7 @@ namespace EasyDb.Annotations
         /// <param name="basePath">The basePath<see cref="string"/></param>
         public PathReferenceAttribute([NotNull, PathReference] string basePath)
         {
-            this.BasePath = basePath;
+            BasePath = basePath;
         }
 
         /// <summary>
@@ -616,7 +616,7 @@ namespace EasyDb.Annotations
         /// <param name="format">The format<see cref="string"/></param>
         public AspMvcAreaMasterLocationFormatAttribute([NotNull] string format)
         {
-            this.Format = format;
+            Format = format;
         }
 
         /// <summary>
@@ -640,7 +640,7 @@ namespace EasyDb.Annotations
         /// <param name="format">The format<see cref="string"/></param>
         public AspMvcAreaPartialViewLocationFormatAttribute([NotNull] string format)
         {
-            this.Format = format;
+            Format = format;
         }
 
         /// <summary>
@@ -664,7 +664,7 @@ namespace EasyDb.Annotations
         /// <param name="format">The format<see cref="string"/></param>
         public AspMvcAreaViewLocationFormatAttribute([NotNull] string format)
         {
-            this.Format = format;
+            Format = format;
         }
 
         /// <summary>
@@ -688,7 +688,7 @@ namespace EasyDb.Annotations
         /// <param name="format">The format<see cref="string"/></param>
         public AspMvcMasterLocationFormatAttribute([NotNull] string format)
         {
-            this.Format = format;
+            Format = format;
         }
 
         /// <summary>
@@ -712,7 +712,7 @@ namespace EasyDb.Annotations
         /// <param name="format">The format<see cref="string"/></param>
         public AspMvcPartialViewLocationFormatAttribute([NotNull] string format)
         {
-            this.Format = format;
+            Format = format;
         }
 
         /// <summary>
@@ -736,7 +736,7 @@ namespace EasyDb.Annotations
         /// <param name="format">The format<see cref="string"/></param>
         public AspMvcViewLocationFormatAttribute([NotNull] string format)
         {
-            this.Format = format;
+            Format = format;
         }
 
         /// <summary>
@@ -768,7 +768,7 @@ namespace EasyDb.Annotations
         /// <param name="anonymousProperty">The anonymousProperty<see cref="string"/></param>
         public AspMvcActionAttribute([NotNull] string anonymousProperty)
         {
-            this.AnonymousProperty = anonymousProperty;
+            AnonymousProperty = anonymousProperty;
         }
 
         /// <summary>
@@ -799,7 +799,7 @@ namespace EasyDb.Annotations
         /// <param name="anonymousProperty">The anonymousProperty<see cref="string"/></param>
         public AspMvcAreaAttribute([NotNull] string anonymousProperty)
         {
-            this.AnonymousProperty = anonymousProperty;
+            AnonymousProperty = anonymousProperty;
         }
 
         /// <summary>
@@ -831,7 +831,7 @@ namespace EasyDb.Annotations
         /// <param name="anonymousProperty">The anonymousProperty<see cref="string"/></param>
         public AspMvcControllerAttribute([NotNull] string anonymousProperty)
         {
-            this.AnonymousProperty = anonymousProperty;
+            AnonymousProperty = anonymousProperty;
         }
 
         /// <summary>
@@ -965,7 +965,7 @@ namespace EasyDb.Annotations
         /// <param name="name">The name<see cref="string"/></param>
         public HtmlElementAttributesAttribute([NotNull] string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>
@@ -987,7 +987,7 @@ namespace EasyDb.Annotations
         /// <param name="name">The name<see cref="string"/></param>
         public HtmlAttributeValueAttribute([NotNull] string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>
@@ -1020,7 +1020,7 @@ namespace EasyDb.Annotations
         /// <param name="collectionAccessType">The collectionAccessType<see cref="CollectionAccessType"/></param>
         public CollectionAccessAttribute(CollectionAccessType collectionAccessType)
         {
-            this.CollectionAccessType = collectionAccessType;
+            CollectionAccessType = collectionAccessType;
         }
 
         /// <summary>
@@ -1072,7 +1072,7 @@ namespace EasyDb.Annotations
         /// <param name="conditionType">The conditionType<see cref="AssertionConditionType"/></param>
         public AssertionConditionAttribute(AssertionConditionType conditionType)
         {
-            this.ConditionType = conditionType;
+            ConditionType = conditionType;
         }
 
         /// <summary>
@@ -1177,8 +1177,8 @@ namespace EasyDb.Annotations
         /// <param name="controlType">The controlType<see cref="Type"/></param>
         public AspChildControlTypeAttribute([NotNull] string tagName, [NotNull] Type controlType)
         {
-            this.TagName = tagName;
-            this.ControlType = controlType;
+            TagName = tagName;
+            ControlType = controlType;
         }
 
         /// <summary>
@@ -1230,7 +1230,7 @@ namespace EasyDb.Annotations
         /// <param name="attribute">The attribute<see cref="string"/></param>
         public AspRequiredAttributeAttribute([NotNull] string attribute)
         {
-            this.Attribute = attribute;
+            Attribute = attribute;
         }
 
         /// <summary>
@@ -1252,7 +1252,7 @@ namespace EasyDb.Annotations
         /// <param name="createConstructorReferences">The createConstructorReferences<see cref="bool"/></param>
         public AspTypePropertyAttribute(bool createConstructorReferences)
         {
-            this.CreateConstructorReferences = createConstructorReferences;
+            CreateConstructorReferences = createConstructorReferences;
         }
 
         /// <summary>
@@ -1273,7 +1273,7 @@ namespace EasyDb.Annotations
         /// <param name="name">The name<see cref="string"/></param>
         public RazorImportNamespaceAttribute([NotNull] string name)
         {
-            this.Name = name;
+            Name = name;
         }
 
         /// <summary>
@@ -1296,8 +1296,8 @@ namespace EasyDb.Annotations
         /// <param name="fieldName">The fieldName<see cref="string"/></param>
         public RazorInjectionAttribute([NotNull] string type, [NotNull] string fieldName)
         {
-            this.Type = type;
-            this.FieldName = fieldName;
+            Type = type;
+            FieldName = fieldName;
         }
 
         /// <summary>
@@ -1325,7 +1325,7 @@ namespace EasyDb.Annotations
         /// <param name="directive">The directive<see cref="string"/></param>
         public RazorDirectiveAttribute([NotNull] string directive)
         {
-            this.Directive = directive;
+            Directive = directive;
         }
 
         /// <summary>
@@ -1347,7 +1347,7 @@ namespace EasyDb.Annotations
         /// <param name="baseType">The baseType<see cref="string"/></param>
         public RazorPageBaseTypeAttribute([NotNull] string baseType)
         {
-            this.BaseType = baseType;
+            BaseType = baseType;
         }
 
         /// <summary>
@@ -1357,8 +1357,8 @@ namespace EasyDb.Annotations
         /// <param name="pageName">The pageName<see cref="string"/></param>
         public RazorPageBaseTypeAttribute([NotNull] string baseType, string pageName)
         {
-            this.BaseType = baseType;
-            this.PageName = pageName;
+            BaseType = baseType;
+            PageName = pageName;
         }
 
         /// <summary>

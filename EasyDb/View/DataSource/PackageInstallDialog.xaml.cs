@@ -29,7 +29,7 @@ namespace EasyDb.View.DataSource
         /// <param name="controller"> Chocolattey controller</param>
         public PackageInstallDialog([NotNull] IChocolateyController controller)
         {
-            this._controller = controller ?? throw new ArgumentNullException(nameof(controller));
+            _controller = controller ?? throw new ArgumentNullException(nameof(controller));
             InitializeComponent();
             _document = new FlowDocument();
             LogsTextBox.Document = _document;
@@ -80,13 +80,13 @@ namespace EasyDb.View.DataSource
 
         private void PackageInstallDialog_OnLoaded(object sender, RoutedEventArgs e)
         {
-            this._controller.RegisterLisner(this);
+            _controller.RegisterLisner(this);
             LogsTextBox.Document.Blocks.Clear();
         }
 
         private void PackageInstallDialog_OnUnloaded(object sender, RoutedEventArgs e)
         {
-            this._controller.UnregisterLisner(this);
+            _controller.UnregisterLisner(this);
         }
     }
 }

@@ -34,14 +34,14 @@
         /// </summary>
         public string ContentId
         {
-            get => this._contentId;
+            get => _contentId;
 
             set
             {
-                if (this._contentId != value)
+                if (_contentId != value)
                 {
-                    this._contentId = value;
-                    this.RaisePropertyChanged(() => this.ContentId);
+                    _contentId = value;
+                    RaisePropertyChanged(() => ContentId);
                 }
             }
         }
@@ -56,14 +56,14 @@
         /// </summary>
         public bool IsActive
         {
-            get => this._isActive;
+            get => _isActive;
 
             set
             {
-                if (this._isActive != value)
+                if (_isActive != value)
                 {
-                    this._isActive = value;
-                    this.RaisePropertyChanged(() => this.IsActive);
+                    _isActive = value;
+                    RaisePropertyChanged(() => IsActive);
                 }
             }
         }
@@ -73,14 +73,14 @@
         /// </summary>
         public bool IsSelected
         {
-            get => this._isSelected;
+            get => _isSelected;
 
             set
             {
-                if (this._isSelected != value)
+                if (_isSelected != value)
                 {
-                    this._isSelected = value;
-                    this.RaisePropertyChanged(() => this.IsSelected);
+                    _isSelected = value;
+                    RaisePropertyChanged(() => IsSelected);
                 }
             }
         }
@@ -90,14 +90,14 @@
         /// </summary>
         public string Title
         {
-            get => this._title;
+            get => _title;
 
             set
             {
-                if (this._title != value)
+                if (_title != value)
                 {
-                    this._title = value;
-                    this.RaisePropertyChanged(() => this.Title);
+                    _title = value;
+                    RaisePropertyChanged(() => Title);
                 }
             }
         }

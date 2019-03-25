@@ -12,7 +12,7 @@
         /// </summary>
         public DatasourceExplorerControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

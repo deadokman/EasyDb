@@ -16,7 +16,7 @@
         protected override void DoChangeTheme(object sender)
         {
             var theme = ThemeManager.DetectAppStyle(Application.Current);
-            var appTheme = ThemeManager.GetAppTheme(this.Name);
+            var appTheme = ThemeManager.GetAppTheme(Name);
             ThemeManager.ChangeAppStyle(Application.Current, theme.Item2, appTheme);
         }
     }

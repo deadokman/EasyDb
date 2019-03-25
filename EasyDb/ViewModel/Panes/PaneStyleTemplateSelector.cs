@@ -23,7 +23,7 @@
         {
             if (item is PaneBaseViewModel)
             {
-                return this.PaneWindowStyle;
+                return PaneWindowStyle;
             }
 
             return base.SelectStyle(item, container);

@@ -46,16 +46,16 @@
             {
                 if (optionObject.IsPasswordProp)
                 {
-                    return this.PasswordField;
+                    return PasswordField;
                 }
 
                 switch (optionObject.PropertyType)
                 {
-                    case "System.String": return this.TextFieldTemplate;
-                    case "System.Boolean": return this.CheckboxTemplate;
-                    case "System.Int32": return this.NumericTemplate;
-                    case "System.Int64": return this.NumericTemplate;
-                    case "System.Int16": return this.NumericTemplate;
+                    case "System.String": return TextFieldTemplate;
+                    case "System.Boolean": return CheckboxTemplate;
+                    case "System.Int32": return NumericTemplate;
+                    case "System.Int64": return NumericTemplate;
+                    case "System.Int16": return NumericTemplate;
 
                     default: return base.SelectTemplate(item, container);
                 }

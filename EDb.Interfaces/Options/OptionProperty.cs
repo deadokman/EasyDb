@@ -30,13 +30,13 @@
             bool isPasswordProperty,
             [NotNull] PropertyInfo propertyInfo)
         {
-            this.DefaultPropertyName = defaultPropertyName ?? throw new ArgumentNullException(nameof(defaultPropertyName));
-            this.ResourcePropertyKey = resourcePropertyKey ?? throw new ArgumentNullException(nameof(resourcePropertyKey));
-            this.PropertyValueTypeName = propertyValueTypeName ?? throw new ArgumentNullException(nameof(propertyValueTypeName));
-            this.DefaultValue = defaultValue;
-            this.ReadOnly = readOnly;
-            this.IsPasswordProperty = isPasswordProperty;
-            this.PropertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
+            DefaultPropertyName = defaultPropertyName ?? throw new ArgumentNullException(nameof(defaultPropertyName));
+            ResourcePropertyKey = resourcePropertyKey ?? throw new ArgumentNullException(nameof(resourcePropertyKey));
+            PropertyValueTypeName = propertyValueTypeName ?? throw new ArgumentNullException(nameof(propertyValueTypeName));
+            DefaultValue = defaultValue;
+            ReadOnly = readOnly;
+            IsPasswordProperty = isPasswordProperty;
+            PropertyInfo = propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo));
         }
 
         /// <summary>
@@ -86,6 +86,6 @@
         /// Actual property name
         /// </summary>
         public string ActualPropertyName =>
-            string.IsNullOrEmpty(this.ResourcePropertyKey) ? DefaultPropertyName : this.ResourcePropertyKey;
+            string.IsNullOrEmpty(ResourcePropertyKey) ? DefaultPropertyName : ResourcePropertyKey;
     }
 }

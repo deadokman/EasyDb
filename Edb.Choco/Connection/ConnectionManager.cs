@@ -42,7 +42,7 @@ namespace Edb.Environment.Connection
         /// <param name="datasourceManager">Datasource manager</param>
         public ConnectionManager(IDataSourceManager datasourceManager)
         {
-            this._datasourceManager = datasourceManager;
+            _datasourceManager = datasourceManager;
             _connectionLinks = new Dictionary<Guid, IEDbConnectionLink>();
         }
 

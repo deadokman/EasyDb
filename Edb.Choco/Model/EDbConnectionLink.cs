@@ -42,8 +42,8 @@ namespace Edb.Environment.Model
         /// <param name="dbConnectionInstance">The dbConnectionInstance<see cref="IDbConnection"/></param>
         public EDbConnectionLink([NotNull] UserDatasourceConfiguration configuration, [NotNull] IDbConnection dbConnectionInstance)
         {
-            this._configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            this._dbConnectionInstance = dbConnectionInstance ?? throw new ArgumentNullException(nameof(dbConnectionInstance));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _dbConnectionInstance = dbConnectionInstance ?? throw new ArgumentNullException(nameof(dbConnectionInstance));
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Edb.Environment.Model
         /// Gets the DatasourceGuid
         /// Edb datasource GUID
         /// </summary>
-        public Guid DatasourceGuid => this.ConnectionConfiguration.DatasoureGuid;
+        public Guid DatasourceGuid => ConnectionConfiguration.DatasoureGuid;
 
         /// <summary>
         /// Gets the ConnectionConfiguration
@@ -92,7 +92,7 @@ namespace Edb.Environment.Model
         /// <returns>An object representing the new transaction.</returns>
         public IDbTransaction BeginTransaction()
         {
-            return this._dbConnectionInstance.BeginTransaction();
+            return _dbConnectionInstance.BeginTransaction();
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Edb.Environment.Model
         /// <returns>An object representing the new transaction.</returns>
         public IDbTransaction BeginTransaction(IsolationLevel il)
         {
-            return this._dbConnectionInstance.BeginTransaction(il);
+            return _dbConnectionInstance.BeginTransaction(il);
         }
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace Edb.Environment.Model
         /// </summary>
         public void Close()
         {
-            this._dbConnectionInstance.Close();
+            _dbConnectionInstance.Close();
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Edb.Environment.Model
         /// <param name="databaseName">The name of the database to use in place of the current database. </param>
         public void ChangeDatabase(string databaseName)
         {
-            this._dbConnectionInstance.ChangeDatabase(databaseName);
+            _dbConnectionInstance.ChangeDatabase(databaseName);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Edb.Environment.Model
         public IDbCommand CreateCommand()
         {
             TryRestoreConnection();
-            return this._dbConnectionInstance.CreateCommand();
+            return _dbConnectionInstance.CreateCommand();
         }
 
 
@@ -138,36 +138,36 @@ namespace Edb.Environment.Model
         /// </summary>
         public void Open()
         {
-            this._dbConnectionInstance.Open();
+            _dbConnectionInstance.Open();
         }
 
         /// <summary>
         /// Gets or sets the ConnectionString
         /// </summary>
-        public string ConnectionString { get => this._dbConnectionInstance.ConnectionString; set => this._dbConnectionInstance.ConnectionString = value; }
+        public string ConnectionString { get => _dbConnectionInstance.ConnectionString; set => _dbConnectionInstance.ConnectionString = value; }
 
         /// <summary>
         /// Gets the ConnectionTimeout
         /// </summary>
-        public int ConnectionTimeout { get => this._dbConnectionInstance.ConnectionTimeout; }
+        public int ConnectionTimeout { get => _dbConnectionInstance.ConnectionTimeout; }
 
         /// <summary>
         /// Gets the Database
         /// </summary>
-        public string Database { get => this._dbConnectionInstance.Database; }
+        public string Database { get => _dbConnectionInstance.Database; }
 
         /// <summary>
         /// Gets the State
         /// </summary>
-        public ConnectionState State { get => this._dbConnectionInstance.State; }
+        public ConnectionState State { get => _dbConnectionInstance.State; }
 
         private void TryRestoreConnection()
         {
-            if (this._dbConnectionInstance.State == ConnectionState.Closed || this._dbConnectionInstance.State == ConnectionState.Broken)
+            if (_dbConnectionInstance.State == ConnectionState.Closed || _dbConnectionInstance.State == ConnectionState.Broken)
             {
                 try
                 {
-                    this._dbConnectionInstance.Open();
+                    _dbConnectionInstance.Open();
                 }
                 catch (Exception e)
                 {
@@ -179,7 +179,7 @@ namespace Edb.Environment.Model
 
         private void InvokeConnectionLost(Exception e)
         {
-            if (this.ConnectionLost != null)
+            if (ConnectionLost != null)
             {
                 ConnectionLost.Invoke(this, new ConnectionErrorEventArgs(e));
             }

@@ -32,7 +32,7 @@
         {
             if (item is SqlExecuterWindowViewModel)
             {
-                return this.SqlQueryToolTemplate;
+                return SqlQueryToolTemplate;
             }
 
             // if (item is DiagramDesignerViewModel)

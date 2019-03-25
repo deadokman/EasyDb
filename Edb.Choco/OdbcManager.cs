@@ -59,7 +59,7 @@
         /// <returns>returns true if ODBC driver installed</returns>
         public bool OdbcDriverInstalled(string driverName, out OdbcDriver driver)
         {
-            return this._odbcDrivers.TryGetValue(driverName, out driver);
+            return _odbcDrivers.TryGetValue(driverName, out driver);
         }
 
         /// <summary>

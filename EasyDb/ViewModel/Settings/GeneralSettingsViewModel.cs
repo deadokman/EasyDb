@@ -67,19 +67,19 @@
         /// </summary>
         public GeneralSettingsViewModel()
         {
-            this.AccentColors = ThemeManager.Accents.Select(
+            AccentColors = ThemeManager.Accents.Select(
                 a => new AccentColorMenuData()
                          {
                              Name = a.Name, ColorBrush = a.Resources["AccentColorBrush"] as SolidColorBrush
                          }).ToList();
-            this.AppThemes = ThemeManager.AppThemes.Select(
+            AppThemes = ThemeManager.AppThemes.Select(
                 a => new AppThemeMenuData()
                          {
                              Name = a.Name,
                              BorderColorBrush = a.Resources["BlackColorBrush"] as SolidColorBrush,
                              ColorBrush = a.Resources["WhiteColorBrush"] as SolidColorBrush
                          }).ToList();
-            this.LoadDefaults();
+            LoadDefaults();
         }
 
         /// <summary>
@@ -91,12 +91,12 @@
         {
             get
             {
-                return this._accentColors;
+                return _accentColors;
             }
 
             set
             {
-                this._accentColors = value;
+                _accentColors = value;
             }
         }
 
@@ -131,13 +131,13 @@
         {
             get
             {
-                return this._name;
+                return _name;
             }
 
             set
             {
-                this._name = value;
-                RaisePropertyChanged(() => this.Name);
+                _name = value;
+                RaisePropertyChanged(() => Name);
             }
         }
 
@@ -149,13 +149,13 @@
         {
             get
             {
-                return this._pluginsPath;
+                return _pluginsPath;
             }
 
             set
             {
-                this._pluginsPath = value;
-                RaisePropertyChanged(() => this.PluginsPath);
+                _pluginsPath = value;
+                RaisePropertyChanged(() => PluginsPath);
             }
         }
 
@@ -168,13 +168,13 @@
         {
             get
             {
-                return this._selectedAccent;
+                return _selectedAccent;
             }
 
             set
             {
-                this._selectedAccent = value;
-                RaisePropertyChanged(() => this.SelectedAccent);
+                _selectedAccent = value;
+                RaisePropertyChanged(() => SelectedAccent);
             }
         }
 
@@ -187,13 +187,13 @@
         {
             get
             {
-                return this._selectedAppTheme;
+                return _selectedAppTheme;
             }
 
             set
             {
-                this._selectedAppTheme = value;
-                RaisePropertyChanged(() => this.SelectedAppTheme);
+                _selectedAppTheme = value;
+                RaisePropertyChanged(() => SelectedAppTheme);
             }
         }
 
@@ -205,13 +205,13 @@
         {
             get
             {
-                return this._selectedLang;
+                return _selectedLang;
             }
 
             set
             {
-                this._selectedLang = value;
-                RaisePropertyChanged(() => this.SelectedLang);
+                _selectedLang = value;
+                RaisePropertyChanged(() => SelectedLang);
             }
         }
 
@@ -229,13 +229,13 @@
         {
             get
             {
-                return this._settingsWidth;
+                return _settingsWidth;
             }
 
             set
             {
-                this._settingsWidth = value;
-                RaisePropertyChanged(() => this.SttingsWidthValue);
+                _settingsWidth = value;
+                RaisePropertyChanged(() => SttingsWidthValue);
             }
         }
 
@@ -245,7 +245,7 @@
         public override void Cleanup()
         {
             base.Cleanup();
-            App.LanguageChanged -= this.AppOnLanguageChanged;
+            App.LanguageChanged -= AppOnLanguageChanged;
         }
 
         /// <summary>
@@ -253,8 +253,8 @@
         /// </summary>
         public void ResetDefault()
         {
-            this.LoadDefaults();
-            this.SaveSettings();
+            LoadDefaults();
+            SaveSettings();
         }
 
         /// <summary>
@@ -263,26 +263,26 @@
         public void SaveSettings()
         {
             var theme = ThemeManager.DetectAppStyle(Application.Current);
-            if (this._selectedAccent != null && this._selectedAccent.Name != theme.Item2.Name)
+            if (_selectedAccent != null && _selectedAccent.Name != theme.Item2.Name)
             {
-                this.ApplyTheme(
-                    this._selectedAccent,
-                    () => Properties.Settings.Default.AccentTheme = this._selectedAccent.Name);
+                ApplyTheme(
+                    _selectedAccent,
+                    () => Properties.Settings.Default.AccentTheme = _selectedAccent.Name);
             }
 
-            if (this._selectedAppTheme != null && this._selectedAppTheme.Name != theme.Item1.Name)
+            if (_selectedAppTheme != null && _selectedAppTheme.Name != theme.Item1.Name)
             {
-                this.ApplyTheme(
-                    this._selectedAppTheme,
-                    () => Properties.Settings.Default.BaseTheme = this._selectedAppTheme.Name);
+                ApplyTheme(
+                    _selectedAppTheme,
+                    () => Properties.Settings.Default.BaseTheme = _selectedAppTheme.Name);
             }
 
-            App.Language = this._selectedLang;
-            Properties.Settings.Default.SettingsFlyoutWidthLimiter = this._settingsWidth;
-            this.InvalidateMainWindowWidth();
-            if (Properties.Settings.Default.PluginsPath != this._pluginsPath)
+            App.Language = _selectedLang;
+            Properties.Settings.Default.SettingsFlyoutWidthLimiter = _settingsWidth;
+            InvalidateMainWindowWidth();
+            if (Properties.Settings.Default.PluginsPath != _pluginsPath)
             {
-                Properties.Settings.Default.PluginsPath = this._pluginsPath;
+                Properties.Settings.Default.PluginsPath = _pluginsPath;
 
                 // DatasourceManager.Instance.ReloadPlugins();
             }
@@ -308,7 +308,7 @@
         /// <param name="eventArgs">The eventArgs<see cref="EventArgs"/></param>
         private void AppOnLanguageChanged(object sender, EventArgs eventArgs)
         {
-            this.Name = (string)Application.Current.Resources["gs_General"];
+            Name = (string)Application.Current.Resources["gs_General"];
         }
 
         /// <summary>
@@ -326,26 +326,26 @@
         /// </summary>
         private void LoadDefaults()
         {
-            this.SelectedAppTheme = this.AppThemes.FirstOrDefault(at => at.Name == App.SelectedAppTheme.Name);
-            this.SelectedAccent = this.AccentColors.FirstOrDefault(ac => ac.Name == App.SelectedAccent.Name);
-            this.SttingsWidthValue = Properties.Settings.Default.SettingsFlyoutWidthLimiter;
-            this.PluginsPath = Properties.Settings.Default.PluginsPath;
-            this.PluginsPath = Path.GetFullPath(this.PluginsPath);
-            this.DisplayControl = new GeneralSettringsPage();
-            this.DisplayControl.DataContext = this;
-            this.SelectedLang = App.Language;
-            App.LanguageChanged += this.AppOnLanguageChanged;
-            this.Name = (string)Application.Current.Resources["gs_General"];
+            SelectedAppTheme = AppThemes.FirstOrDefault(at => at.Name == App.SelectedAppTheme.Name);
+            SelectedAccent = AccentColors.FirstOrDefault(ac => ac.Name == App.SelectedAccent.Name);
+            SttingsWidthValue = Properties.Settings.Default.SettingsFlyoutWidthLimiter;
+            PluginsPath = Properties.Settings.Default.PluginsPath;
+            PluginsPath = Path.GetFullPath(PluginsPath);
+            DisplayControl = new GeneralSettringsPage();
+            DisplayControl.DataContext = this;
+            SelectedLang = App.Language;
+            App.LanguageChanged += AppOnLanguageChanged;
+            Name = (string)Application.Current.Resources["gs_General"];
 
             // Реакция на команду выбора папки плагинов
-            this.SetPathCommand = new RelayCommand(
+            SetPathCommand = new RelayCommand(
                 () =>
                     {
                         using (var dlg = new FolderBrowserDialog())
                         {
                             if (dlg.ShowDialog() == DialogResult.OK)
                             {
-                                this.PluginsPath = Path.GetFullPath(dlg.SelectedPath);
+                                PluginsPath = Path.GetFullPath(dlg.SelectedPath);
                             }
 
                             // DatasourceManager.Instance.ReloadPlugins();

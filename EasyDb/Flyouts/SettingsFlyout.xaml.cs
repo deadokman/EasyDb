@@ -12,7 +12,7 @@
         /// </summary>
         public SettingsFlyout()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

@@ -33,8 +33,8 @@
         /// </summary>
         public GeneralOption()
         {
-            this.OptionsDefinitionName = "General";
-            this._port = 5432;
+            OptionsDefinitionName = "General";
+            _port = 5432;
         }
 
         /// <summary>
@@ -44,11 +44,11 @@
         [OptionDisplayName("opt_def_database", "Database:")]
         public string Database
         {
-            get => this._database;
+            get => _database;
             set
             {
-                this._database = value;
-                this.OnPropertyChanged();
+                _database = value;
+                OnPropertyChanged();
             }
         }
 
@@ -61,11 +61,11 @@
             ErrorMessage = "Should be IP or valid hostname")]
         public string Host
         {
-            get => this._host;
+            get => _host;
             set
             {
-                this._host = value;
-                this.OnPropertyChanged();
+                _host = value;
+                OnPropertyChanged();
             }
         }
 
@@ -77,11 +77,11 @@
         [OptionDisplayName("opt_def_user", "User:")]
         public string User
         {
-            get => this._user;
+            get => _user;
             set
             {
-                this._user = value;
-                this.OnPropertyChanged();
+                _user = value;
+                OnPropertyChanged();
             }
         }
 
@@ -100,11 +100,11 @@
         [RegularExpression("^[0-9]{1,7}$")]
         public int Port
         {
-            get => this._port;
+            get => _port;
             set
             {
-                this._port = value;
-                this.OnPropertyChanged();
+                _port = value;
+                OnPropertyChanged();
             }
         }
     }

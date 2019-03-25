@@ -28,15 +28,15 @@
         /// <param name="optionObject">Options object</param>
         public DatasourceOption([NotNull] OptionProperty optProp, [NotNull] EdbSourceOption optionObject)
         {
-            this._optProp = optProp ?? throw new ArgumentNullException(nameof(optProp));
-            this._optionObject = optionObject ?? throw new ArgumentNullException(nameof(optionObject));
+            _optProp = optProp ?? throw new ArgumentNullException(nameof(optProp));
+            _optionObject = optionObject ?? throw new ArgumentNullException(nameof(optionObject));
             optionObject.SetThrowExceptionOnInvalidate(true);
         }
 
         /// <summary>
         /// Gets a value indicating whether IsReadOnly
         /// </summary>
-        public bool IsReadOnly => this._optProp.ReadOnly;
+        public bool IsReadOnly => _optProp.ReadOnly;
 
         /// <summary>
         /// Gets or sets the OptionName
@@ -48,12 +48,12 @@
         /// <summary>
         /// Gets property system type
         /// </summary>
-        public string PropertyType => this._optProp.PropertyValueTypeName;
+        public string PropertyType => _optProp.PropertyValueTypeName;
 
         /// <summary>
         /// Gets a value indicating whether property should contain password
         /// </summary>
-        public bool IsPasswordProp => this._optProp.IsPasswordProperty;
+        public bool IsPasswordProp => _optProp.IsPasswordProperty;
 
         /// <summary>
         /// Gets or sets the Value
@@ -62,10 +62,10 @@
         [DebuggerHidden]
         public object Value
         {
-            get => this._optProp.PropertyInfo.GetValue(this._optionObject);
+            get => _optProp.PropertyInfo.GetValue(_optionObject);
             set
             {
-                this._optProp.PropertyInfo.SetValue(this._optionObject, value);
+                _optProp.PropertyInfo.SetValue(_optionObject, value);
             }
         }
     }

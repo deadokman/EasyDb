@@ -33,7 +33,7 @@
         /// </summary>
         public PasswordStoreSecureWindows()
         {
-            this._logger = LogManager.GetCurrentClassLogger();
+            _logger = LogManager.GetCurrentClassLogger();
         }
 
         /// <summary>
@@ -92,7 +92,7 @@
             }
             catch (Exception ex)
             {
-                this._logger.Error(new Exception($"Error during exract password for plugin: {guid}", ex));
+                _logger.Error(new Exception($"Error during exract password for plugin: {guid}", ex));
                 return false;
             }
 

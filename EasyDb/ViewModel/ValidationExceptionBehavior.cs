@@ -32,9 +32,9 @@
         /// </summary>
         protected override void OnAttached()
         {
-            this.AssociatedObject.AddHandler(
+            AssociatedObject.AddHandler(
                 Validation.ErrorEvent,
-                new EventHandler<ValidationErrorEventArgs>(this.OnValidationError));
+                new EventHandler<ValidationErrorEventArgs>(OnValidationError));
         }
 
         /// <summary>
@@ -53,18 +53,18 @@
 
             if (e.Action == ValidationErrorEventAction.Added)
             {
-                this.validationExceptionCount++;
+                validationExceptionCount++;
             }
             else
             {
-                this.validationExceptionCount--;
+                validationExceptionCount--;
             }
 
-            if (this.AssociatedObject.DataContext is IValidationExceptionHandler)
+            if (AssociatedObject.DataContext is IValidationExceptionHandler)
             {
                 // transfer the information back to the viewmodel
-                var viewModel = (IValidationExceptionHandler)this.AssociatedObject.DataContext;
-                viewModel.ValidationExceptionsChanged(this.validationExceptionCount);
+                var viewModel = (IValidationExceptionHandler)AssociatedObject.DataContext;
+                viewModel.ValidationExceptionsChanged(validationExceptionCount);
             }
         }
     }

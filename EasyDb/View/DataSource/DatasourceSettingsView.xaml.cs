@@ -12,7 +12,7 @@
         /// </summary>
         public DatasourceSettingsView()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

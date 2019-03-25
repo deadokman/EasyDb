@@ -31,7 +31,7 @@ namespace EasyDb.Tests.EnvironmentTests
         [TestMethod]
         public void ListOdbcDeriversTest()
         {
-            var drivers = this.Manager.ListOdbcDrivers();
+            var drivers = Manager.ListOdbcDrivers();
             Assert.IsTrue(drivers.Any());
         }
     }

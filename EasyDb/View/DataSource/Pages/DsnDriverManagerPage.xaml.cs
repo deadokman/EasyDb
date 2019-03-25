@@ -13,7 +13,7 @@
         /// </summary>
         public DsnDriverManagerPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
     }
 }

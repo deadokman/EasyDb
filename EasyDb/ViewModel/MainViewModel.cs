@@ -89,34 +89,34 @@ namespace EasyDb.ViewModel
                 throw new ArgumentNullException(nameof(messenger));
             }
 
-            this._manager = manager ?? throw new ArgumentNullException(nameof(manager));
-            this._dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
-            this._chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
-            this.IsInterfaceEnabled = false;
-            this._bgWorkerInit.DoWork += (sender, args) =>
+            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
+            _chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
+            IsInterfaceEnabled = false;
+            _bgWorkerInit.DoWork += (sender, args) =>
                 {
                     manager.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
                 };
 
-            this._bgWorkerInit.RunWorkerCompleted += (sender, args) =>
+            _bgWorkerInit.RunWorkerCompleted += (sender, args) =>
                 {
                     // If fist time launch, show log in form
                     if (Properties.Settings.Default.IsFirstTimeStartUp)
                     {
                     }
 
-                    this.IsInterfaceEnabled = true;
+                    IsInterfaceEnabled = true;
                 };
 
-            this.ContentRendered = new RelayCommand(async () =>
+            ContentRendered = new RelayCommand(async () =>
                     {
-                        if (!this._chocoController.ValidateChocoInstall() && !chocoInstallVm.HideDialog)
+                        if (!_chocoController.ValidateChocoInstall() && !chocoInstallVm.HideDialog)
                         {
                             var cd = new CustomDialog();
                             cd.Height = 250;
                             cd.Content = new ChocolateyInstallControll(
-                                () => { this._dialogCoordinator.HideMetroDialogAsync(this, cd); });
-                            await this._dialogCoordinator.ShowMetroDialogAsync(this, cd);
+                                () => { _dialogCoordinator.HideMetroDialogAsync(this, cd); });
+                            await _dialogCoordinator.ShowMetroDialogAsync(this, cd);
                         }
                     });
 
@@ -130,8 +130,8 @@ namespace EasyDb.ViewModel
                     });
 
             // Validate choco install if necessary
-            this.IsInterfaceEnabled = false;
-            this._bgWorkerInit.RunWorkerAsync();
+            IsInterfaceEnabled = false;
+            _bgWorkerInit.RunWorkerAsync();
         }
 
         /// <summary>
@@ -157,13 +157,13 @@ namespace EasyDb.ViewModel
         {
             get
             {
-                return this._activePane;
+                return _activePane;
             }
 
             set
             {
-                this._activePane = value;
-                RaisePropertyChanged(() => this.ActivePane);
+                _activePane = value;
+                RaisePropertyChanged(() => ActivePane);
             }
         }
 
@@ -175,7 +175,7 @@ namespace EasyDb.ViewModel
         {
             get
             {
-                return !this._isInterfaceEnabled;
+                return !_isInterfaceEnabled;
             }
         }
 
@@ -187,14 +187,14 @@ namespace EasyDb.ViewModel
         {
             get
             {
-                return this._isInterfaceEnabled;
+                return _isInterfaceEnabled;
             }
 
             set
             {
-                this._isInterfaceEnabled = value;
-                RaisePropertyChanged(() => this.IsInterfaceEnabled);
-                RaisePropertyChanged(() => this.IsInterfaceDisabled);
+                _isInterfaceEnabled = value;
+                RaisePropertyChanged(() => IsInterfaceEnabled);
+                RaisePropertyChanged(() => IsInterfaceDisabled);
             }
         }
 
@@ -206,12 +206,12 @@ namespace EasyDb.ViewModel
         {
             get
             {
-                if (this._panesCollection == null)
+                if (_panesCollection == null)
                 {
-                    this._panesCollection = new ObservableCollection<PaneBaseViewModel>();
+                    _panesCollection = new ObservableCollection<PaneBaseViewModel>();
                 }
 
-                return this._panesCollection;
+                return _panesCollection;
             }
         }
 
@@ -223,13 +223,13 @@ namespace EasyDb.ViewModel
         {
             get
             {
-                return this._showLogInForm;
+                return _showLogInForm;
             }
 
             set
             {
-                this._showLogInForm = value;
-                RaisePropertyChanged(() => this.ShowLogInForm);
+                _showLogInForm = value;
+                RaisePropertyChanged(() => ShowLogInForm);
             }
         }
 
@@ -247,10 +247,10 @@ namespace EasyDb.ViewModel
         /// <param name="vm">The vm<see cref="PaneBaseViewModel"/></param>
         private void PaneClosing(PaneBaseViewModel vm)
         {
-            vm.PaneClosing -= this.PaneClosing;
+            vm.PaneClosing -= PaneClosing;
 
             // vm.Plugin.StopPlugin();
-            this.PaneViewModels.Remove(vm);
+            PaneViewModels.Remove(vm);
         }
     }
 }

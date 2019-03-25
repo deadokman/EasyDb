@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EasyDb.ViewModel
 {
@@ -19,8 +16,6 @@ namespace EasyDb.ViewModel
     /// </summary>
     public class OdbcManagerViewModel : ViewModelBase, IOdbcManagerViewModel
     {
-        private readonly IOdbcManager odbcManager;
-
         private IEnumerable<OdbcDriver> _odbcDrivers;
 
         /// <summary>
@@ -29,8 +24,8 @@ namespace EasyDb.ViewModel
         /// <param name="odbcManager">Odbc drivers repository instance</param>
         public OdbcManagerViewModel([NotNull] IOdbcManager odbcManager)
         {
-            this.odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
-            OdbcDrivers = this.odbcManager.ListOdbcDrivers();
+            odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
+            OdbcDrivers = odbcManager.ListOdbcDrivers();
         }
 
         /// <summary>
@@ -38,11 +33,11 @@ namespace EasyDb.ViewModel
         /// </summary>
         public IEnumerable<OdbcDriver> OdbcDrivers
         {
-            get => this._odbcDrivers;
+            get => _odbcDrivers;
             set
             {
-                this._odbcDrivers = value;
-                this.RaisePropertyChanged(() => OdbcDrivers);
+                _odbcDrivers = value;
+                RaisePropertyChanged(() => OdbcDrivers);
             }
         }
     }

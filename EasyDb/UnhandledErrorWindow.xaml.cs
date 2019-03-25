@@ -18,13 +18,13 @@
         /// <param name="owner">The owner<see cref="Window"/></param>
         public UnhandledErrorWindow(Exception ex, Window owner)
         {
-            this.InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            this.Owner = owner;
-            this.MainErrMessage.Text = ex.Message + "\n" + ex.InnerException?.Message;
-            this.MainExText.AppendText(ex.ToString());
+            InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            Owner = owner;
+            MainErrMessage.Text = ex.Message + "\n" + ex.InnerException?.Message;
+            MainExText.AppendText(ex.ToString());
             SystemSounds.Hand.Play();
-            this.Focus();
+            Focus();
         }
     }
 }

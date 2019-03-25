@@ -32,7 +32,7 @@ namespace EDb.Interfaces
         /// <param name="definition">Option definition instance</param>
         public void SetOptionDefinition(ModuleOptionDefinition definition)
         {
-            this.OptionDefinitions = definition;
+            OptionDefinitions = definition;
         }
 
         /// <summary>
@@ -41,12 +41,12 @@ namespace EDb.Interfaces
         /// <returns></returns>
         public virtual ModuleOptionDefinition ToOptionDefinition()
         {
-            if (this.OptionDefinitions != null)
+            if (OptionDefinitions != null)
             {
-                return this.OptionDefinitions;
+                return OptionDefinitions;
             }
 
-            var currentType = this.GetType();
+            var currentType = GetType();
             var definitionProps = currentType.GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Select(p => new { prop = p, optDisplay = p.GetCustomAttributes<OptionDisplayNameAttribute>().FirstOrDefault()})
                 .Where(p => p.optDisplay != null).ToArray();
@@ -66,11 +66,11 @@ namespace EDb.Interfaces
             }
 
             var moduleOptionDefenition = new ModuleOptionDefinition();
-            moduleOptionDefenition.DefinitionName = this.OptionsDefinitionName;
+            moduleOptionDefenition.DefinitionName = OptionsDefinitionName;
             moduleOptionDefenition.Properties = resultArr;
             moduleOptionDefenition.PropertyDefinitionType = currentType.FullName;
 
-            this.OptionDefinitions = moduleOptionDefenition;
+            OptionDefinitions = moduleOptionDefenition;
             return moduleOptionDefenition;
         }
 

@@ -33,7 +33,7 @@
         /// <param name="title">The title<see cref="string"/></param>
         public PaneBaseViewModel(string title)
         {
-            this.Title = title;
+            Title = title;
         }
 
         /// <summary>
@@ -54,14 +54,14 @@
         {
             get
             {
-                return this._isInitializing;
+                return _isInitializing;
             }
 
             set
             {
-                this._isInitializing = value;
-                this.IsNotInitializing = !value;
-                RaisePropertyChanged(() => this.IsInitializing);
+                _isInitializing = value;
+                IsNotInitializing = !value;
+                RaisePropertyChanged(() => IsInitializing);
             }
         }
 
@@ -73,13 +73,13 @@
         {
             get
             {
-                return this._isNotInitializing;
+                return _isNotInitializing;
             }
 
             set
             {
-                this._isNotInitializing = value;
-                RaisePropertyChanged(() => this.IsNotInitializing);
+                _isNotInitializing = value;
+                RaisePropertyChanged(() => IsNotInitializing);
             }
         }
 
@@ -98,9 +98,9 @@
         /// </summary>
         protected void InvokeClosing()
         {
-            if (this.PaneClosing != null)
+            if (PaneClosing != null)
             {
-                this.PaneClosing.Invoke(this);
+                PaneClosing.Invoke(this);
             }
         }
     }

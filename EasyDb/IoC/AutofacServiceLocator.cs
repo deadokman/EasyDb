@@ -30,7 +30,7 @@
         /// </summary>
         private AutofacServiceLocator()
         {
-            this._containerBuilder = new ContainerBuilder();
+            _containerBuilder = new ContainerBuilder();
         }
 
         /// <summary>
@@ -56,7 +56,7 @@
         /// <returns>Returns container builder instance</returns>
         public ContainerBuilder GetBuilder()
         {
-            return this._containerBuilder;
+            return _containerBuilder;
         }
 
         /// <summary>
@@ -64,7 +64,7 @@
         /// </summary>
         public void ActivateIoc()
         {
-            this._container = this._containerBuilder.Build();
+            _container = _containerBuilder.Build();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@
         /// <returns>The <see cref="IEnumerable{TService}"/></returns>
         public IEnumerable<TService> GetAllInstances<TService>()
         {
-            return this._container.Resolve<IEnumerable<TService>>();
+            return _container.Resolve<IEnumerable<TService>>();
         }
 
         /// <summary>
@@ -94,7 +94,7 @@
         /// <returns>The <see cref="object"/></returns>
         public object GetInstance(Type serviceType)
         {
-            return this._container.ResolveOptional(serviceType);
+            return _container.ResolveOptional(serviceType);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@
         /// <returns>The <see cref="object"/></returns>
         public object GetInstance(Type serviceType, string key)
         {
-            return this._container.ResolveKeyed(key, serviceType);
+            return _container.ResolveKeyed(key, serviceType);
         }
 
         /// <summary>
@@ -115,7 +115,7 @@
         /// <returns>Service type2</returns>
         public TService GetInstance<TService>()
         {
-            return this._container.Resolve<TService>();
+            return _container.Resolve<TService>();
         }
 
         /// <summary>
@@ -126,7 +126,7 @@
         /// <returns>Service type3</returns>
         public TService GetInstance<TService>(string key)
         {
-            return this._container.ResolveKeyed<TService>(key);
+            return _container.ResolveKeyed<TService>(key);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@
         /// <returns>The <see cref="object"/></returns>
         public object GetService(Type serviceType)
         {
-            return this._container.Resolve(serviceType);
+            return _container.Resolve(serviceType);
         }
     }
 }

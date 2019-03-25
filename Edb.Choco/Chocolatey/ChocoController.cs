@@ -77,7 +77,7 @@ namespace Edb.Environment.Chocolatey
         /// <param name="logger">The logger<see cref="Autofac.Extras.NLog.ILogger"/></param>
         public ChocoController(Autofac.Extras.NLog.ILogger logger)
         {
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _loggerWrapper = new ChocolateyLoggerWrapper(logger);
         }
 
@@ -120,7 +120,7 @@ namespace Edb.Environment.Chocolatey
         /// <param name="listner">listner</param>
         public void RegisterLisner(IChocoMessageListner listner)
         {
-            this._loggerWrapper.RegisterListner(listner);
+            _loggerWrapper.RegisterListner(listner);
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace Edb.Environment.Chocolatey
         /// <param name="listner">listner</param>
         public void UnregisterLisner(IChocoMessageListner listner)
         {
-            this._loggerWrapper.UnregisterListner(listner);
+            _loggerWrapper.UnregisterListner(listner);
         }
 
         /// <summary>
@@ -208,7 +208,7 @@ namespace Edb.Environment.Chocolatey
         {
             using (await Lock.WriteLockAsync())
             {
-                var choco = Lets.GetChocolatey().SetCustomLogging(this._loggerWrapper);
+                var choco = Lets.GetChocolatey().SetCustomLogging(_loggerWrapper);
                 choco.Set(
                     config =>
                     {
@@ -235,7 +235,7 @@ namespace Edb.Environment.Chocolatey
                 Action<LogMessage> grabErrors;
                 var errors = GetErrors(out grabErrors);
 
-                using (this._loggerWrapper.Intercept(grabErrors))
+                using (_loggerWrapper.Intercept(grabErrors))
                 {
                     await choco.RunAsync();
                     if (Environment.ExitCode != 0)
@@ -261,7 +261,7 @@ namespace Edb.Environment.Chocolatey
                 // and "/c " as the parameters.
                 // Incidentally, /c tells cmd that we want it to execute the command that follows,
                 // and then exit.
-                var procStartInfo = new ProcessStartInfo("cmd", "/c " + this.command);
+                var procStartInfo = new ProcessStartInfo("cmd", "/c " + command);
 
                 // The following commands are needed to redirect the standard output.
                 // This means that it will be redirected to the Process.StandardOutput StreamReader.
@@ -284,7 +284,7 @@ namespace Edb.Environment.Chocolatey
             }
             catch (Exception ex)
             {
-                this.logger.Log(LogLevel.Error, ex);
+                logger.Log(LogLevel.Error, ex);
             }
         }
 

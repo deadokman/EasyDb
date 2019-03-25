@@ -61,10 +61,10 @@ namespace EasyDb.SandboxEnvironment
         /// <param name="messenger">Messenger</param>
         public DatasourceManager([NotNull] ILogger logger, [NotNull] IMessenger messenger)
         {
-            this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this._messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
-            this._supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
-            this.UserDatasourceConfigurations = new List<UserDatasourceConfiguration>();
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
+            _supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
+            UserDatasourceConfigurations = new List<UserDatasourceConfiguration>();
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace EasyDb.SandboxEnvironment
         /// <summary>
         /// Gets the SupportedDatasources
         /// </summary>
-        public IEnumerable<SupportedSourceItem> SupportedDatasources => this._supportedDataSources.Values;
+        public IEnumerable<SupportedSourceItem> SupportedDatasources => _supportedDataSources.Values;
 
         /// <summary>
         /// Gets or sets the UserDatasources
@@ -108,7 +108,7 @@ namespace EasyDb.SandboxEnvironment
         /// <param name="udsc">Источник данных прользователя</param>
         public void ApplyUserDatasource(UserDatasourceConfiguration udsc)
         {
-            this.UserDatasourceConfigurations.Add(udsc);
+            UserDatasourceConfigurations.Add(udsc);
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace EasyDb.SandboxEnvironment
             var moduleAssemblies = Directory.GetFiles(dbModulesAssembliesPath, "*.dll");
 
             // Initialize secure app domain
-            var untrustedDomain = this.InitAppdomainInstance(dbModulesAssembliesPath, moduleAssemblies);
+            var untrustedDomain = InitAppdomainInstance(dbModulesAssembliesPath, moduleAssemblies);
 
             // Get all assemblies from path
             foreach (var assmFile in moduleAssemblies)
@@ -143,12 +143,12 @@ namespace EasyDb.SandboxEnvironment
                     var edbModuleProxy = (EdbDataProxy)proxyInstanceHandle.Unwrap();
                     if (!edbModuleProxy.InitializeProxyIntance(assmFile))
                     {
-                        this._logger.Warn(new Exception($"Assembly: {assmFile} skipped, because it does not implement EasyDb module interface"));
+                        _logger.Warn(new Exception($"Assembly: {assmFile} skipped, because it does not implement EasyDb module interface"));
                         continue;
                     }
 
                     var supportedSourceItem = new SupportedSourceItem(edbModuleProxy);
-                    this._supportedDataSources.Add(edbModuleProxy.ModuleGuid, supportedSourceItem);
+                    _supportedDataSources.Add(edbModuleProxy.ModuleGuid, supportedSourceItem);
                 }
                 catch (Exception ex)
                 {
@@ -156,7 +156,7 @@ namespace EasyDb.SandboxEnvironment
                 }
             }
 
-            this._xseri = new XmlSerializer(
+            _xseri = new XmlSerializer(
                 typeof(List<UserDatasourceConfiguration>),
                 _supportedDataSources.SelectMany(sds => sds.Value.Module.GetOptions().Select(opt => opt.GetType())).ToArray());
 
@@ -167,7 +167,7 @@ namespace EasyDb.SandboxEnvironment
                 {
                     using (var fs = File.OpenRead(DatasourceConfigStorage))
                     {
-                        serializedSources = (List<UserDatasourceConfiguration>)this._xseri.Deserialize(fs);
+                        serializedSources = (List<UserDatasourceConfiguration>)_xseri.Deserialize(fs);
                     }
 
                 }
@@ -186,9 +186,9 @@ namespace EasyDb.SandboxEnvironment
             foreach (var uds in serializedSources)
             {
                 // Check that user defined data source exists in datasource module
-                if (this._supportedDataSources.ContainsKey(uds.DatasoureGuid))
+                if (_supportedDataSources.ContainsKey(uds.DatasoureGuid))
                 {
-                    this.UserDatasourceConfigurations.Add(uds);
+                    UserDatasourceConfigurations.Add(uds);
                 }
                 else
                 {
@@ -196,12 +196,12 @@ namespace EasyDb.SandboxEnvironment
                 }
             }
 
-            if (this.DatasourceLoaded != null)
+            if (DatasourceLoaded != null)
             {
-                this.DatasourceLoaded.Invoke(this._supportedDataSources.Values, this.UserDatasourceConfigurations);
+                DatasourceLoaded.Invoke(_supportedDataSources.Values, UserDatasourceConfigurations);
             }
 
-            _messenger.Send(new DatasourcesIniaialized(this._supportedDataSources.Values, this.UserDatasourceConfigurations));
+            _messenger.Send(new DatasourcesIniaialized(_supportedDataSources.Values, UserDatasourceConfigurations));
         }
 
         /// <summary>
@@ -211,7 +211,7 @@ namespace EasyDb.SandboxEnvironment
         /// <returns>Module instance</returns>
         public IEdbDataSource GetModuleByGuid(Guid guid)
         {
-            return this._supportedDataSources[guid].Module;
+            return _supportedDataSources[guid].Module;
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace EasyDb.SandboxEnvironment
             catch (Exception ex)
             {
                 var msg = "Exception while saving datasource configuration";
-                this._logger.Error(msg, ex);
+                _logger.Error(msg, ex);
                 throw new Exception(msg, ex);
             }
 
@@ -249,17 +249,17 @@ namespace EasyDb.SandboxEnvironment
             {
                 using (var dsfs = File.Open(DataSourceStorageFile, FileMode.Truncate))
                 {
-                    this._xseri.Serialize(dsfs, this.UserDatasourceConfigurations);
+                    _xseri.Serialize(dsfs, UserDatasourceConfigurations);
                 }
             }
             catch (Exception ex)
             {
                 var msg = "Error while writing new datasource configurations, trying to revert";
-                this._logger.Error(msg, ex);
+                _logger.Error(msg, ex);
                 File.Copy(tmpFile, DataSourceStorageFile, true);
             }
 
-            this._messenger.Send(new DatasourcesIniaialized(this.SupportedDatasources, this.UserDatasourceConfigurations));
+            _messenger.Send(new DatasourcesIniaialized(SupportedDatasources, UserDatasourceConfigurations));
             File.Delete(tmpFile);
         }
 

@@ -30,7 +30,7 @@
         /// </summary>
         public void Apply()
         {
-            this.DoChangeTheme(this);
+            DoChangeTheme(this);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@
         protected virtual void DoChangeTheme(object sender)
         {
             var theme = ThemeManager.DetectAppStyle(Application.Current);
-            var accent = ThemeManager.GetAccent(this.Name);
+            var accent = ThemeManager.GetAccent(Name);
             ThemeManager.ChangeAppStyle(Application.Current, accent, theme.Item1);
         }
     }

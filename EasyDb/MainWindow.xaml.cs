@@ -15,9 +15,9 @@
         /// </summary>
         public MainWindow()
         {
-            this.InitializeComponent();
-            this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
-            this.Closing += this.OnClosing;
+            InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            Closing += OnClosing;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@
         /// <param name="e">The e<see cref="RoutedEventArgs"/></param>
         private void DockingManager_OnLoaded(object sender, RoutedEventArgs e)
         {
-            LayoutManager.LoadLayout(this.DockingManager);
+            LayoutManager.LoadLayout(DockingManager);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@
         /// <param name="cancelEventArgs">The cancelEventArgs<see cref="CancelEventArgs"/></param>
         private void OnClosing(object sender, CancelEventArgs cancelEventArgs)
         {
-            this.StoreLayout();
+            StoreLayout();
         }
 
         /// <summary>
@@ -45,7 +45,7 @@
         /// </summary>
         private void StoreLayout()
         {
-            LayoutManager.StoreLayout(this.DockingManager);
+            LayoutManager.StoreLayout(DockingManager);
         }
     }
 }

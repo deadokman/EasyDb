@@ -18,13 +18,13 @@
         /// <param name="invokeDlgClose">Close dialog action</param>
         public ChocolateyInstallControll(Action invokeDlgClose)
         {
-            this._invokeDlgClose = invokeDlgClose ?? throw new ArgumentNullException(nameof(invokeDlgClose));
-            this.InitializeComponent();
+            _invokeDlgClose = invokeDlgClose ?? throw new ArgumentNullException(nameof(invokeDlgClose));
+            InitializeComponent();
         }
 
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            this._invokeDlgClose.Invoke();
+            _invokeDlgClose.Invoke();
         }
     }
 }

@@ -25,22 +25,22 @@
         /// </summary>
         public SettingsWindowViewModel()
         {
-            this._logger = LogManager.GetCurrentClassLogger();
-            this.SettignsCollection = new List<IProgramSettings>();
-            this.SettignsCollection.Add(new GeneralSettingsViewModel());
-            this.StoreCommand = new RelayCommand(
+            _logger = LogManager.GetCurrentClassLogger();
+            SettignsCollection = new List<IProgramSettings>();
+            SettignsCollection.Add(new GeneralSettingsViewModel());
+            StoreCommand = new RelayCommand(
                 () =>
                     {
-                        foreach (var programSettings in this.SettignsCollection)
+                        foreach (var programSettings in SettignsCollection)
                         {
                             programSettings.SaveSettings();
                         }
                     });
 
-            this.ResetSettingsCommand = new RelayCommand(
+            ResetSettingsCommand = new RelayCommand(
                 () =>
                     {
-                        foreach (var programSettings in this.SettignsCollection)
+                        foreach (var programSettings in SettignsCollection)
                         {
                             programSettings.ResetDefault();
                         }
