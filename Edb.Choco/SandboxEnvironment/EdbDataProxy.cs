@@ -150,14 +150,16 @@
             return _proxySubject.GetOptionsDefenitions();
         }
 
+
         /// <summary>
         /// Creates connection string for datasoure
         /// </summary>
         /// <param name="options">Datasource options</param>
+        /// <param name="passwordTag">Password tag string replacement</param>
         /// <returns>Returns connection string</returns>
-        public string IntroduceConnectionString(EdbSourceOption[] options)
+        public string IntroduceConnectionString(EdbSourceOption[] options, out string passwordTag)
         {
-            return _proxySubject.IntroduceConnectionString(options);
+            return _proxySubject.IntroduceConnectionString(options, out passwordTag);
         }
 
         /// <summary>

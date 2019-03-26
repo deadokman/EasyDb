@@ -8,6 +8,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 
 using System.Security;
+using chocolatey;
 
 namespace Edb.Environment.Connection
 {
@@ -73,7 +74,9 @@ namespace Edb.Environment.Connection
                     throw new Exception("Password does not supplied");
                 }
 
-                var connectionString = module.IntroduceConnectionString(datasourceConfig.OptionsObjects);
+                string passwordTag;
+                var connectionString = module.IntroduceConnectionString(datasourceConfig.OptionsObjects, out passwordTag);
+                connectionString = connectionString.Replace(passwordTag, passwordStr.SecureStringToString());
                 var connection = new OdbcConnection(connectionString);
                 connectionLink = new EDbConnectionLink(datasourceConfig, connection);
                 _connectionLinks.Add(datasourceConfig.ConfigurationGuid, connectionLink);
@@ -91,9 +94,13 @@ namespace Edb.Environment.Connection
             return _connectionLinks.Values;
         }
 
-        public void CloseConnectionForSource(Guid userDatasourceId)
+        /// <summary>
+        /// Closing connection for user datasource for id
+        /// </summary>
+        /// <param name="configurationSourceGuid">Identifier of userdatasource configuration</param>
+        public void RemoveConnectionFromSource(Guid configurationSourceGuid)
         {
-            throw new NotImplementedException();
+            _connectionLinks.Remove(configurationSourceGuid);
         }
     }
 }

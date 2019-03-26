@@ -69,6 +69,8 @@
         private bool _databaseConnectionInProgress;
 
         private SupportedSourceItem[] _supportedDatasources;
+        private bool testConnectionSuccess;
+        private SecureString passwordSecureString;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceSettingsViewModel"/> class.
@@ -201,11 +203,22 @@
                         DatabaseConnectionInProgress = true;
                         if (EditingUserDatasource.AllValid())
                         {
-                            using (var conn = connectionManager.ProduceDbConnection(EditingUserDatasource.DsConfiguration))
+                            connectionManager.RemoveConnectionFromSource(EditingUserDatasource.DsConfiguration.ConfigurationGuid);
+                            using (var conn = connectionManager.ProduceDbConnection(EditingUserDatasource.DsConfiguration, PasswordSecureString))
                             {
-                                var cmd = conn.CreateCommand();
-                                cmd.CommandText = "select 1";
-                                cmd.ExecuteNonQuery();
+                                try
+                                {
+                                    var cmd = conn.CreateCommand();
+                                    cmd.CommandText = "select 1";
+                                    cmd.ExecuteNonQuery();
+                                    WarningMessage = string.Concat(Application.Current.Resources["dsms_testconn_success"].ToString(), WarningMessage);
+                                    TestConnectionSuccess = true;
+                                    _dialogCoordinator.ShowMessageAsync(this, Application.Current.Resources["dsms_test_connection_button"].ToString(), Application.Current.Resources["dsms_testconn_success"].ToString(), MessageDialogStyle.Affirmative);
+                                }
+                                catch (Exception ex)
+                                {
+                                    _dialogCoordinator.ShowMessageAsync(this, Application.Current.Resources["dsms_test_connection_button"].ToString(), ex.Message, MessageDialogStyle.Affirmative);
+                                }
                             }
                         }
                         else
@@ -281,6 +294,19 @@
             set
             {
                 _storePasswordSecure = value;
+                OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Connection test success
+        /// </summary>
+        public bool TestConnectionSuccess
+        {
+            get => testConnectionSuccess;
+            set
+            {
+                testConnectionSuccess = value;
                 OnPropertyChanged();
             }
         }
@@ -383,7 +409,15 @@
         /// <summary>
         /// Password secure string
         /// </summary>
-        public SecureString PasswordSecureString { get; set; }
+        public SecureString PasswordSecureString
+        {
+            get => passwordSecureString;
+            set
+            {
+                passwordSecureString = value;
+                TestConnectionSuccess = false;
+            }
+        }
 
         /// <summary>
         /// Информация о пакете драйвера Chocolatey

@@ -1,6 +1,5 @@
 ﻿namespace EasyDb.CustomControls
 {
-    using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -9,10 +8,8 @@
     using System.Windows;
     using System.Windows.Controls;
 
-    using EasyDb.Annotations;
-    using EasyDb.CustomControls.DatasourceSettings;
-    using EasyDb.Model;
-
+    using Annotations;
+    using DatasourceSettings;
     using EDb.Interfaces;
 
     /// <summary>

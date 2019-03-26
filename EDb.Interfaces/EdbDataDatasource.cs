@@ -101,12 +101,14 @@ namespace EDb.Interfaces
             return null;
         }
 
+
         /// <summary>
         /// Creates connection string for datasoure
         /// </summary>
         /// <param name="options">Datasource options</param>
+        /// <param name="passwordTag">Password tag string replacement</param>
         /// <returns>Returns connection string</returns>
-        public abstract string IntroduceConnectionString(EdbSourceOption[] options);
+        public abstract string IntroduceConnectionString(EdbSourceOption[] options, out string passwordTag);
 
         /// <summary>
         /// The SetGuid

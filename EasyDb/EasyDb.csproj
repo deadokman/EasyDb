@@ -181,7 +181,6 @@
     </Compile>
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
     <Compile Include="Converters\SettingsSizeLimitConverter.cs" />
-    <Compile Include="Ext\PasswordHelperExtensions.cs" />
     <Compile Include="ViewModel\DbExplorer\DbExplorerViewModel.cs" />
     <Compile Include="ViewModel\Interfaces\IDataSourceSettingsViewModel.cs" />
     <Compile Include="IoC\AutofacServiceLocator.cs" />
@@ -566,6 +565,7 @@
   <ItemGroup>
     <Folder Include="Connections\" />
     <Folder Include="DbDesigner\DbEntities\" />
+    <Folder Include="Ext\" />
     <Folder Include="ViewModelCommunication\" />
     <Folder Include="ViewModel\DataSource\Items\" />
   </ItemGroup>

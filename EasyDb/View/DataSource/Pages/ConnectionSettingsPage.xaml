@@ -28,8 +28,29 @@
         </Grid.RowDefinitions>
         <Border BorderThickness="0,0,1,0" BorderBrush="{DynamicResource AccentColorBrush}" Grid.Row="0" Grid.Column="0" Grid.RowSpan="10">
             <StackPanel Background="{DynamicResource AccentColorBrush4}">
-                <Button Command="{Binding TestConnection}" ToolTip="{StaticResource dsms_test_connection_button}" Style="{StaticResource MetroCircleButton_30}" >
-                    <iconPacks:PackIconMaterial Kind="ConsoleNetwork" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
+                <Button Command="{Binding TestConnection}" ToolTip="{StaticResource dsms_test_connection_button}">
+                   <Button.Style>
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource MetroCircleButton_30}">
+                            <Style.Setters>
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <iconPacks:PackIconMaterial Kind="ConsoleNetwork" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style.Setters>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding TestConnectionSuccess}" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <iconPacks:PackIconMaterial Kind="Approval" Width="10" VerticalAlignment="Center" HorizontalAlignment="Center" Background="Transparent" Foreground="{DynamicResource AccentColorBrush}"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}"></Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                   </Button.Style>
+                    
                 </Button>
             </StackPanel>
         </Border>
@@ -69,7 +90,7 @@
             </mah:MetroAnimatedTabControl>
         </ScrollViewer>
         <StackPanel Grid.Column="1"  Background="{DynamicResource ControlBackgroundBrush}" Margin="10,10,0,10" HorizontalAlignment="Left" Grid.Row="4">
-            <CheckBox Margin="0,5" Content="{StaticResource dsms_secure_password_store }"/>
+            <CheckBox Margin="0,5" IsChecked="{Binding StorePasswordSecure}" Content="{StaticResource dsms_secure_password_store }"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -88,8 +88,9 @@ namespace EDb.Interfaces
         /// Creates connection string for datasoure
         /// </summary>
         /// <param name="options">Datasource options</param>
+        /// <param name="passwordTag">Password tag string replacement</param>
         /// <returns>Returns connection string</returns>
-        string IntroduceConnectionString(EdbSourceOption[] options);
+        string IntroduceConnectionString(EdbSourceOption[] options, out string passwordTag);
 
         /// <summary>
         /// The SetGuid

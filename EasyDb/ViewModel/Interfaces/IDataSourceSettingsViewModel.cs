@@ -106,5 +106,10 @@ namespace EasyDb.ViewModel.Interfaces
         /// Store password securely in password storage
         /// </summary>
         bool StorePasswordSecure { get; set; }
+
+        /// <summary>
+        /// Connection test success
+        /// </summary>
+        bool TestConnectionSuccess { get; set; }
     }
 }

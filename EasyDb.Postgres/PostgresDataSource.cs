@@ -17,6 +17,8 @@ namespace EasyDb.Postgres
     [EdbDatasource("E7B64810-1527-4954-B93B-6C7E46F31E2E", "0.0.1")]
     public class PostgresDataSource : EdbDataDatasource
     {
+        private const string PasswordTag = "$%PasswordTag%$";
+
         // PostgreSQL
         private readonly string _connectionStringTemplate = "Driver={5};Server={0};Port={1};Database={2};\r\nUid={3};Pwd={4}";
 
@@ -88,11 +90,12 @@ namespace EasyDb.Postgres
         /// </summary>
         /// <param name="options">Datasource options</param>
         /// <returns>Returns connection string</returns>
-        public override string IntroduceConnectionString(EdbSourceOption[] options)
+        public override string IntroduceConnectionString(EdbSourceOption[] options, out string passwordTag)
         {
             var generalOptions = options.OfType<GeneralOption>().FirstOrDefault();
             if (generalOptions != null)
             {
+                passwordTag = PasswordTag;
                 // Driver={PostgreSQL};Server={0};Port={1};Database={2};\r\nUid={3};Pwd={4}
                 return string.Format(
                     _connectionStringTemplate,
@@ -100,7 +103,7 @@ namespace EasyDb.Postgres
                     generalOptions.Port,
                     generalOptions.Database,
                     generalOptions.User,
-                    generalOptions.Password,
+                    PasswordTag,
                     "{" + OdbcSystemDriverName + "}");
             }
 

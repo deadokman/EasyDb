@@ -1,15 +1,34 @@
-﻿namespace EasyDb.Ext
-{
-    using System;
-    using System.Runtime.InteropServices;
-    using System.Security;
-    using System.Text;
+﻿using System;
+using System.Runtime.InteropServices;
+using System.Security;
+using System.Text;
 
+namespace Edb.Environment
+{
     /// <summary>
     /// Converts secure string to Byte array in encoding
     /// </summary>
     public static class PasswordHelperExtensions
     {
+        /// <summary>
+        /// Secure string to string
+        /// </summary>
+        /// <param name="value">Значение</param>
+        /// <returns>Значение</returns>
+        public static string SecureStringToString(this SecureString value)
+        {
+            IntPtr valuePtr = IntPtr.Zero;
+            try
+            {
+                valuePtr = Marshal.SecureStringToGlobalAllocUnicode(value);
+                return Marshal.PtrToStringUni(valuePtr);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(valuePtr);
+            }
+        }
+
         /// <summary>
         /// The ToByteArray
         /// </summary>
@@ -32,12 +51,9 @@
 
                 return encoding.GetBytes(Marshal.PtrToStringUni(unmanagedString));
             }
-            finally
+            catch (Exception ex)
             {
-                if (unmanagedString != IntPtr.Zero)
-                {
-                    Marshal.ZeroFreeBSTR(unmanagedString);
-                }
+                throw ex;
             }
         }
     }

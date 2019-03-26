@@ -131,6 +131,7 @@
     <Compile Include="Model\OdbcDriver.cs" />
     <Compile Include="Model\PackageOperationResult.cs" />
     <Compile Include="OdbcManager.cs" />
+    <Compile Include="PasswordHelperExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SandboxEnvironment\AssemblyLoader.cs" />
     <Compile Include="SandboxEnvironment\EdbDataProxy.cs" />

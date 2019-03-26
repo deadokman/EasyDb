@@ -33,7 +33,7 @@ namespace Edb.Environment.Interface
         /// Closing connection for user datasource for id
         /// </summary>
         /// <param name="userDatasourceId">Identifier of userdatasource configuration</param>
-        void CloseConnectionForSource(Guid userDatasourceId);
+        void RemoveConnectionFromSource(Guid userDatasourceId);
 
     }
 }

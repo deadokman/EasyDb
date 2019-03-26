@@ -54,7 +54,7 @@
     <!--Driver page-->
     <system:String x:Key="dsms_driver_execute_autoinst">Выполнить автоматическую установку драйвера, используя Chocolatey</system:String>
     <system:String x:Key="dsms_driver_refresh_info">Обновить информацию о пакете и драйвере</system:String>
-    <system:String x:Key="dsms_test_connection_button">Проверить соединение</system:String>
+    <system:String x:Key="dsms_test_connection_button">Проверка соединения</system:String>
     <system:String x:Key="dsms_drivername">Имя драйвера:</system:String>
     <system:String x:Key="dsms_driver_choco_id">ID пакета:</system:String>
     <system:String x:Key="dsms_driver_choco_url">URL пакета:</system:String>
@@ -76,9 +76,10 @@
     <system:String x:Key="opt_def_password">Пароль:</system:String>
     <system:String x:Key="opt_def_port">Порт:</system:String>
 
-    <system:String x:Key="dsms_err_no_driver">Не установлен драйвер.</system:String>
-    <system:String x:Key="dsms_err_no_autoinstall"> Chocolatey не установлен.</system:String>
-    <system:String x:Key="dsms_err_no_admin"> Требуются права администратора.</system:String>
+    <system:String x:Key="dsms_err_no_driver">Не установлен драйвер. </system:String>
+    <system:String x:Key="dsms_err_no_autoinstall"> Chocolatey не установлен. </system:String>
+    <system:String x:Key="dsms_err_no_admin"> Требуются права администратора. </system:String>
+    <system:String x:Key="dsms_testconn_success">Соединение успешно установлено. </system:String>
     <system:String x:Key="dsms_secure_password_store">Сохранить пароль</system:String>
 
     <!--Chocolatey install dialog-->
