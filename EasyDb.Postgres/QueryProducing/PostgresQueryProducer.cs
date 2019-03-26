@@ -1,4 +1,5 @@
 ﻿using EDb.Interfaces;
+using EDb.Interfaces.iface;
 
 namespace EasyDb.Postgres.QueryProducing
 {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using EasyDb.Model;
 using EDb.Interfaces;
+using EDb.Interfaces.iface;
 
 namespace EasyDb.ViewModel.DataSource
 {

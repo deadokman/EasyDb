@@ -57,8 +57,11 @@
     <Compile Include="EdbDataDatasource.cs" />
     <Compile Include="EdbModuleQueryProducer.cs" />
     <Compile Include="EdbSourceOption.cs" />
-    <Compile Include="IEdbDataSourceQueryProducer.cs" />
-    <Compile Include="IEdbDataSource.cs" />
+    <Compile Include="iface\IEdbDataSourceQueryProducer.cs" />
+    <Compile Include="iface\IEdbDataSource.cs" />
+    <Compile Include="Model\BaseSchemaObject.cs" />
+    <Compile Include="Model\DataType.cs" />
+    <Compile Include="Model\ObjectType.cs" />
     <Compile Include="Objects\SupportedObjectTypes.cs" />
     <Compile Include="OptionDisplayNameAttribute.cs" />
     <Compile Include="OptionsToXml.cs" />
@@ -67,6 +70,9 @@
     <Compile Include="PasswordSecureField.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\SchemaTypes\SchemaNodeBase.cs" />
+    <Compile Include="Schema\SchemaRoot.cs" />
+    <Compile Include="Schema\SchemaTypes\SchemaFolder.cs" />
     <Compile Include="ValidationViewModelBase.cs" />
     <Compile Include="Validation\IValidationExceptionHandler.cs" />
     <Compile Include="Validation\ValidationRuleBase.cs" />

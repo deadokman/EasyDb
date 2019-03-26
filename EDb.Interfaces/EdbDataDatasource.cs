@@ -1,5 +1,6 @@
 ﻿using System.Security;
 using System.Security.Permissions;
+using EDb.Interfaces.iface;
 
 [assembly: AllowPartiallyTrustedCallers]
 namespace EDb.Interfaces
@@ -26,6 +27,11 @@ namespace EDb.Interfaces
         /// Типы поддерживаемых объектов базы данных
         /// </summary>
         public abstract SupportedObjectTypes[] SupportedTypes { get; }
+
+        /// <summary>
+        /// Supported column data types
+        /// </summary>
+        public abstract string[] ColumnDataTypes { get; }
 
         /// <summary>
         /// Gets the DatabaseIcon

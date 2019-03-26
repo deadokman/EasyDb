@@ -1,4 +1,6 @@
-﻿namespace Edb.Environment.DatasourceManager
+﻿using EDb.Interfaces.iface;
+
+namespace Edb.Environment.DatasourceManager
 {
     using System;
     using System.IO;

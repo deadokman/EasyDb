@@ -1,10 +1,10 @@
-﻿using EDb.Interfaces.Objects;
-using System;
+﻿using System;
+using EDb.Interfaces.Model;
+using EDb.Interfaces.Objects;
+using EDb.Interfaces.Options;
 
-namespace EDb.Interfaces
+namespace EDb.Interfaces.iface
 {
-    using EDb.Interfaces.Options;
-
     /// <summary>
     /// Base module interface
     /// </summary>
@@ -15,12 +15,6 @@ namespace EDb.Interfaces
         /// Имя модуля СУБД
         /// </summary>
         string DatasourceName { get; }
-
-        /// <summary>
-        /// Gets the SupportedTypes
-        /// Типы поддерживаемых объектов базы данных
-        /// </summary>
-        SupportedObjectTypes[] SupportedTypes { get; }
 
         /// <summary>
         /// Gets the DatabaseIcon
@@ -34,6 +28,17 @@ namespace EDb.Interfaces
         /// </summary>
         /// <returns>Plugin options collection</returns>
         EdbSourceOption[] GetOptions();
+
+        /// <summary>
+        /// Gets the SupportedTypes
+        /// Типы поддерживаемых объектов базы данных
+        /// </summary>
+        SupportedObjectTypes[] SupportedTypes { get; }
+
+        /// <summary>
+        /// Retuns the list of supported datatypes for datasource
+        /// </summary>
+        DataType[] DataTypes { get; }
 
         /// <summary>
         /// Gets the ModuleGuid

@@ -1,4 +1,6 @@
-﻿namespace EasyDb
+﻿using EDb.Interfaces.iface;
+
+namespace EasyDb
 {
     using System;
     using System.Collections.Generic;

@@ -24,5 +24,8 @@ namespace EDb.Interfaces.Objects
         Package = 10,
         Job = 11,
         Rule = 12,
+        Schema = 13,
+        Database = 14,
+        Contraint =15
     }
 }

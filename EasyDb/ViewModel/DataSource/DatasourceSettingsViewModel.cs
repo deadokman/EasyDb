@@ -1,4 +1,6 @@
-﻿namespace EasyDb.ViewModel.DataSource
+﻿using EDb.Interfaces.iface;
+
+namespace EasyDb.ViewModel.DataSource
 {
     using System;
     using System.ComponentModel;
@@ -201,7 +203,7 @@
                 () =>
                     {
                         DatabaseConnectionInProgress = true;
-                        if (EditingUserDatasource.AllValid())
+                        if (EditingUserDatasource.AllValid() && SelectedSourceItem != null)
                         {
                             connectionManager.RemoveConnectionFromSource(EditingUserDatasource.DsConfiguration.ConfigurationGuid);
                             using (var conn = connectionManager.ProduceDbConnection(EditingUserDatasource.DsConfiguration, PasswordSecureString))
@@ -209,7 +211,7 @@
                                 try
                                 {
                                     var cmd = conn.CreateCommand();
-                                    cmd.CommandText = "select 1";
+                                    cmd.CommandText = SelectedSourceItem.Module.GetQueryProducer().GetTestConnectionQuery();
                                     cmd.ExecuteNonQuery();
                                     WarningMessage = string.Concat(Application.Current.Resources["dsms_testconn_success"].ToString(), WarningMessage);
                                     TestConnectionSuccess = true;

@@ -1,4 +1,6 @@
-﻿namespace Edb.Environment.SandboxEnvironment
+﻿using EDb.Interfaces.iface;
+
+namespace Edb.Environment.SandboxEnvironment
 {
     using System;
     using System.Linq;

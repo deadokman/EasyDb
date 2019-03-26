@@ -1,4 +1,5 @@
 ﻿using Edb.Environment.CommunicationArgs;
+using EDb.Interfaces.iface;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace EasyDb.SandboxEnvironment

@@ -1,4 +1,6 @@
-﻿namespace Edb.Environment.Interface
+﻿using EDb.Interfaces.iface;
+
+namespace Edb.Environment.Interface
 {
     using System;
     using System.Collections.Generic;
