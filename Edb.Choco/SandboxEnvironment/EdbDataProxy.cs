@@ -1,4 +1,5 @@
 ﻿using EDb.Interfaces.iface;
+using EDb.Interfaces.Model;
 
 namespace Edb.Environment.SandboxEnvironment
 {
@@ -31,6 +32,11 @@ namespace Edb.Environment.SandboxEnvironment
         {
             SupportDbModuleInstance = false;
         }
+
+        /// <summary>
+        /// Retuns the list of supported datatypes for datasource
+        /// </summary>
+        public DataType[] DataTypes => _proxySubject.DataTypes;
 
         /// <summary>
         /// Gets the DatasoureGuid

@@ -1,5 +1,6 @@
 ﻿using EasyDb.Postgres.QueryProducing;
 using EDb.Interfaces.iface;
+using EDb.Interfaces.Model;
 
 namespace EasyDb.Postgres
 {
@@ -32,6 +33,17 @@ namespace EasyDb.Postgres
         /// Gets the SupportedTypes
         /// </summary>
         public override SupportedObjectTypes[] SupportedTypes { get; }
+
+        /// <summary>
+        /// Retuns the list of supported datatypes for datasource
+        /// </summary>
+        public override DataType[] DataTypes { get; }
+
+
+        /// <summary>
+        /// Supported column data types
+        /// </summary>
+        public override string[] ColumnDataTypes { get; }
 
         /// <summary>
         /// Gets the DatabaseIcon

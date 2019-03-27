@@ -24,6 +24,11 @@
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.Resources>
+        <Style x:Key="TbButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource MetroButtonNoBorder}">
+            <Setter Property="Margin" Value="4"/>
+            <Setter Property="Padding" Value="0,0,2,0"/>
+            <Setter Property="Background" Value="Transparent"></Setter>
+        </Style>
         <Style x:Key="FormOverlayStyle" TargetType="ContentControl">
             <Setter Property="Opacity" Value="1"/>
             <Style.Triggers>
@@ -62,14 +67,14 @@
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <Grid x:Name="SplashOverlay" Panel.ZIndex="9998" Visibility="{Binding IsInterfaceDisabled, Mode=OneWay, Converter={StaticResource Btvc}}">
+        <Grid x:Name="SplashOverlay" Panel.ZIndex="9998" Visibility="{Binding IsInterfaceDisabled, Mode=OneWay, FallbackValue=Hidden, Converter={StaticResource Btvc}}">
             <customControls:SplashScreen CurrentText="{DynamicResource mw_PluginInit}" />
         </Grid>
         <ContentControl BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" IsEnabled="{Binding IsInterfaceEnabled}" Style="{StaticResource FormOverlayStyle}">
             <Grid x:Name="MainGridContainer">
-                <Grid.Effect>
+                <!--<Grid.Effect>
                     <BlurEffect Radius="{Binding IsInterfaceDisabled, Converter={StaticResource BoolToBlur}}" />
-                </Grid.Effect>
+                </Grid.Effect>-->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30"/>
                     <RowDefinition MinHeight="30" Height="Auto" />
@@ -81,13 +86,120 @@
                         <MenuItem Header="{StaticResource mw_File}">
                             <MenuItem Header="MenuItem1"/>
                         </MenuItem>
-                        <MenuItem Header="{StaticResource mw_View}" />
+                        <MenuItem Header="$edit" />
+                        <MenuItem Header="$sqleditor" />
+                        <MenuItem Header="$database" />
                         <MenuItem Header="{StaticResource mw_Tools}">
                             <MenuItem Header="{StaticResource mw_Tools_odbcmanager}" Command="{Binding OpenOdbcManager}"></MenuItem>
                         </MenuItem>
+                        <MenuItem Header="{StaticResource mw_View}" />
+                        <MenuItem Header="$information" />
                     </Menu>
                 </StackPanel>
-                <ToolBarTray VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" />
+                <ToolBarTray Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
+                    <ToolBar>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <iconPacks:PackIconMaterial 
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center" 
+                                Background="Transparent" 
+                                Foreground="{DynamicResource AccentColorBrush}" Kind="DatabasePlus" />
+                        </Button>
+                        <Separator/>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <iconPacks:PackIconMaterial 
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center" 
+                                Background="Transparent" 
+                                Foreground="{DynamicResource AccentColorBrush2}" Kind="PowerPlug" />
+                        </Button>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <iconPacks:PackIconMaterial 
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center" 
+                                Background="Transparent" 
+                                Foreground="{DynamicResource ValidationSummaryColor2}" Kind="PowerPlugOff" />
+                        </Button>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <iconPacks:PackIconMaterial 
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center" 
+                                Background="Transparent" 
+                                Foreground="{DynamicResource AccentColorBrush3}" Kind="Refresh" />
+                        </Button>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <iconPacks:PackIconMaterial 
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center" 
+                                Background="Transparent" 
+                                Foreground="DodgerBlue" Kind="Script" />
+                        </Button>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <iconPacks:PackIconMaterial 
+                                DockPanel.Dock="Right"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Center" 
+                                Background="Transparent" 
+                                Foreground="DodgerBlue" Kind="FileRestore" />
+                        </Button>
+                    </ToolBar>
+                    <ToolBar>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <DockPanel LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="5,0,0,0"  Foreground="{DynamicResource TextBrush}" Text="$commit"/>
+                                <iconPacks:PackIconMaterial 
+                                    DockPanel.Dock="Right"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center" 
+                                    Background="Transparent" 
+                                    Foreground="Green" Kind="SourceCommit" />
+                            </DockPanel>
+                        </Button>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <DockPanel LastChildFill="True">
+                                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="{DynamicResource TextBrush}" Text="$rollback"/>
+                                <iconPacks:PackIconMaterial 
+                                    DockPanel.Dock="Right"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center" 
+                                    Background="Transparent" 
+                                    Foreground="{DynamicResource ValidationSummaryColor3}" Kind="Cancel" />
+                            </DockPanel>
+                        </Button>
+                        <controls:DropDownButton>
+                            <controls:DropDownButton.Style>
+                                <Style TargetType="{x:Type controls:DropDownButton}">
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                </Style>
+                            </controls:DropDownButton.Style>
+                            <controls:DropDownButton.Content>
+                                <iconPacks:PackIconMaterial 
+                                    DockPanel.Dock="Right"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center" 
+                                    Background="Transparent" 
+                                    Foreground="DodgerBlue" Kind="Transition" />
+                            </controls:DropDownButton.Content>
+                        </controls:DropDownButton>
+                        <Button Style="{StaticResource TbButtonStyle}">
+                            <iconPacks:PackIconMaterial 
+                                    DockPanel.Dock="Right"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center" 
+                                    Background="Transparent" 
+                                    Foreground="DodgerBlue" Kind="History" />
+                        </Button>
+                    </ToolBar>
+                    <ToolBar>
+                        <ComboBox MinWidth="130"></ComboBox>
+                    </ToolBar>
+                </ToolBarTray>
                 <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

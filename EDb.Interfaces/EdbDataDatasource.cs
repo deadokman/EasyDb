@@ -1,6 +1,7 @@
 ﻿using System.Security;
 using System.Security.Permissions;
 using EDb.Interfaces.iface;
+using EDb.Interfaces.Model;
 
 [assembly: AllowPartiallyTrustedCallers]
 namespace EDb.Interfaces
@@ -27,6 +28,12 @@ namespace EDb.Interfaces
         /// Типы поддерживаемых объектов базы данных
         /// </summary>
         public abstract SupportedObjectTypes[] SupportedTypes { get; }
+
+
+        /// <summary>
+        /// Retuns the list of supported datatypes for datasource
+        /// </summary>
+        public abstract DataType[] DataTypes { get; }
 
         /// <summary>
         /// Supported column data types

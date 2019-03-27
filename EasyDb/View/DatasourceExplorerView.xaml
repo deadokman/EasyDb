@@ -22,12 +22,12 @@
             <RowDefinition Height="2"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ToolBarTray Margin="0" VerticalAlignment="Center">
+        <ToolBarTray  Margin="0" VerticalAlignment="Center">
             <ToolBar Padding="0" ToolBarTray.IsLocked="True">
                 <Menu Margin="5,0"  Style="{StaticResource MetroMenu}">
                     <MenuItem Style="{StaticResource MenuItemBase}" ToolTip="{StaticResource dsm_addNewDatasource}" ItemsSource="{Binding SupportedDatasources, Mode=OneWay}">
                         <MenuItem.Header>
-                            <iconPacks:PackIconMaterial Background="Transparent" Foreground="{DynamicResource AccentColorBrush}" Kind="DatabasePlus" />
+                            <iconPacks:PackIconMaterial Background="Transparent" Foreground="{DynamicResource AccentColorBrush2}" Kind="DatabasePlus" />
                         </MenuItem.Header>
                         <MenuItem.ItemContainerStyle>
                             <Style TargetType="{x:Type MenuItem}">
@@ -51,14 +51,17 @@
                     </MenuItem>
                 </Menu>
                 <Button Style="{StaticResource MenuButton}">
-                    <iconPacks:PackIconMaterial Background="Transparent" Foreground="{DynamicResource AccentColorBrush}" Kind="ContentCopy" />
+                    <iconPacks:PackIconMaterial Background="Transparent" Foreground="{DynamicResource AccentColorBrush2}" Kind="ContentCopy" />
+                </Button>
+                <Button Style="{StaticResource MenuButton}">
+                    <iconPacks:PackIconMaterial VerticalAlignment="Center"  Background="Transparent" Foreground="{DynamicResource AccentColorBrush2}" Kind="Delete" />
                 </Button>
                 <Separator/>
                 <Button  Style="{StaticResource MenuButton}">
                     <iconPacks:PackIconMaterial Background="Transparent" Foreground="{DynamicResource AccentColorBrush}" Kind="Sync" />
                 </Button>
                 <Button Style="{StaticResource MenuButton}">
-                    <iconPacks:PackIconMaterial VerticalAlignment="Center"  Background="Transparent" Foreground="{DynamicResource AccentColorBrush}" Kind="Settings" />
+                    <iconPacks:PackIconMaterial VerticalAlignment="Center"  Background="Transparent" Foreground="{DynamicResource AccentColorBrush2}" Kind="Settings" />
                 </Button>
             </ToolBar>
         </ToolBarTray>
