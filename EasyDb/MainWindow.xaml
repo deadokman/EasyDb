@@ -86,19 +86,19 @@
                         <MenuItem Header="{StaticResource mw_File}">
                             <MenuItem Header="MenuItem1"/>
                         </MenuItem>
-                        <MenuItem Header="$edit" />
-                        <MenuItem Header="$sqleditor" />
-                        <MenuItem Header="$database" />
+                        <MenuItem Header="{StaticResource mw_edit}" />
+                        <MenuItem Header="{StaticResource mw_sqleditor}" />
+                        <MenuItem Header="{StaticResource mw_database}" />
                         <MenuItem Header="{StaticResource mw_Tools}">
                             <MenuItem Header="{StaticResource mw_Tools_odbcmanager}" Command="{Binding OpenOdbcManager}"></MenuItem>
                         </MenuItem>
                         <MenuItem Header="{StaticResource mw_View}" />
-                        <MenuItem Header="$information" />
+                        <MenuItem Header="{StaticResource mw_information}" />
                     </Menu>
                 </StackPanel>
                 <ToolBarTray Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
                     <ToolBar>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource dsm_addNewDatasource}">
                             <iconPacks:PackIconMaterial 
                                 DockPanel.Dock="Right"
                                 HorizontalAlignment="Right"
@@ -107,7 +107,7 @@
                                 Foreground="{DynamicResource AccentColorBrush}" Kind="DatabasePlus" />
                         </Button>
                         <Separator/>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_connecttodb}">
                             <iconPacks:PackIconMaterial 
                                 DockPanel.Dock="Right"
                                 HorizontalAlignment="Right"
@@ -115,7 +115,7 @@
                                 Background="Transparent" 
                                 Foreground="{DynamicResource AccentColorBrush2}" Kind="PowerPlug" />
                         </Button>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_disconnect}">
                             <iconPacks:PackIconMaterial 
                                 DockPanel.Dock="Right"
                                 HorizontalAlignment="Right"
@@ -123,7 +123,7 @@
                                 Background="Transparent" 
                                 Foreground="{DynamicResource ValidationSummaryColor2}" Kind="PowerPlugOff" />
                         </Button>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_reconnect}">
                             <iconPacks:PackIconMaterial 
                                 DockPanel.Dock="Right"
                                 HorizontalAlignment="Right"
@@ -131,7 +131,7 @@
                                 Background="Transparent" 
                                 Foreground="{DynamicResource AccentColorBrush3}" Kind="Refresh" />
                         </Button>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_openeditornew}">
                             <iconPacks:PackIconMaterial 
                                 DockPanel.Dock="Right"
                                 HorizontalAlignment="Right"
@@ -139,7 +139,7 @@
                                 Background="Transparent" 
                                 Foreground="DodgerBlue" Kind="Script" />
                         </Button>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_openlastsqleditor}">
                             <iconPacks:PackIconMaterial 
                                 DockPanel.Dock="Right"
                                 HorizontalAlignment="Right"
@@ -149,9 +149,9 @@
                         </Button>
                     </ToolBar>
                     <ToolBar>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_commit}">
                             <DockPanel LastChildFill="True">
-                                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="5,0,0,0"  Foreground="{DynamicResource TextBrush}" Text="$commit"/>
+                                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="5,0,0,0"  Foreground="{DynamicResource TextBrush}" Text="{StaticResource mw_commit}"/>
                                 <iconPacks:PackIconMaterial 
                                     DockPanel.Dock="Right"
                                     HorizontalAlignment="Right"
@@ -160,9 +160,9 @@
                                     Foreground="Green" Kind="SourceCommit" />
                             </DockPanel>
                         </Button>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_rollback}">
                             <DockPanel LastChildFill="True">
-                                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="{DynamicResource TextBrush}" Text="$rollback"/>
+                                <TextBlock DockPanel.Dock="Right" VerticalAlignment="Center" Margin="5,0,0,0" Foreground="{DynamicResource TextBrush}" Text="{StaticResource mw_rollback}"/>
                                 <iconPacks:PackIconMaterial 
                                     DockPanel.Dock="Right"
                                     HorizontalAlignment="Right"
@@ -171,7 +171,7 @@
                                     Foreground="{DynamicResource ValidationSummaryColor3}" Kind="Cancel" />
                             </DockPanel>
                         </Button>
-                        <controls:DropDownButton>
+                        <controls:DropDownButton ToolTip="{StaticResource mw_tooltip_transactions}">
                             <controls:DropDownButton.Style>
                                 <Style TargetType="{x:Type controls:DropDownButton}">
                                     <Setter Property="BorderThickness" Value="0"/>
@@ -187,7 +187,7 @@
                                     Foreground="DodgerBlue" Kind="Transition" />
                             </controls:DropDownButton.Content>
                         </controls:DropDownButton>
-                        <Button Style="{StaticResource TbButtonStyle}">
+                        <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource mw_tooltip_transactionslog}">
                             <iconPacks:PackIconMaterial 
                                     DockPanel.Dock="Right"
                                     HorizontalAlignment="Right"
@@ -197,7 +197,7 @@
                         </Button>
                     </ToolBar>
                     <ToolBar>
-                        <ComboBox MinWidth="130"></ComboBox>
+                        <ComboBox ToolTip="{StaticResource mw_tooltip_datasourceconn}" MinWidth="130"></ComboBox>
                     </ToolBar>
                 </ToolBarTray>
                 <Grid Grid.Row="2">
@@ -270,7 +270,15 @@
                                             CanAutoHide="True"
                                             AutoHideMinWidth="200"
                                             Title="{StaticResource dsm_datasourceTabTitle}">
-                                            <view:DatasourceExplorerControl />
+                                            <view:DatasourceExplorerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
+                                        </xcad:LayoutAnchorable>
+                                        <xcad:LayoutAnchorable
+                                            ContentId="ProjectFiles"
+                                            CanClose="False"
+                                            CanAutoHide="True"
+                                            AutoHideMinWidth="200"
+                                            Title="{StaticResource dsm_projectfiles}">
+                                            <view:DatasourceExplorerControl VerticalAlignment="Stretch" HorizontalAlignment="Stretch" />
                                         </xcad:LayoutAnchorable>
                                     </xcad:LayoutAnchorGroup>
                                 </xcad:LayoutAnchorSide>

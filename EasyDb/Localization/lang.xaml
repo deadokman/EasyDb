@@ -20,10 +20,27 @@
     <system:String x:Key="mw_Filters">Фильтры</system:String>
     <system:String x:Key="mw_Analyze">Анализ</system:String>
     <system:String x:Key="mw_View">Вид</system:String>
+    <system:String x:Key="mw_edit">Редактирование</system:String>
+    <system:String x:Key="mw_sqleditor">Редактор SQL</system:String>
+    <system:String x:Key="mw_database">База данных</system:String>
     <system:String x:Key="mw_Tools">Инструменты</system:String>
+    <system:String x:Key="mw_information">Справка</system:String>
     <system:String x:Key="mw_Tools_odbcmanager">Менеджер ODBC драйверов</system:String>
     <system:String x:Key="mw_Settings">Настройки</system:String>
     <system:String x:Key="mw_PluginInit">Инициализация источников данных...</system:String>
+    <system:String x:Key="mw_commit">Зафиксировать</system:String>
+    <system:String x:Key="mw_rollback">Откатить</system:String>
+    <!--Main widow tooltips-->
+    <system:String x:Key="mw_tooltip_rollback">Откатить последнюю транзакцию</system:String>
+    <system:String x:Key="mw_tooltip_commit">Зафиксировать последнюю транзакцию</system:String>
+    <system:String x:Key="mw_tooltip_connecttodb">Подключиться к выбранному источнику данных</system:String>
+    <system:String x:Key="mw_tooltip_disconnect">Отключиться от выбранного источника данных</system:String>
+    <system:String x:Key="mw_tooltip_reconnect">Переподключиться к выбранному источнику данных</system:String>
+    <system:String x:Key="mw_tooltip_openeditornew">Открыть новый редактор SQL</system:String>
+    <system:String x:Key="mw_tooltip_openlastsqleditor">Открыть последний редактор</system:String>
+    <system:String x:Key="mw_tooltip_transactions">Режим транзакций</system:String>
+    <system:String x:Key="mw_tooltip_transactionslog">Лог транзакций</system:String>
+    <system:String x:Key="mw_tooltip_datasourceconn">Текущий выбранный источник данных</system:String>
     <!--Settings flyout-->
     <system:String x:Key="fs_saveSettings">Применить</system:String>
     <system:String x:Key="fs_cancel">Отменить</system:String>
@@ -41,7 +58,8 @@
     <system:String x:Key="gs_SettingsResetText">Сброс настроек</system:String>
     <!--Datasource manager tab-->
     <system:String x:Key="dsm_datasourceTabTitle"> База данных </system:String>
-    <system:String x:Key="dsm_addNewDatasource"> Добавить новую БД </system:String>
+    <system:String x:Key="dsm_projectfiles">Проект</system:String>
+    <system:String x:Key="dsm_addNewDatasource"> Добавить новый источник данных </system:String>
     <system:String x:Key="dsms_settingsWindowTitle">Настройки источника данных</system:String>
     <system:String x:Key="dsms_datasourceName">Имя: </system:String>
     <system:String x:Key="dsms_DSNname">DSN:</system:String>

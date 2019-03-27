@@ -76,7 +76,7 @@
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Background" Value="DimGray"/>
+                            <Setter Property="Background" Value="{DynamicResource AccentColorBrush3}"/>
                             <Setter Property="Foreground" Value="White"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
