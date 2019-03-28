@@ -577,6 +577,10 @@
     <Folder Include="View\SQLEditor\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EasyDb.ProjectManagment\EasyDb.ProjectManagment.csproj">
+      <Project>{e8fa9e5c-904f-42cd-a210-2874e13b1213}</Project>
+      <Name>EasyDb.ProjectManagment</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Edb.Choco\Edb.Environment.csproj">
       <Project>{af4c5c71-aab2-4349-ad70-b1216a88c798}</Project>
       <Name>Edb.Environment</Name>
