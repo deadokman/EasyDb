@@ -43,10 +43,10 @@
         </Grid>
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width=".25*"/>
+                <ColumnDefinition x:Name="LeftColumn" Width=".25*"/>
                 <ColumnDefinition MinWidth="600" Width="*"/>
-                <ColumnDefinition Width=".23*"/>
-                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition x:Name="RightColumn" Width=".25*"/>
+                <ColumnDefinition x:Name="ExpanderColumn" Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="1" Background="{DynamicResource ControlBackgroundBrush}">
                 <Grid.ColumnDefinitions>
@@ -58,22 +58,22 @@
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="$recenttag" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="{StaticResource stp_recentprojs}" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                     <StackPanel Grid.Row="1">
                         <StackPanel>
-                            <TextBlock Text="$pinnedtagtext" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
+                            <TextBlock Text="{StaticResource stp_pinnedproj}" Foreground="{StaticResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
                             <ListBox/>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="$today" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
+                            <TextBlock Text="{StaticResource stp_todayproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
                             <ListBox/>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="$thisweek" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
+                            <TextBlock Text="{StaticResource stp_thisweekproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
                             <ListBox/>
                         </StackPanel>
                         <StackPanel>
-                            <TextBlock Text="$lastweek" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
+                            <TextBlock Text="{StaticResource stp_lastweekproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
                             <ListBox/>
                         </StackPanel>
                     </StackPanel>
@@ -86,13 +86,13 @@
                     <StackPanel Grid.Row="0" Margin="0,5,10,0" >
                         <TextBlock 
                                  Foreground="{DynamicResource AccentColorBrush}" 
-                                 Text="$open" FontFamily="LucidaConsole" 
+                                 Text="{StaticResource stp_openproj}" FontFamily="LucidaConsole" 
                                  Margin="0,8,0,5"
                                  FontWeight="UltraLight"  
                                  FontSize="25" 
                                  VerticalAlignment="Top" 
                                  HorizontalAlignment="Left"/>
-                        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextBrush}" Text="Open project from your hard drive or clone from remote repository."></TextBlock>
+                        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextBrush}" Text="{StaticResource stp_opendescrition}"></TextBlock>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition/>
@@ -109,7 +109,7 @@
                                                 Foreground="{DynamicResource AccentColorBrush}" Kind="Git" />
                                             <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
                                             <Hyperlink Foreground="{DynamicResource TextBrush}">
-                                                <TextBlock Text="Git repository"></TextBlock>
+                                                <TextBlock Text="{StaticResource stp_gitrepository}"></TextBlock>
                                             </Hyperlink>
                                         </TextBlock>
                                     </DockPanel>
@@ -123,7 +123,7 @@
                                         Foreground="{DynamicResource AccentColorBrush}" Kind="FolderOpen" />
                                     <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
                                         <Hyperlink Foreground="{DynamicResource TextBrush}">
-                                            <TextBlock Text="Open project folder"></TextBlock>
+                                            <TextBlock Text="{StaticResource stp_openfolder}"></TextBlock>
                                         </Hyperlink>
                                     </TextBlock>
                                 </DockPanel>
@@ -138,7 +138,7 @@
                         <TextBlock 
                             Grid.Row="0"
                             Foreground="{DynamicResource AccentColorBrush}" 
-                            Text="$New project" FontFamily="LucidaConsole" 
+                            Text="{StaticResource stp_newproject}" FontFamily="LucidaConsole" 
                             Margin="0,8,0,5"
                             FontWeight="UltraLight"  
                             FontSize="25" 
@@ -147,7 +147,7 @@
                         <Grid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,15,0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
-                                <RowDefinition MinHeight="100" Height="Auto"/>
+                                <RowDefinition MinHeight="50" Height="Auto"/>
                                 <RowDefinition Height=".3*"/>
                             </Grid.RowDefinitions>
                             <StackPanel Grid.Row="0">
@@ -156,7 +156,7 @@
                                     mah:TextBoxHelper.AutoWatermark="True"
                                     TextAlignment="Left"
                                     VerticalContentAlignment="Center"
-                                    mah:TextBoxHelper.Watermark="enter datasource name..."
+                                    mah:TextBoxHelper.Watermark="{StaticResource stp_enterdaasourcename}"
                                     HorizontalAlignment="Stretch" Margin="0,0,5,0">
                                     <mah:TextBoxHelper.ButtonTemplate>
                                         <ControlTemplate>
@@ -169,22 +169,68 @@
                                         </ControlTemplate>
                                     </mah:TextBoxHelper.ButtonTemplate>
                                 </TextBox>
-                                <TextBlock Margin="0,2,0,2" Text="Recent project startups:" Foreground="{DynamicResource TextBrush}"/>
+                                <TextBlock Margin="0,2,0,2" Text="{StaticResource stp_recentprojectstypes}" Foreground="{DynamicResource TextBrush}"/>
                             </StackPanel>
                             <ScrollViewer Margin="0,0,0,5" Grid.Row="1">
                                 <ListBox ></ListBox>
                             </ScrollViewer>
                             <TextBlock Grid.Row="2" Margin="0,0" TextAlignment="Left" VerticalAlignment="Top">                                
                                 <Hyperlink Foreground="{DynamicResource AccentColorBrush}">
-                                    <TextBlock Text="Create new project"></TextBlock>
+                                    <TextBlock Text="{StaticResource stp_createnewproject}"></TextBlock>
                                 </Hyperlink>
                             </TextBlock>
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-            <Expander BorderThickness="0" Grid.Column="3" ExpandDirection="Left" Background="{DynamicResource GrayBrush10}">
-
+            <Expander Collapsed="PatchnotesExpander_OnCollapsed"
+                      Expanded="PatchnotesExpander_OnExpanded" 
+                      Style="{StaticResource MetroExpander}" 
+                      Name="PatchnotesExpander" 
+                      BorderThickness="0" 
+                      BorderBrush="DodgerBlue"
+                      Grid.Column="3" 
+                      ExpandDirection="Left" Background="{DynamicResource GrayBrush10}">
+                <Expander.Header>
+                    <TextBlock Text="{StaticResource stp_patchnotes}" Foreground="{DynamicResource TextBrush}">
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90"/>
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Expander.Header>
+                <Grid Margin="-5,-5,0,-5" d:DesignWidth="500" Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock 
+                        Grid.Row="0"
+                        Foreground="{DynamicResource AccentColorBrush}" 
+                        Text="{StaticResource stp_releasedata}" FontFamily="LucidaConsole" 
+                        Margin="10,8,0,5"
+                        FontWeight="UltraLight"  
+                        FontSize="25" 
+                        VerticalAlignment="Top" 
+                        HorizontalAlignment="Left"/>
+                    <ScrollViewer Margin="10,0,0,0" Grid.Row="1">
+                        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextBrush}">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor 
+                            
+                            in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </TextBlock>
+                    </ScrollViewer>
+                    <TextBlock 
+                        Grid.Row="2"
+                        Foreground="{DynamicResource AccentColorBrush}" 
+                        Text="{StaticResource stp_aboutapp}" FontFamily="LucidaConsole" 
+                        Margin="10,8,0,5"
+                        FontWeight="UltraLight"  
+                        FontSize="25" 
+                        VerticalAlignment="Top" 
+                        HorizontalAlignment="Left"/>
+                </Grid>
             </Expander>
         </Grid>
     </Grid>

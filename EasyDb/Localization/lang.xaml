@@ -142,4 +142,22 @@
     <system:String x:Key="odbc_installBtn">Добавить</system:String>
     <system:String x:Key="odbc_cancelBtn">Закрыть</system:String>
     <system:String x:Key="odbc_windowName">Менеджер драйверов/DSN подключений</system:String>
+    <!--Startup page-->
+    <system:String x:Key="stp_recentprojs">Недавние</system:String>
+    <system:String x:Key="stp_pinnedproj">Закрепленные</system:String>
+    <system:String x:Key="stp_todayproj">Сегодня</system:String>
+    <system:String x:Key="stp_thisweekproj">На этой неделе</system:String>
+    <system:String x:Key="stp_lastweekproj">Последний месяц</system:String>
+    <system:String x:Key="stp_openproj">Открыть</system:String>
+    <system:String x:Key="stp_opendescrition">Выберете папку на компьютере или откройте сторонний источник.</system:String>
+    <system:String x:Key="stp_gitrepository">Репозиторий Git</system:String>
+    <system:String x:Key="stp_chekoutfrom">Открыть из источника:</system:String>
+    <system:String x:Key="stp_openfolder">Открыть папку</system:String>
+    <system:String x:Key="stp_newproject">Новый проект</system:String>
+    <system:String x:Key="stp_enterdaasourcename">Введите имя источника...</system:String>
+    <system:String x:Key="stp_recentprojectstypes">Последние использованные:</system:String>
+    <system:String x:Key="stp_createnewproject">Создать пустой проект</system:String>
+    <system:String x:Key="stp_patchnotes">Данные о приложении</system:String>
+    <system:String x:Key="stp_releasedata">Релиз</system:String>
+    <system:String x:Key="stp_aboutapp">О приложении</system:String>
 </ResourceDictionary>
