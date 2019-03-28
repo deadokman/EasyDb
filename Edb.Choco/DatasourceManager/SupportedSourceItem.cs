@@ -1,4 +1,5 @@
-﻿using EDb.Interfaces.iface;
+﻿using System.Drawing;
+using EDb.Interfaces.iface;
 
 namespace Edb.Environment.DatasourceManager
 {
@@ -35,18 +36,33 @@ namespace Edb.Environment.DatasourceManager
         /// Gets the DatabaseIcon
         /// Иконка базы данных
         /// </summary>
-        public ImageSource DatabaseIcon
+        public ImageSource DatabaseImage
         {
             get
             {
                 using (var memStream = new MemoryStream(_dataSource.DatabaseIcon))
                 {
-                    var bi = new BitmapImage();
+                    System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
                     bi.BeginInit();
                     bi.StreamSource = memStream;
+                    bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
                     bi.EndInit();
-
+                    bi.Freeze();
                     return bi;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Database icon
+        /// </summary>
+        public Icon DatabaseIcon
+        {
+            get
+            {
+                using (var memStream = new MemoryStream(_dataSource.DatabaseIcon))
+                {
+                    return new Icon(memStream);
                 }
             }
         }

@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Security;
 using CommonServiceLocator;
+using EasyDb.ProjectManagment.Intefraces;
 using EasyDb.ViewModel.Interfaces;
 using EasyDb.ViewModel.StartupPage;
 using GalaSoft.MvvmLight.Messaging;
@@ -31,11 +32,13 @@ namespace EasyDb.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private readonly IDataSourceManager _manager;
+        private readonly IApplicationEnvironment _environment;
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
         private readonly IChocolateyController _chocoController;
+
+        private readonly string _applicationConfigurationPath;
 
         /// <summary>
         /// Defines the _activePane
@@ -43,7 +46,7 @@ namespace EasyDb.ViewModel
         private PaneBaseViewModel _activePane;
 
         /// <summary>
-        /// Background worker for plugin manager initialization
+        /// Background worker for plugin applicationEnvironment initialization
         /// </summary>
         private BackgroundWorker _bgWorkerInit = new BackgroundWorker();
 
@@ -65,13 +68,13 @@ namespace EasyDb.ViewModel
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
-        /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
+        /// <param name="applicationEnvironment">The applicationEnvironment<see cref="IApplicationEnvironment"/></param>
         /// <param name="dialogCoordinator">Dialog coordinator</param>
         /// <param name="chocoController">Chocolatey controller</param>
         /// <param name="chocoInstallVm">Chocolatey install view model</param>
         /// <param name="messenger">Messanger instance</param>
         public MainViewModel(
-                             [NotNull] IDataSourceManager manager,
+                             [NotNull] IApplicationEnvironment applicationEnvironment,
                              [NotNull] IDialogCoordinator dialogCoordinator,
                              [NotNull] IChocolateyController chocoController,
                              [NotNull] IChocolateyInstallViewModel chocoInstallVm,
@@ -92,18 +95,21 @@ namespace EasyDb.ViewModel
                 throw new ArgumentNullException(nameof(messenger));
             }
 
-            _manager = manager ?? throw new ArgumentNullException(nameof(manager));
+            _applicationConfigurationPath = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                    Properties.Settings.Default.ApplicationFolderName);
+            _environment = applicationEnvironment ?? throw new ArgumentNullException(nameof(applicationEnvironment));
             _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
             _chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
             IsInterfaceEnabled = false;
             _bgWorkerInit.DoWork += (sender, args) =>
                 {
-                    manager.InitialLoad(Path.Combine(Directory.GetCurrentDirectory(), "SourceExtensions"));
+                    applicationEnvironment.Initialize(Path.GetFullPath(Properties.Settings.Default.PluginsPath), _applicationConfigurationPath);
                 };
 
             _bgWorkerInit.RunWorkerCompleted += (sender, args) =>
                 {
-                    // If fist time launch, show log in form
+                    // If fist time launch, do somth usefull
                     if (Properties.Settings.Default.IsFirstTimeStartUp)
                     {
                     }
@@ -151,7 +157,7 @@ namespace EasyDb.ViewModel
         public ICommand ActivatePluginCommand { get; set; }
 
         /// <summary>
-        /// Opens ODBC manager as modal window
+        /// Opens ODBC applicationEnvironment as modal window
         /// </summary>
         public ICommand OpenOdbcManager { get; set; }
 

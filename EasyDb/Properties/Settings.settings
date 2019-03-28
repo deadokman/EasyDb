@@ -15,7 +15,7 @@
       <Value Profile="(Default)">25</Value>
     </Setting>
     <Setting Name="PluginsPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">./Plugins</Value>
+      <Value Profile="(Default)">./SourceExtensions</Value>
     </Setting>
     <Setting Name="IsFirstTimeStartUp" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -25,6 +25,9 @@
     </Setting>
     <Setting Name="HideChocoInstall" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ApplicationFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">EasyDb</Value>
     </Setting>
   </Settings>
 </SettingsFile>

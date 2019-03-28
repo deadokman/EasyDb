@@ -2,6 +2,8 @@
 // Copyright (c) PlaceholderCompany. All rights reserved.
 // </copyright>
 
+using EasyDb.ProjectManagment;
+using EasyDb.ProjectManagment.Intefraces;
 using EasyDb.ViewModel.DbExplorer;
 using EasyDb.ViewModel.StartupPage;
 using GalaSoft.MvvmLight.Messaging;
@@ -179,7 +181,7 @@ namespace EasyDb
             builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
             builder.RegisterType<Messenger>().As<IMessenger>().SingleInstance();
             builder.RegisterType<ConnectionManager>().As<IConnectionManager>().SingleInstance();
-            builder.RegisterType<ProjectManager>().As<IProjectManager>().SingleInstance();
+            builder.RegisterType<ApplicationEnvironment>().As<IApplicationEnvironment>().SingleInstance();
 
             // View models
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
@@ -189,7 +191,7 @@ namespace EasyDb
             builder.RegisterType<ChocolateyInstallViewModel>().As<IChocolateyInstallViewModel>().SingleInstance();
             builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
             builder.RegisterType<DbExplorerViewModel>().As<DbExplorerViewModel>().SingleInstance();
-            builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
+            builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>();
             builder.RegisterType<StartUpPageViewModel>().As<IStartUpPageViewModel>().As<StartUpPageViewModel>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
         }

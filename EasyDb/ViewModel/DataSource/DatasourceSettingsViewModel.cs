@@ -1,5 +1,6 @@
 ﻿using EasyDb.Localization;
 using EDb.Interfaces.iface;
+using GalaSoft.MvvmLight;
 
 namespace EasyDb.ViewModel.DataSource
 {
@@ -31,7 +32,7 @@ namespace EasyDb.ViewModel.DataSource
     /// <summary>
     /// Implements logic for datasource creation control
     /// </summary>
-    public class DatasourceSettingsViewModel : IDataSourceSettingsViewModel, INotifyPropertyChanged
+    public class DatasourceSettingsViewModel : ViewModelBase, IDataSourceSettingsViewModel
     {
         private readonly IDataSourceManager _datasourceManager;
 
@@ -226,11 +227,6 @@ namespace EasyDb.ViewModel.DataSource
         }
 
         /// <summary>
-        /// Defines the PropertyChanged
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
         /// Changes editing context
         /// </summary>
         public SupportedSourceItem SelectedSourceItem
@@ -253,7 +249,7 @@ namespace EasyDb.ViewModel.DataSource
                     RefreshDriverInformation(value.Module);
                 }
 
-                OnPropertyChanged();
+                RaisePropertyChanged(() => SelectedSourceItem);
             }
         }
 
@@ -278,7 +274,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _gotDriverProblems = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => GotDriverProblems);
             }
         }
 
@@ -291,7 +287,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _storePasswordSecure = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => StorePasswordSecure);
             }
         }
 
@@ -304,7 +300,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 testConnectionSuccess = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => TestConnectionSuccess);
             }
         }
 
@@ -317,7 +313,7 @@ namespace EasyDb.ViewModel.DataSource
             private set
             {
                 _odbcDriverInstalled = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => OdbcDriverInstalled);
             }
         }
 
@@ -330,7 +326,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _editingUserDatasource = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => EditingUserDatasource);
             }
         }
 
@@ -373,7 +369,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _supportedDatasources = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => SupportedDatasources);
             }
         }
 
@@ -386,7 +382,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _databaseConnectionValid = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => DatabaseConnectionValid);
             }
         }
 
@@ -399,7 +395,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _databaseConnectionInProgress = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => DatabaseConnectionInProgress);
             }
         }
 
@@ -425,7 +421,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _package = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => Package);
             }
         }
 
@@ -438,7 +434,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _odbcDriver = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => OdbcDriver);
             }
         }
 
@@ -451,7 +447,7 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _warningMessage = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => WarningMessage);
             }
         }
 
@@ -464,18 +460,21 @@ namespace EasyDb.ViewModel.DataSource
             set
             {
                 _packageInfoLoad = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => ProcessInProgress);
             }
         }
 
         /// <summary>
-        /// The OnPropertyChanged
+        /// Unregisters this instance from the Messenger class.
+        /// <para>To cleanup additional resources, override this method, clean
+        /// up and then call base.Cleanup().</para>
         /// </summary>
-        /// <param name="propertyName">The propertyName<see cref="string"/></param>
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        public override void Cleanup()
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            SupportedDatasources = null;
+            SelectedSourceItem = null;
+            MessengerInstance.Unregister<DatasourcesIniaialized>(this);
+            base.Cleanup();
         }
 
         /// <summary>
@@ -504,7 +503,7 @@ namespace EasyDb.ViewModel.DataSource
                 throw;
             }
 
-            OnPropertyChanged(nameof(AutoinstallSupportred));
+            RaisePropertyChanged(() => AutoinstallSupportred);
         }
 
         private void RefreshDriverInformation(IEdbDataSource edbDataDatasource)
@@ -549,7 +548,7 @@ namespace EasyDb.ViewModel.DataSource
             }
 
             WarningMessage = sb.ToString();
-            OnPropertyChanged(nameof(AutoinstallSupportred));
+            RaisePropertyChanged(() => AutoinstallSupportred);
         }
 
         private BaseMetroDialog SwitchPkgInstallDialog(BaseMetroDialog dlg = null, bool show = true)

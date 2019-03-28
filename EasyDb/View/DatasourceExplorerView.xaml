@@ -37,12 +37,13 @@
                         </MenuItem.ItemContainerStyle>
                         <MenuItem.ItemTemplate>
                             <DataTemplate>
+                                <!--<MenuItem Icon="{Binding DatabaseIcon}" Header="{Binding DatabaseName}"></MenuItem>-->
                                 <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" 
                                         Style="{StaticResource MetroButtonNoBorder}" 
                                         Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.ConfigureDsCmd}"
                                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type MenuItem}}, Path=DataContext}">
                                     <DockPanel>
-                                        <Image Source="{Binding DatabaseIcon}" />
+                                        <Image Margin="0,0,5,0" MaxWidth="20" MaxHeight="20" Stretch="UniformToFill" Source="{Binding DatabaseImage}" />
                                         <TextBlock Text="{Binding DatabaseName}" />
                                     </DockPanel>
                                 </Button>

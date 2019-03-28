@@ -73,7 +73,7 @@ namespace EasyDb.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("./Plugins")]
+        [global::System.Configuration.DefaultSettingValueAttribute("./SourceExtensions")]
         public string PluginsPath {
             get {
                 return ((string)(this["PluginsPath"]));
@@ -116,6 +116,18 @@ namespace EasyDb.Properties {
             }
             set {
                 this["HideChocoInstall"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("EasyDb")]
+        public string ApplicationFolderName {
+            get {
+                return ((string)(this["ApplicationFolderName"]));
+            }
+            set {
+                this["ApplicationFolderName"] = value;
             }
         }
     }

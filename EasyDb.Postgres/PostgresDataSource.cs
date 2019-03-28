@@ -53,7 +53,7 @@ namespace EasyDb.Postgres
             get
             {
                 using (var stream = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("EasyDb.Postgres.PostgresImage.png"))
+                    .GetManifestResourceStream("EasyDb.Postgres.postgresql_32.ico"))
                 {
                     if (stream != null)
                     {
