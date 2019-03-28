@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EasyDb.View.StartupPage"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding Source={StaticResource Locator}, Path=StartUpPageViewModel}">
     <Grid>
@@ -56,7 +58,7 @@
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="$recenttag" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBox>
+                    <TextBlock Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="$recenttag" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                     <StackPanel Grid.Row="1">
                         <StackPanel>
                             <TextBlock Text="$pinnedtagtext" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
@@ -81,11 +83,108 @@
                         <RowDefinition Height=".4*"/>
                         <RowDefinition Height=".6*"/>
                     </Grid.RowDefinitions>
-                    <TextBox Margin="0,5,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="$open" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="25" VerticalAlignment="Top" HorizontalAlignment="Left"></TextBox>
+                    <StackPanel Grid.Row="0" Margin="0,5,10,0" >
+                        <TextBlock 
+                                 Foreground="{DynamicResource AccentColorBrush}" 
+                                 Text="$open" FontFamily="LucidaConsole" 
+                                 Margin="0,8,0,5"
+                                 FontWeight="UltraLight"  
+                                 FontSize="25" 
+                                 VerticalAlignment="Top" 
+                                 HorizontalAlignment="Left"/>
+                        <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextBrush}" Text="Open project from your hard drive or clone from remote repository."></TextBlock>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource GrayBrush2}" Margin="0,2,0,0" Grid.Row="0">
+                                <StackPanel>
+                                    <TextBlock TextWrapping="Wrap" Text="Checkout from:" Foreground="{DynamicResource TextBrush}"></TextBlock>
+                                        <DockPanel Margin="0,5,0,5">
+                                            <iconPacks:PackIconMaterial 
+                                                VerticalAlignment="Center" 
+                                                Background="Transparent" 
+                                                Foreground="{DynamicResource AccentColorBrush}" Kind="Git" />
+                                            <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
+                                            <Hyperlink Foreground="{DynamicResource TextBrush}">
+                                                <TextBlock Text="Git repository"></TextBlock>
+                                            </Hyperlink>
+                                        </TextBlock>
+                                    </DockPanel>
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Grid.Row="1">
+                                <DockPanel Margin="0,5,0,0">
+                                    <iconPacks:PackIconMaterial 
+                                        VerticalAlignment="Center" 
+                                        Background="Transparent" 
+                                        Foreground="{DynamicResource AccentColorBrush}" Kind="FolderOpen" />
+                                    <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
+                                        <Hyperlink Foreground="{DynamicResource TextBrush}">
+                                            <TextBlock Text="Open project folder"></TextBlock>
+                                        </Hyperlink>
+                                    </TextBlock>
+                                </DockPanel>
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                    <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                            Grid.Row="0"
+                            Foreground="{DynamicResource AccentColorBrush}" 
+                            Text="$New project" FontFamily="LucidaConsole" 
+                            Margin="0,8,0,5"
+                            FontWeight="UltraLight"  
+                            FontSize="25" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left"/>
+                        <Grid Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0,0,15,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition MinHeight="100" Height="Auto"/>
+                                <RowDefinition Height=".3*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0">
+                                <TextBox
+                                    Style="{DynamicResource ButtonCommandMetroTextBox}"
+                                    mah:TextBoxHelper.AutoWatermark="True"
+                                    TextAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    mah:TextBoxHelper.Watermark="enter datasource name..."
+                                    HorizontalAlignment="Stretch" Margin="0,0,5,0">
+                                    <mah:TextBoxHelper.ButtonTemplate>
+                                        <ControlTemplate>
+                                            <iconPacks:PackIconMaterial 
+                                                DockPanel.Dock="Right"
+                                                HorizontalAlignment="Right"
+                                                VerticalAlignment="Center" 
+                                                Background="Transparent" 
+                                                Foreground="{DynamicResource TextBrush}" Kind="Magnify" />
+                                        </ControlTemplate>
+                                    </mah:TextBoxHelper.ButtonTemplate>
+                                </TextBox>
+                                <TextBlock Margin="0,2,0,2" Text="Recent project startups:" Foreground="{DynamicResource TextBrush}"/>
+                            </StackPanel>
+                            <ScrollViewer Margin="0,0,0,5" Grid.Row="1">
+                                <ListBox ></ListBox>
+                            </ScrollViewer>
+                            <TextBlock Grid.Row="2" Margin="0,0" TextAlignment="Left" VerticalAlignment="Top">                                
+                                <Hyperlink Foreground="{DynamicResource AccentColorBrush}">
+                                    <TextBlock Text="Create new project"></TextBlock>
+                                </Hyperlink>
+                            </TextBlock>
+                        </Grid>
+                    </Grid>
                 </Grid>
             </Grid>
             <Expander BorderThickness="0" Grid.Column="3" ExpandDirection="Left" Background="{DynamicResource GrayBrush10}">
-            
+
             </Expander>
         </Grid>
     </Grid>

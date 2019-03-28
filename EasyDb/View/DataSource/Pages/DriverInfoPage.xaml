@@ -129,7 +129,7 @@
                             <Hyperlink Command="{Binding SomeCommand, ElementName=window}" CommandParameter="{Binding}">
                                 <TextBlock Text="{Binding SelectedSourceItem.Module.ChocolatepackageUrl}"></TextBlock>
                             </Hyperlink>
-                </TextBlock>
+                        </TextBlock>
                         <TextBlock Style="{StaticResource InfoTextBlock}" Text="{StaticResource dsms_additional_urls}" Grid.Column="0" Grid.Row="3"/>
                         <ComboBox Grid.Column="1" Grid.Row="3">
 

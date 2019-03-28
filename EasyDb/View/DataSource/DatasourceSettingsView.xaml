@@ -59,13 +59,24 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <DockPanel Margin="0,0,5,0" LastChildFill="True" Background="{DynamicResource GrayBrush10}" Grid.Row="0">
-                    <iconPacks:PackIconMaterial 
-                        DockPanel.Dock="Right"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center" 
-                        Background="Transparent" 
-                        Foreground="{DynamicResource AccentColorBrush}" Kind="Magnify" />
-                    <TextBox HorizontalAlignment="Stretch" Margin="0,0,5,0"></TextBox>
+                    <TextBox
+                        Style="{DynamicResource ButtonCommandMetroTextBox}"
+                        mah:TextBoxHelper.AutoWatermark="True"
+                        TextAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        mah:TextBoxHelper.Watermark=""
+                        HorizontalAlignment="Stretch">
+                        <mah:TextBoxHelper.ButtonTemplate>
+                            <ControlTemplate>
+                                <iconPacks:PackIconMaterial 
+                                    DockPanel.Dock="Right"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center" 
+                                    Background="Transparent" 
+                                    Foreground="{DynamicResource TextBrush}" Kind="Magnify" />
+                            </ControlTemplate>
+                        </mah:TextBoxHelper.ButtonTemplate>
+                    </TextBox>
                 </DockPanel>
                 <ListBox Background="{DynamicResource GrayBrush10}" Grid.Row="1" 
                          ItemsSource="{Binding SupportedDatasources}"
