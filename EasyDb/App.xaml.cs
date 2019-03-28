@@ -5,6 +5,7 @@
 using EasyDb.ViewModel.DbExplorer;
 using EasyDb.ViewModel.StartupPage;
 using GalaSoft.MvvmLight.Messaging;
+using NuGet;
 
 namespace EasyDb
 {
@@ -178,6 +179,7 @@ namespace EasyDb
             builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
             builder.RegisterType<Messenger>().As<IMessenger>().SingleInstance();
             builder.RegisterType<ConnectionManager>().As<IConnectionManager>().SingleInstance();
+            builder.RegisterType<ProjectManager>().As<IProjectManager>().SingleInstance();
 
             // View models
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
