@@ -1,4 +1,6 @@
-﻿namespace EasyDb.ViewModel.Choco
+﻿using EasyDb.Localization;
+
+namespace EasyDb.ViewModel.Choco
 {
     using System;
     using System.Windows;
@@ -61,10 +63,10 @@
                         _logger.Debug("Installing Chocolate via powershell");
                         var ctrl = await _dialogCoordinator.ShowProgressAsync(
                             Application.Current.MainWindow.DataContext,
-                            Application.Current.Resources["choco_dlg_SetUp_message"].ToString(),
-                            Application.Current.Resources["choco_dlg_SetUp_text"].ToString());
+                            Application.Current.Resources[ResourceKeynames.ChocoDlgsetupMessageKey]?.ToString(),
+                            Application.Current.Resources[ResourceKeynames.ChocoDlgsetupTextKey]?.ToString());
                         ctrl.SetIndeterminate();
-                        ctrl.SetMessage(Application.Current.Resources["choco_dlg_install_progress"].ToString());
+                        ctrl.SetMessage(Application.Current.Resources[ResourceKeynames.ChocoDlgInstallProcess].ToString());
                         ctrl.Canceled += (sender, args) => { ctrl.CloseAsync(); };
                         try
                         {

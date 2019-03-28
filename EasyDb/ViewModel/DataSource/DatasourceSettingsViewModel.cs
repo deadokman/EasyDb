@@ -1,4 +1,5 @@
-﻿using EDb.Interfaces.iface;
+﻿using EasyDb.Localization;
+using EDb.Interfaces.iface;
 
 namespace EasyDb.ViewModel.DataSource
 {
@@ -32,12 +33,6 @@ namespace EasyDb.ViewModel.DataSource
     /// </summary>
     public class DatasourceSettingsViewModel : IDataSourceSettingsViewModel, INotifyPropertyChanged
     {
-        private const string NoDriverResourceName = "dsms_err_no_driver";
-
-        private const string NoChocolateyResourceName = "dsms_err_no_autoinstall";
-
-        private const string NoAdmonRightsResourceName = "dsms_err_no_admin";
-
         private readonly IDataSourceManager _datasourceManager;
 
         private readonly IDialogCoordinator _dialogCoordinator;
@@ -213,13 +208,13 @@ namespace EasyDb.ViewModel.DataSource
                                     var cmd = conn.CreateCommand();
                                     cmd.CommandText = SelectedSourceItem.Module.GetQueryProducer().GetTestConnectionQuery();
                                     cmd.ExecuteNonQuery();
-                                    WarningMessage = string.Concat(Application.Current.Resources["dsms_testconn_success"].ToString(), WarningMessage);
+                                    WarningMessage = string.Concat(Application.Current.Resources[ResourceKeynames.DsmsTestConnSuccessKey].ToString(), WarningMessage);
                                     TestConnectionSuccess = true;
-                                    _dialogCoordinator.ShowMessageAsync(this, Application.Current.Resources["dsms_test_connection_button"].ToString(), Application.Current.Resources["dsms_testconn_success"].ToString(), MessageDialogStyle.Affirmative);
+                                    _dialogCoordinator.ShowMessageAsync(this, Application.Current.Resources[ResourceKeynames.DsmsConnectionButtonKey].ToString(), Application.Current.Resources[ResourceKeynames.DsmsTestConnSuccessKey].ToString(), MessageDialogStyle.Affirmative);
                                 }
                                 catch (Exception ex)
                                 {
-                                    _dialogCoordinator.ShowMessageAsync(this, Application.Current.Resources["dsms_test_connection_button"].ToString(), ex.Message, MessageDialogStyle.Affirmative);
+                                    _dialogCoordinator.ShowMessageAsync(this, Application.Current.Resources[ResourceKeynames.DsmsConnectionButtonKey].ToString(), ex.Message, MessageDialogStyle.Affirmative);
                                 }
                             }
                         }
@@ -529,20 +524,20 @@ namespace EasyDb.ViewModel.DataSource
 
             if (!OdbcDriverInstalled)
             {
-                var msg = Application.Current.Resources[NoDriverResourceName] ?? "Driver not installed.";
+                var msg = Application.Current.Resources[ResourceKeynames.DsmsNoDriverResourceKey] ?? "Driver not installed.";
                 sb.Append(msg);
                 GotDriverProblems = true;
             }
 
             if (!_chocoController.ValidateChocoInstall())
             {
-                var msg = Application.Current.Resources[NoChocolateyResourceName] ?? " Chocolatey not installed.";
+                var msg = Application.Current.Resources[ResourceKeynames.DsmsNoChocolateyResourceKey] ?? " Chocolatey not installed.";
                 sb.Append(msg);
             }
 
             if (!_chocoController.IsAdministrator())
             {
-                var msg = Application.Current.Resources[NoAdmonRightsResourceName] ?? " App. have no admin rights.";
+                var msg = Application.Current.Resources[ResourceKeynames.NoAdminPrivilegesKey] ?? " App. have no admin rights.";
                 sb.Append(msg);
             }
 

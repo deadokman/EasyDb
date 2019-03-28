@@ -58,10 +58,10 @@
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="{StaticResource stp_recentprojs}" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
+                    <TextBlock Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="{StaticResource stp_recentprojs}" FontFamily="LucidaConsole" FontWeight="Light"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                     <StackPanel Grid.Row="1">
                         <StackPanel>
-                            <TextBlock Text="{StaticResource stp_pinnedproj}" Foreground="{StaticResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
+                            <TextBlock Text="{StaticResource stp_pinnedproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
                             <ListBox/>
                         </StackPanel>
                         <StackPanel>
@@ -101,7 +101,7 @@
                             </Grid.RowDefinitions>
                             <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource GrayBrush2}" Margin="0,2,0,0" Grid.Row="0">
                                 <StackPanel>
-                                    <TextBlock TextWrapping="Wrap" Text="Checkout from:" Foreground="{DynamicResource TextBrush}"></TextBlock>
+                                    <TextBlock TextWrapping="Wrap" Text="{StaticResource stp_checkoutfrom}" Foreground="{DynamicResource TextBrush}"></TextBlock>
                                         <DockPanel Margin="0,5,0,5">
                                             <iconPacks:PackIconMaterial 
                                                 VerticalAlignment="Center" 
@@ -198,7 +198,7 @@
                         </TextBlock.LayoutTransform>
                     </TextBlock>
                 </Expander.Header>
-                <Grid Margin="-5,-5,0,-5" d:DesignWidth="500" Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid Margin="-5" d:DesignWidth="500" Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="Auto"/>

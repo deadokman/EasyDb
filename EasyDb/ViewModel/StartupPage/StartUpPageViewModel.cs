@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using EasyDb.Localization;
 using EasyDb.View.StartupPage;
 using EasyDb.ViewModel.Interfaces;
 
@@ -19,8 +20,13 @@ namespace EasyDb.ViewModel.StartupPage
         /// Вью-модель стартовой страницы приложения
         /// </summary>
         public StartUpPageViewModel()
-            : base("StartPage")
+            : base("Startup page")
         {
+            string res = App.Current.TryFindResource(ResourceKeynames.StartupPageKey) as string;
+            if (res != null)
+            {
+                Title = res;
+            }
         }
 
         /// <summary>

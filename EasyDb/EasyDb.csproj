@@ -181,6 +181,10 @@
     </Compile>
     <Compile Include="Converters\ActiveDocumentConverter.cs" />
     <Compile Include="Converters\SettingsSizeLimitConverter.cs" />
+    <Compile Include="Localization\lang.xaml.cs">
+      <DependentUpon>lang.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Localization\ResourceKeynames.cs" />
     <Compile Include="ViewModel\DbExplorer\DbExplorerViewModel.cs" />
     <Compile Include="ViewModel\Interfaces\IDataSourceSettingsViewModel.cs" />
     <Compile Include="IoC\AutofacServiceLocator.cs" />
@@ -595,6 +599,9 @@
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

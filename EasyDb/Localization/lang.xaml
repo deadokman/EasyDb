@@ -1,6 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    x:Class="EasyDb.Localization.Lang"
+                    xmlns:localization="clr-namespace:EasyDb.Localization">
     <system:String x:Key="app_name">EasyDb</system:String>
     <system:String x:Key="app_ver">0.0.0</system:String>
     <!--Unhandled error window-->
@@ -72,7 +74,7 @@
     <!--Driver page-->
     <system:String x:Key="dsms_driver_execute_autoinst">Выполнить автоматическую установку драйвера, используя Chocolatey</system:String>
     <system:String x:Key="dsms_driver_refresh_info">Обновить информацию о пакете и драйвере</system:String>
-    <system:String x:Key="dsms_test_connection_button">Проверка соединения</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.DsmsConnectionButtonKey}">Проверка соединения</system:String>
     <system:String x:Key="dsms_drivername">Имя драйвера:</system:String>
     <system:String x:Key="dsms_driver_choco_id">ID пакета:</system:String>
     <system:String x:Key="dsms_driver_choco_url">URL пакета:</system:String>
@@ -94,10 +96,10 @@
     <system:String x:Key="opt_def_password">Пароль:</system:String>
     <system:String x:Key="opt_def_port">Порт:</system:String>
 
-    <system:String x:Key="dsms_err_no_driver">Не установлен драйвер. </system:String>
-    <system:String x:Key="dsms_err_no_autoinstall"> Chocolatey не установлен. </system:String>
-    <system:String x:Key="dsms_err_no_admin"> Требуются права администратора. </system:String>
-    <system:String x:Key="dsms_testconn_success">Соединение успешно установлено. </system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.DsmsNoDriverResourceKey}">Не установлен драйвер. </system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.DsmsNoChocolateyResourceKey}"> Chocolatey не установлен. </system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.NoAdminPrivilegesKey}"> Требуются права администратора. </system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.DsmsTestConnSuccessKey}">Соединение успешно установлено. </system:String>
     <system:String x:Key="dsms_secure_password_store">Сохранить пароль</system:String>
 
     <!--Chocolatey install dialog-->
@@ -124,7 +126,7 @@
         Установка Chocolatey выполнена успешно, в дальнейшей с его помощью будут устанавливаться драйверы OleDb и другое ПО, 
         необходимое для работы приложения.
     </system:String>
-    <system:String x:Key="choco_dlg_install_progress">
+    <system:String x:Key="{x:Static localization:ResourceKeynames.ChocoDlgInstallProcess}">
         Программа установки выполняет необходимые операции, это может занять несколько минут. 
         Для установки дополнительного ПО требуется подключение к сети интернет.
     </system:String>
@@ -133,8 +135,8 @@
     <system:String x:Key="choco_dlg_cancel_dlg">ПРОПУСТИТЬ</system:String>
     <system:String x:Key="choco_dlg_understand_dlg">ПОНЯТНО</system:String>
     <system:String x:Key="choco_dlg_SetUp_dlg">УСТАНОВИТЬ</system:String>
-    <system:String x:Key="choco_dlg_SetUp_message">Установка Chocolatey</system:String>
-    <system:String x:Key="choco_dlg_SetUp_text">Выполняется скачивание и установка Chocolatey</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.ChocoDlgsetupMessageKey}">Установка Chocolatey</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.ChocoDlgsetupTextKey}">Выполняется скачивание и установка Chocolatey</system:String>
     <!--Контролл доступа к ODBC драйверам-->
     <system:String x:Key="odbc_drivername">Имя</system:String>
     <system:String x:Key="odbc_driverpath">Путь к файлу</system:String>
@@ -143,6 +145,7 @@
     <system:String x:Key="odbc_cancelBtn">Закрыть</system:String>
     <system:String x:Key="odbc_windowName">Менеджер драйверов/DSN подключений</system:String>
     <!--Startup page-->
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StartupPageKey}">Стартовая страница</system:String>
     <system:String x:Key="stp_recentprojs">Недавние</system:String>
     <system:String x:Key="stp_pinnedproj">Закрепленные</system:String>
     <system:String x:Key="stp_todayproj">Сегодня</system:String>
@@ -151,7 +154,7 @@
     <system:String x:Key="stp_openproj">Открыть</system:String>
     <system:String x:Key="stp_opendescrition">Выберете папку на компьютере или откройте сторонний источник.</system:String>
     <system:String x:Key="stp_gitrepository">Репозиторий Git</system:String>
-    <system:String x:Key="stp_chekoutfrom">Открыть из источника:</system:String>
+    <system:String x:Key="stp_checkoutfrom">Открыть из источника:</system:String>
     <system:String x:Key="stp_openfolder">Открыть папку</system:String>
     <system:String x:Key="stp_newproject">Новый проект</system:String>
     <system:String x:Key="stp_enterdaasourcename">Введите имя источника...</system:String>
