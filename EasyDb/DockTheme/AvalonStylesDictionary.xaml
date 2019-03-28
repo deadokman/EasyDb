@@ -878,9 +878,9 @@
                                     Height="15"
                                     Margin="5,0,0,0" 
                                     Style="{StaticResource AvalonDock_ThemeMetro_ButtonStyle}">
-                                    <Rectangle Width="12" Height="12" Name="PART_ImgPinClose" Fill="{DynamicResource AccentColorBrush2}">
+                                    <Rectangle Width="12" Height="12" Name="PART_ImgPinClose" Fill="{DynamicResource TextBrush}">
                                         <Rectangle.OpacityMask>
-                                            <VisualBrush Visual="{StaticResource appbar_close}" Stretch="Fill" />
+                                            <VisualBrush Visual="{DynamicResource appbar_pin}" Stretch="Fill" />
                                         </Rectangle.OpacityMask>
                                     </Rectangle>
                                 </Button>

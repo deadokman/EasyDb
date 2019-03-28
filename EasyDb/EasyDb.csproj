@@ -190,7 +190,9 @@
     <Compile Include="ViewModel\DataSource\DatasourceSettingsViewModel.cs" />
     <Compile Include="ViewModel\DataSource\UserDataSourceViewModelItem.cs" />
     <Compile Include="ViewModel\Interfaces\IOdbcManagerViewModel.cs" />
+    <Compile Include="ViewModel\Interfaces\IStartUpPageViewModel.cs" />
     <Compile Include="ViewModel\OdbcManagerViewModel.cs" />
+    <Compile Include="ViewModel\StartupPage\StartUpPageViewModel.cs" />
     <Compile Include="ViewModel\ValidationExceptionBehavior.cs" />
     <Compile Include="CustomControls\Choco\ChocolateyInstallControll.xaml.cs">
       <DependentUpon>ChocolateyInstallControll.xaml</DependentUpon>
@@ -247,7 +249,7 @@
     <Compile Include="ViewModel\Settings\AppThemeMenuData.cs" />
     <Compile Include="ViewModel\Settings\GeneralSettingsViewModel.cs" />
     <Compile Include="ViewModel\Settings\IProgramSettings.cs" />
-    <Compile Include="ViewModel\SqlEditors\SqlExecuterWindowViewModel.cs" />
+    <Compile Include="ViewModel\SqlEditor\SqlExecuterWindowViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
     <Compile Include="View\DataSource\DatasourceSettingsView.xaml.cs">
       <DependentUpon>DatasourceSettingsView.xaml</DependentUpon>
@@ -273,8 +275,8 @@
     <Compile Include="View\SqlQueryToolView.xaml.cs">
       <DependentUpon>SqlQueryToolView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\StartUpPageView.xaml.cs">
-      <DependentUpon>StartUpPageView.xaml</DependentUpon>
+    <Compile Include="View\StartupPage\StartUpPageControll.xaml.cs">
+      <DependentUpon>StartUpPageControll.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TabView.xaml.cs">
       <DependentUpon>TabView.xaml</DependentUpon>
@@ -442,7 +444,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\StartUpPageView.xaml">
+    <Page Include="View\StartupPage\StartUpPageControll.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -568,6 +570,7 @@
     <Folder Include="Ext\" />
     <Folder Include="ViewModelCommunication\" />
     <Folder Include="ViewModel\DataSource\Items\" />
+    <Folder Include="View\SQLEditor\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Edb.Choco\Edb.Environment.csproj">

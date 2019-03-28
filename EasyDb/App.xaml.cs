@@ -3,6 +3,7 @@
 // </copyright>
 
 using EasyDb.ViewModel.DbExplorer;
+using EasyDb.ViewModel.StartupPage;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace EasyDb
@@ -187,6 +188,7 @@ namespace EasyDb
             builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
             builder.RegisterType<DbExplorerViewModel>().As<DbExplorerViewModel>().SingleInstance();
             builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
+            builder.RegisterType<StartUpPageViewModel>().As<IStartUpPageViewModel>().As<StartUpPageViewModel>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
         }
 

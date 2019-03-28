@@ -1,5 +1,8 @@
 using System.Linq;
 using System.Security;
+using CommonServiceLocator;
+using EasyDb.ViewModel.Interfaces;
+using EasyDb.ViewModel.StartupPage;
 using GalaSoft.MvvmLight.Messaging;
 
 namespace EasyDb.ViewModel
@@ -132,6 +135,9 @@ namespace EasyDb.ViewModel
             // Validate choco install if necessary
             IsInterfaceEnabled = false;
             _bgWorkerInit.RunWorkerAsync();
+
+            // Add startup page pane
+            PaneViewModels.Add(ServiceLocator.Current.GetInstance<StartUpPageViewModel>());
         }
 
         /// <summary>

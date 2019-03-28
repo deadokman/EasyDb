@@ -107,6 +107,17 @@ namespace EasyDb.ViewModel
         }
 
         /// <summary>
+        /// ¬ью-модель стартовой страницы
+        /// </summary>
+        public IStartUpPageViewModel StartUpPageViewModel
+        {
+            get
+            {
+                return AutofacServiceLocator.Instance.GetInstance<IStartUpPageViewModel>();
+            }
+        }
+
+        /// <summary>
         /// The Cleanup
         /// </summary>
         public static void Cleanup()

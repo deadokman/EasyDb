@@ -1,4 +1,6 @@
-﻿namespace EasyDb.ViewModel.Panes
+﻿using EasyDb.ViewModel.Interfaces;
+
+namespace EasyDb.ViewModel.Panes
 {
     using System.Windows;
     using System.Windows.Controls;
@@ -11,16 +13,21 @@
     public class PanesTemplateSelector : DataTemplateSelector
     {
         /// <summary>
-        /// Gets or sets the SqlQueryToolTemplate
+        /// Gets or sets the SqlEditorTemplate
         /// Шаблон отображения для таба
         /// </summary>
-        public DataTemplate SqlQueryToolTemplate { get; set; }
+        public DataTemplate SqlEditorTemplate { get; set; }
 
         /// <summary>
         /// Gets or sets the SqlUiDiagrammTemplate
         /// Шаблон отображения для инструмента диаграмм
         /// </summary>
         public DataTemplate SqlUiDiagrammTemplate { get; set; }
+
+        /// <summary>
+        /// Get datatemplate for startup page
+        /// </summary>
+        public DataTemplate StartUpPageTemplate { get; set; }
 
         /// <summary>
         /// The SelectTemplate
@@ -32,13 +39,14 @@
         {
             if (item is SqlExecuterWindowViewModel)
             {
-                return SqlQueryToolTemplate;
+                return SqlEditorTemplate;
             }
 
-            // if (item is DiagramDesignerViewModel)
-            // {
-            // return SqlUiDiagrammTemplate;
-            // }
+            if (item is IStartUpPageViewModel)
+            {
+                return StartUpPageTemplate;
+            }
+
             return base.SelectTemplate(item, container);
         }
     }
