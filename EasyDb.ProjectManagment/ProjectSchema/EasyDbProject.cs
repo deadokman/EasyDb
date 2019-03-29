@@ -33,6 +33,11 @@ namespace EasyDb.ProjectManagment.ProjectSchema
         }
 
         /// <summary>
+        /// Name of the project
+        /// </summary>
+        public string ProjName { get; set; }
+
+        /// <summary>
         /// Project folder path
         /// </summary>
         public string ProjectFolderPath { get; set; }

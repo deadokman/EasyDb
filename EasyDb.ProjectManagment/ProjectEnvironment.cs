@@ -154,17 +154,28 @@ namespace EasyDb.ProjectManagment
 
             CurrentProject = new EasyDbProject(folder, projectFile)
             {
-
+                ProjName = String.Concat("NewDb", DateTime.Today.ToString("g"))
             };
+
             if (dsConfiguration != null)
             {
                 CurrentProject.ConfigurationSources.Add(dsConfiguration);
             }
 
+            HistoryInformation.ProjectsHistory.Add(new ProjectHistItem()
+            {
+                ProjectName = CurrentProject.ProjName,
+                LastAccess = DateTime.Now,
+                Pinned = false,
+                ProjectFileLocation = CurrentProject.ProjectFolderPath
+            });
+
             using (var f = File.Create(projectFile))
             {
                 _projectSerializer.Serialize(f, CurrentProject);
             }
+
+            StoreHistoryInformation(_applicationConfigPath);
         }
 
         private EasyDbProject LoadEdbProject(string projectFolderPath)

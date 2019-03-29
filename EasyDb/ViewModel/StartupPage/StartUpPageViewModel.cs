@@ -20,7 +20,7 @@ namespace EasyDb.ViewModel.StartupPage
     /// </summary>
     public class StartUpPageViewModel : PaneBaseViewModel, IStartUpPageViewModel
     {
-        private readonly IProjectEnvironment projectEnvironment;
+        private readonly IProjectEnvironment _projectEnvironment;
         private readonly IDataSourceManager _datasourceManager;
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace EasyDb.ViewModel.StartupPage
         public StartUpPageViewModel(IProjectEnvironment projectEnvironment, [NotNull] IDataSourceManager datasourceManager)
             : base("Startup page")
         {
-            this.projectEnvironment = projectEnvironment ?? throw new ArgumentNullException(nameof(projectEnvironment));
+            _projectEnvironment = projectEnvironment ?? throw new ArgumentNullException(nameof(projectEnvironment));
             _datasourceManager = datasourceManager ?? throw new ArgumentNullException(nameof(datasourceManager));
             string res = App.Current.TryFindResource(ResourceKeynames.StartupPageKey) as string;
             if (res != null)
@@ -42,6 +42,7 @@ namespace EasyDb.ViewModel.StartupPage
 
             CreateEmptyProj = new EDbCommand(() =>
             {
+                _projectEnvironment.InitializeNewProject();
             });
         }
 
