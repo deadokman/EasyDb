@@ -35,6 +35,18 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// Configuration broken
+        /// </summary>
+        [XmlIgnore]
+        public bool IsConfigurationBroken { get; set; }
+
+        /// <summary>
+        /// Reason of configuration broke
+        /// </summary>
+        [XmlIgnore]
+        public string BrokeReason { get; set; }
+
+        /// <summary>
         /// Gets or sets the OptionsObjects
         /// Общие настройки источника данных
         /// </summary>

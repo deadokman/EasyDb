@@ -26,21 +26,10 @@ namespace Edb.Environment.Interface
     public interface IDataSourceManager
     {
         /// <summary>
-        /// Источники данных загружены
-        /// </summary>
-        event DatasourceData DatasourceLoaded;
-
-        /// <summary>
         /// Gets the SupportedDatasources
         /// Поддерживаемые источники данных
         /// </summary>
         IEnumerable<SupportedSourceItem> SupportedDatasources { get; }
-
-        /// <summary>
-        /// Gets or sets the UserDatasources
-        /// Источники данных объявленные пользователем
-        /// </summary>
-        List<UserDatasourceConfiguration> UserDatasourceConfigurations { get; set; }
 
         /// <summary>
         /// Создать новый экземпляр источника данных
@@ -48,12 +37,6 @@ namespace Edb.Environment.Interface
         /// <param name="module">Database driver</param>
         /// <returns>User defined data source</returns>
         UserDatasourceConfiguration CreateDataSourceConfig(IEdbDataSource module);
-
-        /// <summary>
-        /// Добавить объявленный пользователем источник данных в список
-        /// </summary>
-        /// <param name="uds">Источник данных прользователя</param>
-        void ApplyUserDatasource(UserDatasourceConfiguration uds);
 
         /// <summary>
         /// Инициализировать менеджер данных
@@ -69,8 +52,9 @@ namespace Edb.Environment.Interface
         IEdbDataSource GetModuleByGuid(Guid guid);
 
         /// <summary>
-        /// Save datasource configuration to config file at hard drive
+        /// Get option class types for XmkSerializer
         /// </summary>
-        void StoreUserDatasourceConfigurations();
+        /// <returns>OptionTypes </returns>
+        IEnumerable<Type> GetAdditionalOptionTypes();
     }
 }

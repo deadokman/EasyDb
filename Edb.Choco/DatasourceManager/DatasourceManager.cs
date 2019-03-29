@@ -51,11 +51,6 @@ namespace EasyDb.SandboxEnvironment
         private Dictionary<Guid, SupportedSourceItem> _supportedDataSources;
 
         /// <summary>
-        /// Defines the _xseri
-        /// </summary>
-        private XmlSerializer _xseri;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="DatasourceManager"/> class.
         /// </summary>
         /// <param name="logger">Class logger</param>
@@ -67,11 +62,6 @@ namespace EasyDb.SandboxEnvironment
             _supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
             UserDatasourceConfigurations = new List<UserDatasourceConfiguration>();
         }
-
-        /// <summary>
-        /// Defines the DatasourceLoaded
-        /// </summary>
-        public event DatasourceData DatasourceLoaded;
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -104,23 +94,12 @@ namespace EasyDb.SandboxEnvironment
         }
 
         /// <summary>
-        /// Добавить объявленный пользователем источник данных в список
-        /// </summary>
-        /// <param name="udsc">Источник данных прользователя</param>
-        public void ApplyUserDatasource(UserDatasourceConfiguration udsc)
-        {
-            UserDatasourceConfigurations.Add(udsc);
-        }
-
-        /// <summary>
         /// Load datasource modules
         /// Modules load in separate AppDomain for security purpose
         /// </summary>
         /// <param name="dbModulesAssembliesPath">The dbModulesAssembliesPath<see cref="string"/></param>
         public void InitialLoad(string dbModulesAssembliesPath)
         {
-            List<UserDatasourceConfiguration> serializedSources;
-
             if (!Directory.Exists(dbModulesAssembliesPath))
             {
                 throw new Exception($"Path NotFound {dbModulesAssembliesPath}");
@@ -157,34 +136,16 @@ namespace EasyDb.SandboxEnvironment
                 }
             }
 
-            _xseri = new XmlSerializer(
-                typeof(List<UserDatasourceConfiguration>),
-                _supportedDataSources.SelectMany(sds => sds.Value.Module.GetOptions().Select(opt => opt.GetType())).ToArray());
+            _messenger.Send(new DatasourcesIniaialized(_supportedDataSources.Values));
+        }
 
-            // Load and serialize XML doc. Create new one if it does not exists;
-            if (File.Exists(DatasourceConfigStorage))
-            {
-                try
-                {
-                    using (var fs = File.OpenRead(DatasourceConfigStorage))
-                    {
-                        serializedSources = (List<UserDatasourceConfiguration>)_xseri.Deserialize(fs);
-                    }
-
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error($"Error while parsing user defined sources: \n {ex}");
-                    serializedSources = new List<UserDatasourceConfiguration>();
-                }
-            }
-            else
-            {
-                serializedSources = new List<UserDatasourceConfiguration>();
-            }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        public void ValidateUserdatasourceConfigurations(IEnumerable<UserDatasourceConfiguration> configurations, Action<UserDatasourceConfiguration, string> brokeInvoke)
+        {
             // Restore user defined datasource
-            foreach (var uds in serializedSources)
+            foreach (var uds in configurations)
             {
                 // Check that user defined data source exists in datasource module
                 if (_supportedDataSources.ContainsKey(uds.DatasoureGuid))
@@ -193,16 +154,11 @@ namespace EasyDb.SandboxEnvironment
                 }
                 else
                 {
-                    _logger.Error($"Cannot find module GUID: [{uds.DatasoureGuid}] while loading user datasource config [{uds.ConfigurationGuid}]", uds.Name);
+                    var msg = $"Cannot find module GUID: [{uds.DatasoureGuid}] while loading user datasource config [{uds.ConfigurationGuid}]";
+                    brokeInvoke?.Invoke(uds, msg);
+                    _logger.Error(msg, uds.Name);
                 }
             }
-
-            if (DatasourceLoaded != null)
-            {
-                DatasourceLoaded.Invoke(_supportedDataSources.Values, UserDatasourceConfigurations);
-            }
-
-            _messenger.Send(new DatasourcesIniaialized(_supportedDataSources.Values, UserDatasourceConfigurations));
         }
 
         /// <summary>
@@ -215,54 +171,16 @@ namespace EasyDb.SandboxEnvironment
             return _supportedDataSources[guid].Module;
         }
 
+
         /// <summary>
-        /// Save datasource configuration to config file at hard drive
+        /// Get option class types for XmkSerializer
         /// </summary>
-        public void StoreUserDatasourceConfigurations()
+        /// <returns>OptionTypes </returns>
+        public IEnumerable<Type> GetAdditionalOptionTypes()
         {
-            var tmpFile = string.Concat(DataSourceStorageFile, "$tmp");
-            if (!File.Exists(DataSourceStorageFile))
-            {
-                using (var resourceStream = Assembly.GetExecutingAssembly()
-                    .GetManifestResourceStream("Edb.Environment.DatasourceStorageTemplate.xml"))
-                {
-                    // Create new file from template
-                    using (var newfileStream = File.Create(DataSourceStorageFile))
-                    {
-                        resourceStream.CopyTo(newfileStream);
-                    }
-                }
-            }
-
-            // Create temporary copy of storage file
-            try
-            {
-                File.Copy(DataSourceStorageFile, tmpFile, true);
-            }
-            catch (Exception ex)
-            {
-                var msg = "Exception while saving datasource configuration";
-                _logger.Error(msg, ex);
-                throw new Exception(msg, ex);
-            }
-
-            try
-            {
-                using (var dsfs = File.Open(DataSourceStorageFile, FileMode.Truncate))
-                {
-                    _xseri.Serialize(dsfs, UserDatasourceConfigurations);
-                }
-            }
-            catch (Exception ex)
-            {
-                var msg = "Error while writing new datasource configurations, trying to revert";
-                _logger.Error(msg, ex);
-                File.Copy(tmpFile, DataSourceStorageFile, true);
-            }
-
-            _messenger.Send(new DatasourcesIniaialized(SupportedDatasources, UserDatasourceConfigurations));
-            File.Delete(tmpFile);
+           return SupportedDatasources.SelectMany(st => st.Module.GetOptions().Select(v => v.GetType()));
         }
+
 
         /// <summary>
         /// The AppOnLanguageChanged

@@ -17,22 +17,14 @@ namespace Edb.Environment.CommunicationArgs
         /// Datasource initialized communication message
         /// </summary>
         /// <param name="supportedSources">Collection of supported datasources</param>
-        /// <param name="userDatasourceConfigurations">Collection of configured datasources</param>
-        public DatasourcesIniaialized(IEnumerable<SupportedSourceItem> supportedSources, IEnumerable<UserDatasourceConfiguration> userDatasourceConfigurations)
+        public DatasourcesIniaialized(IEnumerable<SupportedSourceItem> supportedSources)
         {
             SupportedSources = supportedSources;
-            UserDatasourceConfigurations = userDatasourceConfigurations;
         }
 
         /// <summary>
         /// Supported source items
         /// </summary>
         public IEnumerable<SupportedSourceItem> SupportedSources { get; set; }
-
-        /// <summary>
-        /// User datasource configurations
-        /// </summary>
-        public IEnumerable<UserDatasourceConfiguration> UserDatasourceConfigurations { get; set; }
-
     }
 }

@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
 using EasyDb.Annotations;
+using EasyDb.ProjectManagment.Intefraces;
 using EasyDb.View.DataSource;
 using EasyDb.ViewModel.DataSource;
 using EasyDb.ViewModel.Interfaces;
 using Edb.Environment.CommunicationArgs;
 using Edb.Environment.DatasourceManager;
 using Edb.Environment.Interface;
+using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using GalaSoft.MvvmLight.Messaging;
 
@@ -20,10 +20,11 @@ namespace EasyDb.ViewModel.DbExplorer
     /// <summary>
     /// Database explorer view model item
     /// </summary>
-    public class DbExplorerViewModel : INotifyPropertyChanged
+    public class DbExplorerViewModel : ViewModelBase
     {
         private readonly IDataSourceSettingsViewModel _datasourceSettingsViewModel;
         private readonly IDataSourceManager _datasourceManager;
+        private readonly IProjectEnvironment projectEnvironment;
 
         /// <summary>
         /// Defines the _supportedDatasources
@@ -42,25 +43,29 @@ namespace EasyDb.ViewModel.DbExplorer
         /// Database explorer view model
         /// </summary>
         /// <param name="datasourceSettingsViewModel">Control datasource settings</param>
-        /// <param name="datasourceManager">Datasource manager</param>
+        /// <param name="appEnv">Application environment</param>
+        /// <param name="manager">App datasource _datasourceManager</param>
         /// <param name="messenger">View model communication messenger</param>
-        public DbExplorerViewModel(IDataSourceSettingsViewModel datasourceSettingsViewModel, IDataSourceManager datasourceManager, IMessenger messenger)
+        public DbExplorerViewModel(
+            [NotNull] IDataSourceSettingsViewModel datasourceSettingsViewModel,
+            [NotNull] IProjectEnvironment appEnv,
+            [NotNull] IDataSourceManager manager,
+            [NotNull] IMessenger messenger)
         {
-            _datasourceSettingsViewModel = datasourceSettingsViewModel;
-            _datasourceManager = datasourceManager;
-            SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
-            ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(
-                DisplayUserDatasourceProperties);
+            if (messenger == null)
+            {
+                throw new ArgumentNullException(nameof(messenger));
+            }
+
+            _datasourceSettingsViewModel = datasourceSettingsViewModel ?? throw new ArgumentNullException(nameof(datasourceSettingsViewModel));
+            _datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
+            projectEnvironment = appEnv;
+            ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(DisplayUserDatasourceProperties);
 
             // Reaction on datasources loaded communication message
             messenger.Register(this, new Action<DatasourcesIniaialized>(InstanceOnDatasourceLoaded));
             RefreshViewmodelData();
         }
-
-        /// <summary>
-        /// Property changed event
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// Gets or sets the ConfigureDsCmd
@@ -72,7 +77,7 @@ namespace EasyDb.ViewModel.DbExplorer
             set
             {
                 _configureDsCmd = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => ConfigureDsCmd);
             }
         }
 
@@ -86,7 +91,7 @@ namespace EasyDb.ViewModel.DbExplorer
             private set
             {
                 _supportedDatasources = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => SupportedDatasources);
             }
         }
 
@@ -100,18 +105,8 @@ namespace EasyDb.ViewModel.DbExplorer
             set
             {
                 _userDatasources = value;
-                OnPropertyChanged();
+                RaisePropertyChanged(() => UserDatasources);
             }
-        }
-
-        /// <summary>
-        /// Property changed invoke
-        /// </summary>
-        /// <param name="propertyName">Prop name</param>
-        [NotifyPropertyChangedInvocator]
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         /// <summary>
@@ -126,8 +121,11 @@ namespace EasyDb.ViewModel.DbExplorer
         private void RefreshViewmodelData()
         {
             SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
-            var udsVmi = _datasourceManager.UserDatasourceConfigurations.Select(i => new UserDataSourceViewModelItem(i, _datasourceManager.GetModuleByGuid(i.DatasoureGuid)));
-            UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>(udsVmi);
+            var udsVmi = projectEnvironment.CurrentProject?.ConfigurationSources.Select(i => new UserDataSourceViewModelItem(i, _datasourceManager.GetModuleByGuid(i.DatasoureGuid)));
+            if (udsVmi != null)
+            {
+                UserDatasources = new ObservableCollection<UserDataSourceViewModelItem>();
+            }
         }
 
         /// <summary>

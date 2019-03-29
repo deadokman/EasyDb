@@ -1,13 +1,12 @@
 ﻿using EasyDb.Localization;
+using EasyDb.ProjectManagment.Intefraces;
 using EDb.Interfaces.iface;
 using GalaSoft.MvvmLight;
 
 namespace EasyDb.ViewModel.DataSource
 {
     using System;
-    using System.ComponentModel;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Security;
     using System.Text;
     using System.Windows;
@@ -20,7 +19,6 @@ namespace EasyDb.ViewModel.DataSource
     using Edb.Environment.DatasourceManager;
     using Edb.Environment.Interface;
     using Edb.Environment.Model;
-    using EDb.Interfaces;
     using GalaSoft.MvvmLight.CommandWpf;
     using GalaSoft.MvvmLight.Messaging;
     using MahApps.Metro.Controls;
@@ -35,6 +33,7 @@ namespace EasyDb.ViewModel.DataSource
     public class DatasourceSettingsViewModel : ViewModelBase, IDataSourceSettingsViewModel
     {
         private readonly IDataSourceManager _datasourceManager;
+        private readonly IProjectEnvironment _appEnvironment;
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
@@ -74,6 +73,7 @@ namespace EasyDb.ViewModel.DataSource
         /// Initializes a new instance of the <see cref="DatasourceSettingsViewModel"/> class.
         /// </summary>
         /// <param name="manager">The manager<see cref="IDataSourceManager"/></param>
+        /// <param name="appEnvironment">The manager<see cref="IProjectEnvironment"/></param>
         /// <param name="passwordStorage">Password storage implementation</param>
         /// <param name="dialogCoord">Dialog coordinator</param>
         /// <param name="odbcManager">Odbc driver managment repository</param>
@@ -83,11 +83,12 @@ namespace EasyDb.ViewModel.DataSource
         /// <param name="messenger">view model messenger</param>
         public DatasourceSettingsViewModel(
             [NotNull] IDataSourceManager manager,
+            [NotNull] IProjectEnvironment appEnvironment,
             [NotNull] IPasswordStorage passwordStorage,
-           [NotNull] IDialogCoordinator dialogCoord,
-           [NotNull] IOdbcManager odbcManager,
-           [NotNull] IChocolateyController chocoController,
-           [NotNull] ILogger logger,
+            [NotNull] IDialogCoordinator dialogCoord,
+            [NotNull] IOdbcManager odbcManager,
+            [NotNull] IChocolateyController chocoController,
+            [NotNull] ILogger logger,
             [NotNull] IConnectionManager connectionManager,
             [NotNull] IMessenger messenger)
         {
@@ -107,6 +108,7 @@ namespace EasyDb.ViewModel.DataSource
             }
 
             _datasourceManager = manager ?? throw new ArgumentNullException(nameof(manager));
+            _appEnvironment = appEnvironment ?? throw new ArgumentNullException(nameof(appEnvironment));
             _dialogCoordinator = dialogCoord ?? throw new ArgumentNullException(nameof(dialogCoord));
             _odbcManager = odbcManager ?? throw new ArgumentNullException(nameof(odbcManager));
             _chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
@@ -168,10 +170,9 @@ namespace EasyDb.ViewModel.DataSource
                             return;
                         }
 
-                        _datasourceManager.ApplyUserDatasource(EditingUserDatasource.DsConfiguration);
                         try
                         {
-                            _datasourceManager.StoreUserDatasourceConfigurations();
+                            _appEnvironment.ApplyDatasourceConfig(EditingUserDatasource.DsConfiguration);
                         }
                         catch (Exception ex)
                         {

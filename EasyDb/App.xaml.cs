@@ -181,7 +181,7 @@ namespace EasyDb
             builder.RegisterType<OdbcManager>().As<IOdbcManager>().SingleInstance();
             builder.RegisterType<Messenger>().As<IMessenger>().SingleInstance();
             builder.RegisterType<ConnectionManager>().As<IConnectionManager>().SingleInstance();
-            builder.RegisterType<ApplicationEnvironment>().As<IApplicationEnvironment>().SingleInstance();
+            builder.RegisterType<ProjectEnvironment>().As<IProjectEnvironment>().SingleInstance();
 
             // View models
             builder.RegisterType<MainViewModel>().As<MainViewModel>().SingleInstance();
@@ -191,7 +191,7 @@ namespace EasyDb
             builder.RegisterType<ChocolateyInstallViewModel>().As<IChocolateyInstallViewModel>().SingleInstance();
             builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
             builder.RegisterType<DbExplorerViewModel>().As<DbExplorerViewModel>().SingleInstance();
-            builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>();
+            builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
             builder.RegisterType<StartUpPageViewModel>().As<IStartUpPageViewModel>().As<StartUpPageViewModel>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
         }

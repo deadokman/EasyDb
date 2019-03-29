@@ -18,19 +18,19 @@ namespace EasyDb.ViewModel.StartupPage
     /// </summary>
     public class StartUpPageViewModel : PaneBaseViewModel, IStartUpPageViewModel
     {
-        private readonly IApplicationEnvironment _applicationEnvironment;
+        private readonly IProjectEnvironment projectEnvironment;
         private readonly IDataSourceManager _datasourceManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StartUpPageViewModel"/> class.
         /// Вью-модель стартовой страницы приложения
         /// </summary>
-        /// <param name="applicationEnvironment">Project manager instance</param>
+        /// <param name="projectEnvironment">Project manager instance</param>
         /// <param name="datasourceManager">Datasource manager</param>
-        public StartUpPageViewModel(IApplicationEnvironment applicationEnvironment, [NotNull] IDataSourceManager datasourceManager)
+        public StartUpPageViewModel(IProjectEnvironment projectEnvironment, [NotNull] IDataSourceManager datasourceManager)
             : base("Startup page")
         {
-            this._applicationEnvironment = applicationEnvironment ?? throw new ArgumentNullException(nameof(applicationEnvironment));
+            this.projectEnvironment = projectEnvironment ?? throw new ArgumentNullException(nameof(projectEnvironment));
             _datasourceManager = datasourceManager ?? throw new ArgumentNullException(nameof(datasourceManager));
             string res = App.Current.TryFindResource(ResourceKeynames.StartupPageKey) as string;
             if (res != null)

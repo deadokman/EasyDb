@@ -1,10 +1,17 @@
-﻿namespace EasyDb.ProjectManagment.Configuration
+﻿using System;
+
+namespace EasyDb.ProjectManagment.Configuration
 {
     /// <summary>
     /// Project history item
     /// </summary>
     public class ProjectHistItem
     {
+        /// <summary>
+        /// Last date time asscess
+        /// </summary>
+        public DateTime LastAccess { get; set; }
+
         /// <summary>
         /// Project name
         /// </summary>

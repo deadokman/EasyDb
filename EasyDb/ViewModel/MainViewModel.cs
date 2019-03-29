@@ -32,7 +32,7 @@ namespace EasyDb.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private readonly IApplicationEnvironment _environment;
+        private readonly IProjectEnvironment _environment;
 
         private readonly IDialogCoordinator _dialogCoordinator;
 
@@ -46,7 +46,7 @@ namespace EasyDb.ViewModel
         private PaneBaseViewModel _activePane;
 
         /// <summary>
-        /// Background worker for plugin applicationEnvironment initialization
+        /// Background worker for plugin projectEnvironment initialization
         /// </summary>
         private BackgroundWorker _bgWorkerInit = new BackgroundWorker();
 
@@ -68,13 +68,13 @@ namespace EasyDb.ViewModel
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
         /// </summary>
-        /// <param name="applicationEnvironment">The applicationEnvironment<see cref="IApplicationEnvironment"/></param>
+        /// <param name="projectEnvironment">The projectEnvironment<see cref="IProjectEnvironment"/></param>
         /// <param name="dialogCoordinator">Dialog coordinator</param>
         /// <param name="chocoController">Chocolatey controller</param>
         /// <param name="chocoInstallVm">Chocolatey install view model</param>
         /// <param name="messenger">Messanger instance</param>
         public MainViewModel(
-                             [NotNull] IApplicationEnvironment applicationEnvironment,
+                             [NotNull] IProjectEnvironment projectEnvironment,
                              [NotNull] IDialogCoordinator dialogCoordinator,
                              [NotNull] IChocolateyController chocoController,
                              [NotNull] IChocolateyInstallViewModel chocoInstallVm,
@@ -98,13 +98,13 @@ namespace EasyDb.ViewModel
             _applicationConfigurationPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                     Properties.Settings.Default.ApplicationFolderName);
-            _environment = applicationEnvironment ?? throw new ArgumentNullException(nameof(applicationEnvironment));
+            _environment = projectEnvironment ?? throw new ArgumentNullException(nameof(projectEnvironment));
             _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
             _chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
             IsInterfaceEnabled = false;
             _bgWorkerInit.DoWork += (sender, args) =>
                 {
-                    applicationEnvironment.Initialize(Path.GetFullPath(Properties.Settings.Default.PluginsPath), _applicationConfigurationPath);
+                    projectEnvironment.Initialize(Path.GetFullPath(Properties.Settings.Default.PluginsPath), _applicationConfigurationPath);
                 };
 
             _bgWorkerInit.RunWorkerCompleted += (sender, args) =>
@@ -157,7 +157,7 @@ namespace EasyDb.ViewModel
         public ICommand ActivatePluginCommand { get; set; }
 
         /// <summary>
-        /// Opens ODBC applicationEnvironment as modal window
+        /// Opens ODBC projectEnvironment as modal window
         /// </summary>
         public ICommand OpenOdbcManager { get; set; }
 
