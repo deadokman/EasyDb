@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
+using EasyDb.Commands;
 using EasyDb.Localization;
 using EasyDb.ProjectManagment.Annotations;
 using EasyDb.ProjectManagment.Intefraces;
@@ -37,11 +39,20 @@ namespace EasyDb.ViewModel.StartupPage
             {
                 Title = res;
             }
+
+            CreateEmptyProj = new EDbCommand(() =>
+            {
+            });
         }
 
         /// <summary>
         /// User controll instance
         /// </summary>
         public override UserControl ViewInstance => new StartUpPageControll();
+
+        /// <summary>
+        /// Create empty project
+        /// </summary>
+        public ICommand CreateEmptyProj { get; set; }
     }
 }

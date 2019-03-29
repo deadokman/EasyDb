@@ -57,7 +57,15 @@ namespace EasyDb.ProjectManagment
         /// </summary>
         public string EdbProjectFolder { get; } = ".edb";
 
+        /// <summary>
+        /// Name of file with projects history information
+        /// </summary>
         public string HistoryInformationFile { get; } = "HistoryInformation.xml";
+
+        /// <summary>
+        /// Default folder for empty projects
+        /// </summary>
+        public string EdbDefaultProjectsFolder { get; } = "Projects";
 
         /// <summary>
         /// Initialize project
@@ -119,10 +127,16 @@ namespace EasyDb.ProjectManagment
         /// <summary>
         /// Path to new foldr project
         /// </summary>
-        /// <param name="folder">Folder path</param>
+        /// <param name="folderProjectPath">Folder path</param>
         /// <param name="dsConfiguration">Ds config</param>
-        public void InitializeNewProject(string folder, UserDatasourceConfiguration dsConfiguration = null)
+        public void InitializeNewProject(string folderProjectPath = null, UserDatasourceConfiguration dsConfiguration = null)
         {
+            var folder = folderProjectPath ?? Path.Combine(_applicationConfigPath, EdbDefaultProjectsFolder);
+            if (String.IsNullOrEmpty(folderProjectPath) && !Directory.Exists(folder))
+            {
+                Directory.CreateDirectory(folder);
+            }
+
             if (!Directory.Exists(folder))
             {
                 throw new Exception($"No such file or directory {folder}");
@@ -138,7 +152,10 @@ namespace EasyDb.ProjectManagment
             dir.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
             var projectFile = Path.Combine(dir.FullName, EdbProjectFile);
 
-            CurrentProject = new EasyDbProject(folder, projectFile);
+            CurrentProject = new EasyDbProject(folder, projectFile)
+            {
+
+            };
             if (dsConfiguration != null)
             {
                 CurrentProject.ConfigurationSources.Add(dsConfiguration);

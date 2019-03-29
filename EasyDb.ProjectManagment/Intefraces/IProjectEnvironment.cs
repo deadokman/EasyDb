@@ -37,7 +37,7 @@ namespace EasyDb.ProjectManagment.Intefraces
         /// </summary>
         /// <param name="folder">Folder path</param>
         /// <param name="dsConfiguration">Ds config</param>
-        void InitializeNewProject(string folder, UserDatasourceConfiguration dsConfiguration = null);
+        void InitializeNewProject(string folder = null, UserDatasourceConfiguration dsConfiguration = null);
 
         /// <summary>
         /// Default name for edb project folder

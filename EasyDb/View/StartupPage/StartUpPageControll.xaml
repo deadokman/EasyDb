@@ -175,7 +175,7 @@
                                 <ListBox ></ListBox>
                             </ScrollViewer>
                             <TextBlock Grid.Row="2" Margin="0,0" TextAlignment="Left" VerticalAlignment="Top">                                
-                                <Hyperlink Foreground="{DynamicResource AccentColorBrush}">
+                                <Hyperlink Command="" Foreground="{DynamicResource AccentColorBrush}">
                                     <TextBlock Text="{StaticResource stp_createnewproject}"></TextBlock>
                                 </Hyperlink>
                             </TextBlock>
