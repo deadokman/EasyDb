@@ -33,13 +33,13 @@ namespace EasyDb.ViewModel.Interfaces
         ICollectionView ProjectHistoryCollectionView { get; set; }
 
         /// <summary>
-        /// Selected project gistory item
-        /// </summary>
-        ProjectHistoryViewModelItem SelectedHistoryProject { get; set; }
-
-        /// <summary>
         /// Pin history command
         /// </summary>
         ICommand PinCommand { get; set; }
+
+        /// <summary>
+        /// Click on history item
+        /// </summary>
+        ICommand HistoryClickCommand { get; set; }
     }
 }

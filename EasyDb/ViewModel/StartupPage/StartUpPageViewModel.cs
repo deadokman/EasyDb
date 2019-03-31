@@ -37,7 +37,6 @@ namespace EasyDb.ViewModel.StartupPage
         private readonly IMessenger _messenger;
         private IEnumerable<SupportedSourceItem> _supportedDatasources;
         private ICollectionView _collectionItemsView;
-        private ProjectHistoryViewModelItem _selectedHistoryProject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StartUpPageViewModel"/> class.
@@ -89,6 +88,13 @@ namespace EasyDb.ViewModel.StartupPage
                 _projectEnvironment.StoreHistoryInformation();
                 ProjectHistoryCollectionView.Refresh();
             });
+
+            HistoryClickCommand = new EDbCommand<ProjectHistoryViewModelItem>((ph) =>
+            {
+                ph.LastAccess = DateTime.Today.Date;
+                _projectEnvironment.StoreHistoryInformation();
+                LoadProjectFromPath(ph.FolderPath);
+            });
         }
 
         /// <summary>
@@ -105,25 +111,14 @@ namespace EasyDb.ViewModel.StartupPage
         }
 
         /// <summary>
-        /// Selected project gistory item
-        /// </summary>
-        public ProjectHistoryViewModelItem SelectedHistoryProject
-        {
-            get => _selectedHistoryProject;
-            set
-            {
-                _selectedHistoryProject = value;
-                if (value != null)
-                {
-                    LoadProjectFromPath(value.FolderPath);
-                }
-            }
-        }
-
-        /// <summary>
         /// Pin history command
         /// </summary>
         public ICommand PinCommand { get; set; }
+
+        /// <summary>
+        /// Click on history item
+        /// </summary>
+        public ICommand HistoryClickCommand { get; set; }
 
         /// <summary>
         /// The collection of the supported datasource items

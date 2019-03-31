@@ -34,60 +34,71 @@
             <Setter Property="FontWeight" Value="UltraLight"/>
             <Setter Property="FontSize" Value="18"/>
         </Style>
+        <ContextMenu x:Key="HistoryItemContextMenu">
+            <MenuItem Header="Remove from list" />
+            <MenuItem Header="Pin item to the recent project list" />
+            <MenuItem Header="Copy path" />
+        </ContextMenu>
         <DataTemplate  x:Key="HistItemTemplate" DataType="{x:Type startupPage:ProjectHistoryViewModelItem}">
-            <DockPanel x:Name="DockPanelItem">
-                <iconPacks:PackIconMaterial 
+            <Button 
+                Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.HistoryClickCommand}"
+                CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
+                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                <DockPanel x:Name="DockPanelItem">
+                    <iconPacks:PackIconMaterial 
                         Margin="0,0,10,0"
                         Width="25"
                         Height="25"
                         VerticalAlignment="Center"
                         Background="Transparent" 
                         Foreground="{DynamicResource AccentColorBrush}" Kind="OpenInApp" />
-                <StackPanel>
-                    <TextBlock Foreground="{DynamicResource TextBrush}" Text="{Binding ProjectName}"/>
-                    <TextBlock Text="{Binding FolderPath}" Foreground="{DynamicResource GrayBrush7}"/>
-                </StackPanel>
-                <Button  DockPanel.Dock="Right"
+                    <StackPanel>
+                        <TextBlock Foreground="{DynamicResource TextBrush}" Text="{Binding ProjectName}"/>
+                        <TextBlock Text="{Binding FolderPath}" Foreground="{DynamicResource GrayBrush7}"/>
+                    </StackPanel>
+                    <Button  
+                        DockPanel.Dock="Right"
                          Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.PinCommand}"
                          CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
                          Margin="10,0,10,0"
                          Width="15"
                          Height="15"
                          Visibility="Visible">
-                    <Button.Style>
-                        <Style BasedOn="{StaticResource MetroCircleButtonStyle}" TargetType="{x:Type Button}">
-                            <Style.Triggers>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                    <Setter Property="Opacity" Value="1"/>
-                                </Trigger>
-                                <DataTrigger Binding="{Binding IsPinned}" Value="True">
-                                    <Setter Property="Content">
-                                        <Setter.Value>
-                                            <iconPacks:PackIconMaterial
+                        <Button.Style>
+                            <Style BasedOn="{StaticResource MetroCircleButtonStyle}" TargetType="{x:Type Button}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Opacity" Value="1"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                                        <Setter Property="Content">
+                                            <Setter.Value>
+                                                <iconPacks:PackIconMaterial
                                                 VerticalAlignment="Center"
                                                 Background="Transparent" 
                                                 Foreground="{DynamicResource TextBrush}"
                                                 Kind="PinOff" />
-                                        </Setter.Value>
-                                    </Setter>
-                                </DataTrigger>
-                            </Style.Triggers>
-                            <Setter Property="Opacity" Value=".2"></Setter>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="Padding" Value="0"></Setter>
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <iconPacks:PackIconMaterial
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                                <Setter Property="Opacity" Value=".2"></Setter>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="Padding" Value="0"></Setter>
+                                <Setter Property="Content">
+                                    <Setter.Value>
+                                        <iconPacks:PackIconMaterial
                                         VerticalAlignment="Center"
                                         Background="Transparent" 
                                         Foreground="{DynamicResource TextBrush}"
                                         Kind="Pin" />
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </DockPanel>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </DockPanel>
+            </Button>
         </DataTemplate>
         <converters:CollectionToVisibillityConverter x:Key="ctvc"/>
     </UserControl.Resources>
@@ -152,8 +163,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="{StaticResource stp_recentprojs}" FontFamily="LucidaConsole" FontWeight="Light"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
                     <ScrollViewer Margin="0,0,15,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Visible" Grid.Row="1">
-                        <ListBox SelectionMode="Extended" 
-                                 SelectedItem="{Binding SelectedHistoryProject}" 
+                        <ListBox SelectionMode="Extended"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
                                  ItemContainerStyle="{StaticResource FillContainerStyle}" 

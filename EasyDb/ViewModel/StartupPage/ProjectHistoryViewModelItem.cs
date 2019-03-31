@@ -84,6 +84,10 @@ namespace EasyDb.ViewModel.StartupPage
         public DateTime LastAccess
         {
             get => HistItem.LastAccess.Date;
+            set
+            {
+                HistItem.LastAccess = value;
+            }
         }
 
         /// <summary>
