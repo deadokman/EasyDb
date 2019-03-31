@@ -1,4 +1,5 @@
-﻿using EDb.Interfaces.iface;
+﻿using Edb.Environment.CommunicationArgs;
+using EDb.Interfaces.iface;
 
 namespace Edb.Environment.Interface
 {
@@ -25,6 +26,11 @@ namespace Edb.Environment.Interface
     /// </summary>
     public interface IDataSourceManager
     {
+        /// <summary>
+        /// Raises when datasource initialized
+        /// </summary>
+        event EventHandler<DatasourcesInitialized> DatasourceInitialized;
+
         /// <summary>
         /// Gets the SupportedDatasources
         /// Поддерживаемые источники данных
@@ -56,5 +62,12 @@ namespace Edb.Environment.Interface
         /// </summary>
         /// <returns>OptionTypes </returns>
         IEnumerable<Type> GetAdditionalOptionTypes();
+
+        /// <summary>
+        /// Validates datasources configurations
+        /// </summary>
+        /// <param name="configurations">Collection of datasource configurations</param>
+        /// <param name="brokeInvoke">Error invokator</param>
+        void ValidateUserdatasourceConfigurations(IEnumerable<UserDatasourceConfiguration> configurations, Action<UserDatasourceConfiguration, string> brokeInvoke);
     }
 }

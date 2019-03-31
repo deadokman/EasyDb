@@ -126,7 +126,7 @@
         Установка Chocolatey выполнена успешно, в дальнейшей с его помощью будут устанавливаться драйверы OleDb и другое ПО, 
         необходимое для работы приложения.
     </system:String>
-    <system:String x:Key="{x:Static localization:ResourceKeynames.ChocoDlgInstallProcess}">
+    <system:String x:Key="{x:Static localization:ResourceKeynames.ChocoDlgInstallProcessKey}">
         Программа установки выполняет необходимые операции, это может занять несколько минут. 
         Для установки дополнительного ПО требуется подключение к сети интернет.
     </system:String>
@@ -163,4 +163,12 @@
     <system:String x:Key="stp_patchnotes">Данные о приложении</system:String>
     <system:String x:Key="stp_releasedata">Релиз</system:String>
     <system:String x:Key="stp_aboutapp">О приложении</system:String>
+    <system:String x:Key="stp_beginwork">НАЧАТЬ РАБОТУ</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StpOpeningProjectDialogTitleKey}">Открытие проекта</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StpOpeningProjectDialogMessageKey}">Подготовка проекта {0}</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StpGroupPinnedKey}">Закреплены</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StpGroupTodayKey}">Сегодня</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StpGroupLastWeekKey}">Последняя неделя</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StpGroupLastMonthKey}">Последний месяц</system:String>
+    <system:String x:Key="{x:Static localization:ResourceKeynames.StpGroupOlderKey}">Старше</system:String>
 </ResourceDictionary>

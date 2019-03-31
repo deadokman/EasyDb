@@ -11,13 +11,13 @@ namespace Edb.Environment.CommunicationArgs
     /// <summary>
     /// Raises by datasource manager when avaliable supported sources or user datasources changed
     /// </summary>
-    public class DatasourcesIniaialized
+    public class DatasourcesInitialized
     {
         /// <summary>
         /// Datasource initialized communication message
         /// </summary>
         /// <param name="supportedSources">Collection of supported datasources</param>
-        public DatasourcesIniaialized(IEnumerable<SupportedSourceItem> supportedSources)
+        public DatasourcesInitialized(IEnumerable<SupportedSourceItem> supportedSources)
         {
             SupportedSources = supportedSources;
         }

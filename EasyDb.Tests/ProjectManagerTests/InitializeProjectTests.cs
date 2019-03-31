@@ -77,7 +77,7 @@ namespace EasyDb.Tests.ProjectManagerTests
         [Test]
         public void TestInitEmptyProject()
         {
-            _projEnv.InitializeNewProject(TestDir);
+            _projEnv.InitializeNewProject(TestDir).Wait();
             Assert.IsTrue(Directory.Exists(ProjFolder));
             Assert.IsTrue(File.Exists(ProjFile));
             Assert.IsNotNull(_projEnv.CurrentProject);

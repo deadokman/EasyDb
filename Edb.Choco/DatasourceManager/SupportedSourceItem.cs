@@ -23,6 +23,11 @@ namespace Edb.Environment.DatasourceManager
         private readonly IEdbDataSource _dataSource;
 
         /// <summary>
+        /// Database icon image
+        /// </summary>
+        private BitmapImage _image { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="SupportedSourceItem"/> class.
         /// </summary>
         /// <param name="dataSource">The dataSource<see cref="EdbDataDatasource"/></param>
@@ -40,16 +45,21 @@ namespace Edb.Environment.DatasourceManager
         {
             get
             {
-                using (var memStream = new MemoryStream(_dataSource.DatabaseIcon))
+                if (_image == null)
                 {
-                    System.Windows.Media.Imaging.BitmapImage bi = new System.Windows.Media.Imaging.BitmapImage();
-                    bi.BeginInit();
-                    bi.StreamSource = memStream;
-                    bi.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
-                    bi.EndInit();
-                    bi.Freeze();
-                    return bi;
+                    using (var memStream = new MemoryStream(_dataSource.DatabaseIcon))
+                    {
+                        var bi = new BitmapImage();
+                        bi.BeginInit();
+                        bi.StreamSource = memStream;
+                        bi.CacheOption = BitmapCacheOption.OnLoad;
+                        bi.EndInit();
+                        bi.Freeze();
+                        _image = bi;
+                    }
                 }
+
+                return _image;
             }
         }
 

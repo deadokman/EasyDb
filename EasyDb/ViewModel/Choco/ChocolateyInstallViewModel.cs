@@ -66,7 +66,7 @@ namespace EasyDb.ViewModel.Choco
                             Application.Current.Resources[ResourceKeynames.ChocoDlgsetupMessageKey]?.ToString(),
                             Application.Current.Resources[ResourceKeynames.ChocoDlgsetupTextKey]?.ToString());
                         ctrl.SetIndeterminate();
-                        ctrl.SetMessage(Application.Current.Resources[ResourceKeynames.ChocoDlgInstallProcess].ToString());
+                        ctrl.SetMessage(Application.Current.Resources[ResourceKeynames.ChocoDlgInstallProcessKey].ToString());
                         ctrl.Canceled += (sender, args) => { ctrl.CloseAsync(); };
                         try
                         {

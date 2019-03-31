@@ -111,7 +111,7 @@
       <HintPath>..\packages\SamOatesGames.ModernUI.Xceed.Toolkit.1.0.0\lib\net452\ModernUI.Xceed.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.6.0\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.6.1\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
@@ -169,6 +169,7 @@
     </Compile>
     <Compile Include="Commands\EDbCommand.cs" />
     <Compile Include="Converters\BoolToBlurRadiusConverter.cs" />
+    <Compile Include="Converters\CollectionToVisibillityConverter.cs" />
     <Compile Include="Converters\DoubleToIntegerConverter.cs" />
     <Compile Include="Converters\EmptyConverter.cs" />
     <Compile Include="Converters\StringEmptyToVisibilityConverter.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="ViewModel\Interfaces\IOdbcManagerViewModel.cs" />
     <Compile Include="ViewModel\Interfaces\IStartUpPageViewModel.cs" />
     <Compile Include="ViewModel\OdbcManagerViewModel.cs" />
+    <Compile Include="ViewModel\StartupPage\ProjectHistoryViewModelItem.cs" />
     <Compile Include="ViewModel\StartupPage\StartUpPageViewModel.cs" />
     <Compile Include="ViewModel\ValidationExceptionBehavior.cs" />
     <Compile Include="CustomControls\Choco\ChocolateyInstallControll.xaml.cs">

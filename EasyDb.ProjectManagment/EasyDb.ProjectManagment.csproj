@@ -37,12 +37,17 @@
     <Reference Include="Autofac.Extras.NLog, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Autofac.Extras.NLog.1.3.0\lib\net451\Autofac.Extras.NLog.dll</HintPath>
     </Reference>
-    <Reference Include="NLog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.6.1\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,8 +58,11 @@
   <ItemGroup>
     <Compile Include="Configuration\HistoryInformation.cs" />
     <Compile Include="Configuration\ProjectHistItem.cs" />
+    <Compile Include="Eventing\ProjectEnvironmentInitialized.cs" />
     <Compile Include="Eventing\ProjectEnvironmentChangedEventArgs.cs" />
+    <Compile Include="Eventing\DatasourceLoadError.cs" />
     <Compile Include="Intefraces\IProjectEnvironment.cs" />
+    <Compile Include="ProjectLoadResult.cs" />
     <Compile Include="ProjectSchema\EasyDbProject.cs" />
     <Compile Include="ProjectEnvironment.cs" />
     <Compile Include="ProjectSchema\Version\IVersion.cs" />

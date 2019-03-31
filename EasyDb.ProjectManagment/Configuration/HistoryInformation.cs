@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EasyDb.ProjectManagment.Configuration
+﻿namespace EasyDb.ProjectManagment.Configuration
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Hold overall information about projects configurations
     /// </summary>
     public class HistoryInformation
     {
+        /// <summary>
+        /// Gets or sets the ProjectsHistory
+        /// </summary>
         public List<ProjectHistItem> ProjectsHistory { get; set; }
     }
 }

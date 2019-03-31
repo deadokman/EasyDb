@@ -63,7 +63,7 @@ namespace EasyDb.ViewModel.DbExplorer
             ConfigureDsCmd = new RelayCommand<SupportedSourceItem>(DisplayUserDatasourceProperties);
 
             // Reaction on datasources loaded communication message
-            messenger.Register(this, new Action<DatasourcesIniaialized>(InstanceOnDatasourceLoaded));
+            messenger.Register(this, new Action<DatasourcesInitialized>(InstanceOnDatasourceLoaded));
             RefreshViewmodelData();
         }
 
@@ -112,8 +112,8 @@ namespace EasyDb.ViewModel.DbExplorer
         /// <summary>
         /// The InstanceOnDatasourceLoaded
         /// </summary>
-        /// <param name="dsInitializedArg">The datasources<see cref="DatasourcesIniaialized"/></param>
-        private void InstanceOnDatasourceLoaded(DatasourcesIniaialized dsInitializedArg)
+        /// <param name="dsInitializedArg">The datasources<see cref="DatasourcesInitialized"/></param>
+        private void InstanceOnDatasourceLoaded(DatasourcesInitialized dsInitializedArg)
         {
             RefreshViewmodelData();
         }

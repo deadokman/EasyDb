@@ -4,8 +4,10 @@
 
 using EasyDb.ProjectManagment;
 using EasyDb.ProjectManagment.Intefraces;
+using EasyDb.ProjectManagment.ProjectSchema;
 using EasyDb.ViewModel.DbExplorer;
 using EasyDb.ViewModel.StartupPage;
+using Edb.Environment.CommunicationArgs;
 using GalaSoft.MvvmLight.Messaging;
 using NuGet;
 
@@ -50,6 +52,8 @@ namespace EasyDb
         /// Defines the m_Languages
         /// </summary>
         private static List<CultureInfo> _mLanguages = new List<CultureInfo>();
+
+        private IMessenger _messenger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="App"/> class.
@@ -194,6 +198,20 @@ namespace EasyDb
             builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
             builder.RegisterType<StartUpPageViewModel>().As<IStartUpPageViewModel>().As<StartUpPageViewModel>().SingleInstance();
             AutofacServiceLocator.Instance.ActivateIoc();
+
+            _messenger = AutofacServiceLocator.Instance.GetInstance<IMessenger>();
+
+            // Subscribe to events;
+            var dsManager = AutofacServiceLocator.Instance.GetInstance<IDataSourceManager>();
+            dsManager.DatasourceInitialized += TranslateEventToMessage;
+            var projectEnv = AutofacServiceLocator.Instance.GetInstance<IProjectEnvironment>();
+            projectEnv.ProjectInitialized += TranslateEventToMessage;
+            projectEnv.InitializationCompleted += TranslateEventToMessage;
+        }
+
+        private void TranslateEventToMessage<T>(object sender, T e)
+        {
+            _messenger.Send<T>(e);
         }
 
         /// <summary>

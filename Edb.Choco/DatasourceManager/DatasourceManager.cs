@@ -1,6 +1,5 @@
 ﻿using Edb.Environment.CommunicationArgs;
 using EDb.Interfaces.iface;
-using GalaSoft.MvvmLight.Messaging;
 
 namespace EasyDb.SandboxEnvironment
 {
@@ -43,8 +42,6 @@ namespace EasyDb.SandboxEnvironment
         /// </summary>
         private readonly ILogger _logger;
 
-        private readonly IMessenger _messenger;
-
         /// <summary>
         /// Supported datasources collection
         /// </summary>
@@ -54,14 +51,17 @@ namespace EasyDb.SandboxEnvironment
         /// Initializes a new instance of the <see cref="DatasourceManager"/> class.
         /// </summary>
         /// <param name="logger">Class logger</param>
-        /// <param name="messenger">Messenger</param>
-        public DatasourceManager([NotNull] ILogger logger, [NotNull] IMessenger messenger)
+        public DatasourceManager([NotNull] ILogger logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _messenger = messenger ?? throw new ArgumentNullException(nameof(messenger));
             _supportedDataSources = new Dictionary<Guid, SupportedSourceItem>();
             UserDatasourceConfigurations = new List<UserDatasourceConfiguration>();
         }
+
+        /// <summary>
+        /// Raises when datasource initialized
+        /// </summary>
+        public event EventHandler<DatasourcesInitialized> DatasourceInitialized;
 
         /// <summary>
         /// Gets the SupportedDatasources
@@ -136,12 +136,15 @@ namespace EasyDb.SandboxEnvironment
                 }
             }
 
-            _messenger.Send(new DatasourcesIniaialized(_supportedDataSources.Values));
+            DatasourceInitialized?.Invoke(this, new DatasourcesInitialized(_supportedDataSources.Values));
         }
 
+
         /// <summary>
-        /// 
+        /// Validates datasources configurations
         /// </summary>
+        /// <param name="configurations">Collection of datasource configurations</param>
+        /// <param name="brokeInvoke">Error invokator</param>
         public void ValidateUserdatasourceConfigurations(IEnumerable<UserDatasourceConfiguration> configurations, Action<UserDatasourceConfiguration, string> brokeInvoke)
         {
             // Restore user defined datasource

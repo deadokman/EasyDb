@@ -48,6 +48,41 @@
         /// <summary>
         /// Chocolatey dialog setup message
         /// </summary>
-        public const string ChocoDlgInstallProcess = "choco_dlg_install_progress";
+        public const string ChocoDlgInstallProcessKey = "choco_dlg_install_progress";
+
+        /// <summary>
+        /// Open project dialog title
+        /// </summary>
+        public const string StpOpeningProjectDialogTitleKey = "stp_open_project_title";
+
+        /// <summary>
+        /// Open project dialog message
+        /// </summary>
+        public const string StpOpeningProjectDialogMessageKey = "stp_open_project_message";
+
+        /// <summary>
+        /// Open project dialog message
+        /// </summary>
+        public const string StpGroupPinnedKey = "stp_grp_pinned";
+
+        /// <summary>
+        /// Open project dialog message
+        /// </summary>
+        public const string StpGroupTodayKey = "stp_grp_today";
+
+        /// <summary>
+        /// Open project dialog message
+        /// </summary>
+        public const string StpGroupLastWeekKey = "stp_grp_LastWeek";
+
+        /// <summary>
+        /// Open project dialog message
+        /// </summary>
+        public const string StpGroupLastMonthKey = "stp_grp_LastMonth";
+
+        /// <summary>
+        /// Open project dialog message
+        /// </summary>
+        public const string StpGroupOlderKey = "stp_grp_Older";
     }
 }

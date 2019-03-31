@@ -6,8 +6,91 @@
              xmlns:local="clr-namespace:EasyDb.View.StartupPage"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:datasourceManager="clr-namespace:Edb.Environment.DatasourceManager;assembly=Edb.Environment"
+             xmlns:configuration="clr-namespace:EasyDb.ProjectManagment.Configuration;assembly=EasyDb.ProjectManagment"
+             xmlns:converters="clr-namespace:EasyDb.Converters"
+             xmlns:startupPage="clr-namespace:EasyDb.ViewModel.StartupPage"
              mc:Ignorable="d" 
+             mah:DialogParticipation.Register="{Binding}"
              d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding Source={StaticResource Locator}, Path=StartUpPageViewModel}">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Hyperlink}">
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="FillContainerStyle" TargetType="ListBoxItem">
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            <Setter Property="BorderThickness" Value="0"/>
+        </Style>
+        <Style x:Key="TextBlockProjs" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"/>
+            <Setter Property="Margin" Value="0,15,0,15"/>
+            <Setter Property="FontFamily" Value="LucidaConsole"/>
+            <Setter Property="FontWeight" Value="UltraLight"/>
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+        <DataTemplate  x:Key="HistItemTemplate" DataType="{x:Type startupPage:ProjectHistoryViewModelItem}">
+            <DockPanel x:Name="DockPanelItem">
+                <iconPacks:PackIconMaterial 
+                        Margin="0,0,10,0"
+                        Width="25"
+                        Height="25"
+                        VerticalAlignment="Center"
+                        Background="Transparent" 
+                        Foreground="{DynamicResource AccentColorBrush}" Kind="OpenInApp" />
+                <StackPanel>
+                    <TextBlock Foreground="{DynamicResource TextBrush}" Text="{Binding ProjectName}"/>
+                    <TextBlock Text="{Binding FolderPath}" Foreground="{DynamicResource GrayBrush7}"/>
+                </StackPanel>
+                <Button  DockPanel.Dock="Right"
+                         Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.PinCommand}"
+                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
+                         Margin="10,0,10,0"
+                         Width="15"
+                         Height="15"
+                         Visibility="Visible">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource MetroCircleButtonStyle}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                </Trigger>
+                                <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                                    <Setter Property="Content">
+                                        <Setter.Value>
+                                            <iconPacks:PackIconMaterial
+                                                VerticalAlignment="Center"
+                                                Background="Transparent" 
+                                                Foreground="{DynamicResource TextBrush}"
+                                                Kind="PinOff" />
+                                        </Setter.Value>
+                                    </Setter>
+                                </DataTrigger>
+                            </Style.Triggers>
+                            <Setter Property="Opacity" Value=".2"></Setter>
+                            <Setter Property="BorderThickness" Value="0"/>
+                            <Setter Property="Padding" Value="0"></Setter>
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <iconPacks:PackIconMaterial
+                                        VerticalAlignment="Center"
+                                        Background="Transparent" 
+                                        Foreground="{DynamicResource TextBrush}"
+                                        Kind="Pin" />
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </DockPanel>
+        </DataTemplate>
+        <converters:CollectionToVisibillityConverter x:Key="ctvc"/>
+    </UserControl.Resources>
     <Grid>
         <Grid Panel.ZIndex="0">
             <Rectangle 
@@ -43,7 +126,7 @@
         </Grid>
         <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Panel.ZIndex="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="LeftColumn" Width=".25*"/>
+                <ColumnDefinition x:Name="LeftColumn" Width=".24*"/>
                 <ColumnDefinition MinWidth="600" Width="*"/>
                 <ColumnDefinition x:Name="RightColumn" Width=".25*"/>
                 <ColumnDefinition x:Name="ExpanderColumn" Width="Auto"/>
@@ -53,32 +136,42 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width=".7*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Margin="20,0,0,0" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="1" Grid.ColumnSpan="2" Height="50">
+                    <Button Command="{Binding CreateEmptyProj}" VerticalAlignment="Top"  Height="30" Width="200" HorizontalAlignment="Center"  Style="{StaticResource MetroButtonAccentNoBorder}">
+                        <TextBlock Text="{StaticResource stp_beginwork}"></TextBlock>
+                    </Button>
+                </DockPanel>
+                <Grid Margin="20,0,0,5" Grid.Row="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="60"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Margin="0,0,0,0" Foreground="{DynamicResource AccentColorBrush}" Text="{StaticResource stp_recentprojs}" FontFamily="LucidaConsole" FontWeight="Light"  FontSize="30" VerticalAlignment="Center" HorizontalAlignment="Left"></TextBlock>
-                    <StackPanel Grid.Row="1">
-                        <StackPanel>
-                            <TextBlock Text="{StaticResource stp_pinnedproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
-                            <ListBox/>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="{StaticResource stp_todayproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
-                            <ListBox/>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="{StaticResource stp_thisweekproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
-                            <ListBox/>
-                        </StackPanel>
-                        <StackPanel>
-                            <TextBlock Text="{StaticResource stp_lastweekproj}" Foreground="{DynamicResource AccentColorBrush}" Margin="0,20,0,20" FontFamily="LucidaConsole" FontWeight="UltraLight"  FontSize="18"/>
-                            <ListBox/>
-                        </StackPanel>
-                    </StackPanel>
+                    <ScrollViewer Margin="0,0,15,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" VerticalScrollBarVisibility="Visible" Grid.Row="1">
+                        <ListBox SelectionMode="Extended" 
+                                 SelectedItem="{Binding SelectedHistoryProject}" 
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                 ItemContainerStyle="{StaticResource FillContainerStyle}" 
+                                 ItemTemplate="{StaticResource HistItemTemplate}" 
+                                 ItemsSource="{Binding ProjectHistoryCollectionView}" >
+                            <ListBox.GroupStyle>
+                                <GroupStyle>
+                                    <GroupStyle.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock  Style="{StaticResource TextBlockProjs}" Text="{Binding Name}"/>
+                                        </DataTemplate>
+                                    </GroupStyle.HeaderTemplate>
+                                </GroupStyle>
+                            </ListBox.GroupStyle>
+                        </ListBox>
+                    </ScrollViewer>
                 </Grid>
-                <Grid Grid.Column="1">
+                <Grid Margin="0,0,0,5" Grid.Row="0" Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height=".4*"/>
                         <RowDefinition Height=".6*"/>
@@ -102,13 +195,13 @@
                             <Border BorderThickness="0,0,0,1" BorderBrush="{DynamicResource GrayBrush2}" Margin="0,2,0,0" Grid.Row="0">
                                 <StackPanel>
                                     <TextBlock TextWrapping="Wrap" Text="{StaticResource stp_checkoutfrom}" Foreground="{DynamicResource TextBrush}"></TextBlock>
-                                        <DockPanel Margin="0,5,0,5">
-                                            <iconPacks:PackIconMaterial 
+                                    <DockPanel Margin="0,5,0,5">
+                                        <iconPacks:PackIconMaterial 
                                                 VerticalAlignment="Center" 
                                                 Background="Transparent" 
                                                 Foreground="{DynamicResource AccentColorBrush}" Kind="Git" />
-                                            <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
-                                            <Hyperlink Foreground="{DynamicResource TextBrush}">
+                                        <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
+                                            <Hyperlink>
                                                 <TextBlock Text="{StaticResource stp_gitrepository}"></TextBlock>
                                             </Hyperlink>
                                         </TextBlock>
@@ -122,7 +215,7 @@
                                         Background="Transparent" 
                                         Foreground="{DynamicResource AccentColorBrush}" Kind="FolderOpen" />
                                     <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
-                                        <Hyperlink Foreground="{DynamicResource TextBrush}">
+                                        <Hyperlink>
                                             <TextBlock Text="{StaticResource stp_openfolder}"></TextBlock>
                                         </Hyperlink>
                                     </TextBlock>
@@ -172,10 +265,21 @@
                                 <TextBlock Margin="0,2,0,2" Text="{StaticResource stp_recentprojectstypes}" Foreground="{DynamicResource TextBrush}"/>
                             </StackPanel>
                             <ScrollViewer Margin="0,0,0,5" Grid.Row="1">
-                                <ListBox ></ListBox>
+                                <ListBox ItemContainerStyle="{StaticResource FillContainerStyle}" ItemsSource="{Binding SupportedDatasources}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate DataType="{x:Type datasourceManager:SupportedSourceItem}">
+                                            <Button BorderThickness="0" HorizontalContentAlignment="Left" HorizontalAlignment="Stretch" Style="{StaticResource MetroButtonNoBorder}">
+                                                <DockPanel HorizontalAlignment="Stretch">
+                                                    <Image Margin="0,0,10,0" MaxWidth="20" MaxHeight="20" Stretch="UniformToFill" Source="{Binding DatabaseImage}" />
+                                                    <TextBlock Text="{Binding DatabaseName}" />
+                                                </DockPanel>
+                                            </Button>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
                             </ScrollViewer>
                             <TextBlock Grid.Row="2" Margin="0,0" TextAlignment="Left" VerticalAlignment="Top">                                
-                                <Hyperlink Command="" Foreground="{DynamicResource AccentColorBrush}">
+                                <Hyperlink Command="{Binding CreateEmptyProj}" Foreground="{DynamicResource AccentColorBrush}">
                                     <TextBlock Text="{StaticResource stp_createnewproject}"></TextBlock>
                                 </Hyperlink>
                             </TextBlock>
@@ -198,7 +302,8 @@
                         </TextBlock.LayoutTransform>
                     </TextBlock>
                 </Expander.Header>
-                <Grid Margin="-5" d:DesignWidth="500" Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                <Grid Margin="-5" d:DesignWidth="500"
+                      Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="50"/>
                         <RowDefinition Height="Auto"/>

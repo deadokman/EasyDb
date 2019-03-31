@@ -116,7 +116,7 @@ namespace EasyDb.ViewModel.DataSource
             SupportedDatasources = _datasourceManager.SupportedDatasources.ToArray();
 
             // Reaction on datasources loaded communication message
-            messenger.Register(this, new Action<DatasourcesIniaialized>(iniaialized => SupportedDatasources = iniaialized.SupportedSources.ToArray()));
+            messenger.Register(this, new Action<DatasourcesInitialized>(iniaialized => SupportedDatasources = iniaialized.SupportedSources.ToArray()));
 
             RefreshPackageInformationCmd = new EDbCommand(() =>
             {
@@ -474,7 +474,7 @@ namespace EasyDb.ViewModel.DataSource
         {
             SupportedDatasources = null;
             SelectedSourceItem = null;
-            MessengerInstance.Unregister<DatasourcesIniaialized>(this);
+            MessengerInstance.Unregister<DatasourcesInitialized>(this);
             base.Cleanup();
         }
 
