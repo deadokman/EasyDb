@@ -24,6 +24,7 @@
         </Style>
         <Style x:Key="FillContainerStyle" TargetType="ListBoxItem">
             <Setter Property="Padding" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
@@ -40,11 +41,14 @@
             <MenuItem Header="Copy path" />
         </ContextMenu>
         <DataTemplate  x:Key="HistItemTemplate" DataType="{x:Type startupPage:ProjectHistoryViewModelItem}">
-            <Button 
+            <Button
+                HorizontalContentAlignment="Left"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
                 Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.HistoryClickCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
                 Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
-                <DockPanel x:Name="DockPanelItem">
+                <DockPanel x:Name="DockPanelItem" LastChildFill="True">
                     <iconPacks:PackIconMaterial 
                         Margin="0,0,10,0"
                         Width="25"
@@ -52,9 +56,9 @@
                         VerticalAlignment="Center"
                         Background="Transparent" 
                         Foreground="{DynamicResource AccentColorBrush}" Kind="OpenInApp" />
-                    <StackPanel>
+                    <StackPanel DockPanel.Dock="Left">
                         <TextBlock Foreground="{DynamicResource TextBrush}" Text="{Binding ProjectName}"/>
-                        <TextBlock Text="{Binding FolderPath}" Foreground="{DynamicResource GrayBrush7}"/>
+                        <TextBlock  TextWrapping="NoWrap"  Text="{Binding FolderPath}" Foreground="{DynamicResource GrayBrush7}"/>
                     </StackPanel>
                     <Button  
                         DockPanel.Dock="Right"
