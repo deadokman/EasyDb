@@ -28,6 +28,9 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="BorderThickness" Value="0"/>
         </Style>
+        <Style TargetType="ListBoxItem" x:Key="ProjectHIstoryContainerTyle" BasedOn="{StaticResource FillContainerStyle}">
+            <Setter Property="ContextMenu" Value="{StaticResource HistoryItemContextMenu}"/>
+        </Style>
         <Style x:Key="TextBlockProjs" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"/>
             <Setter Property="Margin" Value="0,15,0,15"/>
@@ -170,7 +173,7 @@
                         <ListBox SelectionMode="Extended"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                 ItemContainerStyle="{StaticResource FillContainerStyle}" 
+                                 ItemContainerStyle="{StaticResource ProjectHIstoryContainerTyle}" 
                                  ItemTemplate="{StaticResource HistItemTemplate}" 
                                  ItemsSource="{Binding ProjectHistoryCollectionView}" >
                             <ListBox.GroupStyle>
