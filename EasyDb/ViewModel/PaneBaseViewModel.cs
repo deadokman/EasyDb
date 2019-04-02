@@ -94,14 +94,20 @@
         public abstract UserControl ViewInstance { get; }
 
         /// <summary>
+        /// Close view
+        /// </summary>
+        public void Close()
+        {
+            Cleanup();
+            InvokeClosing();
+        }
+
+        /// <summary>
         /// The InvokeClosing
         /// </summary>
         protected void InvokeClosing()
         {
-            if (PaneClosing != null)
-            {
-                PaneClosing.Invoke(this);
-            }
+            PaneClosing?.Invoke(this);
         }
     }
 }

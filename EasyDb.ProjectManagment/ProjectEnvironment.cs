@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using EasyDb.ProjectManagment.Eventing;
-using LogLevel = NLog.LogLevel;
+
 
 namespace EasyDb.ProjectManagment
 {
     using Autofac.Extras.NLog;
-    using EasyDb.Model;
-    using EasyDb.ProjectManagment.Annotations;
-    using EasyDb.ProjectManagment.Configuration;
-    using EasyDb.ProjectManagment.Intefraces;
-    using EasyDb.ProjectManagment.ProjectSchema;
+    using Model;
+    using Annotations;
+    using Configuration;
+    using Intefraces;
+    using ProjectSchema;
     using Edb.Environment.Interface;
     using System;
     using System.IO;
@@ -314,7 +314,6 @@ namespace EasyDb.ProjectManagment
                         (conf, msg) =>
                         {
                             bool skipAll;
-                            _logger.Log(LogLevel.Error, msg);
                             if (DatasourceLoadError != null)
                             {
                                 var args = new DatasourceLoadError() { ErrorMessage = msg };

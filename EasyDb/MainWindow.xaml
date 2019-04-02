@@ -18,10 +18,10 @@
         mc:Ignorable="d"
         Name="MainWinow"
         controls:DialogParticipation.Register="{Binding}"
-        Title="EasyDb" Height="800" Width="1200" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
+        Title="{Binding MainWindowTitleDisplay}" Height="800" Width="1200" DataContext="{Binding Source={StaticResource Locator}, Path=Main}">
     <i:Interaction.Triggers>
-        <i:EventTrigger EventName="ContentRendered">
-            <i:InvokeCommandAction Command="{Binding ContentRendered}" />
+        <i:EventTrigger EventName="ContentRenderedCommand">
+            <i:InvokeCommandAction Command="{Binding ContentRenderedCommand}" />
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Window.Resources>
@@ -61,17 +61,17 @@
     <controls:MetroWindow.RightWindowCommands>
         <controls:WindowCommands ShowLastSeparator="False">
             <ToggleButton Content="{DynamicResource mw_Settings}"
-                          IsEnabled="{Binding IsInterfaceEnabled}"
+                          IsEnabled="{Binding HideSplashScreen}"
                           ToolTip="Shows the toggle button magic"
                           x:Name="MagicToggleButton"
                           IsChecked="{Binding ElementName=FlyoutSettings, Path=IsOpen, Mode=TwoWay}" />
         </controls:WindowCommands>
     </controls:MetroWindow.RightWindowCommands>
     <Grid>
-        <Grid x:Name="SplashOverlay" Panel.ZIndex="9998" Visibility="{Binding IsInterfaceDisabled, Mode=OneWay, FallbackValue=Hidden, Converter={StaticResource Btvc}}">
+        <Grid x:Name="SplashOverlay" Panel.ZIndex="9998" Visibility="{Binding IsShowSplashScreen, Mode=OneWay, FallbackValue=Hidden, Converter={StaticResource Btvc}}">
             <customControls:SplashScreen CurrentText="{DynamicResource mw_PluginInit}" />
         </Grid>
-        <ContentControl BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" IsEnabled="{Binding IsInterfaceEnabled}" Style="{StaticResource FormOverlayStyle}">
+        <ContentControl BorderBrush="{DynamicResource AccentColorBrush}" BorderThickness="1" IsEnabled="{Binding HideSplashScreen}" Style="{StaticResource FormOverlayStyle}">
             <Grid x:Name="MainGridContainer">
                 <!--<Grid.Effect>
                     <BlurEffect Radius="{Binding IsInterfaceDisabled, Converter={StaticResource BoolToBlur}}" />
@@ -88,16 +88,28 @@
                             <MenuItem Header="MenuItem1"/>
                         </MenuItem>
                         <MenuItem Header="{StaticResource mw_edit}" />
+                        <MenuItem Header="{StaticResource mw_View}">
+                            <MenuItem Command="{Binding OpenStartupPageCommand}" Header="{StaticResource mw_View_startuppage}"></MenuItem>
+                        </MenuItem>
                         <MenuItem Header="{StaticResource mw_sqleditor}" />
                         <MenuItem Header="{StaticResource mw_database}" />
                         <MenuItem Header="{StaticResource mw_Tools}">
-                            <MenuItem Header="{StaticResource mw_Tools_odbcmanager}" Command="{Binding OpenOdbcManager}"></MenuItem>
+                            <MenuItem Header="{StaticResource mw_Tools_odbcmanager}" Command="{Binding OpenOdbcManagerCommand}"></MenuItem>
                         </MenuItem>
-                        <MenuItem Header="{StaticResource mw_View}" />
                         <MenuItem Header="{StaticResource mw_information}" />
                     </Menu>
                 </StackPanel>
-                <ToolBarTray Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
+                <ToolBarTray IsEnabled="{Binding IsProjectLoaded}" Background="{DynamicResource GrayBrush10}" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1" >
+                    <ToolBarTray.Style>
+                        <Style TargetType="{x:Type ToolBarTray}">
+                            <Setter Property="Opacity" Value=".3"></Setter>
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Setter Property="Opacity" Value="1"></Setter>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToolBarTray.Style>
                     <ToolBar>
                         <Button Style="{StaticResource TbButtonStyle}" ToolTip="{StaticResource dsm_addNewDatasource}">
                             <iconPacks:PackIconMaterial 

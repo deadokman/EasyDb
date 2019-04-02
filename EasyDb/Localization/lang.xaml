@@ -22,6 +22,8 @@
     <system:String x:Key="mw_Filters">Фильтры</system:String>
     <system:String x:Key="mw_Analyze">Анализ</system:String>
     <system:String x:Key="mw_View">Вид</system:String>
+    <!--Submenus-->
+    <system:String x:Key="mw_View_startuppage">Стартовая страница</system:String>
     <system:String x:Key="mw_edit">Редактирование</system:String>
     <system:String x:Key="mw_sqleditor">Редактор SQL</system:String>
     <system:String x:Key="mw_database">База данных</system:String>
@@ -32,6 +34,7 @@
     <system:String x:Key="mw_PluginInit">Инициализация источников данных...</system:String>
     <system:String x:Key="mw_commit">Зафиксировать</system:String>
     <system:String x:Key="mw_rollback">Откатить</system:String>
+    
     <!--Main widow tooltips-->
     <system:String x:Key="mw_tooltip_rollback">Откатить последнюю транзакцию</system:String>
     <system:String x:Key="mw_tooltip_commit">Зафиксировать последнюю транзакцию</system:String>

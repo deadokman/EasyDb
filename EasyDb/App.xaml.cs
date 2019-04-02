@@ -196,7 +196,9 @@ namespace EasyDb
             builder.RegisterType<OdbcManagerViewModel>().As<IOdbcManagerViewModel>().SingleInstance();
             builder.RegisterType<DbExplorerViewModel>().As<DbExplorerViewModel>().SingleInstance();
             builder.RegisterType<DatasourceSettingsViewModel>().As<IDataSourceSettingsViewModel>().SingleInstance();
-            builder.RegisterType<StartUpPageViewModel>().As<IStartUpPageViewModel>().As<StartUpPageViewModel>().SingleInstance();
+
+            // Panes added as transient
+            builder.RegisterType<StartUpPageViewModel>().As<IStartUpPageViewModel>().As<StartUpPageViewModel>();
             AutofacServiceLocator.Instance.ActivateIoc();
 
             _messenger = AutofacServiceLocator.Instance.GetInstance<IMessenger>();

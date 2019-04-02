@@ -12,7 +12,8 @@
              xmlns:startupPage="clr-namespace:EasyDb.ViewModel.StartupPage"
              mc:Ignorable="d" 
              mah:DialogParticipation.Register="{Binding}"
-             d:DesignHeight="450" d:DesignWidth="800" DataContext="{Binding Source={StaticResource Locator}, Path=StartUpPageViewModel}">
+             d:DesignHeight="450" d:DesignWidth="800" 
+             d:DataContext="{x:Type startupPage:StartUpPageViewModel}">
     <UserControl.Resources>
         <Style TargetType="{x:Type Hyperlink}">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}"/>
@@ -27,9 +28,6 @@
             <Setter Property="HorizontalContentAlignment" Value="Left"/>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
             <Setter Property="BorderThickness" Value="0"/>
-        </Style>
-        <Style TargetType="ListBoxItem" x:Key="ProjectHIstoryContainerTyle" BasedOn="{StaticResource FillContainerStyle}">
-            <Setter Property="ContextMenu" Value="{StaticResource HistoryItemContextMenu}"/>
         </Style>
         <Style x:Key="TextBlockProjs" TargetType="TextBlock">
             <Setter Property="Foreground" Value="{DynamicResource AccentColorBrush}"/>
@@ -173,7 +171,7 @@
                         <ListBox SelectionMode="Extended"
                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                  ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                                 ItemContainerStyle="{StaticResource ProjectHIstoryContainerTyle}" 
+                                 ItemContainerStyle="{StaticResource FillContainerStyle}" 
                                  ItemTemplate="{StaticResource HistItemTemplate}" 
                                  ItemsSource="{Binding ProjectHistoryCollectionView}" >
                             <ListBox.GroupStyle>

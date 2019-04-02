@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,7 +9,6 @@ using System.Windows.Data;
 using System.Windows.Input;
 using EasyDb.Commands;
 using EasyDb.Localization;
-using EasyDb.ProjectManagment;
 using EasyDb.ProjectManagment.Annotations;
 using EasyDb.ProjectManagment.Configuration;
 using EasyDb.ProjectManagment.Eventing;
@@ -95,6 +92,8 @@ namespace EasyDb.ViewModel.StartupPage
                 _projectEnvironment.StoreHistoryInformation();
                 LoadProjectFromPath(ph.FolderPath);
             });
+
+            FillProjectsHistory(_projectEnvironment.HistoryInformation);
         }
 
         /// <summary>
@@ -136,7 +135,7 @@ namespace EasyDb.ViewModel.StartupPage
         /// <summary>
         /// User controll instance
         /// </summary>
-        public override UserControl ViewInstance => new StartUpPageControll();
+        public override UserControl ViewInstance => new StartUpPageControll() { DataContext = this };
 
         /// <summary>
         /// Create empty project
@@ -246,7 +245,7 @@ namespace EasyDb.ViewModel.StartupPage
         /// <param name="histItems">Projects history container</param>
         private void FillProjectsHistory(HistoryInformation histItems)
         {
-            if (histItems?.ProjectsHistory == null)
+            if (histItems?.ProjectsHistory == null || !histItems.ProjectsHistory.Any())
             {
                 return;
             }

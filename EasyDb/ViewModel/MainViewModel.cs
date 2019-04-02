@@ -1,7 +1,10 @@
 using System.Linq;
 using System.Security;
+using System.Windows.Controls;
 using CommonServiceLocator;
+using EasyDb.Commands;
 using EasyDb.ProjectManagment.Intefraces;
+using EasyDb.ProjectManagment.ProjectSchema;
 using EasyDb.ViewModel.Interfaces;
 using EasyDb.ViewModel.StartupPage;
 using GalaSoft.MvvmLight.Messaging;
@@ -51,19 +54,18 @@ namespace EasyDb.ViewModel
         private BackgroundWorker _bgWorkerInit = new BackgroundWorker();
 
         /// <summary>
-        /// Defines the _isInterfaceEnabled
+        /// Defines the isHideSplashScreen
         /// </summary>
-        private bool _isInterfaceEnabled;
+        private bool isHideSplashScreen;
 
         /// <summary>
         /// Defines the _panesCollection
         /// </summary>
         private ObservableCollection<PaneBaseViewModel> _panesCollection;
 
-        /// <summary>
-        /// Defines the _showLogInForm
-        /// </summary>
-        private bool _showLogInForm;
+        private string mainWindowTitleDisplay;
+        private bool projectLoaded;
+        private EasyDbProject currentProject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MainViewModel"/> class.
@@ -95,13 +97,14 @@ namespace EasyDb.ViewModel
                 throw new ArgumentNullException(nameof(messenger));
             }
 
+            MainWindowTitleDisplay = "EasyDb";
             _applicationConfigurationPath = Path.Combine(
                     Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                     Properties.Settings.Default.ApplicationFolderName);
             _environment = projectEnvironment ?? throw new ArgumentNullException(nameof(projectEnvironment));
             _dialogCoordinator = dialogCoordinator ?? throw new ArgumentNullException(nameof(dialogCoordinator));
             _chocoController = chocoController ?? throw new ArgumentNullException(nameof(chocoController));
-            IsInterfaceEnabled = false;
+            HideSplashScreen = false;
             _bgWorkerInit.DoWork += (sender, args) =>
                 {
                     projectEnvironment.Initialize(Path.GetFullPath(Properties.Settings.Default.PluginsPath), _applicationConfigurationPath);
@@ -114,10 +117,11 @@ namespace EasyDb.ViewModel
                     {
                     }
 
-                    IsInterfaceEnabled = true;
+                    // Enable main window interface
+                    HideSplashScreen = true;
                 };
 
-            ContentRendered = new RelayCommand(async () =>
+            ContentRenderedCommand = new EDbCommand(async () =>
                     {
                         if (!_chocoController.ValidateChocoInstall() && !chocoInstallVm.HideDialog)
                         {
@@ -129,7 +133,7 @@ namespace EasyDb.ViewModel
                         }
                     });
 
-            OpenOdbcManager = new RelayCommand(
+            OpenOdbcManagerCommand = new EDbCommand(
                 () =>
                     {
                         var managerW = new OdbcManagerView();
@@ -138,28 +142,45 @@ namespace EasyDb.ViewModel
                         managerW.Show();
                     });
 
+            OpenStartupPageCommand = new EDbCommand(OpenStartupPage);
+
             // Validate choco install if necessary
-            IsInterfaceEnabled = false;
+            HideSplashScreen = false;
             _bgWorkerInit.RunWorkerAsync();
 
-            // Add startup page pane
-            PaneViewModels.Add(ServiceLocator.Current.GetInstance<StartUpPageViewModel>());
+            OpenStartupPage();
+
+            // Register reaction on new project selected
+            messenger.Register<EasyDbProject>(this, ReactOnProjectChange);
         }
 
         /// <summary>
         /// Gets or sets View content rendered
         /// </summary>
-        public ICommand ContentRendered { get; set; }
-
-        /// <summary>
-        /// Gets or sets the ActivatePluginCommand
-        /// </summary>
-        public ICommand ActivatePluginCommand { get; set; }
+        public ICommand ContentRenderedCommand { get; set; }
 
         /// <summary>
         /// Opens ODBC projectEnvironment as modal window
         /// </summary>
-        public ICommand OpenOdbcManager { get; set; }
+        public ICommand OpenOdbcManagerCommand { get; set; }
+
+        /// <summary>
+        /// Открыть стартовую страницу
+        /// </summary>
+        public ICommand OpenStartupPageCommand { get; set; }
+
+        /// <summary>
+        /// Title of the main window
+        /// </summary>
+        public string MainWindowTitleDisplay
+        {
+            get => mainWindowTitleDisplay;
+            set
+            {
+                mainWindowTitleDisplay = value;
+                RaisePropertyChanged(() => MainWindowTitleDisplay);
+            }
+        }
 
         /// <summary>
         /// Gets or sets the ActivePane
@@ -180,33 +201,46 @@ namespace EasyDb.ViewModel
         }
 
         /// <summary>
-        /// Gets a value indicating whether IsInterfaceDisabled
+        /// Gets a value indicating whether IsShowSplashScreen
         /// UI disabled
         /// </summary>
-        public bool IsInterfaceDisabled
+        public bool IsShowSplashScreen
         {
             get
             {
-                return !_isInterfaceEnabled;
+                return !isHideSplashScreen;
             }
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether IsInterfaceEnabled
+        /// Gets or sets a value indicating whether HideSplashScreen
         /// UI enabled
         /// </summary>
-        public bool IsInterfaceEnabled
+        public bool HideSplashScreen
         {
             get
             {
-                return _isInterfaceEnabled;
+                return isHideSplashScreen;
             }
 
             set
             {
-                _isInterfaceEnabled = value;
-                RaisePropertyChanged(() => IsInterfaceEnabled);
-                RaisePropertyChanged(() => IsInterfaceDisabled);
+                isHideSplashScreen = value;
+                RaisePropertyChanged(() => HideSplashScreen);
+                RaisePropertyChanged(() => IsShowSplashScreen);
+            }
+        }
+
+        /// <summary>
+        /// Проект загружен
+        /// </summary>
+        public bool IsProjectLoaded
+        {
+            get => projectLoaded;
+            set
+            {
+                projectLoaded = value;
+                RaisePropertyChanged(() => IsProjectLoaded);
             }
         }
 
@@ -228,20 +262,16 @@ namespace EasyDb.ViewModel
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether ShowLogInForm
-        /// Show steam shop login form
+        /// Current EasyDb project
         /// </summary>
-        public bool ShowLogInForm
+        public EasyDbProject CurrentProject
         {
-            get
-            {
-                return _showLogInForm;
-            }
-
+            get => currentProject;
             set
             {
-                _showLogInForm = value;
-                RaisePropertyChanged(() => ShowLogInForm);
+                currentProject = value;
+                IsProjectLoaded = value != null;
+                RaisePropertyChanged(() => CurrentProject);
             }
         }
 
@@ -261,8 +291,30 @@ namespace EasyDb.ViewModel
         {
             vm.PaneClosing -= PaneClosing;
 
-            // vm.Plugin.StopPlugin();
-            PaneViewModels.Remove(vm);
+            // Clean data
+            Application.Current.Dispatcher.Invoke(() => PaneViewModels.Remove(vm));
+            vm.Cleanup();
+        }
+
+        private void ReactOnProjectChange(EasyDbProject project)
+        {
+            MainWindowTitleDisplay = $"{project.ProjName} - EasyDb";
+
+            var stpPages = PaneViewModels.Where(p => p is IStartUpPageViewModel).ToArray();
+            foreach (var pbVm in stpPages)
+            {
+                pbVm.Close();
+            }
+
+            CurrentProject = project;
+        }
+
+        private void OpenStartupPage()
+        {
+            // Add startup page pane
+            var stpPaneVm = ServiceLocator.Current.GetInstance<StartUpPageViewModel>();
+            stpPaneVm.PaneClosing += PaneClosing;
+            PaneViewModels.Add(stpPaneVm);
         }
     }
 }
