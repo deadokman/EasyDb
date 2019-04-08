@@ -1,0 +1,28 @@
+﻿<mah:MetroWindow x:Class="EasyDb.View.StartupPage.OpenProjectWidow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EasyDb.View.StartupPage"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        xmlns:customControls="clr-namespace:EasyDb.CustomControls"
+        mc:Ignorable="d"
+        Title="OpenProjectWidow" Height="450" Width="800" ShowMinButton="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height=".3*"/>
+        </Grid.RowDefinitions>
+        <customControls:UserDatasouceSettingsControl Grid.Row="0"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width=".3*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+        </Grid>
+    </Grid>
+</mah:MetroWindow>

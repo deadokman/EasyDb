@@ -281,6 +281,9 @@
     <Compile Include="View\SqlQueryToolView.xaml.cs">
       <DependentUpon>SqlQueryToolView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\StartupPage\OpenProjectWidow.xaml.cs">
+      <DependentUpon>OpenProjectWidow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\StartupPage\StartUpPageControll.xaml.cs">
       <DependentUpon>StartUpPageControll.xaml</DependentUpon>
     </Compile>
@@ -447,6 +450,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>-->
     <Page Include="View\SqlQueryToolView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StartupPage\OpenProjectWidow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

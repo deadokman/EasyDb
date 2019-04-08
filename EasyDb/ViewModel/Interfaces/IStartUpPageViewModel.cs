@@ -41,5 +41,10 @@ namespace EasyDb.ViewModel.Interfaces
         /// Click on history item
         /// </summary>
         ICommand HistoryClickCommand { get; set; }
+
+        /// <summary>
+        /// Открыть новый проект
+        /// </summary>
+        ICommand OpenProjectCmd { get; set; }
     }
 }

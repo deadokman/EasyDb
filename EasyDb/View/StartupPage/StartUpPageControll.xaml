@@ -36,6 +36,13 @@
             <Setter Property="FontWeight" Value="UltraLight"/>
             <Setter Property="FontSize" Value="18"/>
         </Style>
+        <Style x:Key="HistButton" BasedOn="{StaticResource {x:Static ToolBar.ButtonStyleKey}}" TargetType="{x:Type Button}">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource AccentColorBrush4}"></Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <ContextMenu x:Key="HistoryItemContextMenu">
             <MenuItem Header="Remove from list" />
             <MenuItem Header="Pin item to the recent project list" />
@@ -48,7 +55,7 @@
                 VerticalAlignment="Center"
                 Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type UserControl}}, Path=DataContext.HistoryClickCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
-                Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
+                Style="{StaticResource HistButton}">
                 <DockPanel x:Name="DockPanelItem" LastChildFill="True">
                     <iconPacks:PackIconMaterial 
                         Margin="0,0,10,0"
@@ -230,7 +237,7 @@
                                         Background="Transparent" 
                                         Foreground="{DynamicResource AccentColorBrush}" Kind="FolderOpen" />
                                     <TextBlock Margin="10,0" TextAlignment="Left" VerticalAlignment="Center">                                
-                                        <Hyperlink>
+                                        <Hyperlink Command="">
                                             <TextBlock Text="{StaticResource stp_openfolder}"></TextBlock>
                                         </Hyperlink>
                                     </TextBlock>
