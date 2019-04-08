@@ -93,6 +93,14 @@ namespace EasyDb.ViewModel.StartupPage
                 LoadProjectFromPath(ph.FolderPath);
             });
 
+            OpenProjectCmd = new EDbCommand(() =>
+            {
+                var openProjectWindow = new OpenProjectWidow();
+                openProjectWindow.Owner = Application.Current.MainWindow;
+                openProjectWindow.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                openProjectWindow.Show();
+            });
+
             FillProjectsHistory(_projectEnvironment.HistoryInformation);
         }
 
@@ -118,6 +126,11 @@ namespace EasyDb.ViewModel.StartupPage
         /// Click on history item
         /// </summary>
         public ICommand HistoryClickCommand { get; set; }
+
+        /// <summary>
+        /// Открыть новый проект
+        /// </summary>
+        public ICommand OpenProjectCmd { get; set; }
 
         /// <summary>
         /// The collection of the supported datasource items

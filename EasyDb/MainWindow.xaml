@@ -85,7 +85,7 @@
                 <StackPanel Grid.Row="0">
                     <Menu>
                         <MenuItem Header="{StaticResource mw_File}">
-                            <MenuItem Header="MenuItem1"/>
+                            <MenuItem Header="$newproj"/>
                         </MenuItem>
                         <MenuItem Header="{StaticResource mw_edit}" />
                         <MenuItem Header="{StaticResource mw_View}">
