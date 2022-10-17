@@ -3,6 +3,7 @@ EasyDb
 IDE for multiple database's;
 
 Status: Abandoned
+WPF project
 
 * Color theme change support
 * Dynamic language select
